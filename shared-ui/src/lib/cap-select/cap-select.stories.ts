@@ -16,6 +16,7 @@ const meta: Meta<CapSelectComponent> = {
     label: { control: 'text' },
     placeholder: { control: 'text' },
     disabled: { control: 'boolean' },
+    options: { table: { disable: true } },
   },
 };
 
@@ -26,7 +27,7 @@ export const Default: Story = {
   render: (args) => ({
     props: {
       ...args,
-      control: new FormControl(null),
+      control: new FormControl({ value: null, disabled: false }),
     },
     template: `
       <cap-select
