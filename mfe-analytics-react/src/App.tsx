@@ -207,30 +207,32 @@ const App: React.FC = () => {
         ))}
       </div>
       <div style={estilos.tituloSeccion}>{t.recentTx}</div>
-      <table style={estilos.tabla}>
-        <thead>
-          <tr>
-            <th style={estilos.celdaEncabezado}>{t.colId}</th>
-            <th style={estilos.celdaEncabezado}>{t.colDate}</th>
-            <th style={estilos.celdaEncabezado}>{t.colConcept}</th>
-            <th style={estilos.celdaEncabezado}>{t.colAmount}</th>
-            <th style={estilos.celdaEncabezado}>{t.colStatus}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transacciones.map((txn) => (
-            <tr key={txn.id}>
-              <td style={{ ...estilos.celda, fontFamily: 'monospace' }}>{txn.id}</td>
-              <td style={estilos.celda}>{txn.fecha}</td>
-              <td style={estilos.celda}>{txn.concepto}</td>
-              <td style={{ ...estilos.celda, fontWeight: 600 }}>{txn.importe}</td>
-              <td style={estilos.celda}>
-                <span style={obtenerColorEstado(txn.estado)}>{txn.estado}</span>
-              </td>
+      <div style={{ overflowX: 'auto' as const, borderRadius: '0.75rem' }}>
+        <table style={estilos.tabla}>
+          <thead>
+            <tr>
+              <th style={estilos.celdaEncabezado}>{t.colId}</th>
+              <th style={estilos.celdaEncabezado}>{t.colDate}</th>
+              <th style={estilos.celdaEncabezado}>{t.colConcept}</th>
+              <th style={estilos.celdaEncabezado}>{t.colAmount}</th>
+              <th style={estilos.celdaEncabezado}>{t.colStatus}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {transacciones.map((txn) => (
+              <tr key={txn.id}>
+                <td style={{ ...estilos.celda, fontFamily: 'monospace' }}>{txn.id}</td>
+                <td style={estilos.celda}>{txn.fecha}</td>
+                <td style={estilos.celda}>{txn.concepto}</td>
+                <td style={{ ...estilos.celda, fontWeight: 600 }}>{txn.importe}</td>
+                <td style={estilos.celda}>
+                  <span style={obtenerColorEstado(txn.estado)}>{txn.estado}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

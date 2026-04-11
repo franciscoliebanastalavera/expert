@@ -222,3 +222,50 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .tabs-header {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    flex: 0 0 auto;
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+  }
+
+  .acciones {
+    flex-wrap: wrap;
+
+    .btn {
+      flex: 1 1 100%;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard {
+    padding: 0.75rem;
+  }
+
+  .metrica-valor {
+    font-size: 1.4rem;
+  }
+
+  .tabla-operaciones {
+    th, td {
+      padding: 0.5rem 0.625rem;
+      font-size: 0.8rem;
+    }
+  }
+}

@@ -9,7 +9,15 @@
       <span class="header__title">{{ 'NAV.BRAND' | translate }}</span>
     </a>
 
-    <nav class="header__nav">
+    <button class="header__hamburger" (click)="toggleMenu()" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <nav class="header__nav" [class.header__nav--open]="menuAbierto">
       <a class="header__link" routerLink="/" routerLinkActive="header__link--active" [routerLinkActiveOptions]="{ exact: true }">
         <svg class="header__icon" viewBox="0 0 20 20" fill="currentColor">
           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
@@ -24,7 +32,7 @@
       </a>
     </nav>
 
-    <div class="header__actions">
+    <div class="header__actions" [class.header__actions--open]="menuAbierto">
       <button
         class="header__btn"
         (click)="themeService.toggle()"

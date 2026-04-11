@@ -14,11 +14,16 @@ export class AppComponent {
   private readonly document = inject(DOCUMENT);
 
   idiomaActual: 'es' | 'en' = 'es';
+  menuAbierto = false;
 
   constructor() {
     this.translate.setDefaultLang('es');
     this.translate.use('es');
     this.document.documentElement.lang = 'es';
+  }
+
+  toggleMenu(): void {
+    this.menuAbierto = !this.menuAbierto;
   }
 
   cambiarIdioma(): void {
