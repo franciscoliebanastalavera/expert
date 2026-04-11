@@ -6,11 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: false,
 })
 export class IncludesPipe implements PipeTransform {
-  transform(array: any, searchElement: any) {
+  // Comprueba si el elemento buscado existe en el array o cadena proporcionada
+  transform(array: unknown[] | string, searchElement: unknown): boolean {
     if (typeof array === 'string') {
       array = JSON.parse(array.replace(/'/g, '"').replace(/,[\n\s]*]/g, ']'));
     }
 
-    return array?.includes(searchElement);
+    return (array as unknown[])?.includes(searchElement);
   }
 }

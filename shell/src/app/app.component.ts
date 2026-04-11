@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from './core/services/theme.service';
 
@@ -9,17 +9,17 @@ import { ThemeService } from './core/services/theme.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  readonly themeService = inject(ThemeService);
+  private readonly translate = inject(TranslateService);
+
   idiomaActual: 'es' | 'en' = 'es';
 
-  constructor(
-    public readonly themeService: ThemeService,
-    private readonly translate: TranslateService
-  ) {
+  constructor() {
     this.translate.setDefaultLang('es');
     this.translate.use('es');
   }
 
-  /** Alterna entre español e inglés */
+  // Alterna entre español e inglés
   cambiarIdioma(): void {
     this.idiomaActual = this.idiomaActual === 'es' ? 'en' : 'es';
     this.translate.use(this.idiomaActual);

@@ -172,7 +172,7 @@ export class CapSelectComponent {
    */
   @Input() story = false;
 
-  private innerValue: SelectOption = null;
+  private innerValue: SelectOption | string | null = null;
   control: FormControl;
 
   destroy = new Subject<boolean>();
@@ -208,20 +208,23 @@ export class CapSelectComponent {
     this.destroy.complete();
   }
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  // Callback invocado cuando el valor cambia
+  onChange: (value: SelectOption | string | null) => void = () => {};
+  // Callback invocado cuando el campo es tocado
+  onTouched: () => void = () => {};
 
-  get value(): SelectOption {
+  get value(): SelectOption | string | null {
     return this.innerValue;
   }
 
-  set value(value: SelectOption) {
+  set value(value: SelectOption | string | null) {
     if (this.innerValue !== value) {
       this.innerValue = value;
     }
   }
 
-  handleSelector(value: any): void {
+  // Establece el valor seleccionado del selector
+  handleSelector(value: SelectOption | string | null): void {
     this.innerValue = value;
     this.onChange(this.value);
   }
@@ -254,11 +257,11 @@ export class CapSelectComponent {
     }
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: SelectOption) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
@@ -266,11 +269,16 @@ export class CapSelectComponent {
     this.disabled = disabled;
   }
 
-  controlInputValue(value: SelectOption | string): boolean {
-    if (typeof value === 'object' && !!value) {
-      return true;
+  controlInputValue(value: SelectOption | string | null): boolean {
+    return typeof value === 'object' && !!value;
+  }
+
+  // Obtiene el label del valor actual si es un SelectOption
+  getValueLabel(): string {
+    if (typeof this.value === 'object' && this.value !== null) {
+      return this.value.label?.toString() ?? '';
     }
-    return false;
+    return typeof this.value === 'string' ? this.value : '';
   }
 
   /**

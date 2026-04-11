@@ -97,7 +97,8 @@ export class CapCheckboxComponent {
         }
     }
 
-    toggleCheckbox(event: any) {
+    // Alterna el estado del checkbox a partir del evento del DOM
+    toggleCheckbox(event: Event) {
         const ischecked = (event.target as HTMLInputElement).checked;
         this.value = ischecked;
         this.onChange(this.value);
@@ -110,14 +111,16 @@ export class CapCheckboxComponent {
         }
     }
 
-    onChange: any = () => {};
-    onTouched: any = () => {};
+    // Callback invocado cuando el valor cambia
+    onChange: (value: boolean) => void = () => {};
+    // Callback invocado cuando el campo es tocado
+    onTouched: () => void = () => {};
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: (value: boolean) => void): void {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    registerOnTouched(fn: () => void): void {
         this.onTouched = fn;
     }
 

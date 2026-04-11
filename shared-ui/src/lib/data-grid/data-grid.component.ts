@@ -27,17 +27,18 @@ export interface DataGridColumn {
     <!-- Cabecera de la tabla -->
     <div class="cf-grid-header" role="rowgroup">
       <div class="cf-grid-row cf-grid-header-row" role="row">
-        <div
-          class="cf-grid-cell cf-grid-header-cell"
-          role="columnheader"
-          *ngFor="let col of columns"
-        >
-          {{ col.label }}
-        </div>
+        @for (col of columns; track col.key) {
+          <div
+            class="cf-grid-cell cf-grid-header-cell"
+            role="columnheader"
+          >
+            {{ col.label }}
+          </div>
+        }
       </div>
     </div>
 
-    <!-- Cuerpo con virtual scroll -->
+    <!-- Cuerpo con virtual scroll (se mantiene *cdkVirtualFor, directiva del CDK) -->
     <cdk-virtual-scroll-viewport
       [itemSize]="rowHeight"
       class="cf-grid-viewport"
@@ -49,13 +50,14 @@ export interface DataGridColumn {
         [style.height.px]="rowHeight"
         (click)="rowClick.emit(row)"
       >
-        <div
-          class="cf-grid-cell"
-          role="cell"
-          *ngFor="let col of columns"
-        >
-          {{ row[col.key] }}
-        </div>
+        @for (col of columns; track col.key) {
+          <div
+            class="cf-grid-cell"
+            role="cell"
+          >
+            {{ row[col.key] }}
+          </div>
+        }
       </div>
     </cdk-virtual-scroll-viewport>
   `,
@@ -116,11 +118,13 @@ export class DataGridComponent {
   @Input() columns: DataGridColumn[] = [];
 
   /** Datos a renderizar en las filas */
-  @Input() data: any[] = [];
+  // Datos a renderizar; cada fila es un registro clave-valor generico
+  @Input() data: Record<string, unknown>[] = [];
 
   /** Altura de cada fila en pixeles (para el virtual scroll) */
   @Input() rowHeight: number = 48;
 
   /** Evento emitido al hacer clic en una fila */
-  @Output() rowClick = new EventEmitter<any>();
+  // Evento emitido al hacer clic en una fila
+  @Output() rowClick = new EventEmitter<Record<string, unknown>>();
 }

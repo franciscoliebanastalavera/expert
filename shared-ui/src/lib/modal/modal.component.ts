@@ -22,40 +22,41 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Backdrop y contenedor del modal -->
-    <div
-      *ngIf="isOpen"
-      class="cf-modal-backdrop"
-      (click)="onBackdropClick()"
-      (keydown.escape)="onClose()"
-    >
+    @if (isOpen) {
       <div
-        class="cf-modal-container"
-        role="dialog"
-        aria-modal="true"
-        [attr.aria-labelledby]="titleId"
-        cdkTrapFocus
-        [cdkTrapFocusAutoCapture]="true"
-        (click)="$event.stopPropagation()"
+        class="cf-modal-backdrop"
+        (click)="onBackdropClick()"
+        (keydown.escape)="onClose()"
       >
-        <!-- Cabecera del modal -->
-        <div class="cf-modal-header">
-          <h2 [id]="titleId" class="cf-modal-title">{{ title }}</h2>
-          <button
-            class="cf-modal-close-btn"
-            type="button"
-            aria-label="Cerrar"
-            (click)="onClose()"
-          >
-            &times;
-          </button>
-        </div>
+        <div
+          class="cf-modal-container"
+          role="dialog"
+          aria-modal="true"
+          [attr.aria-labelledby]="titleId"
+          cdkTrapFocus
+          [cdkTrapFocusAutoCapture]="true"
+          (click)="$event.stopPropagation()"
+        >
+          <!-- Cabecera del modal -->
+          <div class="cf-modal-header">
+            <h2 [id]="titleId" class="cf-modal-title">{{ title }}</h2>
+            <button
+              class="cf-modal-close-btn"
+              type="button"
+              aria-label="Cerrar"
+              (click)="onClose()"
+            >
+              &times;
+            </button>
+          </div>
 
-        <!-- Cuerpo del modal (contenido proyectado) -->
-        <div class="cf-modal-body">
-          <ng-content></ng-content>
+          <!-- Cuerpo del modal (contenido proyectado) -->
+          <div class="cf-modal-body">
+            <ng-content></ng-content>
+          </div>
         </div>
       </div>
-    </div>
+    }
   `,
   styles: [
     `

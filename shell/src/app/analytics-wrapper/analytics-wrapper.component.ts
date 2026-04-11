@@ -4,7 +4,9 @@ import {
   ElementRef,
   ViewChild,
   OnDestroy,
+  inject,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 
 // Componente envoltorio que carga el micro-frontend de Analytics (React) como Web Component
@@ -12,8 +14,12 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
   selector: 'app-analytics-wrapper',
   template: `
     <div #container class="mfe-container">
-      <p *ngIf="loading">Cargando módulo de Analytics...</p>
-      <p *ngIf="error" class="error">{{ error }}</p>
+      @if (loading) {
+        <p>Cargando módulo de Analytics...</p>
+      }
+      @if (error) {
+        <p class="error">{{ error }}</p>
+      }
     </div>
   `,
   styles: [
@@ -32,6 +38,9 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
 export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
 
+  // Inyección de dependencias mediante inject()
+  private readonly document = inject(DOCUMENT);
+
   loading = true;
   error = '';
 
@@ -46,7 +55,7 @@ export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
       });
 
       // Crear el Web Component expuesto por el MFE de React
-      const analyticsEl = document.createElement('mfe-analytics');
+      const analyticsEl = this.document.createElement('mfe-analytics');
       this.container.nativeElement.appendChild(analyticsEl);
       this.loading = false;
     } catch (err) {

@@ -14,7 +14,7 @@
       #selector
       [id]="name"
       [type]="type"
-      [ngModel]="controlInputValue(value) ? value?.label?.toString() : value"
+      [ngModel]="getValueLabel()"
       (ngModelChange)="controlInputValue($event)"
       [disabled]="disabled"
       [placeholder]="placeholderSelector()"

@@ -21,9 +21,11 @@ export interface RadioOption {
 
 export interface SelectOption {
   label: string;
-  value: any;
+  // Valor de la opcion del selector
+  value: string | number;
   description?: string;
-  atributes?: any;
+  // Atributos adicionales opcionales de la opcion
+  atributes?: Record<string, unknown>;
   checked?: boolean;
   disabled?: boolean;
 }
