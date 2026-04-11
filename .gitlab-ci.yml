@@ -75,7 +75,7 @@ build:shell:
   artifacts:
     paths:
       - shell/dist/
-    expire_in: 1 hora
+    expire_in: 1 week
   cache:
     key: "${CI_COMMIT_REF_SLUG}-shell"
     paths:
@@ -98,7 +98,7 @@ build:mfe-analytics:
   artifacts:
     paths:
       - mfe-analytics-react/dist/
-    expire_in: 1 hora
+    expire_in: 1 week
   cache:
     key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
     paths:
@@ -120,7 +120,7 @@ build:shared-ui:
   artifacts:
     paths:
       - shared-ui/dist/
-    expire_in: 1 hora
+    expire_in: 1 week
   cache:
     key: "${CI_COMMIT_REF_SLUG}-shell"
     paths:
