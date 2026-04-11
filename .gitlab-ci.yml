@@ -34,7 +34,7 @@ install:shell:
   image: node:20-alpine
   script:
     - cd shell
-    - npm ci
+    - npm install
   cache:
     key: "${CI_COMMIT_REF_SLUG}-shell"
     paths:
@@ -52,7 +52,7 @@ install:mfe-analytics:
   image: node:20-alpine
   script:
     - cd mfe-analytics-react
-    - npm ci
+    - npm install
   cache:
     key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
     paths:
