@@ -113,12 +113,11 @@
   }
 
   &-outline {
-    background: transparent;
+    background: var(--cap-bg-surface, #fff);
     border: 0.0625rem solid var(--cap-border, #cac8c2);
-    color: var(--cap-text-secondary, #4d4d4d);
+    color: var(--cap-text, #1e1e1e);
 
     &:hover {
-      background: var(--cap-bg-surface, #fff);
       border-color: var(--cap-primary, #2a85c4);
       color: var(--cap-primary, #2a85c4);
     }
