@@ -1,28 +1,56 @@
 <div class="capitalflow-theme">
-  <nav class="navbar">
-    <a class="brand" routerLink="/">
-      <span class="brand-icon">💰</span>
-      {{ 'NAV.BRAND' | translate }}
+  <header class="header">
+    <a class="header__brand" routerLink="/">
+      <svg class="header__logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#fff" fill-opacity="0.15"/>
+        <path d="M16 6C10.48 6 6 10.48 6 16s4.48 10 10 10 10-4.48 10-10S21.52 6 16 6zm1 17h-2v-2h2v2zm0-4h-2V11h2v8z" fill="#fff"/>
+        <path d="M10 16.5l3-3 2 2 4-4 3 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="header__title">{{ 'NAV.BRAND' | translate }}</span>
     </a>
-    <div class="nav-links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+    <nav class="header__nav">
+      <a class="header__link" routerLink="/" routerLinkActive="header__link--active" [routerLinkActiveOptions]="{ exact: true }">
+        <svg class="header__icon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+        </svg>
         {{ 'NAV.HOME' | translate }}
       </a>
-      <a routerLink="/analytics" routerLinkActive="active">
+      <a class="header__link" routerLink="/analytics" routerLinkActive="header__link--active">
+        <svg class="header__icon" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+        </svg>
         {{ 'NAV.ANALYTICS' | translate }}
       </a>
-    </div>
-    <div class="nav-actions">
-      <button class="icon-btn" (click)="themeService.toggle()"
-        [title]="(themeService.theme$ | async) === 'dark' ? ('NAV.THEME_LIGHT' | translate) : ('NAV.THEME_DARK' | translate)">
-        {{ (themeService.theme$ | async) === 'dark' ? '☀️' : '🌙' }}
+    </nav>
+
+    <div class="header__actions">
+      <button
+        class="header__btn"
+        (click)="themeService.toggle()"
+        [attr.aria-label]="(themeService.theme$ | async) === 'dark' ? ('NAV.THEME_LIGHT' | translate) : ('NAV.THEME_DARK' | translate)">
+        @if ((themeService.theme$ | async) === 'dark') {
+          <svg class="header__icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+          </svg>
+        } @else {
+          <svg class="header__icon" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+        }
       </button>
-      <button class="lang-btn" (click)="cambiarIdioma()">
+      <button class="header__lang" (click)="cambiarIdioma()" aria-label="Cambiar idioma">
         {{ idiomaActual === 'es' ? 'EN' : 'ES' }}
       </button>
     </div>
-  </nav>
-  <main>
+  </header>
+
+  <main class="main">
     <router-outlet></router-outlet>
   </main>
+
+  <footer class="footer">
+    <span>&copy; 2026 CapitalFlow. Todos los derechos reservados.</span>
+    <span class="footer__version">v1.0.0</span>
+  </footer>
 </div>

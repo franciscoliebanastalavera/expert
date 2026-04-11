@@ -1,10 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, RendererFactory2, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
+  private readonly renderer: Renderer2;
 
   private readonly STORAGE_KEY = 'capitalflow-theme';
   private readonly themeSubject = new BehaviorSubject<'light' | 'dark'>(this.getInitialTheme());
@@ -12,6 +13,8 @@ export class ThemeService {
   readonly theme$ = this.themeSubject.asObservable();
 
   constructor() {
+    const rendererFactory = inject(RendererFactory2);
+    this.renderer = rendererFactory.createRenderer(null, null);
     this.applyTheme(this.themeSubject.value);
   }
 
@@ -44,13 +47,19 @@ export class ThemeService {
   }
 
   private applyTheme(theme: 'light' | 'dark'): void {
-    const root = this.document.documentElement;
+    const html = this.document.documentElement;
+    const body = this.document.body;
+
     if (theme === 'dark') {
-      root.classList.add('dark-theme');
-      root.classList.remove('light-theme');
+      this.renderer.addClass(html, 'dark-theme');
+      this.renderer.removeClass(html, 'light-theme');
+      this.renderer.addClass(body, 'dark-theme');
+      this.renderer.removeClass(body, 'light-theme');
     } else {
-      root.classList.add('light-theme');
-      root.classList.remove('dark-theme');
+      this.renderer.addClass(html, 'light-theme');
+      this.renderer.removeClass(html, 'dark-theme');
+      this.renderer.addClass(body, 'light-theme');
+      this.renderer.removeClass(body, 'dark-theme');
     }
   }
 }

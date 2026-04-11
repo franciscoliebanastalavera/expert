@@ -50,5 +50,8 @@ export * from './lib/core/directives/directives.module';
 export * from './lib/core/models/components.models';
 export * from './lib/core/types/components.types';
 
+export * from './lib/cap-footer/cap-footer.component';
+export * from './lib/cap-footer/cap-footer.module';
+
 export * from './lib/services/dynamic-css.service';
 export * from './lib/services/dynamic-css.const';
