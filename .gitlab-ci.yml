@@ -63,6 +63,23 @@ install:mfe-analytics:
     - changes:
         - mfe-analytics-react/**/*
 
+# Instalar dependencias de la biblioteca compartida
+install:shared-ui:
+  stage: install
+  image: node:20-alpine
+  script:
+    - cd shared-ui
+    - npm install
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-shared-ui"
+    paths:
+      - shared-ui/node_modules/
+    policy: push
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - changes:
+        - shared-ui/**/*
+
 # ============================================================
 # ETAPA: CONSTRUCCIÓN
 # ============================================================
@@ -125,8 +142,10 @@ build:shared-ui:
     paths:
       - shared-ui/dist/
     expire_in: 1 week
+  needs:
+    - install:shared-ui
   cache:
-    key: "${CI_COMMIT_REF_SLUG}-shell"
+    key: "${CI_COMMIT_REF_SLUG}-shared-ui"
     paths:
       - shared-ui/node_modules/
     policy: pull
