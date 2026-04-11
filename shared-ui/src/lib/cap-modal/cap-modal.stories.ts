@@ -40,7 +40,7 @@ export const Default: Story = {
     },
     template: `
       <div style="display: flex; justify-content: center; align-items: center; height: 400px; position: relative; z-index: 1;">
-        <cap-button label="Abrir Modal" variant="primary" (nterClick)="toggleModal()"></cap-button>
+        <cap-button label="Abrir Modal" variant="primary" (capClick)="toggleModal()"></cap-button>
         <cap-modal
           [showModal]="localShowModal"
           [size]="size"
@@ -79,7 +79,7 @@ export const Small: Story = {
     },
     template: `
       <div style="display: flex; justify-content: center; align-items: center; height: 400px; position: relative; z-index: 1;">
-        <cap-button label="Abrir Aviso" variant="secondary" (nterClick)="toggleModal()"></cap-button>
+        <cap-button label="Abrir Aviso" variant="secondary" (capClick)="toggleModal()"></cap-button>
         <cap-modal
           [showModal]="localShowModal"
           [size]="size"

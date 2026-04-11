@@ -17,7 +17,7 @@ const meta: Meta<CapButtonComponent> = {
     size: { control: 'radio', options: ['xsmall', 'small', 'standard'] },
     label: { control: 'text' },
     loading: { control: 'boolean' },
-    nterClick: { action: 'nterClick' },
+    capClick: { action: 'capClick' },
   },
 };
 

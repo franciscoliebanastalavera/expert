@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { PipesModule } from '../core/pipes/pipes.module';
 import { ButtonVariant } from '../core/types/components.types';
@@ -6,7 +6,7 @@ import { ButtonVariant } from '../core/types/components.types';
 @Component({
     selector: 'cap-button',
     standalone: true,
-    imports: [NgClass, PipesModule],
+    imports: [NgClass, PipesModule, CommonModule],
     templateUrl: './cap-button.component.html',
     styleUrl: './cap-button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -70,6 +70,21 @@ export class CapButtonComponent {
         }
 
         return classes;
+    }
+
+    get showIcon(): boolean {
+        return !!this.icon && this.iconVariants.includes(this.variant);
+    }
+
+    get showLabel(): boolean {
+        return !this.notLabelVariants.includes(this.variant);
+    }
+
+    get iconClass(): string {
+        if (this.icon && this.showIcon && this.showLabel) {
+            return `cap-button__icon-${this.iconOrientation || ''}`;
+        }
+        return '';
     }
 
     handleButton() {

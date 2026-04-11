@@ -1,8 +1,8 @@
 <button
     [type]="type"
     [disabled]="disabled"
-    [class]="icon && (iconVariants ? (iconVariants | includes: variant) : false) && (notLabelVariants ? !(notLabelVariants | includes: variant) : true) ? 'cap-button__icon-' + (iconOrientation ? iconOrientation.toString() : '') : ''"
     [ngClass]="buttonClasses"
+    [class]="iconClass"
     [style.width]="width"
     [style.min-width]="minWidth"
     [attr.aria-label]="ariaLabel || label"
@@ -12,19 +12,12 @@
     [tabIndex]="tabIndex"
     (click)="handleButton()"
 >
-    @if (loading) {
+    <ng-container *ngIf="loading; else content">
         <span class="cap-button__spinner" aria-hidden="true"></span>
-        @if (loadingText) {
-            <span class="cap-button__loading-text">{{ loadingText }}</span>
-        }
-    } @else {
-        @if (icon && iconVariants | includes: variant) {
-            <img class="cap-button__icon" [src]="icon" alt="Button icon" />
-        }
-        @if (!(notLabelVariants | includes: variant)) {
-            <span [class]="'cap-button__label-' + textStyle">
-                {{ label }}
-            </span>
-        }
-    }
+        <span *ngIf="loadingText" class="cap-button__loading-text">{{ loadingText }}</span>
+    </ng-container>
+    <ng-template #content>
+        <img *ngIf="showIcon" class="cap-button__icon" [src]="icon" alt="" />
+        <span *ngIf="showLabel" [class]="'cap-button__label-' + textStyle">{{ label }}</span>
+    </ng-template>
 </button>
