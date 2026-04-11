@@ -69,7 +69,7 @@ install:shared-ui:
   image: node:20-alpine
   script:
     - cd shared-ui
-    - npm install
+    - npm install --legacy-peer-deps
   cache:
     key: "${CI_COMMIT_REF_SLUG}-shared-ui"
     paths:
