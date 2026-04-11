@@ -114,6 +114,7 @@ build:mfe-analytics:
   image: node:20-alpine
   script:
     - cd mfe-analytics-react
+    - npm install
     - npm run build
   artifacts:
     paths:
