@@ -10,6 +10,6 @@
       "dompurify": ["../node_modules/dompurify/dist/purify.cjs.d.ts"]
     }
   },
-  "exclude": ["../src/**/*.spec.ts"],
+  "exclude": ["../src/**/*.spec.ts", "../src/lib/cap-header/**", "../src/lib/cap-input/**"],
   "include": ["../src/**/*.stories.*", "../src/**/*.ts", "./preview.ts"]
 }
