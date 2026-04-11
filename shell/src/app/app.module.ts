@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
+  providers: [{ provide: LOCALE_ID, useValue: 'es-ES' }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
