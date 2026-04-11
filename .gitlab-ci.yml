@@ -138,6 +138,7 @@ build:shared-ui:
   image: node:20-alpine
   script:
     - cd shared-ui
+    - npm install --legacy-peer-deps
     - npm run build
   artifacts:
     paths:
