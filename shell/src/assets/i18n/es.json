@@ -67,7 +67,9 @@
       "SEARCH_PLACEHOLDER": "Buscar por descripción, tipo, IBAN...",
       "AMOUNT_MIN": "Importe mínimo",
       "AMOUNT_MAX": "Importe máximo",
-      "CLEAR": "Limpiar"
+      "CLEAR": "Limpiar",
+      "EXPORT": "Exportar CSV",
+      "EXPORTING": "Exportando..."
     },
     "GRID": {
       "ID": "ID",

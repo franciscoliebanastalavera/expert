@@ -9,20 +9,11 @@
     </button>
   </div>
 
-  <div class="stats-bar">
-    <div class="stat">
-      <span class="stat-label">{{ 'ANALYTICS.STATS.TOTAL' | translate }}</span>
-      <span class="stat-value">{{ numTransacciones }}</span>
-    </div>
-    <div class="stat ingreso">
-      <span class="stat-label">{{ 'ANALYTICS.STATS.INCOME' | translate }}</span>
-      <span class="stat-value">{{ formatearImporte(totalIngresos) }}</span>
-    </div>
-    <div class="stat gasto">
-      <span class="stat-label">{{ 'ANALYTICS.STATS.EXPENSES' | translate }}</span>
-      <span class="stat-value">-{{ formatearImporte(totalGastos) }}</span>
-    </div>
-  </div>
+  <app-analytics-stats
+    [total]="numTransacciones"
+    [income]="totalIngresos"
+    [expenses]="totalGastos">
+  </app-analytics-stats>
 
   <div class="filtros">
     <div class="filtro-grupo">
@@ -56,43 +47,14 @@
       />
     </div>
     <button class="btn btn-sm" (click)="limpiarFiltros()">{{ 'ANALYTICS.FILTERS.CLEAR' | translate }}</button>
+    <button class="btn btn-primary" (click)="exportarCSV()" [disabled]="exportando">
+      @if (exportando) {
+        {{ 'ANALYTICS.FILTERS.EXPORTING' | translate }}
+      } @else {
+        {{ 'ANALYTICS.FILTERS.EXPORT' | translate }}
+      }
+    </button>
   </div>
 
-  <div class="datagrid-container">
-    <div class="datagrid-header">
-      <div class="dg-cell dg-id">{{ 'ANALYTICS.GRID.ID' | translate }}</div>
-      <div class="dg-cell dg-fecha">{{ 'ANALYTICS.GRID.DATE' | translate }}</div>
-      <div class="dg-cell dg-tipo">{{ 'ANALYTICS.GRID.TYPE' | translate }}</div>
-      <div class="dg-cell dg-desc">{{ 'ANALYTICS.GRID.DESCRIPTION' | translate }}</div>
-      <div class="dg-cell dg-iban">{{ 'ANALYTICS.GRID.IBAN' | translate }}</div>
-      <div class="dg-cell dg-importe">{{ 'ANALYTICS.GRID.AMOUNT' | translate }}</div>
-      <div class="dg-cell dg-estado">{{ 'ANALYTICS.GRID.STATUS' | translate }}</div>
-      <div class="dg-cell dg-cat">{{ 'ANALYTICS.GRID.CATEGORY' | translate }}</div>
-    </div>
-
-    <cdk-virtual-scroll-viewport itemSize="48" class="datagrid-body">
-      <div
-        class="datagrid-row"
-        *cdkVirtualFor="let t of transaccionesFiltradas; trackBy: trackById"
-      >
-        <div class="dg-cell dg-id">{{ t.id }}</div>
-        <div class="dg-cell dg-fecha">{{ t.fecha }}</div>
-        <div class="dg-cell dg-tipo">{{ t.tipo }}</div>
-        <div class="dg-cell dg-desc">{{ t.descripcion }}</div>
-        <div class="dg-cell dg-iban">{{ formatearIban(t.iban) }}</div>
-        <div class="dg-cell dg-importe" [class.ingreso]="t.importe >= 0" [class.gasto]="t.importe < 0">
-          {{ formatearImporte(t.importe) }}
-        </div>
-        <div class="dg-cell dg-estado">
-          <span class="estado-badge" [ngClass]="{
-            'completada': t.estado === 'Completada',
-            'procesando': t.estado === 'Procesando',
-            'pendiente': t.estado === 'Pendiente',
-            'rechazada': t.estado === 'Rechazada'
-          }">{{ t.estado }}</span>
-        </div>
-        <div class="dg-cell dg-cat">{{ t.categoria }}</div>
-      </div>
-    </cdk-virtual-scroll-viewport>
-  </div>
+  <app-analytics-table [transactions]="transaccionesFiltradas"></app-analytics-table>
 </section>

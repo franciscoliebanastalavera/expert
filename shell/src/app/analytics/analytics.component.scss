@@ -112,6 +112,14 @@
     &:hover { opacity: 0.85; }
   }
 
+  &-primary {
+    background: var(--cap-primary, #2a85c4);
+    color: #fff;
+
+    &:hover { opacity: 0.9; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
   &-outline {
     background: var(--cap-bg-surface, #fff);
     border: 0.0625rem solid var(--cap-border, #cac8c2);
