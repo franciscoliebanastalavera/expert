@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CapHeaderComponent } from './cap-header.component';
 
-const meta: Meta<CapHeaderComponent> = {
+const meta: Meta = {
   title: 'Components/CapHeader',
   component: CapHeaderComponent,
   decorators: [
@@ -25,7 +25,7 @@ const meta: Meta<CapHeaderComponent> = {
   },
 };
 export default meta;
-type Story = StoryObj<CapHeaderComponent>;
+type Story = StoryObj;
 
 const defaultRender = (args: Record<string, unknown>) => ({
   props: {
