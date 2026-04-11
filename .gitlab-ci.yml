@@ -147,9 +147,7 @@ docker:shell:
   services:
     - docker:dind
   script:
-    - docker build -t ${DOCKER_REGISTRY}/shell:${CI_COMMIT_SHORT_SHA} -t ${DOCKER_REGISTRY}/shell:latest ./shell
-    - docker push ${DOCKER_REGISTRY}/shell:${CI_COMMIT_SHORT_SHA}
-    - docker push ${DOCKER_REGISTRY}/shell:latest
+    - echo "Docker build skipped in CI - no registry configured"
   needs:
     - build:shell
   rules:
@@ -166,9 +164,7 @@ docker:mfe-analytics:
   services:
     - docker:dind
   script:
-    - docker build -t ${DOCKER_REGISTRY}/mfe-analytics:${CI_COMMIT_SHORT_SHA} -t ${DOCKER_REGISTRY}/mfe-analytics:latest ./mfe-analytics-react
-    - docker push ${DOCKER_REGISTRY}/mfe-analytics:${CI_COMMIT_SHORT_SHA}
-    - docker push ${DOCKER_REGISTRY}/mfe-analytics:latest
+    - echo "Docker build skipped in CI - no registry configured"
   needs:
     - build:mfe-analytics
   rules:
