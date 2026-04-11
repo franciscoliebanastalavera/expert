@@ -1,0 +1,213 @@
+# Pipeline CI/CD de GitLab para CapitalFlow
+# Arquitectura de microfrontends con Module Federation
+
+# Etapas del pipeline
+stages:
+  - install
+  - build
+  - test
+  - docker
+  - deploy
+
+# Variables globales del pipeline
+variables:
+  DOCKER_REGISTRY: "registry.ejemplo.com/capitalflow"  # Cambiar por el registro real
+  DOCKER_DRIVER: overlay2
+  NODE_VERSION: "20"
+
+# Caché global de node_modules por rama
+cache: &cache_global
+  key: "${CI_COMMIT_REF_SLUG}"
+  paths:
+    - shell/node_modules/
+    - mfe-analytics-react/node_modules/
+    - shared-ui/node_modules/
+  policy: pull
+
+# ============================================================
+# ETAPA: INSTALACIÓN DE DEPENDENCIAS
+# ============================================================
+
+# Instalar dependencias del shell Angular
+install:shell:
+  stage: install
+  image: node:20-alpine
+  script:
+    - cd shell
+    - npm ci
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-shell"
+    paths:
+      - shell/node_modules/
+    policy: push
+  rules:
+    - changes:
+        - shell/**/*
+        - shared-ui/**/*
+
+# Instalar dependencias del microfrontend de analíticas
+install:mfe-analytics:
+  stage: install
+  image: node:20-alpine
+  script:
+    - cd mfe-analytics-react
+    - npm ci
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
+    paths:
+      - mfe-analytics-react/node_modules/
+    policy: push
+  rules:
+    - changes:
+        - mfe-analytics-react/**/*
+
+# ============================================================
+# ETAPA: CONSTRUCCIÓN
+# ============================================================
+
+# Construir la aplicación shell Angular
+build:shell:
+  stage: build
+  image: node:20-alpine
+  script:
+    - cd shell
+    - npx ng build --configuration production
+  artifacts:
+    paths:
+      - shell/dist/
+    expire_in: 1 hora
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-shell"
+    paths:
+      - shell/node_modules/
+    policy: pull
+  needs:
+    - install:shell
+  rules:
+    - changes:
+        - shell/**/*
+        - shared-ui/**/*
+
+# Construir el microfrontend de analíticas React
+build:mfe-analytics:
+  stage: build
+  image: node:20-alpine
+  script:
+    - cd mfe-analytics-react
+    - npm run build
+  artifacts:
+    paths:
+      - mfe-analytics-react/dist/
+    expire_in: 1 hora
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
+    paths:
+      - mfe-analytics-react/node_modules/
+    policy: pull
+  needs:
+    - install:mfe-analytics
+  rules:
+    - changes:
+        - mfe-analytics-react/**/*
+
+# Construir la biblioteca compartida de UI
+build:shared-ui:
+  stage: build
+  image: node:20-alpine
+  script:
+    - cd shared-ui
+    - npm run build
+  artifacts:
+    paths:
+      - shared-ui/dist/
+    expire_in: 1 hora
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-shell"
+    paths:
+      - shared-ui/node_modules/
+    policy: pull
+  rules:
+    - changes:
+        - shared-ui/**/*
+
+# ============================================================
+# ETAPA: CONSTRUCCIÓN DE IMÁGENES DOCKER
+# ============================================================
+
+# Construir y publicar imagen Docker del shell
+docker:shell:
+  stage: docker
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t ${DOCKER_REGISTRY}/shell:${CI_COMMIT_SHORT_SHA} -t ${DOCKER_REGISTRY}/shell:latest ./shell
+    - docker push ${DOCKER_REGISTRY}/shell:${CI_COMMIT_SHORT_SHA}
+    - docker push ${DOCKER_REGISTRY}/shell:latest
+  needs:
+    - build:shell
+  rules:
+    - changes:
+        - shell/**/*
+        - shared-ui/**/*
+
+# Construir y publicar imagen Docker del microfrontend de analíticas
+docker:mfe-analytics:
+  stage: docker
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t ${DOCKER_REGISTRY}/mfe-analytics:${CI_COMMIT_SHORT_SHA} -t ${DOCKER_REGISTRY}/mfe-analytics:latest ./mfe-analytics-react
+    - docker push ${DOCKER_REGISTRY}/mfe-analytics:${CI_COMMIT_SHORT_SHA}
+    - docker push ${DOCKER_REGISTRY}/mfe-analytics:latest
+  needs:
+    - build:mfe-analytics
+  rules:
+    - changes:
+        - mfe-analytics-react/**/*
+
+# ============================================================
+# ETAPA: DESPLIEGUE
+# ============================================================
+
+# Desplegar el shell en el entorno de producción
+deploy:shell:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Desplegando shell versión ${CI_COMMIT_SHORT_SHA}..."
+    # TODO: Añadir comandos de despliegue reales
+    # Ejemplo con kubectl:
+    # - kubectl set image deployment/shell shell=${DOCKER_REGISTRY}/shell:${CI_COMMIT_SHORT_SHA}
+    - echo "Shell desplegado correctamente"
+  needs:
+    - docker:shell
+  rules:
+    - changes:
+        - shell/**/*
+        - shared-ui/**/*
+  when: manual
+  environment:
+    name: produccion
+    url: https://capitalflow.ejemplo.com
+
+# Desplegar el microfrontend de analíticas en producción
+deploy:mfe-analytics:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Desplegando mfe-analytics versión ${CI_COMMIT_SHORT_SHA}..."
+    # TODO: Añadir comandos de despliegue reales
+    # Ejemplo con kubectl:
+    # - kubectl set image deployment/mfe-analytics mfe-analytics=${DOCKER_REGISTRY}/mfe-analytics:${CI_COMMIT_SHORT_SHA}
+    - echo "MFE Analytics desplegado correctamente"
+  needs:
+    - docker:mfe-analytics
+  rules:
+    - changes:
+        - mfe-analytics-react/**/*
+  when: manual
+  environment:
+    name: produccion
+    url: https://analytics.capitalflow.ejemplo.com

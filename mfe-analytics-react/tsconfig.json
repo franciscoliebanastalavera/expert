@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* Configuracion de salida */
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+
+    /* Opciones estrictas de tipado */
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Configuracion de salida de compilacion */
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true,
+
+    /* Resolucion de modulos */
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

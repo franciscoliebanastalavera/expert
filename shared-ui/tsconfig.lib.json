@@ -1,0 +1,11 @@
+{
+  /* Configuracion extendida para compilacion de la biblioteca */
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "./out-tsc/lib",
+    "declarationDir": "./out-tsc/lib"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
+}

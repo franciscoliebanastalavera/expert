@@ -1,0 +1,33 @@
+# Docker Compose para el proyecto CapitalFlow
+# Orquesta el shell principal y los microfrontends
+version: "3.8"
+
+services:
+  # Aplicación shell principal (Angular 18)
+  shell:
+    build:
+      context: ./shell
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - mfe-analytics
+    networks:
+      - capitalflow-net
+    restart: unless-stopped
+
+  # Microfrontend de analíticas (React 18)
+  mfe-analytics:
+    build:
+      context: ./mfe-analytics-react
+      dockerfile: Dockerfile
+    ports:
+      - "4201:80"
+    networks:
+      - capitalflow-net
+    restart: unless-stopped
+
+# Red compartida entre todos los servicios
+networks:
+  capitalflow-net:
+    driver: bridge

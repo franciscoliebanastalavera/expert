@@ -1,0 +1,23 @@
+{
+  "name": "@capitalflow/shared-ui",
+  "version": "0.0.1",
+  "description": "Biblioteca de componentes compartidos para Capitalflow",
+  "peerDependencies": {
+    "@angular/core": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/cdk": "^18.0.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.0.0"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "ng-packagr": "^18.0.0",
+    "typescript": "~5.5.0",
+    "@types/dompurify": "^3.0.0"
+  },
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json"
+  }
+}
