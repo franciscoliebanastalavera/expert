@@ -1,8 +1,15 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "emitDecoratorMetadata": true
+    "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "declaration": false,
+    "paths": {
+      "dompurify": ["../node_modules/dompurify/dist/purify.cjs.d.ts"]
+    }
   },
-  "include": ["../src/**/*.stories.ts", "../src/**/*.component.ts"],
-  "exclude": ["../node_modules"]
+  "exclude": ["../src/**/*.spec.ts"],
+  "include": ["../src/**/*.stories.*", "../src/**/*.ts", "./preview.ts"]
 }

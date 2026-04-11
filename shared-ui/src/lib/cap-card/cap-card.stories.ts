@@ -1,24 +1,20 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular';
 import { CapCardComponent } from './cap-card.component';
 
 const meta: Meta<CapCardComponent> = {
   title: 'Components/CapCard',
   component: CapCardComponent,
   tags: ['autodocs'],
-  argTypes: {
-    size: { control: 'select', options: ['standard', 'small', 'large'] },
-  },
 };
 
 export default meta;
 type Story = StoryObj<CapCardComponent>;
 
 export const Default: Story = {
-  args: { size: 'standard' },
   render: (args) => ({
     props: args,
     template: `
-      <cap-card [size]="size">
+      <cap-card>
         <h3>Tesorería</h3>
         <p style="font-size: 2rem; font-weight: 700;">€2.450.000</p>
         <p style="color: #2e7d32; font-size: 0.875rem;">+12.5% vs. mes anterior</p>

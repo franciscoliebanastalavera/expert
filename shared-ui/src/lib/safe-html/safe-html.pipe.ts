@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as DOMPurify from 'dompurify';
+import * as DOMPurifyModule from 'dompurify';
+const DOMPurify: { sanitize(source: string): string } = (DOMPurifyModule as never)['default'] || DOMPurifyModule;
 
 @Pipe({
   name: 'safeHtml',
