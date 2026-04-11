@@ -35,6 +35,13 @@
             "styles": [
               "src/styles/_new-themes.scss"
             ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets/images",
+                "output": "/images"
+              }
+            ],
             "port": 6006
           }
         },
@@ -45,6 +52,13 @@
             "browserTarget": "shared-ui:build",
             "styles": [
               "src/styles/_new-themes.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets/images",
+                "output": "/images"
+              }
             ]
           }
         }
