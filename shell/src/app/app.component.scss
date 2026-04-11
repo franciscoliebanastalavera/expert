@@ -122,17 +122,10 @@
 .footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 3rem;
   padding: 0 1.5rem;
-  background: var(--cap-bg-surface, #fff);
-  border-top: 0.0625rem solid var(--cap-border, #cac8c2);
-  font-size: 0.75rem;
-  color: var(--cap-text-muted, #b2b2b2);
-
-  &__version {
-    font-family: monospace;
-    font-size: 0.6875rem;
-    opacity: 0.7;
-  }
+  background: var(--cap-primary, #2a85c4);
+  font-size: 0.875rem;
+  color: #ffffff;
 }

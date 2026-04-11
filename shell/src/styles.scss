@@ -156,3 +156,28 @@ a {
 .dark-theme .datagrid-header {
   background: var(--cap-bg-elevated, #2a2a2a);
 }
+
+.main {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    bottom: 3rem;
+    right: 2rem;
+    width: 18rem;
+    height: 18rem;
+    background-image: url('/assets/images/isotipo-light.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.dark-theme .main::before {
+  background-image: url('/assets/images/isotipo-dark.png');
+  opacity: 0.06;
+}

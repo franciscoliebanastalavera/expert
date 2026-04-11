@@ -89,5 +89,8 @@
   "MFE": {
     "LOADING": "Loading Analytics module...",
     "ERROR": "Could not load Analytics module. Verify that the MFE is running."
+  },
+  "FOOTER": {
+    "COPYRIGHT": "© 2026 CapitalFlow by Nter. All rights reserved."
   }
 }
