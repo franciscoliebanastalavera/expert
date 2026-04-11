@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,6 +12,7 @@ import { Transaction } from '../core/models';
   imports: [CommonModule, FormsModule, RouterModule, ScrollingModule, TranslateModule],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalyticsComponent implements OnInit {
   transacciones: Transaction[] = [];

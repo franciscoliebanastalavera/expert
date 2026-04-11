@@ -5,6 +5,7 @@ import {
   ViewChild,
   OnDestroy,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { loadRemoteModule } from '@angular-architects/module-federation';
@@ -33,6 +34,7 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
