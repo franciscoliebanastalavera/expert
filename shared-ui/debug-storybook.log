@@ -1,0 +1,57 @@
+[20:25:05.513] [INFO] [36mInitializing Storybook[39m
+[20:25:06.663] [DEBUG] Getting package.json info for C:/Users/francisco.liebanas/Desktop/Capitalflow/expert/shared-ui/package.json...
+[20:25:06.664] [DEBUG] Getting CLI versions from NPM for storybook...
+[20:25:06.664] [DEBUG] Executing command: npm info storybook version
+[20:25:11.979] [INFO] Adding Storybook version 10.3.5 to your project
+[20:25:11.980] [INFO] Installing Storybook for user specified project type: angular
+[20:25:11.986] [INFO] Framework detected: angular
+[20:25:11.987] [DEBUG] Getting installed version for vitest...
+[20:25:11.987] [DEBUG] Executing command: npm ls --json --depth=99 2>NUL
+[20:25:14.463] [DEBUG] Executing command: npm ls --json --depth=0 2>NUL
+[20:25:16.860] [DEBUG] Error finding installations for vitest: ExecaError: Command failed with exit code 1: npm.cmd ls --json "--depth=0" "2>NUL"
+
+npm error code EINVALIDTAGNAME
+npm error Invalid tag name "2>NUL" of package "2>NUL": Tags may not have any characters that encodeURIComponent encodes.
+npm error A complete log of this run can be found in: C:\Users\francisco.liebanas\AppData\Local\npm-cache\_logs\2026-04-11T18_25_15_243Z-debug-0.log
+
+{
+  "error": {
+    "code": "EINVALIDTAGNAME",
+    "summary": "Invalid tag name \"2>NUL\" of package \"2>NUL\": Tags may not have any characters that encodeURIComponent encodes.",
+    "detail": ""
+  }
+}
+[20:25:16.860] [DEBUG] No installations found for vitest
+[20:25:16.860] [DEBUG] Getting installed version for msw...
+[20:25:16.860] [DEBUG] Executing command: npm ls --json --depth=99 2>NUL
+[20:25:19.349] [DEBUG] Executing command: npm ls --json --depth=0 2>NUL
+[20:25:21.818] [DEBUG] Error finding installations for msw: ExecaError: Command failed with exit code 1: npm.cmd ls --json "--depth=0" "2>NUL"
+
+npm error code EINVALIDTAGNAME
+npm error Invalid tag name "2>NUL" of package "2>NUL": Tags may not have any characters that encodeURIComponent encodes.
+npm error A complete log of this run can be found in: C:\Users\francisco.liebanas\AppData\Local\npm-cache\_logs\2026-04-11T18_25_20_159Z-debug-0.log
+
+{
+  "error": {
+    "code": "EINVALIDTAGNAME",
+    "summary": "Invalid tag name \"2>NUL\" of package \"2>NUL\": Tags may not have any characters that encodeURIComponent encodes.",
+    "detail": ""
+  }
+}
+[20:25:21.818] [DEBUG] No installations found for msw
+[20:25:21.833] [INFO] Storybook collects completely anonymous usage telemetry. We use it to shape Storybook's roadmap and prioritize features. You can learn more, including how to opt out, at https://storybook.js.org/telemetry
+[20:25:22.707] [ERROR] [38;2;241;97;97mSB_CLI_INIT_0002 (MissingAngularJsonError): An angular.json file was not found in the current working directory: .\angular.json
+Storybook needs it to work properly, so please rerun the command at the root of your project, where the angular.json file is located.
+
+More info: https://storybook.js.org/docs/faq#error-no-angularjson-file-found?ref=error
+[39m
+    at new AngularJSON (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/storybook/dist/_node-chunks/chunk-QTYBYUH2.js:5528:13)
+    at Object.configure (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:2327:23)
+    at GeneratorExecutionCommand.executeProjectGenerator (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:1339:80)
+    at GeneratorExecutionCommand.execute (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:1388:38)
+    at executeGeneratorExecution (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:1405:74)
+    at doInitiate (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:2886:74)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:2928:20
+    at async withTelemetry (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/storybook/dist/_node-chunks/chunk-FIR43JGQ.js:225:12)
+    at async initiate (file:///C:/Users/francisco.liebanas/AppData/Local/npm-cache/_npx/ac6065c87c5c24ee/node_modules/create-storybook/dist/_node-chunks/chunk-5VDIKOHD.js:2921:24)
