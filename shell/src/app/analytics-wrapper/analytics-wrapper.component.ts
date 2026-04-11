@@ -7,6 +7,7 @@ import {
   inject,
   signal,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -92,28 +93,39 @@ export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
 
   private readonly document = inject(DOCUMENT);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   readonly cargando = signal(true);
   readonly fadeOut = signal(false);
   readonly error = signal('');
 
   async ngAfterViewInit(): Promise<void> {
+    const minDelay = new Promise<void>((r) => setTimeout(r, 600));
+
     try {
-      await loadRemoteModule({
-        type: 'script',
-        remoteEntry: 'http://localhost:4201/remoteEntry.js',
-        remoteName: 'mfeAnalytics',
-        exposedModule: './AnalyticsWeb',
-      });
+      const [module] = await Promise.all([
+        loadRemoteModule({
+          type: 'script',
+          remoteEntry: 'http://localhost:4201/remoteEntry.js',
+          remoteName: 'mfeAnalytics',
+          exposedModule: './AnalyticsWeb',
+        }),
+        minDelay,
+      ]);
+
+      this.fadeOut.set(true);
+      this.cdr.detectChanges();
+      await new Promise<void>((r) => setTimeout(r, 300));
 
       const analyticsEl = this.document.createElement('mfe-analytics');
       this.container.nativeElement.appendChild(analyticsEl);
-
-      this.fadeOut.set(true);
-      setTimeout(() => this.cargando.set(false), 300);
+      this.cargando.set(false);
+      this.cdr.detectChanges();
     } catch (_) {
+      await minDelay;
       this.cargando.set(false);
       this.error.set('No se pudo cargar el módulo de Analytics. Verifique que el MFE esté en ejecución.');
+      this.cdr.detectChanges();
     }
   }
 
