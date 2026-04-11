@@ -1,7 +1,7 @@
-// Estilos de la página de Analytics — DataGrid con virtual scroll
+// Estilos de la página de Analytics — rem units, sin números mágicos
 .analytics {
   padding: 2rem;
-  max-width: 1400px;
+  max-width: 87.5rem;
   margin: 0 auto;
 }
 
@@ -23,7 +23,6 @@
   }
 }
 
-// Barra de estadísticas
 .stats-bar {
   display: flex;
   gap: 1.5rem;
@@ -32,8 +31,8 @@
 
 .stat {
   background: var(--cap-bg-surface, #fff);
-  border: 1px solid var(--cap-border, #cac8c2);
-  border-radius: var(--cap-radius-md, 8px);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 0.5rem);
   padding: 1rem 1.5rem;
   flex: 1;
 
@@ -51,16 +50,10 @@
     font-variant-numeric: tabular-nums;
   }
 
-  &.ingreso .stat-value {
-    color: #2e7d32;
-  }
-
-  &.gasto .stat-value {
-    color: #c62828;
-  }
+  &.ingreso .stat-value { color: #2e7d32; }
+  &.gasto .stat-value { color: #c62828; }
 }
 
-// Filtros
 .filtros {
   display: flex;
   gap: 1rem;
@@ -84,28 +77,29 @@
 
 .filtro-input {
   padding: 0.6rem 0.8rem;
-  border: 1px solid var(--cap-border, #cac8c2);
-  border-radius: var(--cap-radius-sm, 4px);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-sm, 0.25rem);
   font-size: 0.9rem;
+  background: var(--cap-bg-surface, #fff);
+  color: var(--cap-text, #1e1e1e);
   transition: border-color 0.2s;
-  min-width: 200px;
+  min-width: 12.5rem;
 
   &:focus {
     outline: none;
     border-color: var(--cap-border-focus, #2a85c4);
-    box-shadow: 0 0 0 2px rgba(42, 133, 196, 0.15);
+    box-shadow: 0 0 0 0.125rem rgba(42, 133, 196, 0.15);
   }
 
   &.filtro-num {
-    min-width: 120px;
+    min-width: 7.5rem;
   }
 }
 
-// Botones
 .btn {
   padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: var(--cap-radius-sm, 4px);
+  border-radius: var(--cap-radius-sm, 0.25rem);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -113,17 +107,15 @@
   white-space: nowrap;
 
   &-sm {
-    background: #e0e0e0;
+    background: var(--cap-border, #e0e0e0);
     color: var(--cap-text, #1e1e1e);
 
-    &:hover {
-      background: #d0d0d0;
-    }
+    &:hover { opacity: 0.85; }
   }
 
   &-outline {
     background: transparent;
-    border: 1px solid var(--cap-border, #cac8c2);
+    border: 0.0625rem solid var(--cap-border, #cac8c2);
     color: var(--cap-text-secondary, #4d4d4d);
 
     &:hover {
@@ -134,18 +126,17 @@
   }
 }
 
-// DataGrid
 .datagrid-container {
   background: var(--cap-bg-surface, #fff);
-  border: 1px solid var(--cap-border, #cac8c2);
-  border-radius: var(--cap-radius-md, 8px);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 0.5rem);
   overflow: hidden;
 }
 
 .datagrid-header {
   display: flex;
-  background: #f8f8f8;
-  border-bottom: 2px solid var(--cap-border, #cac8c2);
+  background: var(--cap-bg, #f8f8f8);
+  border-bottom: 0.125rem solid var(--cap-border, #cac8c2);
   font-size: 0.75rem;
   text-transform: uppercase;
   color: var(--cap-text-muted, #b2b2b2);
@@ -156,21 +147,17 @@
 }
 
 .datagrid-body {
-  // Altura fija para el viewport del virtual scroll (~15 filas visibles)
-  height: 600px;
+  height: 37.5rem;
 }
 
 .datagrid-row {
   display: flex;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.05);
   transition: background 0.1s;
 
-  &:hover {
-    background: #f9f9f9;
-  }
+  &:hover { background: rgba(0, 0, 0, 0.02); }
 }
 
-// Celdas del DataGrid
 .dg-cell {
   padding: 0.75rem 0.8rem;
   font-size: 0.85rem;
@@ -181,19 +168,19 @@
   align-items: center;
 }
 
-.dg-id { width: 60px; flex-shrink: 0; }
-.dg-fecha { width: 95px; flex-shrink: 0; }
-.dg-tipo { width: 160px; flex-shrink: 0; }
-.dg-desc { flex: 1; min-width: 180px; }
+.dg-id { width: 3.75rem; flex-shrink: 0; }
+.dg-fecha { width: 5.9375rem; flex-shrink: 0; }
+.dg-tipo { width: 10rem; flex-shrink: 0; }
+.dg-desc { flex: 1; min-width: 11.25rem; }
 .dg-iban {
-  width: 220px;
+  width: 13.75rem;
   flex-shrink: 0;
   font-family: 'Courier New', monospace;
   font-size: 0.78rem;
   color: var(--cap-text-secondary, #4d4d4d);
 }
 .dg-importe {
-  width: 120px;
+  width: 7.5rem;
   flex-shrink: 0;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -202,14 +189,13 @@
   &.ingreso { color: #2e7d32; }
   &.gasto { color: #c62828; }
 }
-.dg-estado { width: 110px; flex-shrink: 0; }
-.dg-cat { width: 120px; flex-shrink: 0; }
+.dg-estado { width: 6.875rem; flex-shrink: 0; }
+.dg-cat { width: 7.5rem; flex-shrink: 0; }
 
-// Badges de estado
 .estado-badge {
   display: inline-block;
   padding: 0.15rem 0.5rem;
-  border-radius: var(--cap-radius-sm, 4px);
+  border-radius: var(--cap-radius-sm, 0.25rem);
   font-size: 0.72rem;
   font-weight: 600;
 

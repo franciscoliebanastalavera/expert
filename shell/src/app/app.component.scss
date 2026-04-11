@@ -1,12 +1,12 @@
-// Estilos globales del componente raíz
+// Estilos del componente raíz — navbar y layout
 .navbar {
   display: flex;
   align-items: center;
   background: var(--cap-primary, #2a85c4);
   color: #fff;
-  padding: 0 2rem;
-  height: 56px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 1.5rem;
+  height: 3.5rem;
+  box-shadow: var(--cap-shadow-sm);
 }
 
 .brand {
@@ -27,14 +27,15 @@
 .nav-links {
   display: flex;
   gap: 1.5rem;
+  flex: 1;
 
   a {
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     font-size: 0.95rem;
     padding: 0.25rem 0;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
+    border-bottom: 0.125rem solid transparent;
+    transition: var(--cap-transition, all 0.2s);
 
     &:hover,
     &.active {
@@ -44,7 +45,44 @@
   }
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--cap-radius-sm, 0.25rem);
+  transition: var(--cap-transition, all 0.2s);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.lang-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 0.0625rem solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--cap-radius-sm, 0.25rem);
+  cursor: pointer;
+  transition: var(--cap-transition, all 0.2s);
+  letter-spacing: 0.05rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
 main {
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 3.5rem);
   background: var(--cap-bg, #f2f2f2);
 }

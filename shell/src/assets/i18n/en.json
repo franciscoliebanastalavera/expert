@@ -1,0 +1,93 @@
+{
+  "NAV": {
+    "BRAND": "CapitalFlow",
+    "HOME": "Home",
+    "ANALYTICS": "Analytics",
+    "THEME_LIGHT": "Light mode",
+    "THEME_DARK": "Dark mode",
+    "LANG": "Language"
+  },
+  "HOME": {
+    "TITLE": "Financial Dashboard",
+    "SUBTITLE": "Operations summary — April 2026",
+    "BTN_ANALYTICS": "View Full Analytics",
+    "BTN_MFE": "Analytics MFE (React)",
+    "TABS": {
+      "SUMMARY": "General Summary",
+      "TREASURY": "Treasury",
+      "PAYMENTS": "Payments",
+      "COMPLIANCE": "Compliance"
+    },
+    "OPERATIONS": {
+      "TITLE": "Latest Operations",
+      "COL_TYPE": "Type",
+      "COL_AMOUNT": "Amount",
+      "COL_DATE": "Date",
+      "COL_STATUS": "Status",
+      "COL_IBAN": "IBAN"
+    },
+    "TABS_CONTENT": {
+      "TREASURY_TITLE": "Treasury",
+      "TREASURY_DESC": "Detailed view of balances per operating account.",
+      "PAYMENTS_TITLE": "Scheduled Payments",
+      "PAYMENTS_DESC": "Management of pending transfers and direct debits.",
+      "COMPLIANCE_TITLE": "Compliance & AML",
+      "COMPLIANCE_DESC": "Operations flagged for regulatory compliance review."
+    },
+    "METRICS": {
+      "TREASURY": {
+        "TITLE": "Treasury",
+        "DESC": "Total balance in operating accounts"
+      },
+      "PAYMENTS": {
+        "TITLE": "Pending Payments",
+        "DESC": "47 scheduled transfers this week"
+      },
+      "RECONCILIATION": {
+        "TITLE": "Reconciliations",
+        "DESC": "1,284 of 1,362 movements reconciled"
+      },
+      "ALERTS": {
+        "TITLE": "Compliance Alerts",
+        "DESC": "Operations pending AML review"
+      }
+    }
+  },
+  "ANALYTICS": {
+    "TITLE": "Analytics — Transactions",
+    "SUBTITLE_SUFFIX": "transactions · Virtual Scroll CDK",
+    "BTN_BACK": "Back to Dashboard",
+    "STATS": {
+      "TOTAL": "Total Records",
+      "INCOME": "Total Income",
+      "EXPENSES": "Total Expenses"
+    },
+    "FILTERS": {
+      "SEARCH": "Search",
+      "SEARCH_PLACEHOLDER": "Search by description, type, IBAN...",
+      "AMOUNT_MIN": "Min amount",
+      "AMOUNT_MAX": "Max amount",
+      "CLEAR": "Clear"
+    },
+    "GRID": {
+      "ID": "ID",
+      "DATE": "Date",
+      "TYPE": "Type",
+      "DESCRIPTION": "Description",
+      "IBAN": "IBAN",
+      "AMOUNT": "Amount",
+      "STATUS": "Status",
+      "CATEGORY": "Category"
+    }
+  },
+  "STATUS": {
+    "COMPLETED": "Completed",
+    "PROCESSING": "Processing",
+    "PENDING": "Pending",
+    "REJECTED": "Rejected"
+  },
+  "MFE": {
+    "LOADING": "Loading Analytics module...",
+    "ERROR": "Could not load Analytics module. Verify that the MFE is running."
+  }
+}

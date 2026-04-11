@@ -1,7 +1,7 @@
-// Estilos del dashboard principal
+// Estilos del dashboard principal — sin números mágicos, rem units
 .dashboard {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
 }
 
@@ -20,25 +20,24 @@
   }
 }
 
-// Tarjetas de métricas
 .metricas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
 .metrica-card {
   background: var(--cap-bg-surface, #fff);
-  border: 1px solid var(--cap-border, #cac8c2);
-  border-radius: var(--cap-radius-lg, 12px);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-lg, 0.75rem);
   padding: 1.5rem;
   cursor: pointer;
   transition: var(--cap-transition);
 
   &:hover {
     box-shadow: var(--cap-shadow-md);
-    transform: translateY(-2px);
+    transform: translateY(-0.125rem);
   }
 }
 
@@ -57,7 +56,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
-  border-radius: var(--cap-radius-sm, 4px);
+  border-radius: var(--cap-radius-sm, 0.25rem);
 
   &.positivo {
     color: #33841f;
@@ -88,19 +87,18 @@
   margin-top: 0.5rem;
 }
 
-// Pestañas
 .tabs-section {
   background: var(--cap-bg-surface, #fff);
-  border-radius: var(--cap-radius-lg, 12px);
-  border: 1px solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-lg, 0.75rem);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
   margin-bottom: 2rem;
   overflow: hidden;
 }
 
 .tabs-header {
   display: flex;
-  border-bottom: 1px solid var(--cap-border, #cac8c2);
-  background: #fafafa;
+  border-bottom: 0.0625rem solid var(--cap-border, #cac8c2);
+  background: var(--cap-bg, #fafafa);
 }
 
 .tab-btn {
@@ -111,11 +109,11 @@
   font-size: 0.9rem;
   color: var(--cap-text-secondary, #4d4d4d);
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  border-bottom: 0.125rem solid transparent;
   transition: var(--cap-transition);
 
   &:hover {
-    background: #f0f0f0;
+    background: rgba(0, 0, 0, 0.03);
   }
 
   &.active {
@@ -135,7 +133,6 @@
   }
 }
 
-// Tabla de operaciones
 .tabla-operaciones {
   overflow-x: auto;
 
@@ -150,13 +147,13 @@
     font-size: 0.8rem;
     text-transform: uppercase;
     color: var(--cap-text-muted, #b2b2b2);
-    border-bottom: 1px solid var(--cap-border, #cac8c2);
+    border-bottom: 0.0625rem solid var(--cap-border, #cac8c2);
   }
 
   td {
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.05);
   }
 
   .importe {
@@ -174,7 +171,7 @@
 .estado-badge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
-  border-radius: var(--cap-radius-sm, 4px);
+  border-radius: var(--cap-radius-sm, 0.25rem);
   font-size: 0.75rem;
   font-weight: 600;
 
@@ -194,7 +191,6 @@
   }
 }
 
-// Botones de acción
 .acciones {
   display: flex;
   gap: 1rem;
@@ -203,7 +199,7 @@
 .btn {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: var(--cap-radius-md, 8px);
+  border-radius: var(--cap-radius-md, 0.5rem);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;

@@ -1,0 +1,93 @@
+{
+  "NAV": {
+    "BRAND": "CapitalFlow",
+    "HOME": "Inicio",
+    "ANALYTICS": "Analytics",
+    "THEME_LIGHT": "Modo claro",
+    "THEME_DARK": "Modo oscuro",
+    "LANG": "Idioma"
+  },
+  "HOME": {
+    "TITLE": "Dashboard Financiero",
+    "SUBTITLE": "Resumen de operaciones — Abril 2026",
+    "BTN_ANALYTICS": "Ver Analytics Completo",
+    "BTN_MFE": "Analytics MFE (React)",
+    "TABS": {
+      "SUMMARY": "Resumen General",
+      "TREASURY": "Tesorería",
+      "PAYMENTS": "Pagos",
+      "COMPLIANCE": "Compliance"
+    },
+    "OPERATIONS": {
+      "TITLE": "Últimas Operaciones",
+      "COL_TYPE": "Tipo",
+      "COL_AMOUNT": "Importe",
+      "COL_DATE": "Fecha",
+      "COL_STATUS": "Estado",
+      "COL_IBAN": "IBAN"
+    },
+    "TABS_CONTENT": {
+      "TREASURY_TITLE": "Tesorería",
+      "TREASURY_DESC": "Vista detallada de saldos por cuenta operativa.",
+      "PAYMENTS_TITLE": "Pagos Programados",
+      "PAYMENTS_DESC": "Gestión de transferencias y domiciliaciones pendientes.",
+      "COMPLIANCE_TITLE": "Compliance & AML",
+      "COMPLIANCE_DESC": "Operaciones marcadas para revisión de cumplimiento normativo."
+    },
+    "METRICS": {
+      "TREASURY": {
+        "TITLE": "Tesorería",
+        "DESC": "Saldo total en cuentas operativas"
+      },
+      "PAYMENTS": {
+        "TITLE": "Pagos Pendientes",
+        "DESC": "47 transferencias programadas esta semana"
+      },
+      "RECONCILIATION": {
+        "TITLE": "Conciliaciones",
+        "DESC": "1.284 de 1.362 movimientos conciliados"
+      },
+      "ALERTS": {
+        "TITLE": "Alertas Compliance",
+        "DESC": "Operaciones pendientes de revisión AML"
+      }
+    }
+  },
+  "ANALYTICS": {
+    "TITLE": "Analytics — Transacciones",
+    "SUBTITLE_SUFFIX": "transacciones · Virtual Scroll CDK",
+    "BTN_BACK": "Volver al Dashboard",
+    "STATS": {
+      "TOTAL": "Total Registros",
+      "INCOME": "Total Ingresos",
+      "EXPENSES": "Total Gastos"
+    },
+    "FILTERS": {
+      "SEARCH": "Buscar",
+      "SEARCH_PLACEHOLDER": "Buscar por descripción, tipo, IBAN...",
+      "AMOUNT_MIN": "Importe mínimo",
+      "AMOUNT_MAX": "Importe máximo",
+      "CLEAR": "Limpiar"
+    },
+    "GRID": {
+      "ID": "ID",
+      "DATE": "Fecha",
+      "TYPE": "Tipo",
+      "DESCRIPTION": "Descripción",
+      "IBAN": "IBAN",
+      "AMOUNT": "Importe",
+      "STATUS": "Estado",
+      "CATEGORY": "Categoría"
+    }
+  },
+  "STATUS": {
+    "COMPLETED": "Completada",
+    "PROCESSING": "Procesando",
+    "PENDING": "Pendiente",
+    "REJECTED": "Rechazada"
+  },
+  "MFE": {
+    "LOADING": "Cargando módulo de Analytics...",
+    "ERROR": "No se pudo cargar el módulo de Analytics. Verifique que el MFE esté en ejecución."
+  }
+}

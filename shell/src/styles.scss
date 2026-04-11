@@ -11,9 +11,10 @@
 
 body {
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: #f2f2f2;
-  color: #1e1e1e;
+  background: var(--cap-bg, #f2f2f2);
+  color: var(--cap-text, #1e1e1e);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 a {
@@ -21,7 +22,7 @@ a {
   color: inherit;
 }
 
-/* Tema CapitalFlow — CSS Custom Properties */
+/* Tema CapitalFlow — CSS Custom Properties (modo claro) */
 .capitalflow-theme {
   --cap-primary: #2a85c4;
   --cap-primary-hover: #1e6da6;
@@ -34,16 +35,47 @@ a {
   --cap-info: #0061f4;
   --cap-bg: #f2f2f2;
   --cap-bg-surface: #ffffff;
+  --cap-bg-elevated: #ffffff;
   --cap-text: #1e1e1e;
   --cap-text-secondary: #4d4d4d;
   --cap-text-muted: #b2b2b2;
   --cap-border: #cac8c2;
   --cap-border-focus: #2a85c4;
-  --cap-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --cap-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --cap-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
-  --cap-radius-sm: 4px;
-  --cap-radius-md: 8px;
-  --cap-radius-lg: 12px;
+  --cap-shadow-sm: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
+  --cap-shadow-md: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+  --cap-shadow-lg: 0 0.625rem 0.9375rem rgba(0, 0, 0, 0.15);
+  --cap-radius-sm: 0.25rem;
+  --cap-radius-md: 0.5rem;
+  --cap-radius-lg: 0.75rem;
   --cap-transition: all 0.2s ease-in-out;
+}
+
+/* Tema oscuro — sobreescribe las CSS Custom Properties */
+.dark-theme .capitalflow-theme,
+.dark-theme.capitalflow-theme {
+  --cap-primary: #3a95d4;
+  --cap-primary-hover: #4ba5e4;
+  --cap-primary-active: #2a85c4;
+  --cap-secondary: #f4922e;
+  --cap-secondary-hover: #f4a24e;
+  --cap-success: #83e86a;
+  --cap-danger: #e53545;
+  --cap-warning: #ffd144;
+  --cap-info: #3081ff;
+  --cap-bg: #121212;
+  --cap-bg-surface: #1e1e1e;
+  --cap-bg-elevated: #2a2a2a;
+  --cap-text: #e8e8e8;
+  --cap-text-secondary: #b0b0b0;
+  --cap-text-muted: #6e6e6e;
+  --cap-border: #3a3a3a;
+  --cap-border-focus: #3a95d4;
+  --cap-shadow-sm: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.3);
+  --cap-shadow-md: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.4);
+  --cap-shadow-lg: 0 0.625rem 0.9375rem rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme {
+  background-color: #121212;
+  color: #e8e8e8;
 }

@@ -2,44 +2,44 @@
 <section class="analytics">
   <div class="analytics-header">
     <div>
-      <h1>Analytics — Transacciones</h1>
-      <p class="subtitle">{{ numTransacciones | number }} transacciones · Virtual Scroll CDK</p>
+      <h1>{{ 'ANALYTICS.TITLE' | translate }}</h1>
+      <p class="subtitle">{{ numTransacciones }} {{ 'ANALYTICS.SUBTITLE_SUFFIX' | translate }}</p>
     </div>
     <button class="btn btn-outline" routerLink="/">
-      Volver al Dashboard
+      {{ 'ANALYTICS.BTN_BACK' | translate }}
     </button>
   </div>
 
   <!-- Resumen estadístico -->
   <div class="stats-bar">
     <div class="stat">
-      <span class="stat-label">Total Registros</span>
-      <span class="stat-value">{{ numTransacciones | number }}</span>
+      <span class="stat-label">{{ 'ANALYTICS.STATS.TOTAL' | translate }}</span>
+      <span class="stat-value">{{ numTransacciones }}</span>
     </div>
     <div class="stat ingreso">
-      <span class="stat-label">Total Ingresos</span>
-      <span class="stat-value">+€{{ totalIngresos | number:'1.2-2':'es-ES' }}</span>
+      <span class="stat-label">{{ 'ANALYTICS.STATS.INCOME' | translate }}</span>
+      <span class="stat-value">{{ formatearImporte(totalIngresos) }}</span>
     </div>
     <div class="stat gasto">
-      <span class="stat-label">Total Gastos</span>
-      <span class="stat-value">-€{{ totalGastos | number:'1.2-2':'es-ES' }}</span>
+      <span class="stat-label">{{ 'ANALYTICS.STATS.EXPENSES' | translate }}</span>
+      <span class="stat-value">-{{ formatearImporte(totalGastos) }}</span>
     </div>
   </div>
 
   <!-- Filtros -->
   <div class="filtros">
     <div class="filtro-grupo">
-      <label>Buscar</label>
+      <label>{{ 'ANALYTICS.FILTERS.SEARCH' | translate }}</label>
       <input
         type="text"
         [(ngModel)]="filtroTexto"
         (ngModelChange)="aplicarFiltros()"
-        placeholder="Buscar por descripción, tipo, IBAN..."
+        [placeholder]="'ANALYTICS.FILTERS.SEARCH_PLACEHOLDER' | translate"
         class="filtro-input"
       />
     </div>
     <div class="filtro-grupo">
-      <label>Importe mínimo</label>
+      <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MIN' | translate }}</label>
       <input
         type="number"
         [(ngModel)]="filtroImporteMin"
@@ -49,7 +49,7 @@
       />
     </div>
     <div class="filtro-grupo">
-      <label>Importe máximo</label>
+      <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MAX' | translate }}</label>
       <input
         type="number"
         [(ngModel)]="filtroImporteMax"
@@ -58,20 +58,20 @@
         class="filtro-input filtro-num"
       />
     </div>
-    <button class="btn btn-sm" (click)="limpiarFiltros()">Limpiar</button>
+    <button class="btn btn-sm" (click)="limpiarFiltros()">{{ 'ANALYTICS.FILTERS.CLEAR' | translate }}</button>
   </div>
 
-  <!-- DataGrid con Virtual Scroll (CDK) — renderiza solo las filas visibles -->
+  <!-- DataGrid con Virtual Scroll (CDK) -->
   <div class="datagrid-container">
     <div class="datagrid-header">
-      <div class="dg-cell dg-id">ID</div>
-      <div class="dg-cell dg-fecha">Fecha</div>
-      <div class="dg-cell dg-tipo">Tipo</div>
-      <div class="dg-cell dg-desc">Descripción</div>
-      <div class="dg-cell dg-iban">IBAN</div>
-      <div class="dg-cell dg-importe">Importe</div>
-      <div class="dg-cell dg-estado">Estado</div>
-      <div class="dg-cell dg-cat">Categoría</div>
+      <div class="dg-cell dg-id">{{ 'ANALYTICS.GRID.ID' | translate }}</div>
+      <div class="dg-cell dg-fecha">{{ 'ANALYTICS.GRID.DATE' | translate }}</div>
+      <div class="dg-cell dg-tipo">{{ 'ANALYTICS.GRID.TYPE' | translate }}</div>
+      <div class="dg-cell dg-desc">{{ 'ANALYTICS.GRID.DESCRIPTION' | translate }}</div>
+      <div class="dg-cell dg-iban">{{ 'ANALYTICS.GRID.IBAN' | translate }}</div>
+      <div class="dg-cell dg-importe">{{ 'ANALYTICS.GRID.AMOUNT' | translate }}</div>
+      <div class="dg-cell dg-estado">{{ 'ANALYTICS.GRID.STATUS' | translate }}</div>
+      <div class="dg-cell dg-cat">{{ 'ANALYTICS.GRID.CATEGORY' | translate }}</div>
     </div>
 
     <!-- Virtual Scroll Viewport — solo renderiza ~15 filas visibles de las 1000 -->

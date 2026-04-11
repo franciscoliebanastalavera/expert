@@ -1,8 +1,8 @@
 <!-- Dashboard principal de CapitalFlow -->
 <section class="dashboard">
   <div class="dashboard-header">
-    <h1>Dashboard Financiero</h1>
-    <p class="subtitle">Resumen de operaciones — Abril 2026</p>
+    <h1>{{ 'HOME.TITLE' | translate }}</h1>
+    <p class="subtitle">{{ 'HOME.SUBTITLE' | translate }}</p>
   </div>
 
   <!-- Tarjetas de métricas -->
@@ -15,8 +15,8 @@
         </span>
       </div>
       <div class="metrica-valor">{{ m.valor }}</div>
-      <div class="metrica-titulo">{{ m.titulo }}</div>
-      <div class="metrica-desc">{{ m.descripcion }}</div>
+      <div class="metrica-titulo">{{ m.titulo | translate }}</div>
+      <div class="metrica-desc">{{ m.descripcion | translate }}</div>
     </div>
   </div>
 
@@ -28,21 +28,21 @@
         class="tab-btn"
         [class.active]="tabActiva === tab.id"
         (click)="tabActiva = tab.id">
-        {{ tab.label }}
+        {{ tab.label | translate }}
       </button>
     </div>
 
     <div class="tab-content" *ngIf="tabActiva === 'resumen'">
-      <h2>Últimas Operaciones</h2>
+      <h2>{{ 'HOME.OPERATIONS.TITLE' | translate }}</h2>
       <div class="tabla-operaciones">
         <table>
           <thead>
             <tr>
-              <th>Tipo</th>
-              <th>Importe</th>
-              <th>Fecha</th>
-              <th>Estado</th>
-              <th>IBAN</th>
+              <th>{{ 'HOME.OPERATIONS.COL_TYPE' | translate }}</th>
+              <th>{{ 'HOME.OPERATIONS.COL_AMOUNT' | translate }}</th>
+              <th>{{ 'HOME.OPERATIONS.COL_DATE' | translate }}</th>
+              <th>{{ 'HOME.OPERATIONS.COL_STATUS' | translate }}</th>
+              <th>{{ 'HOME.OPERATIONS.COL_IBAN' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -67,28 +67,28 @@
     </div>
 
     <div class="tab-content" *ngIf="tabActiva === 'tesoreria'">
-      <h2>Tesorería</h2>
-      <p>Vista detallada de saldos por cuenta operativa.</p>
+      <h2>{{ 'HOME.TABS_CONTENT.TREASURY_TITLE' | translate }}</h2>
+      <p>{{ 'HOME.TABS_CONTENT.TREASURY_DESC' | translate }}</p>
     </div>
 
     <div class="tab-content" *ngIf="tabActiva === 'pagos'">
-      <h2>Pagos Programados</h2>
-      <p>Gestión de transferencias y domiciliaciones pendientes.</p>
+      <h2>{{ 'HOME.TABS_CONTENT.PAYMENTS_TITLE' | translate }}</h2>
+      <p>{{ 'HOME.TABS_CONTENT.PAYMENTS_DESC' | translate }}</p>
     </div>
 
     <div class="tab-content" *ngIf="tabActiva === 'compliance'">
-      <h2>Compliance & AML</h2>
-      <p>Operaciones marcadas para revisión de cumplimiento normativo.</p>
+      <h2>{{ 'HOME.TABS_CONTENT.COMPLIANCE_TITLE' | translate }}</h2>
+      <p>{{ 'HOME.TABS_CONTENT.COMPLIANCE_DESC' | translate }}</p>
     </div>
   </div>
 
   <!-- Botones de acción rápida -->
   <div class="acciones">
     <button class="btn btn-primary" routerLink="/analytics">
-      Ver Analytics Completo
+      {{ 'HOME.BTN_ANALYTICS' | translate }}
     </button>
     <button class="btn btn-secondary" routerLink="/analytics-mfe">
-      Analytics MFE (React)
+      {{ 'HOME.BTN_MFE' | translate }}
     </button>
   </div>
 </section>

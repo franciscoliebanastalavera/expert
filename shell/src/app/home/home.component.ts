@@ -1,68 +1,67 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { DashboardMetric, DashboardTab, DashboardOperation } from '../core/models';
 
 // Componente Home — Dashboard principal con métricas financieras
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  // Métricas financieras mock para el dashboard
-  metricas = [
+  tabActiva = 'resumen';
+
+  metricas: DashboardMetric[] = [
     {
-      titulo: 'Tesorería',
+      titulo: 'HOME.METRICS.TREASURY.TITLE',
       valor: '€2.450.000',
       variacion: '+12.5%',
       icono: '🏦',
       positivo: true,
-      descripcion: 'Saldo total en cuentas operativas',
+      descripcion: 'HOME.METRICS.TREASURY.DESC',
       ruta: '/analytics',
     },
     {
-      titulo: 'Pagos Pendientes',
+      titulo: 'HOME.METRICS.PAYMENTS.TITLE',
       valor: '€380.000',
       variacion: '-8.3%',
       icono: '💳',
       positivo: true,
-      descripcion: '47 transferencias programadas esta semana',
+      descripcion: 'HOME.METRICS.PAYMENTS.DESC',
       ruta: '/analytics',
     },
     {
-      titulo: 'Conciliaciones',
+      titulo: 'HOME.METRICS.RECONCILIATION.TITLE',
       valor: '94.2%',
       variacion: '+3.1%',
       icono: '✅',
       positivo: true,
-      descripcion: '1.284 de 1.362 movimientos conciliados',
+      descripcion: 'HOME.METRICS.RECONCILIATION.DESC',
       ruta: '/analytics',
     },
     {
-      titulo: 'Alertas Compliance',
+      titulo: 'HOME.METRICS.ALERTS.TITLE',
       valor: '3',
       variacion: '+2',
       icono: '⚠️',
       positivo: false,
-      descripcion: 'Operaciones pendientes de revisión AML',
+      descripcion: 'HOME.METRICS.ALERTS.DESC',
       ruta: '/analytics',
     },
   ];
 
-  // Pestañas del dashboard
-  tabActiva = 'resumen';
-
-  tabs = [
-    { id: 'resumen', label: 'Resumen General' },
-    { id: 'tesoreria', label: 'Tesorería' },
-    { id: 'pagos', label: 'Pagos' },
-    { id: 'compliance', label: 'Compliance' },
+  tabs: DashboardTab[] = [
+    { id: 'resumen', label: 'HOME.TABS.SUMMARY' },
+    { id: 'tesoreria', label: 'HOME.TABS.TREASURY' },
+    { id: 'pagos', label: 'HOME.TABS.PAYMENTS' },
+    { id: 'compliance', label: 'HOME.TABS.COMPLIANCE' },
   ];
 
-  // Últimas operaciones mock
-  ultimasOperaciones = [
+  ultimasOperaciones: DashboardOperation[] = [
     { tipo: 'Transferencia SEPA', importe: '€45.200', fecha: '11/04/2026', estado: 'Completada', iban: 'ES9121000418450200051332' },
     { tipo: 'Pago Nóminas', importe: '€128.500', fecha: '10/04/2026', estado: 'Procesando', iban: 'ES7620770024003102575766' },
     { tipo: 'Cobro Factura', importe: '€15.800', fecha: '10/04/2026', estado: 'Completada', iban: 'ES0049001822162211067891' },

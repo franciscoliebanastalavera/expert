@@ -3,53 +3,25 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
-// Interfaz para las transacciones financieras
-interface Transaccion {
-  id: number;
-  fecha: string;
-  tipo: string;
-  descripcion: string;
-  iban: string;
-  importe: number;
-  divisa: string;
-  estado: string;
-  categoria: string;
-}
+import { TranslateModule } from '@ngx-translate/core';
+import { Transaction } from '../core/models';
 
 // Página de Analytics — DataGrid con 1000 transacciones y filtros
 @Component({
   selector: 'app-analytics',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ScrollingModule],
+  imports: [CommonModule, FormsModule, RouterModule, ScrollingModule, TranslateModule],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss'],
 })
 export class AnalyticsComponent implements OnInit {
-  // Datos completos y filtrados
-  transacciones: Transaccion[] = [];
-  transaccionesFiltradas: Transaccion[] = [];
+  transacciones: Transaction[] = [];
+  transaccionesFiltradas: Transaction[] = [];
 
-  // Filtros
   filtroTexto = '';
-  filtroFechaDesde = '';
-  filtroFechaHasta = '';
   filtroImporteMin: number | null = null;
   filtroImporteMax: number | null = null;
 
-  // Columnas del DataGrid
-  columnas = [
-    { key: 'id', label: 'ID', width: 60 },
-    { key: 'fecha', label: 'Fecha', width: 100 },
-    { key: 'tipo', label: 'Tipo', width: 120 },
-    { key: 'descripcion', label: 'Descripción', width: 200 },
-    { key: 'iban', label: 'IBAN', width: 250 },
-    { key: 'importe', label: 'Importe', width: 120 },
-    { key: 'estado', label: 'Estado', width: 100 },
-    { key: 'categoria', label: 'Categoría', width: 120 },
-  ];
-
-  // Estadísticas
   totalIngresos = 0;
   totalGastos = 0;
   numTransacciones = 0;
@@ -59,7 +31,6 @@ export class AnalyticsComponent implements OnInit {
     this.aplicarFiltros();
   }
 
-  // Genera 1000 transacciones financieras mock realistas
   private generarTransaccionesMock(): void {
     const tipos = ['Transferencia SEPA', 'Pago Nómina', 'Cobro Factura', 'Domiciliación', 'Transferencia Internacional', 'Pago Proveedor', 'Ingreso Cliente'];
     const estados = ['Completada', 'Procesando', 'Pendiente', 'Rechazada'];
@@ -101,11 +72,9 @@ export class AnalyticsComponent implements OnInit {
     }
   }
 
-  // Aplica los filtros activos sobre las transacciones
   aplicarFiltros(): void {
     let resultado = [...this.transacciones];
 
-    // Filtro por texto (busca en descripción, tipo, IBAN, categoría)
     if (this.filtroTexto.trim()) {
       const texto = this.filtroTexto.toLowerCase();
       resultado = resultado.filter(
@@ -117,12 +86,10 @@ export class AnalyticsComponent implements OnInit {
       );
     }
 
-    // Filtro por importe mínimo
     if (this.filtroImporteMin !== null) {
       resultado = resultado.filter((t) => Math.abs(t.importe) >= this.filtroImporteMin!);
     }
 
-    // Filtro por importe máximo
     if (this.filtroImporteMax !== null) {
       resultado = resultado.filter((t) => Math.abs(t.importe) <= this.filtroImporteMax!);
     }
@@ -131,7 +98,6 @@ export class AnalyticsComponent implements OnInit {
     this.calcularEstadisticas();
   }
 
-  // Calcula estadísticas de las transacciones filtradas
   private calcularEstadisticas(): void {
     this.numTransacciones = this.transaccionesFiltradas.length;
     this.totalIngresos = this.transaccionesFiltradas
@@ -142,22 +108,17 @@ export class AnalyticsComponent implements OnInit {
       .reduce((sum, t) => sum + Math.abs(t.importe), 0);
   }
 
-  // Limpia todos los filtros
   limpiarFiltros(): void {
     this.filtroTexto = '';
-    this.filtroFechaDesde = '';
-    this.filtroFechaHasta = '';
     this.filtroImporteMin = null;
     this.filtroImporteMax = null;
     this.aplicarFiltros();
   }
 
-  // Formatea un IBAN para mostrar (agrupa en bloques de 4)
   formatearIban(iban: string): string {
     return iban.replace(/(.{4})/g, '$1 ').trim();
   }
 
-  // Formatea un importe con símbolo de euro
   formatearImporte(importe: number): string {
     const formatted = Math.abs(importe).toLocaleString('es-ES', {
       minimumFractionDigits: 2,
@@ -166,8 +127,7 @@ export class AnalyticsComponent implements OnInit {
     return importe >= 0 ? `+€${formatted}` : `-€${formatted}`;
   }
 
-  // TrackBy para optimizar el renderizado del virtual scroll
-  trackById(index: number, item: Transaccion): number {
+  trackById(index: number, item: Transaction): number {
     return item.id;
   }
 }
