@@ -15,6 +15,7 @@ import { CapCheckboxModule } from './cap-checkbox/cap-checkbox.module';
 import { CapDatepickerModule } from './cap-datepicker/cap-datepicker.module';
 import { CapSwitchModule } from './cap-switch/cap-switch.module';
 import { CapFooterModule } from './cap-footer/cap-footer.module';
+import { CapHeaderModule } from './cap-header/cap-header.module';
 
 import { PipesModule } from './core/pipes/pipes.module';
 import { DirectivesModule } from './core/directives/directives.module';
@@ -35,6 +36,7 @@ import { DirectivesModule } from './core/directives/directives.module';
     CapDatepickerModule,
     CapSwitchModule,
     CapFooterModule,
+    CapHeaderModule,
     PipesModule,
     DirectivesModule,
   ],
@@ -53,6 +55,7 @@ import { DirectivesModule } from './core/directives/directives.module';
     CapDatepickerModule,
     CapSwitchModule,
     CapFooterModule,
+    CapHeaderModule,
     PipesModule,
     DirectivesModule,
   ],
