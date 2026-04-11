@@ -41,6 +41,7 @@ install:shell:
       - shell/node_modules/
     policy: push
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shell/**/*
         - shared-ui/**/*
@@ -58,6 +59,7 @@ install:mfe-analytics:
       - mfe-analytics-react/node_modules/
     policy: push
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-analytics-react/**/*
 
@@ -84,6 +86,7 @@ build:shell:
   needs:
     - install:shell
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shell/**/*
         - shared-ui/**/*
@@ -107,6 +110,7 @@ build:mfe-analytics:
   needs:
     - install:mfe-analytics
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-analytics-react/**/*
 
@@ -127,6 +131,7 @@ build:shared-ui:
       - shared-ui/node_modules/
     policy: pull
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shared-ui/**/*
 
@@ -147,6 +152,7 @@ docker:shell:
   needs:
     - build:shell
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shell/**/*
         - shared-ui/**/*
@@ -164,6 +170,7 @@ docker:mfe-analytics:
   needs:
     - build:mfe-analytics
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-analytics-react/**/*
 
@@ -184,10 +191,12 @@ deploy:shell:
   needs:
     - docker:shell
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
     - changes:
         - shell/**/*
         - shared-ui/**/*
-  when: manual
+      when: manual
   environment:
     name: produccion
     url: https://capitalflow.ejemplo.com
@@ -205,9 +214,11 @@ deploy:mfe-analytics:
   needs:
     - docker:mfe-analytics
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
     - changes:
         - mfe-analytics-react/**/*
-  when: manual
+      when: manual
   environment:
     name: produccion
     url: https://analytics.capitalflow.ejemplo.com
