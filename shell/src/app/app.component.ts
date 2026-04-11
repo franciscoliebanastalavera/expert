@@ -16,6 +16,11 @@ export class AppComponent {
   idiomaActual: 'es' | 'en' = 'es';
   menuAbierto = false;
 
+  navItems = [
+    { label: 'NAV.HOME', route: '/' },
+    { label: 'NAV.ANALYTICS', route: '/analytics' },
+  ];
+
   constructor() {
     this.translate.setDefaultLang('es');
     this.translate.use('es');
