@@ -1,53 +1,38 @@
-// Sistema de diseno Nter — tokens de tema
-
-// -----------------------------------------------------------------------------
-// Colores base de marca (azul)
-// -----------------------------------------------------------------------------
 $nter-blue-100: #D3E7F6;
 $nter-blue-200: #A6CEEC;
 $nter-blue-300: #5BA7D8;
-$nter-blue-400: #2A85C4; // Base primario
-$nter-blue-500: #1E6DA6; // Hover
-$nter-blue-600: #14547F; // Activo
+$nter-blue-400: #2A85C4;
+$nter-blue-500: #1E6DA6;
+$nter-blue-600: #14547F;
 
-// -----------------------------------------------------------------------------
-// Secundario (naranja)
 $nter-orange-100: #FFE2C7;
 $nter-orange-200: #FFC499;
 $nter-orange-300: #FF9F5D;
-$nter-orange-400: #F47C20; // Base secundario
-$nter-orange-500: #D96512; // Hover
-$nter-orange-600: #A54C0E; // Activo
+$nter-orange-400: #F47C20;
+$nter-orange-500: #D96512;
+$nter-orange-600: #A54C0E;
 
-// -----------------------------------------------------------------------------
-// Peligro (rojo)
 $nter-red-100: #F9D1D2;
 $nter-red-200: #F1999B;
 $nter-red-300: #EA6064;
-$nter-red-400: #E31E26; // Base peligro
-$nter-red-500: #B8141B; // Hover
-$nter-red-600: #850E12; // Activo
+$nter-red-400: #E31E26;
+$nter-red-500: #B8141B;
+$nter-red-600: #850E12;
 
-// -----------------------------------------------------------------------------
-// Exito (verde)
 $nter-green-100: #CFF5E4;
 $nter-green-200: #97E7C0;
 $nter-green-300: #5FD89A;
-$nter-green-400: #22B573; // Base exito
-$nter-green-500: #1C9B63; // Hover
-$nter-green-600: #157D51; // Activo
+$nter-green-400: #22B573;
+$nter-green-500: #1C9B63;
+$nter-green-600: #157D51;
 
-// -----------------------------------------------------------------------------
-// Advertencia (amarillo)
 $nter-yellow-100: #FFF2CC;
 $nter-yellow-200: #FFE599;
 $nter-yellow-300: #FFD966;
-$nter-yellow-400: #F5B300; // Base advertencia
-$nter-yellow-500: #D89B00; // Hover
-$nter-yellow-600: #B78000; // Activo
+$nter-yellow-400: #F5B300;
+$nter-yellow-500: #D89B00;
+$nter-yellow-600: #B78000;
 
-// -----------------------------------------------------------------------------
-// Grises (neutros)
 $nter-gray-100: #F8F8F8;
 $nter-gray-200: #E6E6E6;
 $nter-gray-300: #C9C9C9;
@@ -55,14 +40,9 @@ $nter-gray-400: #A0A0A0;
 $nter-gray-500: #6F6F6F;
 $nter-gray-600: #404040;
 
-// -----------------------------------------------------------------------------
-// Oscuro y claro
 $nter-dark: #0B0835;
 $nter-light: #FFFFFF;
 
-// ============================================================================
-// Tokens globales
-// ============================================================================
 $font-family: 'Inter', 'Roboto', sans-serif;
 $border-radius: 8px;
 $border-radius-sm: 4px;
@@ -71,9 +51,6 @@ $transition: all 0.2s ease-in-out;
 $box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.1);
 $focus-outline: 0 0 0 3px rgba($nter-blue-400, 0.35);
 
-// ============================================================================
-// Tokens semanticos
-// ============================================================================
 $color-primary: $nter-blue-400;
 $color-primary-hover: $nter-blue-500;
 $color-primary-active: $nter-blue-600;
@@ -103,9 +80,6 @@ $text-invert: $nter-dark;
 
 $border-color: $nter-gray-300;
 
-// ============================================================================
-// Tokens de fondo
-// ============================================================================
 $bg-primary: $nter-dark;
 $bg-secondary: $nter-blue-400;
 $bg-surface: $nter-light;
@@ -114,31 +88,23 @@ $surface-elevated: #ffffff;
 $surface-dark: #1c1c2a;
 
 
-// Tonos violeta (para tarjetas informativas, acentos)
 $nter-violet-100: #E6E1F9;
 $nter-violet-200: #C4B8F3;
 $nter-violet-300: #A18EEC;
-$nter-violet-400: #7C63E6; // Base informativo
-$nter-violet-500: #5B45C6; // Hover
-$nter-violet-600: #3C2F99; // Activo
+$nter-violet-400: #7C63E6;
+$nter-violet-500: #5B45C6;
+$nter-violet-600: #3C2F99;
 
-// ============================================================================
-// Tokens de componentes
-// ============================================================================
-
-// Botones
 $btn-padding: 0.6rem 1.4rem;
 $btn-font-weight: 500;
 $btn-radius: $border-radius;
 $btn-transition: $transition;
 
-// Insignias
 $badge-font-size: 0.75rem;
 $badge-padding: 0.2rem 0.6rem;
 $badge-radius: $border-radius-sm;
 $badge-font-weight: 600;
 
-// Alertas
 $alert-padding: 1rem 1.25rem;
 $alert-radius: $border-radius;
 $alert-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -146,9 +112,6 @@ $alert-font-weight: 500;
 $alert-title-size: 1rem;
 $alert-body-size: 0.875rem;
 
-// ============================================================================
-// Mixins utilitarios
-// ============================================================================
 @mixin button-style($color, $hover, $active, $text-color: $nter-light) {
   background-color: $color;
   color: $text-color;

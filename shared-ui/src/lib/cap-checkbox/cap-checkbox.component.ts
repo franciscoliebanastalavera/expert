@@ -1,10 +1,5 @@
-/**
- * Componente checkbox reutilizable — adaptado de Nter-lib.
- * Selector: 'cap-checkbox'
- */
 import { CommonModule } from '@angular/common';
 import {
-    // ChangeDetectionStrategy,
     Component,
     EventEmitter,
     forwardRef,
@@ -19,7 +14,6 @@ import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/fo
     imports: [CommonModule, FormsModule, ReactiveFormsModule],
     templateUrl: './cap-checkbox.component.html',
     styleUrl: './cap-checkbox.component.scss',
-    // changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -29,50 +23,21 @@ import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/fo
     ],
 })
 export class CapCheckboxComponent {
-    /**
-     * Name of checkbox
-     *
-     * @required
-     */
     @Input() name: string;
 
-    /**
-     * Label of checkbox
-     *
-     * @required
-     */
     @Input() label: string;
 
-    /**
-     * State of checkbox
-     *
-     */
     @Input() checked: boolean;
 
-    /**
-     * Checkbox status
-     */
     @Input() disabled = false;
 
-    /**
-     * Label position
-     */
     @Input() labelPosition: 'left' | 'right' = 'right';
 
-    /**
-     * Description of checkbox
-     */
     @Input() description: string = '';
 
-    /**
-     * Description position
-     */
     @Input() descriptionPosition: 'bottom' | 'right' = 'bottom';
 
-    /**
-     * Output when checkbox value is changed
-     */
-    @Output() checkboxChange = new EventEmitter<unknown>();
+    @Output() checkboxChange = new EventEmitter<boolean>();
 
     private innerValue = false;
 
@@ -97,7 +62,6 @@ export class CapCheckboxComponent {
         }
     }
 
-    // Alterna el estado del checkbox a partir del evento del DOM
     toggleCheckbox(event: Event) {
         const ischecked = (event.target as HTMLInputElement).checked;
         this.value = ischecked;
@@ -111,9 +75,7 @@ export class CapCheckboxComponent {
         }
     }
 
-    // Callback invocado cuando el valor cambia
     onChange: (value: boolean) => void = () => {};
-    // Callback invocado cuando el campo es tocado
     onTouched: () => void = () => {};
 
     registerOnChange(fn: (value: boolean) => void): void {

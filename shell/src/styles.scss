@@ -1,6 +1,3 @@
-/* Estilos globales del Shell — tema CapitalFlow */
-
-/* Reset básico */
 *,
 *::before,
 *::after {
@@ -22,7 +19,6 @@ a {
   color: inherit;
 }
 
-/* Tema CapitalFlow — CSS Custom Properties (modo claro) */
 .capitalflow-theme {
   --cap-primary: #2a85c4;
   --cap-primary-hover: #1e6da6;
@@ -50,7 +46,6 @@ a {
   --cap-transition: all 0.2s ease-in-out;
 }
 
-/* Tema oscuro — sobreescribe las CSS Custom Properties */
 .dark-theme .capitalflow-theme,
 .dark-theme.capitalflow-theme {
   --cap-primary: #3a95d4;

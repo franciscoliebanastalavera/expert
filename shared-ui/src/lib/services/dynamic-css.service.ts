@@ -1,4 +1,3 @@
-// Servicio para carga dinámica de CSS en runtime — adaptado de Nter-lib
 import { Injectable, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
 import { PREDEFINED_MIXINS } from './dynamic-css.const';
 
@@ -14,10 +13,9 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * Crea una nueva clase CSS dinámica
    * @param className - Nombre de la clase CSS
-   * @param cssContent - Definición CSS
-   * @param componentId - ID único del componente
+   * @param cssContent - Definicion CSS
+   * @param componentId - ID unico del componente
    * @returns Nombre final de la clase CSS
    */
   createDynamicClass(
@@ -36,26 +34,22 @@ export class DynamicCssService implements OnDestroy {
     const finalClassName = componentId ? `${className}-${componentId}` : className;
     const key = finalClassName;
 
-    // Eliminar la clase si ya existe
     if (this.styleElements.has(key)) {
       this.removeDynamicClass(key);
     }
 
-    // Crear nuevo elemento de estilo
     const styleElement = this.renderer.createElement('style');
     const cssRule = `.${finalClassName} { ${cssContent} }`;
 
     this.renderer.setProperty(styleElement, 'innerHTML', cssRule);
     this.renderer.appendChild(document.head, styleElement);
 
-    // Guardar referencia
     this.styleElements.set(key, styleElement);
 
     return finalClassName;
   }
 
   /**
-   * Actualizar clase existente
    * @param classKey - Clave de la clase a actualizar
    * @param newCssContent - Nuevo valor CSS
    */
@@ -68,7 +62,6 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * Eliminar todas las clases de un componente por su ID
    * @param componentId - ID del componente
    */
   removeComponentClasses(componentId: string): void {
@@ -80,7 +73,6 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * Eliminar clase dinámica por clave
    * @param classKey - Clave de la clase
    */
   removeDynamicClass(classKey: string): void {
@@ -92,16 +84,12 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * Generar un ID único aleatorio
-   * @returns ID único
+   * @returns ID unico
    */
   generateComponentId(): string {
     return Math.random().toString(36).substring(2, 11);
   }
 
-  /**
-   * Limpiar todos los estilos dinámicos
-   */
   clearAllDynamicStyles(): void {
     this.styleElements.forEach((styleElement) => {
       this.renderer.removeChild(document.head, styleElement);
@@ -110,7 +98,6 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * Crear múltiples clases dinámicas a la vez
    * @param classDefinitions - Array de definiciones de clases
    * @param componentId - ID opcional del componente
    * @returns Array de nombres finales de clases

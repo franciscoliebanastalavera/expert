@@ -1,4 +1,3 @@
-// Componente Tabs — adaptado de Nter-lib
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
@@ -31,24 +30,14 @@ import { CapTabComponent } from './cap-tab/cap-tab.component';
   ],
 })
 export class CapTabsComponent implements AfterContentInit {
-  /**
-   * Define la disposicion horizontal de las pestanas. Solo se puede elegir: left, center o right.
-   */
   @Input() tabAlignment: AlignVariant = 'left';
 
-  /**
-   * Version movil opcional de las pestanas
-   */
   @Input() tabMobile = false;
 
-  /**
-   * Evento emitido con la etiqueta de la pestana activa
-   */
-  @Output() tabsChange = new EventEmitter<unknown>();
+  @Output() tabsChange = new EventEmitter<string>();
 
   @ContentChildren(CapTabComponent) tabs: QueryList<CapTabComponent>;
 
-  /** Se establecen los ContentChildren */
   ngAfterContentInit() {
     const activeTabs = this.tabs.filter((tab) => tab.active);
     if (activeTabs.length === 0) {

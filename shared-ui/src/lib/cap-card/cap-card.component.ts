@@ -1,4 +1,3 @@
-// Componente Card — adaptado de Nter-lib
 import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicCssService } from '../services/dynamic-css.service';
@@ -11,39 +10,18 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   styleUrls: ['./cap-card.component.scss'],
 })
 export class CapCardComponent implements OnChanges, OnDestroy {
-  /**
-   * Titulo de la tarjeta
-   */
   @Input() title = '';
 
-  /**
-   * Subtitulo de la tarjeta
-   */
   @Input() subtitle = '';
 
-  /**
-   * Contenido de la tarjeta
-   */
   @Input() content = '';
 
-  /**
-   * Tipo de tarjeta: primaria o secundaria
-   */
   @Input() type: 'primary' | 'secondary' = 'primary';
 
-  /**
-   * Radio del borde de la tarjeta
-   */
   @Input() borderRadius = '20px';
 
-  /**
-   * Estilo CSS inline dinamico personalizado
-   */
   @Input() customStyle = '';
 
-  /**
-   * Mixin predefinido a aplicar
-   */
   @Input() mixin = 'TRANSPARENT_BACKGROUND';
 
   backgroundImage = '';
@@ -61,7 +39,6 @@ export class CapCardComponent implements OnChanges, OnDestroy {
         ? `${base}fondoCapOpuesta.png`
         : `${base}fondoCap.png`;
 
-    // Genera clase dinamica basada en los inputs
     this.cardClass = this.dynamicCss.createDynamicClass(
       'cap-card-dynamic',
       `

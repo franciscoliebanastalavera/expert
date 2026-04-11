@@ -1,5 +1,3 @@
-// Modelos de analytics — tipado estricto sin any
-
 export interface AnalyticsFilter {
   texto: string;
   fechaDesde: string;

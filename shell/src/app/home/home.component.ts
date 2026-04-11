@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DashboardMetric, DashboardTab, DashboardOperation } from '../core/models';
 
-// Componente Home — Dashboard principal con métricas financieras
 @Component({
   selector: 'app-home',
   standalone: true,

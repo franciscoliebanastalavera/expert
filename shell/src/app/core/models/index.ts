@@ -1,4 +1,3 @@
-// Barrel export de todos los modelos
 export * from './transaction.model';
 export * from './dashboard.model';
 export * from './analytics.model';

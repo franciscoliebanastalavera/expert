@@ -1,4 +1,3 @@
-<!-- Contenedor raíz con el tema CapitalFlow aplicado -->
 <div class="capitalflow-theme">
   <nav class="navbar">
     <a class="brand" routerLink="/">
@@ -14,12 +13,10 @@
       </a>
     </div>
     <div class="nav-actions">
-      <!-- Toggle de tema claro/oscuro -->
       <button class="icon-btn" (click)="themeService.toggle()"
         [title]="(themeService.theme$ | async) === 'dark' ? ('NAV.THEME_LIGHT' | translate) : ('NAV.THEME_DARK' | translate)">
         {{ (themeService.theme$ | async) === 'dark' ? '☀️' : '🌙' }}
       </button>
-      <!-- Selector de idioma -->
       <button class="lang-btn" (click)="cambiarIdioma()">
         {{ idiomaActual === 'es' ? 'EN' : 'ES' }}
       </button>

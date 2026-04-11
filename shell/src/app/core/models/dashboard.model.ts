@@ -1,5 +1,3 @@
-// Modelos del dashboard — tipado estricto sin any
-
 export interface DashboardMetric {
   titulo: string;
   valor: string;

@@ -1,6 +1,3 @@
-// Constantes para el servicio de CSS dinámico — adaptado de Nter-lib
-
-// Usado cuando la etiqueta flotante está sobre un fondo coloreado en <cap-input>
 export const LINE_GRADIENT_BACKGROUND = `
  background: linear-gradient(
   to bottom,

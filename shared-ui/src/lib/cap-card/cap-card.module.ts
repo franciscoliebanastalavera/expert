@@ -1,4 +1,3 @@
-// Modulo wrapper para el componente CapCardComponent
 import { NgModule } from '@angular/core';
 import { CapCardComponent } from './cap-card.component';
 

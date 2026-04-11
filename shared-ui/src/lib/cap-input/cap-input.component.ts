@@ -1,4 +1,3 @@
-// Componente Input — adaptado de Nter-lib
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -61,134 +60,53 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   ],
 })
 export class CapInputComponent {
-  /**
-   * Nombre del input HTML
-   *
-   * @required
-   */
   @Input() name: string;
 
-  /**
-   * Etiqueta opcional del input
-   */
   @Input() label: string;
 
-  /**
-   * Valor por defecto opcional del input
-   */
   @Input() defaultValue: string;
 
-  /**
-   * Estado del input
-   */
   @Input() disabled = false;
 
-  /**
-   * Placeholder opcional del input
-   */
   @Input() placeholder = '';
 
-  /**
-   * Texto de ayuda opcional
-   */
   @Input() helper: string;
 
-  /**
-   * Configuracion opcional del tooltip, si es true se muestra siempre, pero solo si no tiene valor.
-   */
   @Input() tooltipPermanent = false;
 
-  /**
-   * Titulo opcional del tooltip
-   */
   @Input() tooltipTitle: string;
 
-  /**
-   * Texto opcional del tooltip
-   */
   @Input() tooltipText: string;
 
-  /**
-   * Alineacion opcional del tooltip
-   */
   @Input() tooltipAlign: AlignVariant;
 
-  /**
-   * Orientacion vertical opcional del tooltip
-   */
   @Input() tooltipVertical: boolean;
 
-  /**
-   * Vista modal opcional del tooltip
-   */
   @Input() tooltipModal = true;
 
-  /**
-   * Limite de longitud opcional del input (65 por defecto por seguridad)
-   */
   @Input() maxLength = 65;
 
-  /**
-   * Propiedad opcional para mostrar el input en dos lineas si el valor es muy largo
-   */
   @Input() multiline = false;
 
-  /**
-   * Prefijo visual no editable opcional
-   */
   @Input() prefix: string;
 
-  /**
-   * Sufijo visual no editable opcional
-   */
   @Input() suffix: string;
 
-  /**
-   * Mensajes de error personalizados opcionales para validadores.
-   * Las claves permitidas son las mismas que se usan en la clase Validators de @angular/forms
-   * o validadores personalizados propios.
-   *
-   * Ejemplo:
-   *
-   * const control = new FormControl(1, [Validators.max(5), Validators.min(1)]);
-   * const errorMessages = { max: 'El valor maximo es 5', min: 'El valor minimo es 1' };
-   */
   @Input() errorMessages: { [key: string]: string };
 
-  /**
-   * Ancho opcional del input (300px por defecto). Se puede establecer cualquier valor CSS valido
-   */
   @Input() @HostBinding('style.width') width = '300px';
 
-  /**
-   * Tamano del input
-   */
   @Input() size: 'standard' | 'small' = 'standard';
 
-  /**
-   * Variante de comportamiento personalizada opcional
-   */
   @Input() variant: 'standard' | 'clear' = 'standard';
 
-  /**
-   * Tipo del input
-   */
   @Input() type: 'text' | 'number' | 'password' = 'text';
 
-  /**
-   * Comportamiento personalizado opcional
-   */
   @Input() customBehaviour: 'IBAN' | 'password';
 
-  /**
-   * Clase personalizada opcional para la etiqueta o el input/textarea
-   */
   @Input() customClass: Record<string, string>;
 
-  /**
-   * Evento emitido cuando el valor del input cambia
-   */
-  @Output() inputChage = new EventEmitter<unknown>();
+  @Output() inputChage = new EventEmitter<string>();
 
   @ViewChild('textarea') textarea: ElementRef;
   @ViewChild('fieldContainer') fieldContainer: ElementRef;
@@ -204,7 +122,6 @@ export class CapInputComponent {
   fieldOnFocus = false;
   touched = true;
 
-  /** Variables para la validacion del campo tipo password cuando la validacion esta activa */
   checkLength = false;
   oneDigit = new RegExp(/^((?=.*\d))/);
   checkOneDigit = false;
@@ -214,9 +131,7 @@ export class CapInputComponent {
   checkOneCap = false;
   passwordValid = true;
 
-  // Callback invocado cuando el valor cambia
   onChange: (value: string) => void = () => {};
-  // Callback invocado cuando el campo es tocado
   onTouched: () => void = () => {};
 
   constructor(
@@ -235,7 +150,6 @@ export class CapInputComponent {
     }
   }
 
-  /** Establecemos los controles e inyectamos el control para la validacion del IBAN. */
   ngOnInit(): void {
     this.componentId = this.dynamicCssService.generateComponentId();
     this.setControl();
@@ -248,7 +162,6 @@ export class CapInputComponent {
     }
   }
 
-  /** Establecer el valor por defecto si existe */
   ngAfterViewInit(): void {
     setTimeout(() => {
       if (this.defaultValue) {
@@ -282,7 +195,6 @@ export class CapInputComponent {
     }
   }
 
-  /** Modificamos los estilos de la funcion multiline en funcion del valor introducido. */
   ngAfterViewChecked(): void {
     if (this.textarea) {
       if (!this.value) {
@@ -303,8 +215,6 @@ export class CapInputComponent {
     this.destroy.next(true);
     this.destroy.complete();
   }
-
-  /** Metodos ControlValueAccessor - INICIO */
 
   handleInput(value: string): void {
     this.innerValue = value;
@@ -351,9 +261,6 @@ export class CapInputComponent {
     this.onTouched = fn;
   }
 
-  /** Metodos ControlValueAccessor - FIN */
-
-  /** Establecemos los controles dependiendo del tipo de integracion de nuestro componente */
   setControl(): void {
     const injectedControl = this.injector.get(NgControl);
     switch (injectedControl.constructor) {
@@ -387,8 +294,6 @@ export class CapInputComponent {
     this.fieldOnFocus = false;
   }
 
-  /** Metodos de los botones del input */
-
   handleShow(): void {
     this.showPassword = !this.showPassword;
     this.showIBAN = this.customBehaviour === 'IBAN' ? !this.showIBAN : false;
@@ -412,7 +317,6 @@ export class CapInputComponent {
     if (this.customBehaviour === 'password') this.passwordValidation(value);
   }
 
-  /** Validacion de contrasena en customBehaviour tipo: password */
   passwordValidation(value: string): void {
     this.checkLength = value.length < 8 ? false : true;
     this.checkOneDigit = this.oneDigit.test(value);
@@ -428,8 +332,6 @@ export class CapInputComponent {
 
     this.passwordValid = passwordChecker.every((element) => element);
   }
-
-  /** Metodos IBAN - INICIO */
 
   IBANValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -472,6 +374,4 @@ export class CapInputComponent {
     const ls_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     return ls_letters.search(letter) + 10;
   }
-
-  /** Metodos IBAN - FIN */
 }

@@ -6,25 +6,16 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-/** Definicion de una columna del DataGrid */
 export interface DataGridColumn {
-  /** Clave del campo en el objeto de datos */
   key: string;
-  /** Etiqueta visible en la cabecera */
   label: string;
 }
 
-/**
- * Componente DataGrid con virtual scroll.
- * Utiliza CdkVirtualScrollViewport y CdkVirtualForOf del CDK
- * para renderizar grandes volumenes de filas de forma eficiente.
- */
 @Component({
   selector: 'cf-data-grid',
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- Cabecera de la tabla -->
     <div class="cf-grid-header" role="rowgroup">
       <div class="cf-grid-row cf-grid-header-row" role="row">
         @for (col of columns; track col.key) {
@@ -38,7 +29,6 @@ export interface DataGridColumn {
       </div>
     </div>
 
-    <!-- Cuerpo con virtual scroll (se mantiene *cdkVirtualFor, directiva del CDK) -->
     <cdk-virtual-scroll-viewport
       [itemSize]="rowHeight"
       class="cf-grid-viewport"
@@ -63,7 +53,6 @@ export interface DataGridColumn {
   `,
   styles: [
     `
-      /* Contenedor principal del grid */
       :host {
         display: block;
         border: 1px solid #e0e0e0;
@@ -71,20 +60,17 @@ export interface DataGridColumn {
         overflow: hidden;
       }
 
-      /* Filas del grid */
       .cf-grid-row {
         display: flex;
         align-items: center;
         border-bottom: 1px solid #e0e0e0;
       }
 
-      /* Fila de cabecera */
       .cf-grid-header-row {
         background-color: #f5f5f5;
         font-weight: 600;
       }
 
-      /* Celdas */
       .cf-grid-cell {
         flex: 1;
         padding: 0 16px;
@@ -93,19 +79,16 @@ export interface DataGridColumn {
         white-space: nowrap;
       }
 
-      /* Celda de cabecera */
       .cf-grid-header-cell {
         height: 48px;
         display: flex;
         align-items: center;
       }
 
-      /* Viewport del virtual scroll */
       .cf-grid-viewport {
         height: 400px;
       }
 
-      /* Efecto hover en filas del cuerpo */
       .cf-grid-row:not(.cf-grid-header-row):hover {
         background-color: #fafafa;
         cursor: pointer;
@@ -114,17 +97,11 @@ export interface DataGridColumn {
   ],
 })
 export class DataGridComponent {
-  /** Definicion de columnas a mostrar */
   @Input() columns: DataGridColumn[] = [];
 
-  /** Datos a renderizar en las filas */
-  // Datos a renderizar; cada fila es un registro clave-valor generico
-  @Input() data: Record<string, unknown>[] = [];
+  @Input() data: Record<string, string | number | boolean>[] = [];
 
-  /** Altura de cada fila en pixeles (para el virtual scroll) */
   @Input() rowHeight: number = 48;
 
-  /** Evento emitido al hacer clic en una fila */
-  // Evento emitido al hacer clic en una fila
-  @Output() rowClick = new EventEmitter<Record<string, unknown>>();
+  @Output() rowClick = new EventEmitter<Record<string, string | number | boolean>>();
 }

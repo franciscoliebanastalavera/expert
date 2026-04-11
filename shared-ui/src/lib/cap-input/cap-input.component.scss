@@ -85,7 +85,6 @@
       color: $secondary_500;
       text-overflow: ellipsis;
 
-      /* Chrome, Safari, Edge, Opera */
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {
         appearance: none;
@@ -93,7 +92,6 @@
         margin: 0;
       }
 
-      /* Firefox */
       appearance: none;
       -moz-appearance: textfield;
 
@@ -112,11 +110,9 @@
       font-style: normal;
       font-weight: normal;
 
-      /* Por seguridad - resetear estilos del padre que pueden romper los codigos de glifos */
       font-variant: normal;
       text-transform: none;
 
-      /* Suavizado de fuentes */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -212,10 +208,6 @@
     }
   }
 
-  /**
-  * Variantes de estilos para adaptar el comportamiento del input en el login del area privada,
-  * respecto al autocompletado de contrasena de Google-Chrome.
-  */
   &__field:is(.cap-input__field-clear) {
     input {
       position: absolute;

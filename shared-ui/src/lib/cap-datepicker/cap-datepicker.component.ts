@@ -1,7 +1,3 @@
-/**
- * Componente datepicker reutilizable — adaptado de Nter-lib.
- * Selector: 'cap-datepicker'
- */
 import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -46,82 +42,23 @@ import { takeUntil, tap } from 'rxjs/operators';
   ],
 })
 export class CapDatepickerComponent {
-  /**
-   * Variable for set size
-   * */
   @Input() size: 'small' | 'standard' = 'small';
-  /**
-   * Variable for label
-   * */
   @Input() label: string;
-  /**
-   * Variable for options helper
-   * */
   @Input() helper: string;
-  /**
-   *  Optional custom error messages for validators. Allowed key values are the same used in class Validators from @angular/forms or your own custom validators.
-   *
-   *  Example:
-   *
-   *  const control = new FormControl(1, [Validators.max(5), Validators.min(1)]);
-   *  const errorMessages = { max: 'Max value is 5', min: 'Minimum value is 1' };
-   */
   @Input() errorMessages: { [key: string]: string };
-  /**
-   * Control variable for set and emit today when not in use ngModel or FormControl
-   * */
   @Input() today = false;
-  /**
-   * Event emitted when the day is selected
-   * */
   @Output() date: EventEmitter<Date> = new EventEmitter();
-  /**
-   * Control variable for the calendar
-   * */
   isDatePickerActive = false;
-  /**
-   * Control variable for the days wiew
-   * */
   isDayActive = false;
-  /**
-   * Control variable for the years view
-   * */
   isYearsActive = false;
-  /**
-   * Control variable for the months view
-   * */
   isMonthActive = false;
-  /**
-   * Variable for date selected
-   * */
   selectedDate: Date = new Date();
-  /**
-   * Variable to control the styles for the selected date
-   */
   dateToStyle: Date = new Date();
-  /**
-   * Variable for date selected formated for show in input field
-   * */
   selectedDateFormated: string;
-  /**
-   * Variable to control that the same date is not output multiple times when clicking outside the datepicker.
-   * */
   previousSelectedDateFormated: string;
-  /**
-   * Variable for current year
-   * */
   currentYear: number;
-  /**
-   * Variable for current month
-   * */
   currentMonth: number;
-  /**
-   * Variable for set days of the month
-   * */
   daysInMonth: number[] = [];
-  /**
-   * Months
-   * */
   months: string[] = [
     'ENERO',
     'FEBRERO',
@@ -136,9 +73,6 @@ export class CapDatepickerComponent {
     'NOVIEMBRE',
     'DICIEMBRE',
   ];
-  /**
-   * Abbreviated months
-   * */
   abbreviatedMonths: string[] = [
     'EN',
     'FEB',
@@ -153,37 +87,13 @@ export class CapDatepickerComponent {
     'NOV',
     'DIC',
   ];
-  /**
-   * Days of the week
-   * */
   daysWeek: string[] = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'];
-  /**
-   * Years
-   * */
   years: number[] = [];
-  /**
-   * Variable for set starting day of the week
-   * */
   startingDay: number;
-  /**
-   * Variable to control whether the input is in focus
-   * */
   isInputFocused = false;
-  /**
-   * Variable to control whether the input and calendar icon are hovered
-   * */
   isInputHovered = false;
-  /**
-   * Variable for size
-   * */
   height = '36px';
-  /**
-   * Variable for disabled
-   * */
   disabled = false;
-  /**
-   * Invert horizontal calendar alignment.
-   */
   @Input() invertHorizontal = false;
 
   destroy = new Subject<boolean>();
@@ -224,7 +134,6 @@ export class CapDatepickerComponent {
     this.destroy.complete();
   }
 
-  /** ControlValueAccessor METHODS - START */
   handleDate(value: Date): void {
     this.innerValue = value;
     this.onTouched();
@@ -255,9 +164,6 @@ export class CapDatepickerComponent {
     this.disabled = state;
   }
 
-  /**
-   * Handler to set size of the calendar
-   * */
   setHeight(): void {
     if (this.size === 'small') {
       this.height = '36px';
@@ -266,9 +172,6 @@ export class CapDatepickerComponent {
     }
   }
 
-  /**
-   * Handler to set and emit today when not in use ngModel or FormControl
-   * */
   setToday() {
     if (this.today) {
       this.selectedDateFormated = this._datePipeService.transform(
@@ -279,9 +182,6 @@ export class CapDatepickerComponent {
     }
   }
 
-  /**
-   * Handler to open/close the calendar
-   */
   showDatePicker(): void {
     if (this.isDatePickerActive) {
       if (!this.selectedDateFormated) {
@@ -301,9 +201,6 @@ export class CapDatepickerComponent {
     }
   }
 
-  /**
-   * Reset the calendar
-   */
   resetDatePicker(): void {
     this.isDatePickerActive = false;
     this.isDayActive = false;
@@ -315,18 +212,12 @@ export class CapDatepickerComponent {
     this.getYears(this.currentYear);
   }
 
-  /**
-   * Clear the input, reset the calendar and emit null
-   */
   clearDate(): void {
     this.selectedDateFormated = null;
     this.handleDate(null);
     this.resetDatePicker();
   }
 
-  /**
-   * Get years before and after date
-   */
   getYears(currentYear: number): void {
     const previousYears = Array.from(
       { length: 8 },
@@ -337,28 +228,18 @@ export class CapDatepickerComponent {
     this.years = previousYears.concat(laterYears);
   }
 
-  /**
-   * Calculate the days of the month
-   */
   calculateDaysInMonth(): void {
     this.currentYear = this.selectedDate.getFullYear();
     this.currentMonth = this.selectedDate.getMonth();
 
-    // Get the first day of the month and get the day of the week.
     const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1).getDay();
-    // Adjust so that Monday is the first day of the week.
     this.startingDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-    // Get the last day of the month to get the total number of days in the month.
     const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-    // Creates an array with the number of days in the month plus the first day adjustment. If the index i is less than startingDay, the value is null. Otherwise, the corresponding day of the month is assigned.
     this.daysInMonth = Array.from({ length: daysInMonth + this.startingDay }, (_, i) =>
       i < this.startingDay ? null : i - this.startingDay + 1
     );
   }
 
-  /**
-   * Emmits selected date
-   */
   selectDate(day: number): void {
     if (day) {
       this.selectedDate = new Date(this.currentYear, this.currentMonth, day);
@@ -374,9 +255,6 @@ export class CapDatepickerComponent {
     this.control?.setValue(this.value);
   }
 
-  /**
-   * Manual date entry
-   */
   writeDate(): void {
     if (this.selectedDateFormated) {
       this.selectedDateFormated = this.selectedDateFormated.replace(/\D/g, '');
@@ -510,25 +388,16 @@ export class CapDatepickerComponent {
     }
   }
 
-  /**
-   * Change de current month in days view
-   */
   changeMonth(offset: number): void {
     this.selectedDate.setMonth(this.selectedDate.getMonth() + offset);
     this.calculateDaysInMonth();
   }
 
-  /**
-   * Change current year
-   */
   setYear(year: number): void {
     this.selectedDate.setFullYear(year);
     this.calculateDaysInMonth();
   }
 
-  /**
-   * Change the range of years
-   */
   changeYears(offset: number): void {
     offset === 1
       ? (this.years = Array.from(
@@ -541,9 +410,6 @@ export class CapDatepickerComponent {
         ));
   }
 
-  /**
-   * Change current year in month view
-   */
   changeYear(offset: number): void {
     offset === 1
       ? this.selectedDate.setFullYear(this.selectedDate.getFullYear() + 1)
@@ -551,17 +417,11 @@ export class CapDatepickerComponent {
     this.calculateDaysInMonth();
   }
 
-  /**
-   * Change the current month
-   */
   setMonth(month: number): void {
     this.selectedDate.setMonth(month);
     this.calculateDaysInMonth();
   }
 
-  /**
-   * Closes the calendar when clicked out
-   */
   @HostListener('document:mousedown', ['$event'])
   onClick(event: MouseEvent): void {
     const clickedInsideComponent = this._el.nativeElement.contains(event.target);
@@ -582,15 +442,11 @@ export class CapDatepickerComponent {
     }
   }
 
-  /**
-   * Prevent the calendar from closing by clicking on the drop-down menu
-   */
   stopPropagation(event: MouseEvent): void {
     event.stopPropagation();
   }
 
   /**
-   * Get styles of the selected day
    * @returns styles object
    */
   getStyleDay(day: number): { [key: string]: string } {
@@ -607,7 +463,6 @@ export class CapDatepickerComponent {
   }
 
   /**
-   * Get styles of the selected year
    * @returns styles object
    */
   getStyleYear(year: number): { [key: string]: string } {
@@ -622,7 +477,6 @@ export class CapDatepickerComponent {
   }
 
   /**
-   * Get styles of the selected month
    * @returns styles object
    */
   getStyleMonth(month: number): { [key: string]: string } {
@@ -636,9 +490,6 @@ export class CapDatepickerComponent {
       : {};
   }
 
-  /**
-   * Controls whether input is focused
-   */
   setFocus(isFocused: boolean): void {
     this.isInputFocused = isFocused;
     if (!isFocused) {
@@ -647,26 +498,16 @@ export class CapDatepickerComponent {
     }
   }
 
-  /**
-   * Controls that the user can only type in numbers
-   */
   onKeyPress(event: KeyboardEvent): void {
-    // Allow numbers (ASCII codes between 48 and 57) and the slash "/"
     if ((event.charCode < 48 || event.charCode > 57) && event.charCode !== 47) {
       event.preventDefault();
     }
   }
 
-  /**
-   * Controls the hover of the input and icon calendar
-   */
   onInputHover(isHovered: boolean) {
     this.isInputHovered = isHovered;
   }
 
-  /**
-   * We set the controls for the component and be able to use them.
-   */
   setControl(): void {
     const injectedControl = this.injector.get(NgControl);
     switch (injectedControl.constructor) {

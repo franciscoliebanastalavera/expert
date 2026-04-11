@@ -1,49 +1,37 @@
-// Tema oscuro — CSS Custom Properties invertidas para modo dark
-// Se activa cuando el elemento raíz tiene la clase .dark-theme
-
 .dark-theme .capitalflow-theme,
 .dark-theme.capitalflow-theme {
-  // Colores primarios (mismos tonos, no invertidos)
   --cap-primary: #3a95d4;
   --cap-primary-hover: #4ba5e4;
   --cap-primary-active: #2a85c4;
 
-  // Colores secundarios
   --cap-secondary: #f4922e;
   --cap-secondary-hover: #f4a24e;
 
-  // Semánticos (ligeramente más claros para contraste en fondo oscuro)
   --cap-success: #83e86a;
   --cap-danger: #e53545;
   --cap-warning: #ffd144;
   --cap-info: #3081ff;
 
-  // Fondos invertidos
   --cap-bg: #121212;
   --cap-bg-surface: #1e1e1e;
   --cap-bg-elevated: #2a2a2a;
 
-  // Texto invertido
   --cap-text: #e8e8e8;
   --cap-text-secondary: #b0b0b0;
   --cap-text-muted: #6e6e6e;
 
-  // Bordes
   --cap-border: #3a3a3a;
   --cap-border-focus: #3a95d4;
 
-  // Sombras (más sutiles en modo oscuro)
   --cap-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --cap-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
   --cap-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 }
 
-// Estilos globales del modo oscuro
 .dark-theme {
   background-color: #121212;
   color: #e8e8e8;
 
-  // Scrollbar oscura
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;

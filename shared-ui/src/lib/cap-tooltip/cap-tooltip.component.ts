@@ -1,4 +1,3 @@
-// Componente Tooltip — adaptado de Nter-lib
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
@@ -24,29 +23,14 @@ import { CapModalComponent } from '../cap-modal/cap-modal.component';
   ],
 })
 export class CapTooltipComponent {
-  /**
-   * Titulo del tooltip.
-   */
   @Input() titleTooltip: string;
 
-  /**
-   * Texto del tooltip.
-   */
   @Input() textTooltip: string;
 
-  /**
-   * Alineacion del tooltip, por defecto centrado.
-   */
   @Input() tooltipAlign: AlignVariant = 'center';
 
-  /**
-   * Invertir la alineacion vertical respecto al tooltip.
-   */
   @Input() invertVertical = false;
 
-  /**
-   * Habilitar funcionalidad modal en formato tablet (desde 768px).
-   */
   @Input() enableTooltipModal = true;
 
   alive: Subject<boolean> = new Subject<boolean>();
@@ -67,7 +51,6 @@ export class CapTooltipComponent {
   }
 
   /**
-   * Muestra el tooltip cuando el raton esta sobre el icono.
    * @param event
    */
   hoverIcon(event: boolean): void {
@@ -75,7 +58,6 @@ export class CapTooltipComponent {
   }
 
   /**
-   * Muestra la version modal del tooltip.
    * @param event
    */
   openModalTooltip(event: boolean): void {

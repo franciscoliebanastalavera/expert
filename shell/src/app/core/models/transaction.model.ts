@@ -1,5 +1,3 @@
-// Modelos de transacciones financieras — tipado estricto sin any
-
 export enum TransactionStatus {
   Completed = 'Completada',
   Processing = 'Procesando',

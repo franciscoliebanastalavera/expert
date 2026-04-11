@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from './core/services/theme.service';
 
-// Componente raíz del Shell — navegación, selector de idioma y toggle de tema
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +18,6 @@ export class AppComponent {
     this.translate.use('es');
   }
 
-  // Alterna entre español e inglés
   cambiarIdioma(): void {
     this.idiomaActual = this.idiomaActual === 'es' ? 'en' : 'es';
     this.translate.use(this.idiomaActual);

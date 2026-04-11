@@ -1,20 +1,13 @@
-// Sistema de colores y variables — basado en Nter-lib
-
-//
-//  Sistema de colores
-//
 $white: #ffffff !default;
 $black: #000000 !default;
 $transparent: #00000000 !default;
 
-// Variantes de color para botones
 $color-dark: #100d25;
 $siena_orange_400: #ec683e;
 $crayola_blue_400: #217bee;
 $raspberry_red_400: #d13b5f;
 $color-dark-hover: rgba(16, 13, 37, 0.85);
 
-// Variantes de color para checkbox
 $checkbox-color: #bfbfbf;
 $checkbox-text: #100d25;
 $checkbox-text-description: #82858d;
@@ -73,9 +66,6 @@ $agua-turquoise: #47d6c7 !default;
 $agua-puerto-rico: #2baea3 !default;
 $agua-genoa: #117664 !default;
 
-//
-//  Filtros CSS para los colores del sistema (Recurso: https://codepen.io/sosuke/pen/Pjoqqp)
-//
 $primary_filter: brightness(0) saturate(100%) invert(23%) sepia(94%) saturate(1893%) hue-rotate(187deg) brightness(95%) contrast(101%);
 
 $filter-white: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(138deg) brightness(100%) contrast(103%);
@@ -124,9 +114,6 @@ $filter-agua-turquoise: brightness(0) saturate(100%) invert(80%) sepia(89%) satu
 $filter-agua-puerto-rico: brightness(0) saturate(100%) invert(53%) sepia(82%) saturate(367%) hue-rotate(126deg) brightness(93%) contrast(88%);
 $filter-agua-genoa: brightness(0) saturate(100%) invert(34%) sepia(88%) saturate(387%) hue-rotate(119deg) brightness(91%) contrast(94%);
 
-//
-//  Puntos de ruptura (Ver https://getbootstrap.com/docs/5.0/layout/breakpoints/ como referencia)
-//
 $breakpoint-xs: 0;
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
@@ -134,9 +121,6 @@ $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
 $breakpoint-xxl: 1400px;
 
-//? <---------------------- Colores de rebranding ---------------------->
-
-// Acento
 $accent_fresh_lime_200: #f5ff99;
 $accent_fresh_lime_500: #e7ff00;
 $accent_fresh_lime_700: #8b9900;
@@ -147,7 +131,6 @@ $accent_sky_blue_200: #c7e5ff;
 $accent_sky_blue_500: #63b6ff;
 $accent_sky_blue_700: #0085fa;
 
-// Oscuro
 $dark_chocolate_200: #b77f71;
 $dark_chocolate_500: #5e3930;
 $dark_chocolate_700: #3d251f;
@@ -158,20 +141,16 @@ $dark_night_blue_200: #c7e5ff;
 $dark_night_blue_500: #1d2550;
 $dark_night_blue_700: #0f1329;
 
-//? Colores funcionales
-// Primario
 $primary_200: #ffe2c7;
 $primary_500: #f47c20;
 $primary_700: #d96512;
 
-// Secundario
 $secondary_100: #d3e7f6;
 $secondary_200: #a6ceec;
 $secondary_500: #2a85c4;
 $secondary_600: #1e6da6;
 $secondary_700: #1d2550;
 
-// Semantico
 $success_200: #96e283;
 $success_500: #73d85a;
 $success_700: #33841f;
@@ -185,7 +164,6 @@ $info_200: #5c9dff;
 $info_500: #0061f4;
 $info_700: #00398f;
 
-// Neutros
 $neutrals_100: #f2f2f2;
 $neutrals_200: #cac8c2;
 $neutrals_300: #b2b2b2;
@@ -193,7 +171,6 @@ $neutrals_400: #717070;
 $neutrals_500: #4d4d4d;
 $neutrals_700: #1e1e1e;
 
-// Filtros de rebranding
 $filter-primary_500: brightness(0) saturate(100%) invert(10%) sepia(21%) saturate(1555%) hue-rotate(356deg) brightness(97%) contrast(100%);
 $filter-secondary_200: brightness(0) saturate(100%) invert(69%) sepia(21%) saturate(777%) hue-rotate(217deg) brightness(98%) contrast(94%);
 $filter-secondary_500: brightness(0) saturate(100%) invert(16%) sepia(92%) saturate(4287%) hue-rotate(261deg) brightness(86%) contrast(106%);

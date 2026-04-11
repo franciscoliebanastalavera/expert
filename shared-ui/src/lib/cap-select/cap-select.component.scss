@@ -104,7 +104,6 @@ p {
       height: auto;
       margin-bottom: auto;
 
-      /* Chrome, Safari, Edge, Opera */
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {
         appearance: none;
@@ -112,7 +111,6 @@ p {
         margin: 0;
       }
 
-      /* Firefox */
       appearance: none;
       -moz-appearance: textfield;
 

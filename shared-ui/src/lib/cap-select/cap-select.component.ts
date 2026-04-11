@@ -1,7 +1,3 @@
-/**
- * Componente selector desplegable reutilizable — adaptado de Nter-lib.
- * Selector: 'cap-select'
- */
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -53,123 +49,48 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   ],
 })
 export class CapSelectComponent {
-  /**
-   * Selector options
-   *
-   * @required
-   */
   @Input() options: SelectOption[];
 
-  /**
-   * Name of the HTML select
-   *
-   * @required
-   */
   @Input() name: string;
 
-  /**
-   * Optional select label
-   */
   @Input() label: string;
 
-  /**
-   * Select status
-   */
   @Input() disabled = false;
 
-  /**
-   * Input type
-   */
   @Input() type: 'text' | 'number' = 'text';
 
-  /**
-   * Optional select placeholder
-   */
   @Input() placeholder = '';
 
-  /**
-   * Optional select helper text
-   */
   @Input() helper: string;
 
-  /**
-   * Optional select default value
-   */
   @Input() defaultValue: string;
 
-  /**
-   *  Optional custom error messages for validators. Allowed key values are the same used in class Validators from @angular/forms or your own custom validators.
-   *
-   *  Example:
-   *
-   *  const control = new FormControl(1, [Validators.max(5), Validators.min(1)]);
-   *  const errorMessages = { max: 'Max value is 5', min: 'Minimum value is 1' };
-   */
   @Input() errorMessages: { [key: string]: string };
 
-  /**
-   * Optional slect width (300px by default). You can set any valid CSS value
-   */
   @Input() @HostBinding('style.width') width = '300px';
 
-  /**
-   * Select size
-   */
   @Input() size: 'standard' | 'small' = 'standard';
 
-  /**
-   * Select size autoscroll
-   */
   @Input() sizeAutoscroll: number;
 
-  /**
-   * Options all option in select
-   */
   @Input() allOption = false;
 
-  /**
-   * Options all option in select
-   */
   @Input() everAllOption = false;
 
-  /**
-   * Options all option in select
-   */
   @Input() shortDropdown = false;
 
-  /**
-   * Selector field gender
-   */
   @Input() gender: 'f' | 'm' = 'm';
 
-  /**
-   * Sort all options alphabetically
-   */
   @Input() alphabetical = true;
 
-  /**
-   * Options description
-   */
   @Input() description = false;
 
-  /**
-   * Include options description on autocomplete filter
-   */
   @Input() descriptionFilter = false;
 
-  /**
-   * Select autocomplete type 'starts with...' or 'includes...'
-   */
   @Input() predictiveType: 'contains' | 'start' | 'none' = 'none';
 
-  /**
-   * Output object when selector value is changed
-   */
   @Output() selectChange = new EventEmitter<SelectOption>();
 
-  /**
-   * Input only necessary for the complete visualization of the selector in the storybook.
-   */
   @Input() story = false;
 
   private innerValue: SelectOption | string | null = null;
@@ -208,9 +129,7 @@ export class CapSelectComponent {
     this.destroy.complete();
   }
 
-  // Callback invocado cuando el valor cambia
   onChange: (value: SelectOption | string | null) => void = () => {};
-  // Callback invocado cuando el campo es tocado
   onTouched: () => void = () => {};
 
   get value(): SelectOption | string | null {
@@ -223,7 +142,6 @@ export class CapSelectComponent {
     }
   }
 
-  // Establece el valor seleccionado del selector
   handleSelector(value: SelectOption | string | null): void {
     this.innerValue = value;
     this.onChange(this.value);
@@ -273,7 +191,6 @@ export class CapSelectComponent {
     return typeof value === 'object' && !!value;
   }
 
-  // Obtiene el label del valor actual si es un SelectOption
   getValueLabel(): string {
     if (typeof this.value === 'object' && this.value !== null) {
       return this.value.label?.toString() ?? '';
@@ -281,11 +198,6 @@ export class CapSelectComponent {
     return typeof this.value === 'string' ? this.value : '';
   }
 
-  /**
-   * Function that initializes the selector with the options provided by the input,
-   * sets the @default, @allOptions and sorts @alphabetically if necessary.
-   * Used when detecting option changes and loading the component.
-   */
   initOptions(): void {
     if (this.alphabetical) {
       this.options = this.options?.sort((a, b) => a.label.localeCompare(b.label));
@@ -300,7 +212,6 @@ export class CapSelectComponent {
   }
 
   /**
-   * Control the selection action.
    * @param _event
    * @param option
    */
@@ -322,12 +233,10 @@ export class CapSelectComponent {
     }
   }
 
-  /** Method to uncheck all objects in options. */
   uncheckAll(): void {
     this.options?.forEach((item) => (item.checked = false));
   }
 
-  /** Method to set default option if exist in options array. */
   displayDefaultValue() {
     setTimeout(() => {
       const even = (element) => element.label === this.defaultValue;
@@ -342,7 +251,6 @@ export class CapSelectComponent {
     }, 0);
   }
 
-  /** Method to mark the selection in the list when we perform a .setValue() in reactive forms */
   setCheckValue(label: string): void {
     if (label) {
       this.options.forEach((item) => {
@@ -354,8 +262,6 @@ export class CapSelectComponent {
   }
 
   /**
-   * Function for filtering the selector options, being able to filter by content or beginning in addition to adding the description,
-   * all controlled by the corresponding inputs.
    * @param event
    */
   filterOptions(event: KeyboardEvent, shearch: string): void {
@@ -394,7 +300,6 @@ export class CapSelectComponent {
     }
   }
 
-  /** If we have the input of all the options we include the object when starting the component */
   icludeAllOption(): void {
     const todas: SelectOption = {
       label: 'Todas',
@@ -419,12 +324,10 @@ export class CapSelectComponent {
     }
   }
 
-  /** Controls the display of the placeholder depending on the display of the options */
   placeholderSelector(): string {
     return this.unfold && this.fieldOnFocus ? this.placeholder : '';
   }
 
-  /** If the policy detects a click outside the selector */
   clickOutside() {
     this.unfold = false;
     let selected: SelectOption;
@@ -443,9 +346,6 @@ export class CapSelectComponent {
     if (!this.value) this.fieldOnFocus = false;
   }
 
-  /** Input Buttons Metods */
-
-  /** Selector cleaning button */
   handleClear(): void {
     this.uncheckAll();
     this.displayOptions = this.options;
@@ -454,7 +354,6 @@ export class CapSelectComponent {
     this.control?.setValue(this.value);
   }
 
-  /** Expand or collect selector options */
   handleUnfold(): void {
     this.unfold = !this.unfold;
     setTimeout(() => {
@@ -464,9 +363,6 @@ export class CapSelectComponent {
     if (!this.unfold) this.onTouched();
   }
 
-  /**
-   * Function which centers the scroll of our selector to the selected option.
-   */
   autoScrollSelected(): void {
     const dropdown = document.getElementById('dropdown');
     const index = this.options.findIndex(function (item) {
@@ -488,9 +384,6 @@ export class CapSelectComponent {
     }
   }
 
-  /**
-   * We set the controls for the component and be able to use them.
-   */
   setControl(): void {
     const injectedControl = this.injector.get(NgControl);
     switch (injectedControl.constructor) {
@@ -520,9 +413,6 @@ export class CapSelectComponent {
     }
   }
 
-  /**
-   * Function only for correct duplicates of All option.
-   */
   cleanAllOptionDuplicate(): void {
     const index = this.options?.findIndex(function (item) {
       return item.description === 'allOptions';

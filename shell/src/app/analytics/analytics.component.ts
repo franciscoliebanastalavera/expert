@@ -6,7 +6,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateModule } from '@ngx-translate/core';
 import { Transaction } from '../core/models';
 
-// Página de Analytics — DataGrid con 1000 transacciones y filtros
 @Component({
   selector: 'app-analytics',
   standalone: true,

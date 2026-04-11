@@ -1,11 +1,9 @@
-<!-- Dashboard principal de CapitalFlow -->
 <section class="dashboard">
   <div class="dashboard-header">
     <h1>{{ 'HOME.TITLE' | translate }}</h1>
     <p class="subtitle">{{ 'HOME.SUBTITLE' | translate }}</p>
   </div>
 
-  <!-- Tarjetas de métricas -->
   <div class="metricas-grid">
     @for (m of metricas; track m.titulo) {
       <div class="metrica-card" [routerLink]="m.ruta">
@@ -22,7 +20,6 @@
     }
   </div>
 
-  <!-- Pestañas de contenido -->
   <div class="tabs-section">
     <div class="tabs-header">
       @for (tab of tabs; track tab.id) {
@@ -35,7 +32,6 @@
       }
     </div>
 
-    <!-- Contenido de la pestaña seleccionada -->
     @switch (tabActiva) {
       @case ('resumen') {
         <div class="tab-content">
@@ -94,7 +90,6 @@
     }
   </div>
 
-  <!-- Botones de acción rápida -->
   <div class="acciones">
     <button class="btn btn-primary" routerLink="/analytics">
       {{ 'HOME.BTN_ANALYTICS' | translate }}

@@ -1,4 +1,3 @@
-<!-- Página de Analytics — Transacciones financieras con DataGrid virtual scroll -->
 <section class="analytics">
   <div class="analytics-header">
     <div>
@@ -10,7 +9,6 @@
     </button>
   </div>
 
-  <!-- Resumen estadístico -->
   <div class="stats-bar">
     <div class="stat">
       <span class="stat-label">{{ 'ANALYTICS.STATS.TOTAL' | translate }}</span>
@@ -26,7 +24,6 @@
     </div>
   </div>
 
-  <!-- Filtros -->
   <div class="filtros">
     <div class="filtro-grupo">
       <label>{{ 'ANALYTICS.FILTERS.SEARCH' | translate }}</label>
@@ -61,7 +58,6 @@
     <button class="btn btn-sm" (click)="limpiarFiltros()">{{ 'ANALYTICS.FILTERS.CLEAR' | translate }}</button>
   </div>
 
-  <!-- DataGrid con Virtual Scroll (CDK) -->
   <div class="datagrid-container">
     <div class="datagrid-header">
       <div class="dg-cell dg-id">{{ 'ANALYTICS.GRID.ID' | translate }}</div>
@@ -74,7 +70,6 @@
       <div class="dg-cell dg-cat">{{ 'ANALYTICS.GRID.CATEGORY' | translate }}</div>
     </div>
 
-    <!-- Virtual Scroll Viewport — solo renderiza ~15 filas visibles de las 1000 -->
     <cdk-virtual-scroll-viewport itemSize="48" class="datagrid-body">
       <div
         class="datagrid-row"

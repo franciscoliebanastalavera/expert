@@ -1,50 +1,39 @@
-// Tema especifico de CapitalFlow — CSS Custom Properties
 @import 'variables';
 
 .capitalflow-theme {
-  // Colores primarios
   --cap-primary: #{$secondary_500};
   --cap-primary-hover: #{$secondary_600};
   --cap-primary-active: #{$secondary_700};
 
-  // Colores secundarios
   --cap-secondary: #{$primary_500};
   --cap-secondary-hover: #{$primary_700};
 
-  // Semanticos
   --cap-success: #{$success_500};
   --cap-danger: #{$danger_500};
   --cap-warning: #{$alert_500};
   --cap-info: #{$info_500};
 
-  // Fondos
   --cap-bg: #{$neutrals_100};
   --cap-bg-surface: #ffffff;
   --cap-bg-elevated: #ffffff;
 
-  // Texto
   --cap-text: #{$neutrals_700};
   --cap-text-secondary: #{$neutrals_500};
   --cap-text-muted: #{$neutrals_300};
 
-  // Bordes
   --cap-border: #{$neutrals_200};
   --cap-border-focus: #{$secondary_500};
 
-  // Sombras
   --cap-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --cap-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --cap-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
 
-  // Tipografia
   --cap-font-family: 'Sora-Regular', 'Inter', sans-serif;
   --cap-font-family-bold: 'Sora-Bold', 'Inter', sans-serif;
 
-  // Radios
   --cap-radius-sm: 4px;
   --cap-radius-md: 8px;
   --cap-radius-lg: 12px;
 
-  // Transiciones
   --cap-transition: all 0.2s ease-in-out;
 }

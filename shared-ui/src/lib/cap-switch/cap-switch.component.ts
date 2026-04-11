@@ -1,7 +1,3 @@
-/**
- * Componente switch/toggle reutilizable — adaptado de Nter-lib.
- * Selector: 'cap-switch'
- */
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -29,34 +25,16 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class CapSwitchComponent {
-  /**
-   * Check or uncheck the switch by default
-   */
   @Input() checked = false;
 
-  /**
-   * Optional label to the left of the switch
-   */
   @Input() label = '';
 
-  /**
-   * Optional label color
-   */
   @Input() labelColor: 'black' | 'white' = 'black';
 
-  /**
-   * Optional label weight
-   */
   @Input() labelWeight: 'normal' | 'bold' = 'normal';
 
-  /**
-   * Switch status
-   */
   @Input() disabled = false;
 
-  /**
-   * Output when switch value is changed
-   */
   @Output() switchChange = new EventEmitter<boolean>();
 
   controlId = `cap-switch-${Math.random().toString(36).substring(2)}`;

@@ -1,6 +1,3 @@
-// Mixins reutilizables — basado en Nter-lib
-
-// Mixin para personalizar barras de scroll
 @mixin scrollbars($_color, $_size: 10px) {
   &::-webkit-scrollbar {
     width: $_size;
