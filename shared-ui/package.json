@@ -18,6 +18,6 @@
     "@types/dompurify": "^3.0.0"
   },
   "scripts": {
-    "build": "ng-packagr -p ng-package.json"
+    "build": "npx ng-packagr -p ng-package.json"
   }
 }

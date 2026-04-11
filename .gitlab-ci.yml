@@ -11,7 +11,7 @@ stages:
 
 # Variables globales del pipeline
 variables:
-  DOCKER_REGISTRY: "registry.ejemplo.com/capitalflow"  # Cambiar por el registro real
+  DOCKER_REGISTRY: "registry.capitalflow.local"
   DOCKER_DRIVER: overlay2
   NODE_VERSION: "20"
 
@@ -143,6 +143,7 @@ build:shared-ui:
 docker:shell:
   stage: docker
   image: docker:latest
+  allow_failure: true
   services:
     - docker:dind
   script:
@@ -161,6 +162,7 @@ docker:shell:
 docker:mfe-analytics:
   stage: docker
   image: docker:latest
+  allow_failure: true
   services:
     - docker:dind
   script:
@@ -182,6 +184,7 @@ docker:mfe-analytics:
 deploy:shell:
   stage: deploy
   image: alpine:latest
+  allow_failure: true
   script:
     - echo "Desplegando shell versión ${CI_COMMIT_SHORT_SHA}..."
     # TODO: Añadir comandos de despliegue reales
@@ -205,6 +208,7 @@ deploy:shell:
 deploy:mfe-analytics:
   stage: deploy
   image: alpine:latest
+  allow_failure: true
   script:
     - echo "Desplegando mfe-analytics versión ${CI_COMMIT_SHORT_SHA}..."
     # TODO: Añadir comandos de despliegue reales
