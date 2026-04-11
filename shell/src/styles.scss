@@ -1,5 +1,9 @@
-/* Estilos globales del Shell */
-* {
+/* Estilos globales del Shell — tema CapitalFlow */
+
+/* Reset básico */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -7,10 +11,39 @@
 
 body {
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: #fafafa;
-  color: #333;
+  background: #f2f2f2;
+  color: #1e1e1e;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+/* Tema CapitalFlow — CSS Custom Properties */
+.capitalflow-theme {
+  --cap-primary: #2a85c4;
+  --cap-primary-hover: #1e6da6;
+  --cap-primary-active: #1d2550;
+  --cap-secondary: #f47c20;
+  --cap-secondary-hover: #d96512;
+  --cap-success: #73d85a;
+  --cap-danger: #c51321;
+  --cap-warning: #ffc133;
+  --cap-info: #0061f4;
+  --cap-bg: #f2f2f2;
+  --cap-bg-surface: #ffffff;
+  --cap-text: #1e1e1e;
+  --cap-text-secondary: #4d4d4d;
+  --cap-text-muted: #b2b2b2;
+  --cap-border: #cac8c2;
+  --cap-border-focus: #2a85c4;
+  --cap-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --cap-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --cap-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  --cap-radius-sm: 4px;
+  --cap-radius-md: 8px;
+  --cap-radius-lg: 12px;
+  --cap-transition: all 0.2s ease-in-out;
 }

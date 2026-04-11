@@ -1,0 +1,103 @@
+<!-- Página de Analytics — Transacciones financieras con DataGrid virtual scroll -->
+<section class="analytics">
+  <div class="analytics-header">
+    <div>
+      <h1>Analytics — Transacciones</h1>
+      <p class="subtitle">{{ numTransacciones | number }} transacciones · Virtual Scroll CDK</p>
+    </div>
+    <button class="btn btn-outline" routerLink="/">
+      Volver al Dashboard
+    </button>
+  </div>
+
+  <!-- Resumen estadístico -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-label">Total Registros</span>
+      <span class="stat-value">{{ numTransacciones | number }}</span>
+    </div>
+    <div class="stat ingreso">
+      <span class="stat-label">Total Ingresos</span>
+      <span class="stat-value">+€{{ totalIngresos | number:'1.2-2':'es-ES' }}</span>
+    </div>
+    <div class="stat gasto">
+      <span class="stat-label">Total Gastos</span>
+      <span class="stat-value">-€{{ totalGastos | number:'1.2-2':'es-ES' }}</span>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <div class="filtro-grupo">
+      <label>Buscar</label>
+      <input
+        type="text"
+        [(ngModel)]="filtroTexto"
+        (ngModelChange)="aplicarFiltros()"
+        placeholder="Buscar por descripción, tipo, IBAN..."
+        class="filtro-input"
+      />
+    </div>
+    <div class="filtro-grupo">
+      <label>Importe mínimo</label>
+      <input
+        type="number"
+        [(ngModel)]="filtroImporteMin"
+        (ngModelChange)="aplicarFiltros()"
+        placeholder="€ Min"
+        class="filtro-input filtro-num"
+      />
+    </div>
+    <div class="filtro-grupo">
+      <label>Importe máximo</label>
+      <input
+        type="number"
+        [(ngModel)]="filtroImporteMax"
+        (ngModelChange)="aplicarFiltros()"
+        placeholder="€ Max"
+        class="filtro-input filtro-num"
+      />
+    </div>
+    <button class="btn btn-sm" (click)="limpiarFiltros()">Limpiar</button>
+  </div>
+
+  <!-- DataGrid con Virtual Scroll (CDK) — renderiza solo las filas visibles -->
+  <div class="datagrid-container">
+    <div class="datagrid-header">
+      <div class="dg-cell dg-id">ID</div>
+      <div class="dg-cell dg-fecha">Fecha</div>
+      <div class="dg-cell dg-tipo">Tipo</div>
+      <div class="dg-cell dg-desc">Descripción</div>
+      <div class="dg-cell dg-iban">IBAN</div>
+      <div class="dg-cell dg-importe">Importe</div>
+      <div class="dg-cell dg-estado">Estado</div>
+      <div class="dg-cell dg-cat">Categoría</div>
+    </div>
+
+    <!-- Virtual Scroll Viewport — solo renderiza ~15 filas visibles de las 1000 -->
+    <cdk-virtual-scroll-viewport itemSize="48" class="datagrid-body">
+      <div
+        class="datagrid-row"
+        *cdkVirtualFor="let t of transaccionesFiltradas; trackBy: trackById"
+      >
+        <div class="dg-cell dg-id">{{ t.id }}</div>
+        <div class="dg-cell dg-fecha">{{ t.fecha }}</div>
+        <div class="dg-cell dg-tipo">{{ t.tipo }}</div>
+        <div class="dg-cell dg-desc">{{ t.descripcion }}</div>
+        <div class="dg-cell dg-iban">{{ formatearIban(t.iban) }}</div>
+        <div class="dg-cell dg-importe" [class.ingreso]="t.importe >= 0" [class.gasto]="t.importe < 0">
+          {{ formatearImporte(t.importe) }}
+        </div>
+        <div class="dg-cell dg-estado">
+          <span class="estado-badge" [ngClass]="{
+            'completada': t.estado === 'Completada',
+            'procesando': t.estado === 'Procesando',
+            'pendiente': t.estado === 'Pendiente',
+            'rechazada': t.estado === 'Rechazada'
+          }">{{ t.estado }}</span>
+        </div>
+        <div class="dg-cell dg-cat">{{ t.categoria }}</div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</section>

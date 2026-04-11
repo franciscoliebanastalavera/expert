@@ -22,7 +22,11 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@capitalflow/shared-ui": ["../shared-ui/dist"],
+      "@capitalflow/shared-ui/*": ["../shared-ui/dist/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

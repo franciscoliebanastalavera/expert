@@ -1,0 +1,50 @@
+// Estilos globales del componente raíz
+.navbar {
+  display: flex;
+  align-items: center;
+  background: var(--cap-primary, #2a85c4);
+  color: #fff;
+  padding: 0 2rem;
+  height: 56px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 2rem;
+
+  &-icon {
+    font-size: 1.6rem;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+
+  a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+
+    &:hover,
+    &.active {
+      color: #fff;
+      border-bottom-color: var(--cap-secondary, #f47c20);
+    }
+  }
+}
+
+main {
+  min-height: calc(100vh - 56px);
+  background: var(--cap-bg, #f2f2f2);
+}

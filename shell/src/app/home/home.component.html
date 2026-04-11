@@ -1,0 +1,94 @@
+<!-- Dashboard principal de CapitalFlow -->
+<section class="dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard Financiero</h1>
+    <p class="subtitle">Resumen de operaciones — Abril 2026</p>
+  </div>
+
+  <!-- Tarjetas de métricas -->
+  <div class="metricas-grid">
+    <div class="metrica-card" *ngFor="let m of metricas" [routerLink]="m.ruta">
+      <div class="metrica-header">
+        <span class="metrica-icono">{{ m.icono }}</span>
+        <span class="metrica-variacion" [class.positivo]="m.positivo" [class.negativo]="!m.positivo">
+          {{ m.variacion }}
+        </span>
+      </div>
+      <div class="metrica-valor">{{ m.valor }}</div>
+      <div class="metrica-titulo">{{ m.titulo }}</div>
+      <div class="metrica-desc">{{ m.descripcion }}</div>
+    </div>
+  </div>
+
+  <!-- Pestañas de contenido -->
+  <div class="tabs-section">
+    <div class="tabs-header">
+      <button
+        *ngFor="let tab of tabs"
+        class="tab-btn"
+        [class.active]="tabActiva === tab.id"
+        (click)="tabActiva = tab.id">
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <div class="tab-content" *ngIf="tabActiva === 'resumen'">
+      <h2>Últimas Operaciones</h2>
+      <div class="tabla-operaciones">
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Importe</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>IBAN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let op of ultimasOperaciones">
+              <td>{{ op.tipo }}</td>
+              <td class="importe">{{ op.importe }}</td>
+              <td>{{ op.fecha }}</td>
+              <td>
+                <span class="estado-badge" [ngClass]="{
+                  'estado-completada': op.estado === 'Completada',
+                  'estado-procesando': op.estado === 'Procesando',
+                  'estado-pendiente': op.estado === 'Pendiente'
+                }">
+                  {{ op.estado }}
+                </span>
+              </td>
+              <td class="iban">{{ op.iban }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" *ngIf="tabActiva === 'tesoreria'">
+      <h2>Tesorería</h2>
+      <p>Vista detallada de saldos por cuenta operativa.</p>
+    </div>
+
+    <div class="tab-content" *ngIf="tabActiva === 'pagos'">
+      <h2>Pagos Programados</h2>
+      <p>Gestión de transferencias y domiciliaciones pendientes.</p>
+    </div>
+
+    <div class="tab-content" *ngIf="tabActiva === 'compliance'">
+      <h2>Compliance & AML</h2>
+      <p>Operaciones marcadas para revisión de cumplimiento normativo.</p>
+    </div>
+  </div>
+
+  <!-- Botones de acción rápida -->
+  <div class="acciones">
+    <button class="btn btn-primary" routerLink="/analytics">
+      Ver Analytics Completo
+    </button>
+    <button class="btn btn-secondary" routerLink="/analytics-mfe">
+      Analytics MFE (React)
+    </button>
+  </div>
+</section>

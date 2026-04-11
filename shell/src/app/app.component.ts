@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 
+// Componente raíz del Shell — aplica el tema CapitalFlow y define la navegación
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'shell';
-}
+export class AppComponent {}

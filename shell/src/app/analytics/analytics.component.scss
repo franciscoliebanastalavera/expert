@@ -1,0 +1,220 @@
+// Estilos de la página de Analytics — DataGrid con virtual scroll
+.analytics {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    font-size: 1.6rem;
+    color: var(--cap-text, #1e1e1e);
+  }
+
+  .subtitle {
+    color: var(--cap-text-muted, #b2b2b2);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+}
+
+// Barra de estadísticas
+.stats-bar {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background: var(--cap-bg-surface, #fff);
+  border: 1px solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 8px);
+  padding: 1rem 1.5rem;
+  flex: 1;
+
+  &-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--cap-text-muted, #b2b2b2);
+    margin-bottom: 0.25rem;
+  }
+
+  &-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.ingreso .stat-value {
+    color: #2e7d32;
+  }
+
+  &.gasto .stat-value {
+    color: #c62828;
+  }
+}
+
+// Filtros
+.filtros {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--cap-text-muted, #b2b2b2);
+    font-weight: 600;
+  }
+}
+
+.filtro-input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-sm, 4px);
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  min-width: 200px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--cap-border-focus, #2a85c4);
+    box-shadow: 0 0 0 2px rgba(42, 133, 196, 0.15);
+  }
+
+  &.filtro-num {
+    min-width: 120px;
+  }
+}
+
+// Botones
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--cap-radius-sm, 4px);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--cap-transition);
+  white-space: nowrap;
+
+  &-sm {
+    background: #e0e0e0;
+    color: var(--cap-text, #1e1e1e);
+
+    &:hover {
+      background: #d0d0d0;
+    }
+  }
+
+  &-outline {
+    background: transparent;
+    border: 1px solid var(--cap-border, #cac8c2);
+    color: var(--cap-text-secondary, #4d4d4d);
+
+    &:hover {
+      background: var(--cap-bg-surface, #fff);
+      border-color: var(--cap-primary, #2a85c4);
+      color: var(--cap-primary, #2a85c4);
+    }
+  }
+}
+
+// DataGrid
+.datagrid-container {
+  background: var(--cap-bg-surface, #fff);
+  border: 1px solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 8px);
+  overflow: hidden;
+}
+
+.datagrid-header {
+  display: flex;
+  background: #f8f8f8;
+  border-bottom: 2px solid var(--cap-border, #cac8c2);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--cap-text-muted, #b2b2b2);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.datagrid-body {
+  // Altura fija para el viewport del virtual scroll (~15 filas visibles)
+  height: 600px;
+}
+
+.datagrid-row {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.1s;
+
+  &:hover {
+    background: #f9f9f9;
+  }
+}
+
+// Celdas del DataGrid
+.dg-cell {
+  padding: 0.75rem 0.8rem;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.dg-id { width: 60px; flex-shrink: 0; }
+.dg-fecha { width: 95px; flex-shrink: 0; }
+.dg-tipo { width: 160px; flex-shrink: 0; }
+.dg-desc { flex: 1; min-width: 180px; }
+.dg-iban {
+  width: 220px;
+  flex-shrink: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  color: var(--cap-text-secondary, #4d4d4d);
+}
+.dg-importe {
+  width: 120px;
+  flex-shrink: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  justify-content: flex-end;
+
+  &.ingreso { color: #2e7d32; }
+  &.gasto { color: #c62828; }
+}
+.dg-estado { width: 110px; flex-shrink: 0; }
+.dg-cat { width: 120px; flex-shrink: 0; }
+
+// Badges de estado
+.estado-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--cap-radius-sm, 4px);
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  &.completada { background: #e8f5e9; color: #2e7d32; }
+  &.procesando { background: #fff3e0; color: #ef6c00; }
+  &.pendiente { background: #e3f2fd; color: #1565c0; }
+  &.rechazada { background: #fce4ec; color: #c62828; }
+}

@@ -1,0 +1,229 @@
+// Estilos del dashboard principal
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+
+  h1 {
+    color: var(--cap-text, #1e1e1e);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    color: var(--cap-text-secondary, #4d4d4d);
+    margin-top: 0.25rem;
+  }
+}
+
+// Tarjetas de métricas
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metrica-card {
+  background: var(--cap-bg-surface, #fff);
+  border: 1px solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-lg, 12px);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: var(--cap-transition);
+
+  &:hover {
+    box-shadow: var(--cap-shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+.metrica-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.metrica-icono {
+  font-size: 1.5rem;
+}
+
+.metrica-variacion {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--cap-radius-sm, 4px);
+
+  &.positivo {
+    color: #33841f;
+    background: #e8f5e9;
+  }
+
+  &.negativo {
+    color: #c51321;
+    background: #fce4ec;
+  }
+}
+
+.metrica-valor {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--cap-text, #1e1e1e);
+}
+
+.metrica-titulo {
+  font-size: 0.95rem;
+  color: var(--cap-text-secondary, #4d4d4d);
+  margin-top: 0.25rem;
+}
+
+.metrica-desc {
+  font-size: 0.8rem;
+  color: var(--cap-text-muted, #b2b2b2);
+  margin-top: 0.5rem;
+}
+
+// Pestañas
+.tabs-section {
+  background: var(--cap-bg-surface, #fff);
+  border-radius: var(--cap-radius-lg, 12px);
+  border: 1px solid var(--cap-border, #cac8c2);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 1px solid var(--cap-border, #cac8c2);
+  background: #fafafa;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 0.9rem 1rem;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: var(--cap-text-secondary, #4d4d4d);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: var(--cap-transition);
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  &.active {
+    color: var(--cap-primary, #2a85c4);
+    border-bottom-color: var(--cap-primary, #2a85c4);
+    font-weight: 600;
+  }
+}
+
+.tab-content {
+  padding: 1.5rem;
+
+  h2 {
+    font-size: 1.2rem;
+    color: var(--cap-text, #1e1e1e);
+    margin-bottom: 1rem;
+  }
+}
+
+// Tabla de operaciones
+.tabla-operaciones {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--cap-text-muted, #b2b2b2);
+    border-bottom: 1px solid var(--cap-border, #cac8c2);
+  }
+
+  td {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .importe {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .iban {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--cap-text-secondary, #4d4d4d);
+  }
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--cap-radius-sm, 4px);
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.estado-completada {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.estado-procesando {
+    background: #fff3e0;
+    color: #ef6c00;
+  }
+
+  &.estado-pendiente {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+}
+
+// Botones de acción
+.acciones {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--cap-radius-md, 8px);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--cap-transition);
+
+  &-primary {
+    background: var(--cap-primary, #2a85c4);
+    color: #fff;
+
+    &:hover {
+      background: var(--cap-primary-hover, #1e6da6);
+    }
+  }
+
+  &-secondary {
+    background: var(--cap-secondary, #f47c20);
+    color: #fff;
+
+    &:hover {
+      background: var(--cap-secondary-hover, #d96512);
+    }
+  }
+}
