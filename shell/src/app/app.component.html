@@ -5,7 +5,7 @@
     [isDark]="themeService.isDark()"
     [currentLang]="idiomaActual"
     (themeToggle)="themeService.toggle()"
-    (langChange)="cambiarIdioma()">
+    (langChange)="cambiarIdioma($event)">
   </cap-header>
 
   <main class="main">

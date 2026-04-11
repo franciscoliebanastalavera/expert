@@ -31,8 +31,8 @@ export class AppComponent {
     this.menuAbierto = !this.menuAbierto;
   }
 
-  cambiarIdioma(): void {
-    this.idiomaActual = this.idiomaActual === 'es' ? 'en' : 'es';
+  cambiarIdioma(lang?: 'es' | 'en'): void {
+    this.idiomaActual = lang || (this.idiomaActual === 'es' ? 'en' : 'es');
     this.translate.use(this.idiomaActual);
     this.document.documentElement.lang = this.idiomaActual;
   }
