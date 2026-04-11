@@ -15,7 +15,7 @@ const meta: Meta<CapInputComponent> = {
   argTypes: {
     label: { control: 'text' },
     placeholder: { control: 'text' },
-    type: { control: 'select', options: ['text', 'password', 'number', 'email', 'iban'] },
+    type: { control: 'select', options: ['text', 'password', 'number'] },
     disabled: { control: 'boolean' },
     size: { control: 'radio', options: ['standard', 'small'] },
   },
@@ -33,7 +33,7 @@ export const Password: Story = {
 };
 
 export const IBAN: Story = {
-  args: { label: 'IBAN', placeholder: 'ES00 0000 0000 0000 0000 0000', type: 'iban' },
+  args: { label: 'IBAN', placeholder: 'ES00 0000 0000 0000 0000 0000', type: 'text' },
 };
 
 export const Disabled: Story = {
