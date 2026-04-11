@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import DOMPurify from 'dompurify';
+import * as DOMPurify from 'dompurify';
 
 /**
  * Pipe que sanitiza contenido HTML usando DOMPurify.

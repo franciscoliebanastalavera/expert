@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Micro-frontend de Analytics con React 18, Module Federation y Web Components",
   "scripts": {
-    "start": "webpack serve --mode development --port 4201 --open",
-    "build": "webpack --mode production"
+    "start": "npx --yes webpack serve --mode development --port 4201 --open",
+    "build": "npx --yes webpack --mode production"
   },
   "dependencies": {
     "react": "^18.2.0",
