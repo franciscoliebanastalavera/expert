@@ -32,6 +32,7 @@ const meta: Meta<CapHeaderComponent> = {
     showLangSelector: { control: 'boolean' },
     currentLang: { control: 'radio', options: ['es', 'en'] },
     isDark: { control: 'boolean' },
+    navItems: { control: false },
     themeToggle: { action: 'themeToggle' },
     langChange: { action: 'langChange' },
   },
