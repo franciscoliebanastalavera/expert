@@ -1,0 +1,71 @@
+<div
+  [ngClass]="{
+    'modal-close': !showModal,
+    'modal-open': showModal,
+    'modal-transition': true,
+  }"
+>
+  <div
+    *ngIf="showModal"
+    id="modal-back"
+    class="modal-back"
+    (keydown)="onKeyDown($event)"
+    (click)="onExit($event)"
+  >
+    <div
+      [class]="'box-modal-' + size"
+      class="box-modal"
+      [ngClass]="{
+        'box-modal-responsive': !tooltipModal,
+      }"
+    >
+      <div *ngIf="!bgBlocked" class="modal-icon-close" (click)="close()">
+        <img src="images/icon-close-reb.svg" alt="cerrar" />
+      </div>
+      <div *ngIf="!isActiveNgContent; else ngContent">
+        <p class="modal-title">{{ title }}</p>
+        <div *ngIf="image" class="modal-img-content">
+          <div class="modal-img-content-box">
+            <img [src]="imageUrl" alt="image" />
+          </div>
+        </div>
+        <p class="modal-text">{{ text }}</p>
+        <div
+          *ngIf="showPrimaryButton || showSecondaryButton"
+          [ngClass]="{
+            'modal-buttons-content-one-button':
+              (showPrimaryButton && !showSecondaryButton) ||
+              (!showPrimaryButton && showSecondaryButton),
+            'modal-buttons-content-two-buttons': showPrimaryButton && showSecondaryButton,
+          }"
+        >
+          <div class="modal-buttons-content-box-primary" *ngIf="showSecondaryButton">
+            <cap-button
+              variant="tertiary"
+              size="small"
+              [width]="size === 'small' ? '100%' : 'auto'"
+              [label]="labelSecondaryButton"
+              textStyle="none"
+              (nterClick)="close()"
+            ></cap-button>
+          </div>
+          <div class="modal-buttons-content-box-secondary" *ngIf="showPrimaryButton">
+            <cap-button
+              variant="primary"
+              size="small"
+              [width]="size === 'small' ? '100%' : 'auto'"
+              [label]="labelPrimaryButton"
+              textStyle="none"
+              (nterClick)="handlePrimaryButtonClick()"
+            ></cap-button>
+          </div>
+        </div>
+      </div>
+      <ng-template #ngContent>
+        <div class="ng-content">
+          <ng-content></ng-content>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

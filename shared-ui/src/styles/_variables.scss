@@ -1,0 +1,202 @@
+// Sistema de colores y variables — basado en Nter-lib
+
+//
+//  Sistema de colores
+//
+$white: #ffffff !default;
+$black: #000000 !default;
+$transparent: #00000000 !default;
+
+// Variantes de color para botones
+$color-dark: #100d25;
+$siena_orange_400: #ec683e;
+$crayola_blue_400: #217bee;
+$raspberry_red_400: #d13b5f;
+$color-dark-hover: rgba(16, 13, 37, 0.85);
+
+// Variantes de color para checkbox
+$checkbox-color: #bfbfbf;
+$checkbox-text: #100d25;
+$checkbox-text-description: #82858d;
+
+$grey_300: #bfbfbf;
+$grey_500: #82858d;
+$black_brand: #100c24;
+
+$grey-concrete: #f2f2f2 !default;
+$grey-mercury: #e8e8e8 !default;
+$grey-silver-chalice: #a5a5a5 !default;
+$grey-silver-clay: #6e6e6e !default;
+$grey-silver-dark: #4a4a4a !default;
+$grey-cod: #1d1d1d !default;
+
+$blue-link-water: #e5f1f9 !default;
+$blue-curious: #3395d3 !default;
+$blue-nter: #0069b4 !default;
+$blue-endeavour: #005694 !default;
+$blue-blueberry: #1f355e !default;
+
+$purple-snuff: #c8b7d9 !default;
+$purple-wisteria: #916eb3 !default;
+$purple-violet: #764aa0 !default;
+$purple-affair: #6d4592 !default;
+$purple-dark-affair: #563a73 !default;
+
+$red-geraldine: #f57373 !default;
+$red-pomegranate: #f24545 !default;
+$red-transamerica: #ee0000 !default;
+$red-guardsman: #d90000 !default;
+$red-dark-candy: #ae0000 !default;
+
+$orange-corvette: #facb99 !default;
+$orange-california: #ff9900 !default;
+$orange-cold-drop: #f27d00 !default;
+$orange-mango-tango: #dc7303 !default;
+$orange-hawaiian: #ae5c19 !default;
+
+$yellow-gream-brulee: #fee9a9 !default;
+$yellow-dandelion: #fdd353 !default;
+$yellow-lighting: #fdc828 !default;
+$yellow-tulip-tree: #e6b627 !default;
+$yellow-alpine: #b7912e !default;
+
+$green-celadon: #b6dfbc !default;
+$green-fern: #6dbf79 !default;
+$green-apple: #49af57 !default;
+$green-fruit-salad: #339941 !default;
+$green-goblin: #347d3e !default;
+$green-bermuda: #85dbc0 !default;
+
+$agua-cruise: #b5eae1 !default;
+$agua-aquamarine: #7df9e7 !default;
+$agua-turquoise: #47d6c7 !default;
+$agua-puerto-rico: #2baea3 !default;
+$agua-genoa: #117664 !default;
+
+//
+//  Filtros CSS para los colores del sistema (Recurso: https://codepen.io/sosuke/pen/Pjoqqp)
+//
+$primary_filter: brightness(0) saturate(100%) invert(23%) sepia(94%) saturate(1893%) hue-rotate(187deg) brightness(95%) contrast(101%);
+
+$filter-white: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(138deg) brightness(100%) contrast(103%);
+$filter-black: brightness(0) saturate(100%);
+
+$filter-grey-concrete: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(214%) hue-rotate(44deg) brightness(115%) contrast(90%);
+$filter-grey-mercury: brightness(0) saturate(100%) invert(99%) sepia(2%) saturate(696%) hue-rotate(240deg) brightness(117%) contrast(82%);
+$filter-grey-silver-chalice: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(227deg) brightness(87%) contrast(84%);
+$filter-grey-silver-dark: brightness(0) saturate(100%) invert(25%) sepia(0%) saturate(989%) hue-rotate(163deg) brightness(103%) contrast(85%);
+$filter-grey-cod: brightness(0) saturate(100%) invert(3%) sepia(10%) saturate(155%) hue-rotate(314deg) brightness(98%) contrast(83%);
+
+$filter-blue-link-water: brightness(0) saturate(100%) invert(92%) sepia(19%) saturate(127%) hue-rotate(169deg) brightness(99%) contrast(97%);
+$filter-blue-curious: brightness(0) saturate(100%) invert(57%) sepia(18%) saturate(2155%) hue-rotate(167deg) brightness(88%) contrast(85%);
+$filter-blue-nter: brightness(0) saturate(100%) invert(23%) sepia(94%) saturate(1893%) hue-rotate(187deg) brightness(95%) contrast(101%);
+$filter-blue-endeavour: brightness(0) saturate(100%) invert(22%) sepia(71%) saturate(1908%) hue-rotate(185deg) brightness(94%) contrast(101%);
+$filter-blue-blueberry: brightness(0) saturate(100%) invert(19%) sepia(10%) saturate(3536%) hue-rotate(181deg) brightness(95%) contrast(96%);
+
+$filter-red-geraldine: brightness(0) saturate(100%) invert(66%) sepia(53%) saturate(3909%) hue-rotate(317deg) brightness(106%) contrast(93%);
+$filter-red-pomegranate: brightness(0) saturate(100%) invert(33%) sepia(81%) saturate(2666%) hue-rotate(339deg) brightness(103%) contrast(89%);
+$filter-red-transamerica: brightness(0) saturate(100%) invert(14%) sepia(100%) saturate(7261%) hue-rotate(8deg) brightness(91%) contrast(116%);
+$filter-red-guardsman: brightness(0) saturate(100%) invert(8%) sepia(80%) saturate(7302%) hue-rotate(360deg) brightness(107%) contrast(111%);
+$filter-red-dark-candy: brightness(0) saturate(100%) invert(8%) sepia(77%) saturate(7496%) hue-rotate(11deg) brightness(94%) contrast(115%);
+
+$filter-orange-corvette: brightness(0) saturate(100%) invert(77%) sepia(74%) saturate(304%) hue-rotate(323deg) brightness(103%) contrast(96%);
+$filter-orange-california: brightness(0) saturate(100%) invert(51%) sepia(89%) saturate(643%) hue-rotate(1deg) brightness(105%) contrast(104%);
+$filter-orange-cold-drop: brightness(0) saturate(100%) invert(70%) sepia(59%) saturate(6027%) hue-rotate(5deg) brightness(98%) contrast(103%);
+$filter-orange-mango: invert(57%) sepia(77%) saturate(1407%) hue-rotate(360deg) brightness(102%) contrast(105%);
+$filter-orange-mango-tango: brightness(0) saturate(100%) invert(49%) sepia(82%) saturate(1550%) hue-rotate(2deg) brightness(89%) contrast(98%);
+$filter-orange-hawaiian: brightness(0) saturate(100%) invert(39%) sepia(69%) saturate(724%) hue-rotate(349deg) brightness(87%) contrast(90%);
+
+$filter-yellow-gream-brulee: brightness(0) saturate(100%) invert(99%) sepia(74%) saturate(1128%) hue-rotate(311deg) brightness(106%) contrast(99%);
+$filter-yellow-dandelion: brightness(0) saturate(100%) invert(86%) sepia(79%) saturate(6408%) hue-rotate(317deg) brightness(106%) contrast(98%);
+$filter-yellow-lighting: brightness(0) saturate(100%) invert(81%) sepia(77%) saturate(799%) hue-rotate(333deg) brightness(99%) contrast(100%);
+$filter-yellow-tulip-tree: brightness(0) saturate(100%) invert(95%) sepia(7%) saturate(7480%) hue-rotate(335deg) brightness(93%) contrast(94%);
+$filter-yellow-alpine: brightness(0) saturate(100%) invert(61%) sepia(10%) saturate(2656%) hue-rotate(5deg) brightness(93%) contrast(91%);
+
+$filter-green-celadon: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(322%) hue-rotate(71deg) brightness(95%) contrast(85%);
+$filter-green-fern: brightness(0) saturate(100%) invert(73%) sepia(22%) saturate(782%) hue-rotate(77deg) brightness(90%) contrast(86%);
+$filter-green-apple: brightness(0) saturate(100%) invert(80%) sepia(6%) saturate(3467%) hue-rotate(74deg) brightness(72%) contrast(104%);
+$filter-green-fruit-salad: brightness(0) saturate(100%) invert(50%) sepia(34%) saturate(898%) hue-rotate(77deg) brightness(92%) contrast(87%);
+$filter-green-goblin: brightness(0) saturate(100%) invert(36%) sepia(71%) saturate(396%) hue-rotate(77deg) brightness(95%) contrast(89%);
+
+$filter-agua-cruise: brightness(0) saturate(100%) invert(92%) sepia(59%) saturate(227%) hue-rotate(89deg) brightness(95%) contrast(92%);
+$filter-agua-aquamarine: brightness(0) saturate(100%) invert(97%) sepia(96%) saturate(652%) hue-rotate(84deg) brightness(107%) contrast(95%);
+$filter-agua-turquoise: brightness(0) saturate(100%) invert(80%) sepia(89%) saturate(351%) hue-rotate(98deg) brightness(88%) contrast(88%);
+$filter-agua-puerto-rico: brightness(0) saturate(100%) invert(53%) sepia(82%) saturate(367%) hue-rotate(126deg) brightness(93%) contrast(88%);
+$filter-agua-genoa: brightness(0) saturate(100%) invert(34%) sepia(88%) saturate(387%) hue-rotate(119deg) brightness(91%) contrast(94%);
+
+//
+//  Puntos de ruptura (Ver https://getbootstrap.com/docs/5.0/layout/breakpoints/ como referencia)
+//
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
+
+//? <---------------------- Colores de rebranding ---------------------->
+
+// Acento
+$accent_fresh_lime_200: #f5ff99;
+$accent_fresh_lime_500: #e7ff00;
+$accent_fresh_lime_700: #8b9900;
+$accent_grass_green_200: #a0ff6b;
+$accent_grass_green_500: #4cd300;
+$accent_grass_green_700: #276b00;
+$accent_sky_blue_200: #c7e5ff;
+$accent_sky_blue_500: #63b6ff;
+$accent_sky_blue_700: #0085fa;
+
+// Oscuro
+$dark_chocolate_200: #b77f71;
+$dark_chocolate_500: #5e3930;
+$dark_chocolate_700: #3d251f;
+$dark_forest_green_200: #22c38c;
+$dark_forest_green_500: #0b3f2d;
+$dark_forest_green_700: #09340c;
+$dark_night_blue_200: #c7e5ff;
+$dark_night_blue_500: #1d2550;
+$dark_night_blue_700: #0f1329;
+
+//? Colores funcionales
+// Primario
+$primary_200: #ffe2c7;
+$primary_500: #f47c20;
+$primary_700: #d96512;
+
+// Secundario
+$secondary_100: #d3e7f6;
+$secondary_200: #a6ceec;
+$secondary_500: #2a85c4;
+$secondary_600: #1e6da6;
+$secondary_700: #1d2550;
+
+// Semantico
+$success_200: #96e283;
+$success_500: #73d85a;
+$success_700: #33841f;
+$alert_200: #ffd166;
+$alert_500: #ffc133;
+$alert_700: #b88000;
+$danger_200: #f27d86;
+$danger_500: #c51321;
+$danger_700: #660a11;
+$info_200: #5c9dff;
+$info_500: #0061f4;
+$info_700: #00398f;
+
+// Neutros
+$neutrals_100: #f2f2f2;
+$neutrals_200: #cac8c2;
+$neutrals_300: #b2b2b2;
+$neutrals_400: #717070;
+$neutrals_500: #4d4d4d;
+$neutrals_700: #1e1e1e;
+
+// Filtros de rebranding
+$filter-primary_500: brightness(0) saturate(100%) invert(10%) sepia(21%) saturate(1555%) hue-rotate(356deg) brightness(97%) contrast(100%);
+$filter-secondary_200: brightness(0) saturate(100%) invert(69%) sepia(21%) saturate(777%) hue-rotate(217deg) brightness(98%) contrast(94%);
+$filter-secondary_500: brightness(0) saturate(100%) invert(16%) sepia(92%) saturate(4287%) hue-rotate(261deg) brightness(86%) contrast(106%);
+$filter-secondary_600: brightness(0) saturate(100%) invert(25%) sepia(12%) saturate(5120%) hue-rotate(260deg) brightness(99%) contrast(88%);
+$filter-neutrals_300: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(366%) hue-rotate(16deg) brightness(92%) contrast(94%);
+$filter-neutrals_500: brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(409%) hue-rotate(296deg) brightness(95%) contrast(94%);

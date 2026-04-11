@@ -1,0 +1,229 @@
+<div
+  class="datepicker-container"
+  [style.height]="height"
+  [ngClass]="{ disabled: disabled }"
+>
+  <input
+    type="text"
+    maxlength="10"
+    id="datepicker"
+    [ngClass]="{
+      'datepicker-error': control?.valid === false && control?.touched && !disabled,
+      'datepicker-hovered': isInputHovered,
+    }"
+    [(ngModel)]="selectedDateFormated"
+    autocomplete="off"
+    (focus)="setFocus(true)"
+    (blur)="setFocus(false)"
+    (keypress)="onKeyPress($event)"
+    (mouseenter)="onInputHover(true)"
+    (mouseleave)="onInputHover(false)"
+    onpaste="return false"
+    ondrop="return false"
+  />
+  <div
+    [ngClass]="
+      isInputFocused || selectedDateFormated
+        ? 'datepicker__label_container_floating'
+        : size === 'small'
+          ? 'datepicker__label_container'
+          : 'datepicker__label_container_standard'
+    "
+  >
+    <span
+      [ngClass]="
+        (isInputFocused || selectedDateFormated
+          ? 'datepicker__label_floating' +
+            (selectedDateFormated && !isInputFocused ? ' color-active' : '')
+          : 'datepicker__label') +
+        (control?.valid === false && control?.touched && !disabled ? ' color-error' : '')
+      "
+    >
+      {{ label }}
+    </span>
+  </div>
+  <div
+    *ngIf="isInputFocused && selectedDateFormated"
+    [ngClass]="
+      size === 'small'
+        ? 'datepicker__icon_container_clear'
+        : 'datepicker__icon_container_clear_standard'
+    "
+    (mousedown)="clearDate(); stopPropagation($event)"
+  >
+    <img src="images/icon-circle-cross.svg" alt="" />
+  </div>
+  <div
+    [ngClass]="
+      size === 'small'
+        ? 'datepicker__icon_container_calendar'
+        : 'datepicker__icon_container_calendar_standard'
+    "
+    (mouseenter)="onInputHover(true)"
+    (mouseleave)="onInputHover(false)"
+    (mousedown)="showDatePicker()"
+  >
+    <img src="images/icon-calendar.svg" alt="" />
+  </div>
+
+  <div
+    class="datepicker"
+    *ngIf="isDatePickerActive && isDayActive"
+    [ngClass]="{ 'horizontal-inverted': invertHorizontal }"
+  >
+    <div class="month-and-year-header">
+      <div
+        class="box-1"
+        (click)="
+          isDayActive = !isDayActive;
+          isYearsActive = !isYearsActive;
+          stopPropagation($event)
+        "
+      >
+        <span class="month-and-year-header-date">
+          {{ abbreviatedMonths[currentMonth] }}.
+          {{ currentYear }}
+        </span>
+        <div class="month-and-year-header_icon_container_triangle">
+          <img src="images/icon-triangle-down.svg" alt="" />
+        </div>
+      </div>
+      <div class="box-2">
+        <div
+          class="month-and-year-header_icon_container_arrows"
+          (click)="changeMonth(-1)"
+        >
+          <img src="images/icon-previous.svg" alt="" />
+        </div>
+        <div class="month-and-year-header_icon_container_arrows" (click)="changeMonth(1)">
+          <img src="images/icon-next.svg" alt="" />
+        </div>
+      </div>
+    </div>
+    <div class="days">
+      <div *ngFor="let dayOfWeek of daysWeek" class="day-week">
+        {{ dayOfWeek }}
+      </div>
+      <div
+        *ngFor="let day of daysInMonth"
+        class="day-box"
+        [ngStyle]="getStyleDay(day)"
+        (click)="selectDate(day); stopPropagation($event)"
+      >
+        {{ day }}
+      </div>
+    </div>
+  </div>
+
+  <div class="datepicker" *ngIf="isDatePickerActive && isYearsActive">
+    <div class="year-header">
+      <div
+        class="box-1"
+        (click)="
+          isDayActive = !isDayActive;
+          isYearsActive = !isYearsActive;
+          stopPropagation($event)
+        "
+      >
+        <span class="month-and-year-header-date">
+          {{ years[0] }} - {{ years[years.length - 1] }}
+        </span>
+        <div class="month-and-year-header_icon_container_triangle">
+          <img src="images/icon-triangle-up.svg" alt="" />
+        </div>
+      </div>
+
+      <div class="box-2">
+        <div
+          class="month-and-year-header_icon_container_arrows"
+          (click)="changeYears(-1)"
+        >
+          <img src="images/icon-previous.svg" alt="" />
+        </div>
+        <div class="month-and-year-header_icon_container_arrows" (click)="changeYears(1)">
+          <img src="images/icon-next.svg" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <div class="years">
+      <div
+        *ngFor="let year of years"
+        class="year-box"
+        (click)="
+          setYear(year);
+          isYearsActive = false;
+          isMonthActive = true;
+          stopPropagation($event)
+        "
+        [ngStyle]="getStyleYear(year)"
+      >
+        {{ year }}
+      </div>
+    </div>
+  </div>
+
+  <div class="datepicker" *ngIf="isMonthActive">
+    <div class="month-header">
+      <div
+        class="box-1"
+        (click)="isMonthActive = false; isYearsActive = true; stopPropagation($event)"
+      >
+        <span class="month-and-year-header-date">
+          {{ currentYear }}
+        </span>
+        <div class="month-and-year-header_icon_container_triangle">
+          <img src="images/icon-triangle-up.svg" alt="" />
+        </div>
+      </div>
+      <div class="box-2">
+        <div class="month-and-year-header_icon_container_arrows" (click)="changeYear(-1)">
+          <img src="images/icon-previous.svg" alt="" />
+        </div>
+        <div class="month-and-year-header_icon_container_arrows" (click)="changeYear(1)">
+          <img src="images/icon-next.svg" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <div class="months">
+      <div
+        *ngFor="let abbreviatedMonth of abbreviatedMonths; let i = index"
+        class="month-box"
+        (click)="
+          setMonth(i); isMonthActive = false; isDayActive = true; stopPropagation($event)
+        "
+        [ngStyle]="getStyleMonth(i)"
+      >
+        {{ abbreviatedMonth }}.
+      </div>
+    </div>
+  </div>
+</div>
+<span
+  style="color: #f93b0b; font-style: italics"
+  *ngFor="let error of control?.errors | keyvalue"
+>
+  {{ errorMessages[error.key] }}
+</span>
+<span style="color: #2cc86b; font-style: italics" *ngIf="!control?.errors">
+  Fecha válida
+</span>
+<div class="helper-container" [ngClass]="{ disabled: disabled }">
+  <span class="helper" *ngIf="helper && (control?.valid !== false || !control?.touched)">
+    {{ helper }}
+  </span>
+  <span *ngIf="control?.valid === false && control?.touched" class="helper-error">
+    <ng-container
+      [ngTemplateOutlet]="!!errorMessages ? customError : helperError"
+    ></ng-container>
+    <ng-template #helperError>
+      <span>{{ helper }}</span>
+    </ng-template>
+    <ng-template #customError>
+      <span *ngFor="let error of control?.errors | keyvalue">
+        {{ errorMessages[error.key] }}
+      </span>
+    </ng-template>
+  </span>
+</div>

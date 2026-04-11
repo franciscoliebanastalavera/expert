@@ -1,0 +1,14 @@
+<div
+  class="cap-card"
+  [ngClass]="cardClass"
+  [ngStyle]="{ 'background-image': 'url(' + backgroundImage + ')' }"
+>
+  <div class="cap-card__content cap-card__header">
+    <h3>{{ title }}</h3>
+  </div>
+
+  <div class="cap-card__content cap-card__footer">
+    <p>{{ subtitle }}</p>
+    <p>{{ content }}</p>
+  </div>
+</div>

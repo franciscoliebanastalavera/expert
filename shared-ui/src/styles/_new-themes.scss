@@ -1,0 +1,229 @@
+// Temas actualizados (rebranding) — basado en Nter-lib
+
+$raspberry_red_100: #fbd0da;
+$raspberry_red_200: #f6a3b8;
+$raspberry_red_300: #e96dba;
+$raspberry_red_400: #d13b5f;
+$raspberry_red_500: #b03251;
+$raspberry_red_600: #8e2a43;
+$raspberry_red_700: #6e2036;
+
+$siena_orange_100: #fcd7c4;
+$siena_orange_200: #f8af96;
+$siena_orange_300: #f3a868;
+$siena_orange_400: #ec683e;
+$siena_orange_500: #c24728;
+$siena_orange_600: #99341a;
+$siena_orange_700: #6f2410;
+
+$crayola_blue_100: #cde3fc;
+$crayola_blue_200: #94c4f8;
+$crayola_blue_300: #5aa1f3;
+$crayola_blue_400: #217bee;
+$crayola_blue_500: #1a58c4;
+$crayola_blue_600: #14408f;
+$crayola_blue_700: #0d2d66;
+
+$grey_100: #f3f3f3;
+$grey_200: #e1e1e1;
+$grey_300: #bfbfbf;
+$grey_500: #82858d;
+$grey_600: #70737a;
+$grey_700: #5d6066;
+$black_brand: #100c24;
+
+// Coincide con los neutros de _variables.scss
+$neutrals_100: #f2f2f2;
+$neutrals_200: #cac8c2;
+$neutrals_300: #b2b2b2;
+$neutrals_400: #717070;
+$neutrals_500: #4d4d4d;
+$neutrals_700: #1e1e1e;
+
+$yellow_100: #fcf7c8;
+$yellow_200: #f9ee9b;
+$yellow_300: #f6e36f;
+$yellow_400: #f2d741;
+$yellow_500: #bcaa1e;
+$yellow_600: #948416;
+$yellow_700: #6b5f11;
+
+$green_100: #bdf1d6;
+$green_200: #83ddb1;
+$green_300: #49c88c;
+$green_400: #17b26a;
+$green_500: #118d50;
+$green_600: #0b5e36;
+$green_700: #063d22;
+
+$lilac_100: #e3dffd;
+$lilac_200: #d1cafd;
+$lilac_300: #ada0fb;
+$lilac_400: #8a77fa;
+$lilac_500: #6a59c7;
+$lilac_600: #4c3c94;
+$lilac_700: #3d2d7a;
+
+$red_100: #fcc4c0;
+$red_200: #f98c85;
+$red_300: #f3534a;
+$red_400: #ed1d13;
+$red_500: #b01510;
+$red_600: #7a0f0b;
+$red_700: #4a0907;
+
+// Coincide con el primario de _variables.scss
+$primary_500: #f47c20;
+
+$white: #ffffff;
+$transparent: #00000000;
+
+// Mixin para filtros de iconos Nter
+@mixin nter-icon-filters {
+  --nter-icon-filter-light: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(1%) hue-rotate(138deg) brightness(100%)
+    contrast(103%);
+  --nter-icon-filter-dark: brightness(0) saturate(100%);
+  --nter-icon-filter-disabled: brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(409%) hue-rotate(296deg) brightness(95%)
+    contrast(94%);
+}
+
+// Mixin para inyectar tokens raiz de Nter como CSS custom properties
+@mixin nter-root-tokens {
+  :root {
+    --raspberry-red-100: #{$raspberry_red_100};
+    --raspberry-red-200: #{$raspberry_red_200};
+    --raspberry-red-300: #{$raspberry_red_300};
+    --raspberry-red-400: #{$raspberry_red_400};
+    --raspberry-red-500: #{$raspberry_red_500};
+    --raspberry-red-600: #{$raspberry_red_600};
+    --raspberry-red-700: #{$raspberry_red_700};
+
+    --siena-orange-100: #{$siena_orange_100};
+    --siena-orange-200: #{$siena_orange_200};
+    --siena-orange-300: #{$siena_orange_300};
+    --siena-orange-400: #{$siena_orange_400};
+    --siena-orange-500: #{$siena_orange_500};
+    --siena-orange-600: #{$siena_orange_600};
+    --siena-orange-700: #{$siena_orange_700};
+
+    --crayola-blue-100: #{$crayola_blue_100};
+    --crayola-blue-200: #{$crayola_blue_200};
+    --crayola-blue-300: #{$crayola_blue_300};
+    --crayola-blue-400: #{$crayola_blue_400};
+    --crayola-blue-500: #{$crayola_blue_500};
+    --crayola-blue-600: #{$crayola_blue_600};
+    --crayola-blue-700: #{$crayola_blue_700};
+
+    --grey-100: #{$grey_100};
+    --grey-200: #{$grey_200};
+    --grey-300: #{$grey_300};
+    --grey-500: #{$grey_500};
+    --grey-600: #{$grey_600};
+    --grey-700: #{$grey_700};
+
+    --yellow-100: #{$yellow_100};
+    --yellow-200: #{$yellow_200};
+    --yellow-300: #{$yellow_300};
+    --yellow-400: #{$yellow_400};
+    --yellow-500: #{$yellow_500};
+    --yellow-600: #{$yellow_600};
+    --yellow-700: #{$yellow_700};
+
+    --green-100: #{$green_100};
+    --green-200: #{$green_200};
+    --green-300: #{$green_300};
+    --green-400: #{$green_400};
+    --green-500: #{$green_500};
+    --green-600: #{$green_600};
+    --green-700: #{$green_700};
+
+    --lilac-100: #{$lilac_100};
+    --lilac-200: #{$lilac_200};
+    --lilac-300: #{$lilac_300};
+    --lilac-400: #{$lilac_400};
+    --lilac-500: #{$lilac_500};
+    --lilac-600: #{$lilac_600};
+    --lilac-700: #{$lilac_700};
+
+    --red-100: #{$red_100};
+    --red-200: #{$red_200};
+    --red-300: #{$red_300};
+    --red-400: #{$red_400};
+    --red-500: #{$red_500};
+    --red-600: #{$red_600};
+    --red-700: #{$red_700};
+
+    --black: #{$black_brand};
+    --white: #{$white};
+
+    @include nter-icon-filters;
+  }
+}
+
+// Variables CSS envolventes para uso en componentes
+$black_var: var(--black);
+$white_var: var(--white);
+$transparent_var: transparent;
+
+$grey_100_var: var(--grey-100);
+$grey_200_var: var(--grey-200);
+$grey_300_var: var(--grey-300);
+$grey_500_var: var(--grey-500);
+$grey_600_var: var(--grey-600);
+$grey_700_var: var(--grey-700);
+
+$yellow_100_var: var(--yellow-100);
+$yellow_200_var: var(--yellow-200);
+$yellow_300_var: var(--yellow-300);
+$yellow_400_var: var(--yellow-400);
+$yellow_500_var: var(--yellow-500);
+$yellow_600_var: var(--yellow-600);
+$yellow_700_var: var(--yellow-700);
+
+$green_100_var: var(--green-100);
+$green_200_var: var(--green-200);
+$green_300_var: var(--green-300);
+$green_400_var: var(--green-400);
+$green_500_var: var(--green-500);
+$green_600_var: var(--green-600);
+$green_700_var: var(--green-700);
+
+$lilac_100_var: var(--lilac-100);
+$lilac_200_var: var(--lilac-200);
+$lilac_300_var: var(--lilac-300);
+$lilac_400_var: var(--lilac-400);
+$lilac_500_var: var(--lilac-500);
+$lilac_600_var: var(--lilac-600);
+$lilac_700_var: var(--lilac-700);
+
+$red_100_var: var(--red-100);
+$red_200_var: var(--red-200);
+$red_300_var: var(--red-300);
+$red_400_var: var(--red-400);
+$red_500_var: var(--red-500);
+$red_600_var: var(--red-600);
+$red_700_var: var(--red-700);
+
+$raspberry_red_100_var: var(--raspberry-red-100);
+$raspberry_red_200_var: var(--raspberry-red-200);
+$raspberry_red_300_var: var(--raspberry-red-300);
+$raspberry_red_400_var: var(--raspberry-red-400);
+$raspberry_red_500_var: var(--raspberry-red-500);
+$raspberry_red_600_var: var(--raspberry-red-600);
+$raspberry_red_700_var: var(--raspberry-red-700);
+
+$siena_orange_100_var: var(--siena-orange-100);
+$siena_orange_200_var: var(--siena-orange-200);
+$siena_orange_300_var: var(--siena-orange-300);
+$siena_orange_400_var: var(--siena-orange-400);
+$siena_orange_500_var: var(--siena-orange-500);
+$siena_orange_600_var: var(--siena-orange-600);
+$siena_orange_700_var: var(--siena-orange-700);
+
+$crayola_blue_100_var: var(--crayola-blue-100);
+$crayola_blue_200_var: var(--crayola-blue-200);
+$crayola_blue_300_var: var(--crayola-blue-300);
+$crayola_blue_400_var: var(--crayola-blue-400);
+$crayola_blue_500_var: var(--crayola-blue-500);
+$crayola_blue_600_var: var(--crayola-blue-600);
+$crayola_blue_700_var: var(--crayola-blue-700);

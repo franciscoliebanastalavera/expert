@@ -1,0 +1,310 @@
+@use '../../styles/variables' as *;
+@use '../../styles/fonts' as *;
+
+:host {
+  color: $secondary_500;
+  display: inline-flex;
+  flex-direction: column;
+  font-family: 'ForeverFormaBodyText-Regular';
+  font-size: 14px;
+  min-width: 100px;
+  position: relative;
+}
+
+.cap-input {
+  @mixin labelFloating($x: 3px, $y: -24px, $color-float: $white) {
+    background: $color-float;
+    padding: 0 2px;
+    transform: translate($x, $y) scale(0.9);
+    font-size: 14px;
+  }
+
+  &__label {
+    color: $secondary_500;
+    left: 2px;
+    font-size: 16px;
+    padding: 0 8px;
+    position: absolute;
+    top: 15px;
+    transition: all 0.5s ease;
+    pointer-events: none;
+
+    &-floating {
+      @include labelFloating;
+      color: $secondary_500;
+    }
+
+    &-invalid {
+      color: $danger_500;
+    }
+
+    &-small {
+      top: 9px;
+    }
+
+    &-small:is(.cap-input__label-floating) {
+      @include labelFloating(3px, -18px);
+    }
+
+    &-clear:is(.cap-input__label-floating) {
+      @include labelFloating(3px, -32px, $transparent);
+      background-image: none;
+      color: $white;
+    }
+
+    &-clear:is(.cap-input__label-small):is(.cap-input__label-floating) {
+      @include labelFloating(3px, -26px, $transparent);
+      background-image: none;
+    }
+
+    &-clear:is(.cap-input__label-invalid) {
+      color: $yellow-gream-brulee;
+    }
+  }
+
+  &__field {
+    align-items: center;
+    background-color: $white;
+    border: none;
+    box-sizing: border-box;
+    color: $secondary_500;
+    display: flex;
+    outline: solid 1px $secondary_500;
+    padding: 0 6px 0 10px;
+
+    > input,
+    > textarea {
+      font-family: 'ForeverFormaBodyText-Regular';
+      font-size: 16px;
+      border: none;
+      outline: none;
+      resize: none;
+      box-sizing: border-box;
+      width: 98%;
+      height: 100%;
+      color: $secondary_500;
+      text-overflow: ellipsis;
+
+      /* Chrome, Safari, Edge, Opera */
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        appearance: none;
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      appearance: none;
+      -moz-appearance: textfield;
+
+      &::placeholder {
+        color: $white;
+      }
+    }
+
+    textarea {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+
+    input[type='password'] {
+      font-family: 'asteriskpass';
+      font-style: normal;
+      font-weight: normal;
+
+      /* Por seguridad - resetear estilos del padre que pueden romper los codigos de glifos */
+      font-variant: normal;
+      text-transform: none;
+
+      /* Suavizado de fuentes */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    input::-ms-reveal {
+      display: none;
+    }
+
+    &-multiline {
+      max-height: none;
+      min-height: 48px;
+
+      > textarea {
+        border-bottom: 6px solid transparent;
+        border-top: 6px solid transparent;
+        box-sizing: border-box;
+        font-family: 'SenticoSansDT-Regular';
+        font-size: 16px;
+        line-height: 1.25;
+        max-height: none;
+        min-height: 48px;
+        overflow: hidden;
+        resize: none;
+        text-overflow: unset;
+        white-space: unset;
+      }
+    }
+
+    &-standard {
+      border-radius: 8px;
+      height: 48px;
+    }
+
+    &-small {
+      border-radius: 8px;
+      height: 36px;
+    }
+
+    &-invalid {
+      outline: 1px solid $danger_500;
+    }
+
+    &-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      > input {
+        background-color: $white;
+      }
+    }
+
+    &-disabled,
+    &-disabled + div {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &-clear {
+      outline: none;
+    }
+
+    &-clear:is(.cap-input__field-floating-invalid) {
+      outline: 1.5px solid $yellow-gream-brulee;
+    }
+
+    &:not(:focus-within, .cap-input__field-invalid):hover {
+      outline: 1px solid $secondary_500;
+    }
+
+    &:focus-within > input,
+    &:focus-within > textarea {
+      &::placeholder {
+        color: $grey-silver-chalice;
+        font-size: 16px;
+      }
+    }
+
+    &:not(.cap-input__field-invalid):focus-within {
+      outline: 2px solid $secondary_500;
+
+      > label:not(.cap-input__label-clear) {
+        color: $secondary_500;
+      }
+    }
+
+    &-small {
+      &::focus-within + label:not(.cap-input__label-invalid) {
+        color: $blue-endeavour;
+      }
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      padding: 0 6px 0 8px;
+    }
+  }
+
+  /**
+  * Variantes de estilos para adaptar el comportamiento del input en el login del area privada,
+  * respecto al autocompletado de contrasena de Google-Chrome.
+  */
+  &__field:is(.cap-input__field-clear) {
+    input {
+      position: absolute;
+      padding-left: 10px;
+      width: 100%;
+      left: 0px;
+      border-radius: 10px;
+      height: 48px !important;
+    }
+  }
+  &__field:is(.cap-input__field-clear):has(cap-button) {
+    input {
+      padding-right: 45px !important;
+    }
+  }
+  &__field:is(.cap-input__field-clear):has(.eye-button):has(.clean-button) {
+    input {
+      padding-right: 80px !important;
+    }
+  }
+
+  &__prefix {
+    margin-right: 5px;
+  }
+
+  &__suffix {
+    margin: 0 11px 0 5px;
+  }
+
+  &__prefix,
+  &__suffix {
+    color: $grey-silver-chalice;
+  }
+
+  &__buttons {
+    display: inline-flex;
+    align-items: center;
+
+    img {
+      padding: 6px;
+    }
+
+    cap-button {
+      ::ng-deep .cap-button__small {
+        padding: 8px 10px;
+      }
+    }
+
+    cap-tooltip {
+      ::ng-deep .icon {
+        img {
+          width: auto;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  &__helpers {
+    color: $secondary_500;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    padding: 1px 10px 0;
+
+    &-clear {
+      color: $white;
+    }
+
+    &-error {
+      color: $danger_500;
+    }
+
+    &-clear &-error {
+      color: $yellow-gream-brulee;
+    }
+    &-match {
+      color: $green-apple;
+      font-weight: bold;
+    }
+  }
+  .helper-text {
+    word-break: break-all;
+  }
+}
+
+.clear-buttons {
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
+}

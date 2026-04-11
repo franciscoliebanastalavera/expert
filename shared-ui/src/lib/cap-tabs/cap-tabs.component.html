@@ -1,0 +1,22 @@
+<div [ngClass]="{ 'cap-tabs--mobile': tabMobile }">
+  <ul
+    class="cap-tabs"
+    [ngClass]="{
+      'cap-tabs--start': tabAlignment === 'left',
+      'cap-tabs--end': tabAlignment === 'right',
+      'cap-tabs--center': tabAlignment === 'center',
+    }"
+  >
+    <li *ngFor="let tab of tabs" (click)="selectTab(tab)">
+      <span
+        class="cap-tabs__tabLabel"
+        [ngClass]="{
+          'cap-tabs__tabLabel-active': tab.active,
+          'cap-tabs__tabLabel-disabled': tab.disabled,
+        }"
+        >{{ tab.label }}</span
+      >
+    </li>
+  </ul>
+</div>
+<ng-content></ng-content>

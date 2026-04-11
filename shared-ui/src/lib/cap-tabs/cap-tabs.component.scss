@@ -1,0 +1,70 @@
+@use '../../styles/variables' as *;
+@use '../../styles/fonts' as *;
+
+.cap-tabs {
+  display: flex;
+  flex-direction: row;
+  font-family: 'ForeverFormaBodyText-Regular';
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  li {
+    display: inline-block;
+    list-style: none;
+    :not(.cap-tabs__tabLabel-disabled, .cap-tabs__tabLabel-active):hover {
+      color: $secondary_500;
+      border-bottom: solid 1px $secondary_500;
+    }
+    :not(.cap-tabs__tabLabel-disabled, .cap-tabs__tabLabel-active):active {
+      color: $primary_500;
+      border-bottom: solid 1px $primary_500;
+      font-family: 'ForeverFormaBodyText-Medium';
+    }
+  }
+  &__tabLabel {
+    color: $primary_500;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    margin: 5px 8px;
+    padding: 5px 0 4px;
+
+    &-active {
+      border-bottom: solid 2px $primary_500;
+      font-family: 'ForeverFormaBodyText-Medium';
+      cursor: default;
+    }
+
+    &-disabled {
+      cursor: not-allowed;
+      color: $neutrals_500;
+      background: $neutrals_100;
+    }
+  }
+
+  // Alinear las pestanas segun TabAlignmentOptions
+  &.cap-tabs--start {
+    justify-content: flex-start;
+  }
+
+  &.cap-tabs--center {
+    justify-content: center;
+  }
+
+  &.cap-tabs--end {
+    justify-content: flex-end;
+  }
+}
+
+.cap-tabs--mobile {
+  max-width: auto;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .cap-tabs__tabLabel {
+    padding: 5px 0 4px;
+    font-size: 14px;
+    margin: 5px 4px;
+  }
+}

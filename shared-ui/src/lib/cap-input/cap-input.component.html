@@ -1,0 +1,173 @@
+<div
+  appClickOutside
+  (clickedOutside)="clickOutside()"
+  #fieldContainer
+  [class]="'cap-input__field cap-input__field-' + size"
+  [ngClass]="{
+    'cap-input__field-disabled': disabled,
+    'cap-input__field-clear': variant === 'clear',
+    'cap-input__field-invalid': control?.valid === false && control?.touched,
+  }"
+>
+  <span *ngIf="prefix && (!!value || fieldOnFocus)" class="cap-input__prefix">
+    {{ prefix }}
+  </span>
+  <input
+    #input
+    *ngIf="!multiline; else inputMultiline"
+    [id]="name"
+    [name]="name"
+    [ngModel]="value | iban: control : !showIBAN && customBehaviour === 'IBAN'"
+    [type]="showPassword ? 'text' : type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [attr.maxlength]="maxLength"
+    [class]="'cap-input__field-custom-' + componentId"
+    spellcheck="false"
+    (input)="handleInput(input.value)"
+    (focus)="handleFocus()"
+    (blur)="handleBlur($event)"
+    (keyup)="handleKeyUp(input.value)"
+  />
+  <ng-template #inputMultiline>
+    <textarea
+      #textarea
+      class="cap-input__field-multiline"
+      [placeholder]="placeholder"
+      [id]="name"
+      [name]="name"
+      [ngModel]="value"
+      [disabled]="disabled"
+      [attr.maxlength]="maxLength"
+      spellcheck="false"
+      (input)="handleInput(textarea.value)"
+      (focus)="handleFocus()"
+      (blur)="handleBlur($event)"
+    ></textarea>
+  </ng-template>
+  <label
+    *ngIf="label"
+    [for]="name"
+    [class]="
+      'cap-input__label-custom-' +
+      componentId +
+      ' cap-input__label cap-input__label-' +
+      size
+    "
+    [ngClass]="{
+      'cap-input__label-floating': fieldOnFocus || !!value || variant === 'clear',
+      'cap-input__label-clear': variant === 'clear',
+      'cap-input__label-invalid': control?.valid === false && control?.touched,
+    }"
+  >
+    {{ label }}
+  </label>
+  <span *ngIf="suffix && (!!value || fieldOnFocus)" class="cap-input__suffix">
+    {{ suffix }}
+  </span>
+  <div
+    class="cap-input__buttons"
+    [ngClass]="{
+      'clear-buttons': variant === 'clear',
+    }"
+  >
+    <cap-button
+      *ngIf="fieldOnFocus && !!value"
+      class="clean-button"
+      variant="icon-button"
+      [inputButton]="true"
+      size="small"
+      icon="images/circle-cross-reb.svg"
+      (click)="handleClear()"
+    ></cap-button>
+    <cap-button
+      *ngIf="
+        ((showPassword && type === 'password') ||
+          (showIBAN && customBehaviour === 'IBAN')) &&
+        !!value
+      "
+      class="eye-button"
+      variant="icon-button"
+      [inputButton]="true"
+      size="small"
+      icon="images/eye-strike-reb.svg"
+      (click)="handleShow()"
+    ></cap-button>
+    <cap-button
+      *ngIf="
+        ((!showPassword && type === 'password') ||
+          (!showIBAN && customBehaviour === 'IBAN')) &&
+        !!value
+      "
+      class="eye-button"
+      variant="icon-button"
+      [inputButton]="true"
+      size="small"
+      icon="images/eye-reb.svg"
+      (click)="handleShow()"
+    ></cap-button>
+    <cap-tooltip
+      *ngIf="(tooltipText && value === '') || (tooltipText && tooltipPermanent)"
+      [titleTooltip]="tooltipTitle"
+      [textTooltip]="tooltipText"
+      [tooltipAlign]="tooltipAlign"
+      [invertVertical]="tooltipVertical"
+      [enableTooltipModal]="tooltipModal"
+    >
+    </cap-tooltip>
+  </div>
+</div>
+<div
+  class="cap-input__helpers"
+  [ngClass]="{
+    'cap-input__helpers-clear': variant === 'clear',
+  }"
+>
+  <span
+    *ngIf="
+      type === 'password' &&
+      customBehaviour === 'password' &&
+      (!(control?.errors?.required && control?.valid === false) || !control?.touched)
+    "
+    [ngClass]="{
+      'cap-input__helpers-error': !control?.valid && control?.touched,
+    }"
+  >
+    <span>Mínimo: </span>
+    <span [ngClass]="{ 'cap-input__helpers-match': checkLength }">8 caracteres</span>
+    <span [ngClass]="{ 'cap-input__helpers-match': checkOneMin }">, minúscula</span>
+    <span [ngClass]="{ 'cap-input__helpers-match': checkOneCap }">, mayúscula</span>
+    <span [ngClass]="{ 'cap-input__helpers-match': checkOneDigit }">, y número.</span>
+  </span>
+  <span
+    class="helper-text"
+    *ngIf="helper && (control?.valid !== false || !control?.touched)"
+  >
+    {{ helper }}
+  </span>
+  <br />
+  <span
+    style="color: #f93b0b; font-style: italics"
+    *ngFor="let error of control?.errors | keyvalue"
+  >
+    {{ errorMessages[error.key] }}
+  </span>
+  <span
+    class="helper-text"
+    *ngIf="control?.valid === false && control?.touched"
+    class="cap-input__helpers-error"
+  >
+    <ng-container
+      [ngTemplateOutlet]="!!errorMessages ? customError : helperError"
+    ></ng-container>
+    <ng-template #helperError>
+      <span>{{ helper }}</span>
+    </ng-template>
+    <ng-template #customError>
+      <span *ngFor="let error of control?.errors | keyvalue">
+        {{ errorMessages[error.key] }}
+      </span>
+    </ng-template>
+  </span>
+  <span *ngIf="maxLength !== 65"> {{ value?.length || 0 }}/{{ maxLength }} </span>
+</div>

@@ -1,0 +1,14 @@
+// Variables de fuentes Sora — basado en Nter-lib
+// NOTA: Las declaraciones @font-face se definen en la app consumidora (shell),
+// no en la librería, porque ng-packagr no puede resolver URLs de assets.
+// Los archivos de fuente están en shared-ui/src/assets/fonts/sora/static/
+// y deben copiarse al proyecto que consume la librería.
+
+$font-sora-bold: 'Sora-Bold';
+$font-sora-extrabold: 'Sora-ExtraBold';
+$font-sora-extralight: 'Sora-ExtraLight';
+$font-sora-light: 'Sora-Light';
+$font-sora-medium: 'Sora-Medium';
+$font-sora-regular: 'Sora-Regular';
+$font-sora-semibold: 'Sora-SemiBold';
+$font-sora-thin: 'Sora-Thin';

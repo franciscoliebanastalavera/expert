@@ -1,0 +1,322 @@
+@use '../../styles/variables' as *;
+@use '../../styles/fonts' as *;
+
+@mixin secondary-action-before($color) {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-color: $color;
+        background-color: $color;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: -1;
+    }
+
+    &:hover:not(:disabled)::before {
+        transform: translateX(0);
+    }
+
+    &:hover:not(:disabled) {
+        color: $white;
+        border-color: $white;
+
+        > img {
+            filter: $filter-white;
+        }
+    }
+
+    &:active:not(:disabled) {
+        font-family: 'Sora-Bold';
+        color: $white;
+        border: 1px solid $color;
+
+        > img {
+            filter: $white;
+        }
+    }
+}
+
+.cap-button {
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Sora-Medium', sans-serif;
+    font-size: 16px;
+    justify-content: center;
+    min-width: 142px;
+    text-align: center;
+    user-select: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    &__loading {
+        cursor: wait;
+        position: relative;
+
+        &:disabled {
+            opacity: 0.7;
+        }
+    }
+
+    &__spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: currentColor;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+        margin-left: 8px;
+    }
+
+    &__loading-text {
+        margin-left: 4px;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+
+    &__xsmall {
+        font-size: 16px;
+        height: 30px;
+        padding: 8px 10px;
+    }
+
+    &__small {
+        height: 36px;
+        padding: 6px 16px;
+    }
+
+    &__standard {
+        height: 48px;
+        padding: 16px;
+    }
+
+    &__primary {
+        color: $white;
+        background-color: $color-dark;
+
+        &:hover:not(:disabled) {
+            background-color: $color-dark-hover;
+        }
+
+        &:active:not(:disabled) {
+            font-family: 'Sora-Bold';
+            background-color: $color-dark-hover;
+        }
+
+        &:disabled {
+            color: $color-dark;
+            background-color: #f3f3f3;
+
+            > img {
+                filter: $filter-neutrals_500;
+            }
+        }
+
+        > img {
+            filter: $filter-white;
+        }
+    }
+
+    &__secondary {
+        color: $color-dark;
+        background-color: $white;
+        border: 1px solid $color-dark;
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-color: $color-dark;
+            background-color: $color-dark;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        &:hover:not(:disabled)::before {
+            transform: translateX(0);
+        }
+
+        &:hover:not(:disabled) {
+            color: $white;
+            border: 1px solid $white;
+
+            > img {
+                filter: $filter-white;
+            }
+        }
+
+        &:active:not(:disabled) {
+            font-family: 'Sora-Bold';
+            color: $white;
+            border: 1px solid $color-dark;
+
+            > img {
+                filter: $white;
+            }
+        }
+
+        &:disabled {
+            color: $neutrals_500;
+            border: 1px solid $neutrals_200;
+
+            > img {
+                filter: $filter-neutrals_500;
+            }
+        }
+
+        > img {
+            filter: $filter-primary_500;
+        }
+    }
+
+    &__secondary-action-orange {
+        @include secondary-action-before($siena_orange_400);
+    }
+
+    &__secondary-action-blue {
+        @include secondary-action-before($crayola_blue_400);
+    }
+
+    &__secondary-action-pink {
+        @include secondary-action-before($raspberry_red_400);
+    }
+
+    &__secondary-action-dark {
+        @include secondary-action-before($color-dark);
+    }
+
+    &__tertiary {
+        color: $color-dark;
+        background-color: transparent;
+
+        &:hover:not(:disabled) {
+            color: $color-dark;
+
+            > img {
+                filter: $color-dark-hover;
+            }
+        }
+
+        &:active:not(:disabled) {
+            font-family: 'Sora-Bold';
+            color: $color-dark;
+
+            > img {
+                filter: $color-dark-hover;
+            }
+        }
+
+        &:disabled {
+            color: $color-dark;
+
+            > img {
+                filter: $color-dark-hover;
+            }
+        }
+
+        > img {
+            filter: $color-dark-hover;
+        }
+    }
+
+    &__icon-button {
+        background-color: $white;
+        border-radius: 12px;
+        box-shadow: none;
+        min-width: auto;
+
+        img {
+            width: auto;
+            height: auto;
+        }
+    }
+
+    &__icon-button:is(&__standard) {
+        height: 36px;
+        width: 36px;
+    }
+
+    &__icon-button:is(&__small) {
+        height: 32px;
+        width: 32px;
+    }
+
+    &__icon-button:is(&__xsmall) {
+        height: 28px;
+        width: 28px;
+    }
+
+    &__icon {
+        &-small {
+            height: 16px;
+            width: 16px;
+        }
+
+        &-left,
+        &-right {
+            min-width: 130px;
+        }
+
+        &-left > img {
+            transition: transform 0.3s ease;
+            margin-right: 4px;
+        }
+
+        &-left:hover:not(:disabled) > img,
+        &-left:active:not(:disabled) > img {
+            transform: translateX(-5px);
+        }
+
+        &-right {
+            flex-direction: row-reverse;
+        }
+
+        &-right > img {
+            transition: transform 0.3s ease;
+            margin-left: 4px;
+        }
+
+        &-right:hover:not(:disabled) > img,
+        &-right:active:not(:disabled) > img {
+            transform: translateX(5px);
+        }
+    }
+
+    &__label-uppercase {
+        text-transform: uppercase;
+    }
+
+    &__label-capitalize {
+        text-transform: capitalize;
+    }
+
+    &__label-lowercase {
+        text-transform: lowercase;
+    }
+
+    &__label-none {
+        text-transform: none;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

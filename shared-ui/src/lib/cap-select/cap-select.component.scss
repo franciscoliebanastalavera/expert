@@ -1,0 +1,370 @@
+@use '../../styles/variables' as *;
+@use '../../styles/fonts' as *;
+
+p {
+  margin: 0;
+}
+
+:host {
+  color: $primary_500;
+  display: inline-flex;
+  flex-direction: column;
+  font-family: 'ForeverFormaBodyText-Regular';
+  font-size: 14px;
+  min-width: 100px;
+  margin-top: 10px;
+  position: relative;
+}
+
+:host:has(div):has(.cap-select__field-unfold):has(.cap-select__field-standard) {
+  height: 66px;
+}
+
+:host:has(div):has(.cap-select__field-unfold):has(.cap-select__field-small) {
+  height: 58px;
+}
+
+:host:has(div):has(.cap-select__field-standard) {
+  .cap-select__field {
+    .controls > input {
+      margin-top: auto;
+    }
+  }
+}
+
+.cap-select {
+  @mixin labelFloating($x: 3px, $y: -24px) {
+    background: $white;
+    padding: 0 2px;
+    transform: translate($x, $y) scale(0.9);
+    font-size: 14px;
+  }
+
+  &__label {
+    color: $primary_500;
+    left: 2px;
+    font-size: 16px;
+    padding: 0 8px;
+    position: absolute;
+    top: 15px;
+    transition: all 0.5s ease;
+    pointer-events: none;
+
+    &-floating {
+      @include labelFloating;
+      color: $primary_500;
+    }
+
+    &-invalid {
+      color: $danger_500;
+    }
+
+    &-small {
+      top: 9px;
+    }
+
+    &-small:is(&-floating) {
+      @include labelFloating(3px, -18px);
+    }
+  }
+
+  &__field {
+    align-items: center;
+    background-color: $white;
+    border: none;
+    box-sizing: border-box;
+    color: $primary_500;
+    display: flex;
+    outline: solid 1px $primary_500;
+    padding: 0 6px 0 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .controls {
+      display: flex;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .controls > input {
+      color: $primary_500;
+      font-family: 'ForeverFormaBodyText-Regular';
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      height: 100%;
+      outline: none;
+      overflow: hidden;
+      padding: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+      height: auto;
+      margin-bottom: auto;
+
+      /* Chrome, Safari, Edge, Opera */
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        appearance: none;
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      appearance: none;
+      -moz-appearance: textfield;
+
+      &::placeholder {
+        color: $neutrals_200;
+        font-family: 'ForeverFormaBodyText-Regular';
+        font-size: 16px;
+      }
+
+      &:read-only {
+        cursor: default;
+      }
+    }
+
+    &:not(:focus-within, &-invalid):hover {
+      outline: 1px solid $secondary_500;
+    }
+
+    &:not(&-invalid):focus-within {
+      outline: 2px solid $primary_500;
+    }
+
+    &-standard {
+      border-radius: 8px;
+      min-height: 48px;
+    }
+
+    &-small {
+      border-radius: 8px;
+      min-height: 36px;
+    }
+
+    &-small {
+      &::focus-within + label:not(.cap-select__label-invalid) {
+        color: $primary_500;
+      }
+    }
+
+    &-invalid {
+      outline: 1px solid $danger_500;
+    }
+
+    &-disabled,
+    &-disabled + div {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &-unfold {
+      position: absolute;
+      z-index: 2002;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      padding: 0 6px 0 8px;
+    }
+  }
+
+  &__buttons {
+    display: inline-flex;
+
+    img {
+      padding: 6px;
+    }
+
+    cap-button {
+      ::ng-deep .cap-button__small {
+        padding: 8px 10px;
+      }
+    }
+
+    cap-button:last-of-type:hover {
+      transform: scale(1.167);
+    }
+
+    &-small {
+      margin-top: -6px;
+    }
+  }
+
+  &__dropdown {
+    width: 100%;
+    margin-top: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    height: 242px;
+
+    .divider-option {
+      height: 1px;
+      width: 100%;
+      background: $neutrals_100;
+    }
+
+    label {
+      margin-bottom: 0;
+    }
+
+    label:hover:not(.option-disabled, .option-selected) {
+      background: $secondary_100;
+    }
+
+    .option {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      align-items: center;
+      user-select: none;
+      padding: 9px 4px 9px 6px;
+      width: 100%;
+      font-size: 16px;
+      color: $primary_500;
+      word-break: break-all;
+
+      .label {
+        grid-column: 1 / 6;
+        grid-row: 1;
+      }
+
+      .checker {
+        grid-column: 6;
+        grid-row: span 2;
+        width: 18px;
+        height: 18px;
+        margin-left: auto;
+        padding-right: 10px;
+
+        img {
+          filter: $filter-secondary_500;
+        }
+      }
+
+      input {
+        display: none;
+      }
+
+      .description {
+        grid-column: 1/6;
+        grid-row: 2;
+        margin: 5px 0;
+        color: $primary_500;
+        font-size: 14px;
+      }
+    }
+
+    :not(.option-disabled).option:active {
+      font-weight: bold;
+    }
+
+    .option-disabled {
+      background: $neutrals_200;
+      color: $neutrals_500;
+
+      span {
+        filter: $neutrals_500;
+      }
+
+      p {
+        color: $neutrals_500;
+      }
+    }
+
+    .option-selected {
+      background: $secondary_100;
+      color: $secondary_500;
+
+      .label {
+        font-weight: bold;
+      }
+
+      p {
+        color: $secondary_500;
+        font-weight: normal;
+      }
+    }
+
+    .option-selected:hover {
+      color: $primary_500;
+
+      .label {
+        font-weight: normal;
+      }
+
+      p {
+        color: $primary_500;
+        font-weight: normal;
+      }
+    }
+
+    .option-selected:active {
+      color: $primary_500;
+
+      .label {
+        font-weight: bold;
+      }
+
+      p {
+        color: $primary_500;
+        font-weight: bold;
+      }
+    }
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 20px;
+
+      &-thumb {
+        border-radius: 5px;
+        background: $neutrals_300;
+      }
+
+      &-track {
+        border-radius: 5px;
+        background: $neutrals_100;
+      }
+    }
+
+    &-short {
+      height: 130px;
+    }
+
+    &-description {
+      height: 405px;
+    }
+
+    &-description-short {
+      height: 210px;
+    }
+
+    &-auto {
+      height: auto;
+    }
+
+    &-no-results p {
+      padding: 9px 4px 9px 0px;
+      margin: 0;
+    }
+
+    &-small {
+      margin-top: 0;
+    }
+  }
+
+  &__helpers {
+    color: $primary_500;
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    padding: 1px 10px 0;
+    height: 18px;
+
+    &-error {
+      color: $danger_500;
+    }
+  }
+}
