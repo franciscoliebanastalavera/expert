@@ -6,7 +6,6 @@ import { AnalyticsWrapperComponent } from './analytics-wrapper.component';
 const routes: Routes = [{ path: '', component: AnalyticsWrapperComponent }];
 
 @NgModule({
-  declarations: [AnalyticsWrapperComponent],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forChild(routes), AnalyticsWrapperComponent],
 })
 export class AnalyticsWrapperModule {}
