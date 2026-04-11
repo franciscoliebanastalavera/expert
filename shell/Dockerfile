@@ -22,7 +22,7 @@ FROM nginx:alpine AS serve
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copiar los archivos compilados desde la etapa de construcción
-COPY --from=build /app/dist/shell/browser /usr/share/nginx/html
+COPY --from=build /app/dist/shell /usr/share/nginx/html
 
 # Copiar la configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
