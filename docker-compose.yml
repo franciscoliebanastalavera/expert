@@ -1,5 +1,5 @@
 # Docker Compose para el proyecto CapitalFlow
-# Orquesta el shell principal y los microfrontends
+# Orquesta el shell principal, el microfrontend y la documentación Storybook
 version: "3.8"
 
 services:
@@ -9,7 +9,7 @@ services:
       context: ./shell
       dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "8081:80"
     depends_on:
       - mfe-analytics
     networks:
@@ -22,7 +22,18 @@ services:
       context: ./mfe-analytics-react
       dockerfile: Dockerfile
     ports:
-      - "4201:80"
+      - "8082:80"
+    networks:
+      - capitalflow-net
+    restart: unless-stopped
+
+  # Documentación de componentes (Storybook estático de shared-ui)
+  storybook:
+    build:
+      context: ./shared-ui
+      dockerfile: Dockerfile
+    ports:
+      - "6007:80"
     networks:
       - capitalflow-net
     restart: unless-stopped
