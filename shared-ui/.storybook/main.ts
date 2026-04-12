@@ -17,6 +17,15 @@ const config: StorybookConfig = {
     '../src/assets',
     { from: '../src/assets/images', to: '/images' },
   ],
+  webpackFinal: async (config) => {
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings ?? []),
+      (warning) =>
+        warning.message.includes('DefinePlugin') &&
+        warning.message.includes("Conflicting values for 'process.env.NODE_ENV'"),
+    ];
+    return config;
+  },
 };
 
 export default config;
