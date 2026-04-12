@@ -28,7 +28,6 @@
     "@angular/router": "^18.2.14",
     "@storybook/addon-docs": "^8.6.0",
     "@storybook/addon-essentials": "^8.6.0",
-    "@storybook/addon-onboarding": "^8.6.0",
     "@storybook/angular": "^8.6.0",
     "@types/dompurify": "^3.0.0",
     "ng-packagr": "^18.0.0",

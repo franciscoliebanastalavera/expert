@@ -1,0 +1,194 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Introduction" />
+
+<style>{`
+  .cf-doc { --cf-primary:#2a85c4; --cf-primary-dark:#1d2550; --cf-secondary:#f47c20; --cf-ink:#0f172a; --cf-ink-2:#334155; --cf-muted:#64748b; --cf-line:#e2e8f0; --cf-surface:#ffffff; --cf-bg:#f8fafc; font-family:'Inter','Segoe UI',system-ui,sans-serif; color:var(--cf-ink); max-width:1180px; margin:0 auto; padding:0 8px 80px; -webkit-font-smoothing:antialiased; }
+  .cf-doc *{ box-sizing:border-box; }
+  .cf-doc h2{ font-size:26px; font-weight:700; letter-spacing:-0.02em; margin:56px 0 20px; color:var(--cf-ink); }
+  .cf-doc h3{ font-size:15px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--cf-muted); margin:28px 0 14px; }
+  .cf-doc p{ color:var(--cf-ink-2); line-height:1.65; font-size:15px; }
+
+  /* HERO */
+  .cf-hero{ position:relative; overflow:hidden; border-radius:20px; padding:56px 52px; margin-top:8px; background:linear-gradient(135deg,#0f2744 0%,#1d2550 45%,#2a85c4 110%); color:#fff; box-shadow:0 20px 60px -20px rgba(29,37,80,0.45); }
+  .cf-hero::before{ content:""; position:absolute; inset:0; background:radial-gradient(circle at 85% 20%, rgba(244,124,32,0.35), transparent 45%), radial-gradient(circle at 15% 90%, rgba(42,133,196,0.45), transparent 50%); pointer-events:none; }
+  .cf-hero-grid{ position:relative; display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center; }
+  .cf-logo{ width:84px; height:84px; border-radius:22px; background:linear-gradient(135deg,#f47c20,#2a85c4); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:38px; color:#fff; letter-spacing:-0.04em; box-shadow:0 12px 32px -8px rgba(244,124,32,0.55); }
+  .cf-doc .cf-hero h1{ margin:0 0 10px; font-size:42px; font-weight:800; letter-spacing:-0.035em; line-height:1.05; color:#fff; }
+  .cf-doc .cf-hero .cf-hero-sub{ margin:0 0 22px; font-size:17px; color:rgba(255,255,255,0.92); max-width:640px; line-height:1.55; }
+  .cf-badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .cf-badge{ display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18); font-size:12.5px; font-weight:500; color:#fff; backdrop-filter:blur(4px); }
+  .cf-badge-version{ background:rgba(244,124,32,0.22); border-color:rgba(244,124,32,0.4); }
+  .cf-badge-dot{ width:6px; height:6px; border-radius:50%; background:#73d85a; box-shadow:0 0 0 3px rgba(115,216,90,0.25); }
+
+  /* METRICS */
+  .cf-metrics{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:-36px; position:relative; z-index:2; }
+  .cf-metric{ background:var(--cf-surface); border:1px solid var(--cf-line); border-radius:14px; padding:22px 20px; box-shadow:0 4px 20px -8px rgba(15,23,42,0.08); transition:transform .2s ease, box-shadow .2s ease; }
+  .cf-metric:hover{ transform:translateY(-2px); box-shadow:0 12px 28px -12px rgba(15,23,42,0.15); }
+  .cf-metric-val{ font-size:30px; font-weight:800; letter-spacing:-0.03em; color:var(--cf-primary); line-height:1; }
+  .cf-metric-val.sec{ color:var(--cf-secondary); }
+  .cf-metric-val.ink{ color:var(--cf-ink); }
+  .cf-metric-lbl{ margin-top:8px; font-size:13px; color:var(--cf-muted); font-weight:500; }
+
+  /* COMPONENT GRID */
+  .cf-cgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+  .cf-ccard{ background:var(--cf-surface); border:1px solid var(--cf-line); border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:10px; transition:all .2s ease; cursor:default; }
+  .cf-ccard:hover{ border-color:var(--cf-primary); box-shadow:0 8px 24px -10px rgba(42,133,196,0.25); transform:translateY(-1px); }
+  .cf-cicon{ width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,rgba(42,133,196,0.12),rgba(244,124,32,0.12)); display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .cf-cname{ font-weight:600; font-size:15px; color:var(--cf-ink); }
+  .cf-cselector{ font-family:'JetBrains Mono','Fira Code',monospace; font-size:12px; color:var(--cf-primary); background:rgba(42,133,196,0.08); padding:3px 8px; border-radius:5px; display:inline-block; width:fit-content; }
+  .cf-cdesc{ font-size:13px; color:var(--cf-muted); line-height:1.5; }
+
+  /* SWATCHES */
+  .cf-swatches{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
+  .cf-swatch{ border:1px solid var(--cf-line); border-radius:12px; overflow:hidden; background:var(--cf-surface); transition:transform .2s ease; }
+  .cf-swatch:hover{ transform:translateY(-2px); }
+  .cf-swatch-color{ height:88px; position:relative; }
+  .cf-swatch-body{ padding:12px 14px; }
+  .cf-swatch-var{ font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:600; color:var(--cf-ink); }
+  .cf-swatch-hex{ font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--cf-muted); margin-top:2px; text-transform:uppercase; }
+
+  /* CODE */
+  .cf-doc .cf-code{ background:#0f172a; border-radius:14px; padding:24px 28px; font-family:'JetBrains Mono','Fira Code',monospace; font-size:13.5px; line-height:1.7; color:#e2e8f0; overflow-x:auto; border:1px solid #1e293b; }
+  .cf-doc .cf-code span{ color:inherit; }
+  .cf-doc .cf-code .cf-tk-kw{ color:#c084fc; } .cf-doc .cf-code .cf-tk-str{ color:#86efac; } .cf-doc .cf-code .cf-tk-fn{ color:#60a5fa; } .cf-doc .cf-code .cf-tk-cm{ color:#64748b; font-style:italic; } .cf-doc .cf-code .cf-tk-tag{ color:#f472b6; } .cf-doc .cf-code .cf-tk-attr{ color:#fbbf24; } .cf-doc .cf-code .cf-tk-pun{ color:#94a3b8; } .cf-doc .cf-code .cf-tk-txt{ color:#e2e8f0; }
+  .cf-install{ background:#0f172a; border-radius:12px; padding:16px 20px; font-family:'JetBrains Mono',monospace; font-size:13.5px; color:#e2e8f0; display:flex; align-items:center; gap:12px; border:1px solid #1e293b; margin-bottom:14px; }
+  .cf-install::before{ content:"$"; color:var(--cf-secondary); font-weight:700; }
+  .cf-install-label{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cf-muted); margin:14px 0 6px; letter-spacing:0.02em; }
+  .cf-install-label:first-child{ margin-top:0; }
+
+  /* TOKENS LIST */
+  .cf-tklist{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+  .cf-tkrow{ border:1px solid var(--cf-line); border-radius:10px; padding:14px 16px; background:var(--cf-surface); }
+  .cf-tkrow-name{ font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--cf-primary); font-weight:600; }
+  .cf-tkrow-val{ font-size:13px; color:var(--cf-ink-2); margin-top:4px; }
+
+  .cf-divider{ height:1px; background:linear-gradient(to right, transparent, var(--cf-line), transparent); margin:48px 0 0; }
+  .cf-footer{ margin-top:56px; padding-top:28px; border-top:1px solid var(--cf-line); display:flex; justify-content:space-between; align-items:center; color:var(--cf-muted); font-size:13px; }
+  .cf-footer strong{ color:var(--cf-ink); }
+
+  @media (max-width:720px){
+    .cf-metrics{ grid-template-columns:repeat(2,1fr); margin-top:24px; }
+    .cf-hero{ padding:36px 28px; } .cf-hero h1{ font-size:32px; }
+    .cf-hero-grid{ grid-template-columns:1fr; }
+  }
+`}</style>
+
+<div className="cf-doc">
+
+<div className="cf-hero">
+  <div className="cf-hero-grid">
+    <div className="cf-logo">CF</div>
+    <div>
+      <h1 style={{color:'#fff', textShadow:'0 2px 16px rgba(0,0,0,0.5)'}}>@capitalflow/shared-ui</h1>
+      <p className="cf-hero-sub" style={{color:'rgba(255,255,255,0.92)'}}>Sistema de diseño y librería de componentes de la plataforma <strong style={{color:'#fff'}}>CapitalFlow</strong>. Construida con Angular 18 standalone, OnPush change detection y design tokens <code style={{color:'#fbbf24',background:'rgba(0,0,0,0.25)',padding:'2px 6px',borderRadius:4,fontSize:13}}>--cap-*</code>.</p>
+      <div className="cf-badges">
+        <span className="cf-badge cf-badge-version">v0.0.1</span>
+        <span className="cf-badge"><span className="cf-badge-dot"></span>Angular 18</span>
+        <span className="cf-badge">Standalone</span>
+        <span className="cf-badge">OnPush</span>
+        <span className="cf-badge">ng-packagr</span>
+        <span className="cf-badge">WCAG 2.1 AA</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="cf-metrics">
+  <div className="cf-metric"><div className="cf-metric-val">9</div><div className="cf-metric-lbl">Componentes listos</div></div>
+  <div className="cf-metric"><div className="cf-metric-val sec">18</div><div className="cf-metric-lbl">Angular version</div></div>
+  <div className="cf-metric"><div className="cf-metric-val ink">AA</div><div className="cf-metric-lbl">WCAG 2.1 compliant</div></div>
+  <div className="cf-metric"><div className="cf-metric-val ink">100%</div><div className="cf-metric-lbl">Standalone · OnPush</div></div>
+</div>
+
+<h2>Quick start</h2>
+<p>Instala la librería desde el workspace y empieza a usar componentes en cualquier feature standalone.</p>
+
+<div className="cf-install-label"># Instalar dependencias</div>
+<div className="cf-install">npm install @capitalflow/shared-ui</div>
+
+<div className="cf-install-label"># Arrancar Storybook en local</div>
+<div className="cf-install">npm run storybook</div>
+
+<div className="cf-code" style={{color:'#e2e8f0'}}>
+<span className="cf-tk-kw" style={{color:'#c084fc'}}>import</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`{`}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapButtonComponent</span><span className="cf-tk-pun">,</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapCardComponent</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`}`}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-kw" style={{color:'#c084fc'}}>from</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-str">'@capitalflow/shared-ui'</span><span className="cf-tk-pun">;</span>{'\n\n'}
+<span className="cf-tk-attr">@Component</span><span className="cf-tk-pun">({`({`}</span>{'\n  '}
+<span className="cf-tk-txt" style={{color:'#e2e8f0'}}>standalone</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-kw" style={{color:'#c084fc'}}>true</span><span className="cf-tk-pun">,</span>{'\n  '}
+<span className="cf-tk-txt" style={{color:'#e2e8f0'}}>imports</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">[</span><span className="cf-tk-fn">CapButtonComponent</span><span className="cf-tk-pun">,</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapCardComponent</span><span className="cf-tk-pun">],</span>{'\n  '}
+<span className="cf-tk-txt" style={{color:'#e2e8f0'}}>template</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-str">{'`'}</span>{'\n    '}
+<span className="cf-tk-str">{'<'}</span><span className="cf-tk-tag">cap-card</span><span className="cf-tk-str">{'>'}</span>{'\n      '}
+<span className="cf-tk-str">{'<'}</span><span className="cf-tk-tag">cap-button</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-attr">variant</span><span className="cf-tk-pun">=</span><span className="cf-tk-str">"primary"</span><span className="cf-tk-str">{'>'}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>Acción</span><span className="cf-tk-str">{'</'}</span><span className="cf-tk-tag">cap-button</span><span className="cf-tk-str">{'>'}</span>{'\n    '}
+<span className="cf-tk-str">{'</'}</span><span className="cf-tk-tag">cap-card</span><span className="cf-tk-str">{'>'}</span>{'\n  '}
+<span className="cf-tk-str">{'`'}</span>{'\n'}
+<span className="cf-tk-pun">{'})'}</span>{'\n'}
+<span className="cf-tk-kw" style={{color:'#c084fc'}}>export class</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">ExampleComponent</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`{}`}</span>
+</div>
+
+<h2>Catálogo de componentes</h2>
+<p>9 componentes con story documentada. Navega por el sidebar para ver cada uno con sus variantes y controles interactivos.</p>
+
+<div className="cf-cgrid">
+  {[
+    { i:'⬢', n:'Button', s:'<cap-button>', d:'Variantes primary, secondary, tertiary' },
+    { i:'▭', n:'Card', s:'<cap-card>', d:'Contenedor con theming dinámico' },
+    { i:'☑', n:'Checkbox', s:'<cap-checkbox>', d:'ControlValueAccessor integrado' },
+    { i:'▁', n:'Footer', s:'<cap-footer>', d:'Footer configurable con i18n' },
+    { i:'▔', n:'Header', s:'<cap-header>', d:'Nav, theme toggle, selector idioma' },
+    { i:'▢', n:'Modal', s:'<cap-modal>', d:'Modal con backdrop y acciones' },
+    { i:'▾', n:'Select', s:'<cap-select>', d:'Con búsqueda predictiva' },
+    { i:'⏻', n:'Switch', s:'<cap-switch>', d:'Toggle on/off animado' },
+    { i:'❏', n:'Tabs', s:'<cap-tabs>', d:'Pestañas con contenido dinámico' },
+  ].map((c) => (
+    <div className="cf-ccard" key={c.n}>
+      <div className="cf-cicon">{c.i}</div>
+      <div className="cf-cname">{c.n}</div>
+      <code className="cf-cselector">{c.s}</code>
+      <div className="cf-cdesc">{c.d}</div>
+    </div>
+  ))}
+</div>
+
+<h2>Design tokens · Colores</h2>
+<p>Todos los componentes consumen <strong>CSS Custom Properties</strong> definidas en <code style={{fontFamily:'JetBrains Mono,monospace',background:'#f1f5f9',padding:'2px 6px',borderRadius:4,fontSize:13,color:'#2a85c4'}}>src/styles/_capitalflow-theme.scss</code>. Nunca hardcodear colores en hex.</p>
+
+<div className="cf-swatches">
+  {[
+    { n:'--cap-primary', v:'#2a85c4', light:false },
+    { n:'--cap-primary-hover', v:'#1d2550', light:false },
+    { n:'--cap-secondary', v:'#f47c20', light:false },
+    { n:'--cap-secondary-hover', v:'#d96512', light:false },
+    { n:'--cap-success', v:'#73d85a', light:true },
+    { n:'--cap-danger', v:'#c51321', light:false },
+    { n:'--cap-warning', v:'#ffc133', light:true },
+    { n:'--cap-info', v:'#0061f4', light:false },
+    { n:'--cap-bg', v:'#f2f2f2', light:true },
+    { n:'--cap-bg-surface', v:'#ffffff', light:true },
+    { n:'--cap-text', v:'#1e1e1e', light:false },
+    { n:'--cap-border', v:'#e8e8e8', light:true },
+  ].map((t) => (
+    <div className="cf-swatch" key={t.n}>
+      <div className="cf-swatch-color" style={{background:t.v, borderBottom: t.light ? '1px solid #e2e8f0' : 'none'}}></div>
+      <div className="cf-swatch-body">
+        <div className="cf-swatch-var">{t.n}</div>
+        <div className="cf-swatch-hex">{t.v}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<h2>Otros design tokens</h2>
+<div className="cf-tklist">
+  <div className="cf-tkrow"><div className="cf-tkrow-name">--cap-font-family</div><div className="cf-tkrow-val">Sora-Regular</div></div>
+  <div className="cf-tkrow"><div className="cf-tkrow-name">--cap-font-family-bold</div><div className="cf-tkrow-val">Sora-Bold</div></div>
+  <div className="cf-tkrow"><div className="cf-tkrow-name">--cap-radius-sm / md / lg</div><div className="cf-tkrow-val">4px · 8px · 12px</div></div>
+  <div className="cf-tkrow"><div className="cf-tkrow-name">--cap-shadow-sm / md / lg</div><div className="cf-tkrow-val">Elevación escalada</div></div>
+  <div className="cf-tkrow"><div className="cf-tkrow-name">--cap-transition</div><div className="cf-tkrow-val">all 0.2s ease-in-out</div></div>
+  <div className="cf-tkrow"><div className="cf-tkrow-name">--cap-spacing-*</div><div className="cf-tkrow-val">Escala modular 4px</div></div>
+</div>
+
+<div className="cf-footer">
+  <div>© CapitalFlow · <strong>@capitalflow/shared-ui</strong></div>
+  <div>Angular 18 · ng-packagr · Storybook 8</div>
+</div>
+
+</div>
