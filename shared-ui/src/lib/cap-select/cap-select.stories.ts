@@ -27,7 +27,7 @@ export const Default: Story = {
   render: (args) => ({
     props: {
       ...args,
-      control: new FormControl({ value: null, disabled: false }),
+      control: new FormControl({ value: null, disabled: !!args.disabled }),
     },
     template: `
       <cap-select
@@ -35,7 +35,6 @@ export const Default: Story = {
         [label]="label"
         [placeholder]="placeholder"
         [options]="options"
-        [disabled]="disabled"
         [formControl]="control">
       </cap-select>
     `,
