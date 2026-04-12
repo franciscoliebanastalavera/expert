@@ -90,6 +90,7 @@ build:shell:
   image: node:20-alpine
   script:
     - cd shell
+    - npm install
     - npx ng build --configuration production
   artifacts:
     paths:
