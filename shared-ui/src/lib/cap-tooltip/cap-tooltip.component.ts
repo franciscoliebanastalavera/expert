@@ -50,16 +50,10 @@ export class CapTooltipComponent {
       });
   }
 
-  /**
-   * @param event
-   */
   hoverIcon(event: boolean): void {
     this.showTooltip = event;
   }
 
-  /**
-   * @param event
-   */
   openModalTooltip(event: boolean): void {
     if (this.enableTooltipModal) {
       this.showModalTooltip = event;

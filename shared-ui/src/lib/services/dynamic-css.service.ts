@@ -13,10 +13,10 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * @param className - Nombre de la clase CSS
-   * @param cssContent - Definicion CSS
-   * @param componentId - ID unico del componente
-   * @returns Nombre final de la clase CSS
+   * @param className - CSS class name.
+   * @param cssContent - CSS definition.
+   * @param componentId - Unique component id.
+   * @returns Final CSS class name.
    */
   createDynamicClass(
     className: string,
@@ -50,8 +50,8 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * @param classKey - Clave de la clase a actualizar
-   * @param newCssContent - Nuevo valor CSS
+   * @param classKey - Key of the class to update.
+   * @param newCssContent - New CSS value.
    */
   updateDynamicClass(classKey: string, newCssContent: string): void {
     const styleElement = this.styleElements.get(classKey);
@@ -62,7 +62,7 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * @param componentId - ID del componente
+   * @param componentId - Component id.
    */
   removeComponentClasses(componentId: string): void {
     const keysToRemove = Array.from(this.styleElements.keys()).filter((key) =>
@@ -73,7 +73,7 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * @param classKey - Clave de la clase
+   * @param classKey - Class key.
    */
   removeDynamicClass(classKey: string): void {
     const styleElement = this.styleElements.get(classKey);
@@ -84,7 +84,7 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * @returns ID unico
+   * @returns Unique id.
    */
   generateComponentId(): string {
     return Math.random().toString(36).substring(2, 11);
@@ -98,9 +98,9 @@ export class DynamicCssService implements OnDestroy {
   }
 
   /**
-   * @param classDefinitions - Array de definiciones de clases
-   * @param componentId - ID opcional del componente
-   * @returns Array de nombres finales de clases
+   * @param classDefinitions - Array of class definitions.
+   * @param componentId - Optional component id.
+   * @returns Array of final class names.
    */
   createMultipleDynamicClasses(
     classDefinitions: { className: string; cssContent: string }[],

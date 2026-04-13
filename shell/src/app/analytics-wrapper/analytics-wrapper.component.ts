@@ -17,76 +17,8 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
   selector: 'app-analytics-wrapper',
   standalone: true,
   imports: [TranslateModule],
-  template: `
-    <div #container class="mfe-container">
-      @if (cargando()) {
-        <div class="spinner-wrapper" [class.fade-out]="fadeOut()">
-          <svg class="spinner" viewBox="0 0 50 50">
-            <circle cx="25" cy="25" r="20" fill="none" stroke-width="4" stroke="var(--cap-primary, #2a85c4)" stroke-linecap="round"/>
-          </svg>
-          <span class="spinner-text">{{ 'MFE.LOADING' | translate }}</span>
-        </div>
-      }
-      @if (error()) {
-        <p class="error">{{ error() }}</p>
-      }
-    </div>
-  `,
-  styles: [`
-    .mfe-container {
-      min-height: 25rem;
-      padding: 1rem;
-    }
-
-    .spinner-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      padding: 4rem 0;
-      opacity: 1;
-      transition: opacity 0.3s ease;
-    }
-
-    .spinner-wrapper.fade-out {
-      opacity: 0;
-    }
-
-    .spinner {
-      width: 3rem;
-      height: 3rem;
-      animation: spin 1s linear infinite;
-    }
-
-    .spinner circle {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: 0;
-      animation: dash 1.5s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes dash {
-      0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-      50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-      100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
-    }
-
-    .spinner-text {
-      font-size: 0.875rem;
-      color: var(--cap-text-muted, #999);
-    }
-
-    .error {
-      color: var(--cap-danger, #c51321);
-      font-weight: 600;
-      text-align: center;
-      padding: 2rem;
-    }
-  `],
+  templateUrl: './analytics-wrapper.component.html',
+  styleUrls: ['./analytics-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
@@ -99,6 +31,13 @@ export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
   readonly fadeOut = signal(false);
   readonly error = signal('');
 
+  private buildMfeRemoteEntry(): string {
+    const { protocol, hostname, port } = window.location;
+    const shellPort = Number(port) || (protocol === 'https:' ? 443 : 80);
+    const mfePort = shellPort + 1;
+    return `${protocol}//${hostname}:${mfePort}/remoteEntry.js`;
+  }
+
   async ngAfterViewInit(): Promise<void> {
     const minDelay = new Promise<void>((r) => setTimeout(r, 600));
 
@@ -106,7 +45,7 @@ export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
       const [module] = await Promise.all([
         loadRemoteModule({
           type: 'script',
-          remoteEntry: 'http://localhost:4201/remoteEntry.js',
+          remoteEntry: this.buildMfeRemoteEntry(),
           remoteName: 'mfeAnalytics',
           exposedModule: './AnalyticsWeb',
         }),

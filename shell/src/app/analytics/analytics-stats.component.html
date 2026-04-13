@@ -1,0 +1,14 @@
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-label">{{ 'ANALYTICS.STATS.TOTAL' | translate }}</span>
+    <span class="stat-value">{{ total }}</span>
+  </div>
+  <div class="stat ingreso">
+    <span class="stat-label">{{ 'ANALYTICS.STATS.INCOME' | translate }}</span>
+    <span class="stat-value">{{ formatAmount(income) }}</span>
+  </div>
+  <div class="stat gasto">
+    <span class="stat-label">{{ 'ANALYTICS.STATS.EXPENSES' | translate }}</span>
+    <span class="stat-value">-{{ formatAmount(expenses) }}</span>
+  </div>
+</div>

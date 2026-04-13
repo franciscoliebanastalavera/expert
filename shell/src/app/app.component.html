@@ -1,9 +1,9 @@
 <div class="capitalflow-theme">
   <cap-header
     brandName="CapitalFlow"
-    [navItems]="navItems"
+    [navItems]="navItems()"
     [isDark]="themeService.isDark()"
-    [currentLang]="idiomaActual"
+    [currentLang]="idiomaActual()"
     (themeToggle)="themeService.toggle()"
     (langChange)="cambiarIdioma($event)">
   </cap-header>

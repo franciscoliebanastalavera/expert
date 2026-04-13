@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { combineLatest, map } from 'rxjs';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
@@ -13,13 +15,21 @@ export class AppComponent {
   private readonly translate = inject(TranslateService);
   private readonly document = inject(DOCUMENT);
 
-  idiomaActual: 'es' | 'en' = 'es';
+  readonly idiomaActual = signal<'es' | 'en'>('es');
   menuAbierto = false;
 
-  navItems = [
-    { label: 'NAV.HOME', route: '/' },
-    { label: 'NAV.ANALYTICS', route: '/analytics' },
-  ];
+  readonly navItems = toSignal(
+    combineLatest([
+      this.translate.stream('NAV.HOME'),
+      this.translate.stream('NAV.ANALYTICS'),
+    ]).pipe(
+      map(([home, analytics]) => [
+        { label: home as string, route: '/' },
+        { label: analytics as string, route: '/analytics' },
+      ]),
+    ),
+    { initialValue: [] as { label: string; route: string }[] },
+  );
 
   constructor() {
     this.translate.setDefaultLang('es');
@@ -32,8 +42,9 @@ export class AppComponent {
   }
 
   cambiarIdioma(lang?: 'es' | 'en'): void {
-    this.idiomaActual = lang || (this.idiomaActual === 'es' ? 'en' : 'es');
-    this.translate.use(this.idiomaActual);
-    this.document.documentElement.lang = this.idiomaActual;
+    const next = lang ?? (this.idiomaActual() === 'es' ? 'en' : 'es');
+    this.translate.use(next);
+    this.document.documentElement.lang = next;
+    this.idiomaActual.set(next);
   }
 }

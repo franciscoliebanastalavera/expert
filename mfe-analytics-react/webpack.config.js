@@ -1,34 +1,30 @@
-// Configuracion de Webpack 5 con Module Federation para el micro-frontend de Analytics
+// Webpack 5 configuration with Module Federation for the Analytics micro-frontend.
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = (env, argv) => {
-  // Determinar si estamos en modo produccion
   const isProduction = argv.mode === 'production';
 
   return {
-    // Punto de entrada principal de la aplicacion
     entry: './src/index.tsx',
 
     output: {
-      // Directorio de salida para los archivos compilados
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].js',
-      // URL publica necesaria para Module Federation
+      // `publicPath: 'auto'` is required so Module Federation resolves chunks
+      // relative to the remoteEntry URL at runtime.
       publicPath: 'auto',
       clean: true,
     },
 
     resolve: {
-      // Extensiones que Webpack resolvera automaticamente
       extensions: ['.tsx', '.ts', '.js', '.jsx'],
     },
 
     module: {
       rules: [
         {
-          // Regla para procesar archivos TypeScript y TSX
           test: /\.tsx?$/,
           use: 'ts-loader',
           exclude: /node_modules/,
@@ -37,17 +33,14 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
-      // Plugin de Module Federation: expone este MFE como remoto
       new ModuleFederationPlugin({
-        // Nombre unico del micro-frontend en la federacion
         name: 'mfeAnalytics',
-        // Archivo de entrada remota que consumira el shell
         filename: 'remoteEntry.js',
-        // Modulos expuestos al shell u otros micro-frontends
         exposes: {
           './AnalyticsWeb': './src/web-component.tsx',
         },
-        // Dependencias compartidas para evitar duplicados en tiempo de ejecucion
+        // Share react/react-dom as singletons so the shell and the MFE use
+        // the same runtime instance and hooks keep working across boundaries.
         shared: {
           react: {
             singleton: true,
@@ -62,7 +55,6 @@ module.exports = (env, argv) => {
         },
       }),
 
-      // Plugin para generar el HTML de desarrollo/standalone
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src', 'index.html'),
         title: 'MFE Analytics - CapitalFlow',
@@ -70,9 +62,9 @@ module.exports = (env, argv) => {
     ],
 
     devServer: {
-      // Puerto en el que se sirve el micro-frontend
       port: 4201,
-      // Permitir solicitudes desde cualquier origen (necesario para Module Federation)
+      // CORS wide open in dev so the shell running on a different port can
+      // fetch remoteEntry.js without preflight issues.
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -82,7 +74,6 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
     },
 
-    // Generar sourcemaps solo en desarrollo
     devtool: isProduction ? false : 'eval-source-map',
   };
 };

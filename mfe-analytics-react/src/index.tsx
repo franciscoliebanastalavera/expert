@@ -1,3 +1,3 @@
-// Punto de entrada estandar de la aplicacion
-// Importa el bootstrap asincrono necesario para Module Federation
+// Dynamic import of bootstrap: required by Module Federation so the shared
+// dependencies are available before the React app initialises.
 import('./bootstrap');

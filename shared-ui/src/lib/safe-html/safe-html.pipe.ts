@@ -11,8 +11,8 @@ export class SafeHtmlPipe implements PipeTransform {
   constructor(private readonly sanitizer: DomSanitizer) {}
 
   /**
-   * @param value - Cadena HTML sin sanitizar
-   * @returns HTML sanitizado y marcado como seguro para Angular
+   * @param value - Raw (unsanitized) HTML string.
+   * @returns Sanitized HTML marked as safe for Angular binding.
    */
   transform(value: string): SafeHtml {
     const clean = DOMPurify.sanitize(value);

@@ -211,10 +211,6 @@ export class CapSelectComponent {
     this.displayOptions = this.options;
   }
 
-  /**
-   * @param _event
-   * @param option
-   */
   selectOption(_event: Event, option: SelectOption): void {
     if (option.checked) {
       this.uncheckAll();
@@ -261,9 +257,6 @@ export class CapSelectComponent {
     }
   }
 
-  /**
-   * @param event
-   */
   filterOptions(event: KeyboardEvent, shearch: string): void {
     this.unfold = true;
     const args = shearch.toLowerCase();

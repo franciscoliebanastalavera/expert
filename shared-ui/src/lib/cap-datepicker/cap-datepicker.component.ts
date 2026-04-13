@@ -446,10 +446,7 @@ export class CapDatepickerComponent {
     event.stopPropagation();
   }
 
-  /**
-   * @returns styles object
-   */
-  getStyleDay(day: number): { [key: string]: string } {
+getStyleDay(day: number): { [key: string]: string } {
     return day === this.selectedDate.getDate() &&
       this.dateToStyle.getMonth() === this.selectedDate.getMonth() &&
       this.dateToStyle.getFullYear() === this.selectedDate.getFullYear()
@@ -462,10 +459,7 @@ export class CapDatepickerComponent {
       : {};
   }
 
-  /**
-   * @returns styles object
-   */
-  getStyleYear(year: number): { [key: string]: string } {
+getStyleYear(year: number): { [key: string]: string } {
     return year === this.selectedDate.getFullYear()
       ? {
           color: '#641ee0',
@@ -476,10 +470,7 @@ export class CapDatepickerComponent {
       : {};
   }
 
-  /**
-   * @returns styles object
-   */
-  getStyleMonth(month: number): { [key: string]: string } {
+getStyleMonth(month: number): { [key: string]: string } {
     return month === this.selectedDate.getMonth()
       ? {
           color: '#641ee0',
