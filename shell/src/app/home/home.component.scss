@@ -26,68 +26,6 @@
   margin-bottom: 2rem;
 }
 
-.metrica-card {
-  background: var(--cap-bg-surface, #fff);
-  border: 0.0625rem solid var(--cap-border, #cac8c2);
-  border-radius: var(--cap-radius-lg, 0.75rem);
-  padding: 1.5rem;
-  cursor: pointer;
-  transition: var(--cap-transition);
-
-  &:hover {
-    box-shadow: var(--cap-shadow-md);
-    transform: translateY(-0.125rem);
-  }
-}
-
-.metrica-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.metrica-icono {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: var(--cap-primary, #2a85c4);
-}
-
-.metrica-variacion {
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--cap-radius-sm, 0.25rem);
-
-  &.positivo {
-    color: #33841f;
-    background: #e8f5e9;
-  }
-
-  &.negativo {
-    color: #c51321;
-    background: #fce4ec;
-  }
-}
-
-.metrica-valor {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--cap-text, #1e1e1e);
-}
-
-.metrica-titulo {
-  font-size: 0.95rem;
-  color: var(--cap-text-secondary, #4d4d4d);
-  margin-top: 0.25rem;
-}
-
-.metrica-desc {
-  font-size: 0.8rem;
-  color: var(--cap-text-muted, #b2b2b2);
-  margin-top: 0.5rem;
-}
-
 .tabs-section {
   background: var(--cap-bg-surface, #fff);
   border-radius: var(--cap-radius-lg, 0.75rem);
@@ -134,61 +72,16 @@
   }
 }
 
-.tabla-operaciones {
-  overflow-x: auto;
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th {
-    text-align: left;
-    padding: 0.75rem 1rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: var(--cap-text-muted, #b2b2b2);
-    border-bottom: 0.0625rem solid var(--cap-border, #cac8c2);
-  }
-
-  td {
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
-    border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.05);
-  }
-
-  .importe {
+::ng-deep {
+  .home-table__importe {
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
-  .iban {
+  .home-table__iban {
     font-family: 'Courier New', monospace;
     font-size: 0.8rem;
     color: var(--cap-text-secondary, #4d4d4d);
-  }
-}
-
-.estado-badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--cap-radius-sm, 0.25rem);
-  font-size: 0.75rem;
-  font-weight: 600;
-
-  &.estado-completada {
-    background: #e8f5e9;
-    color: #2e7d32;
-  }
-
-  &.estado-procesando {
-    background: #fff3e0;
-    color: #ef6c00;
-  }
-
-  &.estado-pendiente {
-    background: #e3f2fd;
-    color: #1565c0;
   }
 }
 
@@ -197,32 +90,8 @@
   gap: 1rem;
 }
 
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: var(--cap-radius-md, 0.5rem);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--cap-transition);
-
-  &-primary {
-    background: var(--cap-primary, #2a85c4);
-    color: #fff;
-
-    &:hover {
-      background: var(--cap-primary-hover, #1e6da6);
-    }
-  }
-
-  &-secondary {
-    background: var(--cap-secondary, #f47c20);
-    color: #fff;
-
-    &:hover {
-      background: var(--cap-secondary-hover, #d96512);
-    }
-  }
+.btn-link {
+  text-decoration: none;
 }
 
 @media (max-width: 48em) {
@@ -248,9 +117,15 @@
   .acciones {
     flex-wrap: wrap;
 
-    .btn {
+    .btn-link {
       flex: 1 1 100%;
+      display: block;
       text-align: center;
+
+      ::ng-deep .cap-button {
+        width: 100%;
+        min-width: 0;
+      }
     }
   }
 }
@@ -258,16 +133,5 @@
 @media (max-width: 36em) {
   .dashboard {
     padding: 0.75rem;
-  }
-
-  .metrica-valor {
-    font-size: 1.4rem;
-  }
-
-  .tabla-operaciones {
-    th, td {
-      padding: 0.5rem 0.625rem;
-      font-size: 0.8rem;
-    }
   }
 }

@@ -11,7 +11,6 @@ import {
   DATE_PAD_CHAR,
   DATE_PART_PAD_LENGTH,
   DEFAULT_CURRENCY,
-  LAZY_GENERATION_THRESHOLD_MS,
   MOCK_AMOUNT_DECIMAL_FACTOR,
   MOCK_API_DELAY_MS,
   MOCK_COUNTRIES,
@@ -83,42 +82,32 @@ export class AnalyticsService {
   }
 
   private generateMockTransactions(): Transaction[] {
-    const start = performance.now();
     const result: Transaction[] = [];
 
     for (let i = 1; i <= MOCK_TRANSACTIONS_COUNT; i++) {
-      const dia = String(Math.floor(Math.random() * MOCK_DAYS_PER_MONTH) + 1)
+      const day = String(Math.floor(Math.random() * MOCK_DAYS_PER_MONTH) + 1)
         .padStart(DATE_PART_PAD_LENGTH, DATE_PAD_CHAR);
-      const mes = String(Math.floor(Math.random() * MOCK_MONTHS_RANGE) + 1)
+      const month = String(Math.floor(Math.random() * MOCK_MONTHS_RANGE) + 1)
         .padStart(DATE_PART_PAD_LENGTH, DATE_PAD_CHAR);
-      const pais = MOCK_COUNTRIES[Math.floor(Math.random() * MOCK_COUNTRIES.length)];
-      const numCuenta = Array.from({ length: MOCK_IBAN_DIGITS_COUNT }, () =>
+      const country = MOCK_COUNTRIES[Math.floor(Math.random() * MOCK_COUNTRIES.length)];
+      const accountDigits = Array.from({ length: MOCK_IBAN_DIGITS_COUNT }, () =>
         Math.floor(Math.random() * 10)
       ).join('');
-      const esIngreso = Math.random() < MOCK_INCOME_PROBABILITY;
+      const isIncome = Math.random() < MOCK_INCOME_PROBABILITY;
 
       result.push({
         id: i,
-        fecha: `${dia}/${mes}/${MOCK_YEAR}`,
+        fecha: `${day}/${month}/${MOCK_YEAR}`,
         tipo: TRANSACTION_TYPES[Math.floor(Math.random() * TRANSACTION_TYPES.length)],
         descripcion: MOCK_DESCRIPTIONS[Math.floor(Math.random() * MOCK_DESCRIPTIONS.length)],
-        iban: `${pais}${numCuenta.slice(0, MOCK_IBAN_ACCOUNT_SLICE_END)}`,
-        importe: esIngreso
+        iban: `${country}${accountDigits.slice(0, MOCK_IBAN_ACCOUNT_SLICE_END)}`,
+        importe: isIncome
           ? Math.round(Math.random() * MOCK_MAX_INCOME_AMOUNT * MOCK_AMOUNT_DECIMAL_FACTOR) / MOCK_AMOUNT_DECIMAL_FACTOR
           : -Math.round(Math.random() * MOCK_MAX_EXPENSE_AMOUNT * MOCK_AMOUNT_DECIMAL_FACTOR) / MOCK_AMOUNT_DECIMAL_FACTOR,
         divisa: DEFAULT_CURRENCY,
         estado: TRANSACTION_STATUSES[Math.floor(Math.random() * TRANSACTION_STATUSES.length)],
         categoria: TRANSACTION_CATEGORIES[Math.floor(Math.random() * TRANSACTION_CATEGORIES.length)],
       });
-    }
-
-    const elapsed = performance.now() - start;
-    if (elapsed > LAZY_GENERATION_THRESHOLD_MS) {
-      console.warn(
-        `[AnalyticsService] Mock generation took ${elapsed.toFixed(0)}ms ` +
-        `(threshold: ${LAZY_GENERATION_THRESHOLD_MS}ms). ` +
-        `For production this would move to Web Worker / streamed pagination.`
-      );
     }
 
     return result;
