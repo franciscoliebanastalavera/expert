@@ -1,6 +1,5 @@
 # Docker Compose para el proyecto CapitalFlow
 # Orquesta el shell principal, el microfrontend y la documentación Storybook
-version: "3.8"
 
 services:
   # Aplicación shell principal (Angular 18)
