@@ -16,6 +16,7 @@
   text-decoration: none;
   color: #fff;
   margin-right: 2.5rem;
+  flex-shrink: 0;
 }
 
 .cap-header__logo {
@@ -69,6 +70,8 @@
   display: flex;
   align-items: center;
   gap: 0.375rem;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .cap-header__btn {
@@ -125,7 +128,6 @@
   border: none;
   color: #fff;
   cursor: pointer;
-  margin-left: auto;
 
   svg {
     width: 1.25rem;
@@ -133,11 +135,7 @@
   }
 }
 
-@media (max-width: 768px) {
-  .cap-header {
-    flex-wrap: wrap;
-  }
-
+@media (max-width: 48em) {
   .cap-header__hamburger {
     display: flex;
   }
@@ -145,14 +143,14 @@
   .cap-header__nav {
     display: none;
     position: absolute;
-    top: 3.5rem;
+    top: 100%;
     left: 0;
     right: 0;
     background: var(--cap-primary, #2a85c4);
     flex-direction: column;
-    padding: 0.5rem 1.5rem 1rem;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
-    z-index: 100;
+    padding: 0;
+    box-shadow: var(--cap-shadow-md, 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25));
+    z-index: 1000;
 
     &--open {
       display: flex;
@@ -160,21 +158,26 @@
   }
 
   .cap-header__link {
-    padding: 0.75rem 0;
-    border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.875rem 1.25rem;
+    border-radius: 0;
+    border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.18);
+    border-left: 0.1875rem solid transparent;
 
     &:last-child {
       border-bottom: none;
     }
-  }
 
-  .cap-header__actions {
-    display: none;
+    &:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
 
-    &--open {
-      display: flex;
-      position: static;
-      padding: 0.5rem 0 0;
+    &--active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.18);
+      border-left-color: #fff;
+      font-weight: 600;
     }
   }
 }
