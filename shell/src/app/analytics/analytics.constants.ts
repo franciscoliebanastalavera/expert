@@ -1,5 +1,6 @@
 export const MOCK_TRANSACTIONS_COUNT = 120_000;
 export const LAZY_GENERATION_THRESHOLD_MS = 500;
+export const MOCK_API_DELAY_MS = 300;
 
 export const MOCK_DAYS_PER_MONTH = 28;
 export const MOCK_MONTHS_RANGE = 4;

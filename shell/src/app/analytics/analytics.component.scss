@@ -211,7 +211,18 @@
   &.rechazada { background: #fce4ec; color: #c62828; }
 }
 
-@media (max-width: 768px) {
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25rem;
+  padding: 3rem 1rem;
+  background: var(--cap-bg-surface, #fff);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 0.5rem);
+}
+
+@media (max-width: 48em) {
   .analytics {
     padding: 1rem;
   }
@@ -239,7 +250,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 36em) {
   .analytics {
     padding: 0.75rem;
   }

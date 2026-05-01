@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { defer, Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import {
   Transaction,
   TransactionCategory,
@@ -11,6 +13,7 @@ import {
   DEFAULT_CURRENCY,
   LAZY_GENERATION_THRESHOLD_MS,
   MOCK_AMOUNT_DECIMAL_FACTOR,
+  MOCK_API_DELAY_MS,
   MOCK_COUNTRIES,
   MOCK_DAYS_PER_MONTH,
   MOCK_DESCRIPTIONS,
@@ -32,11 +35,13 @@ const TRANSACTION_CATEGORIES = Object.values(TransactionCategory);
 export class AnalyticsService {
   private transactions: Transaction[] = [];
 
-  getTransactions(): Transaction[] {
-    if (this.transactions.length === 0) {
-      this.transactions = this.generateMockTransactions();
-    }
-    return this.transactions;
+  getTransactions(): Observable<Transaction[]> {
+    return defer(() => {
+      if (this.transactions.length === 0) {
+        this.transactions = this.generateMockTransactions();
+      }
+      return of(this.transactions);
+    }).pipe(delay(MOCK_API_DELAY_MS));
   }
 
   filterTransactions(

@@ -56,6 +56,8 @@
   "ANALYTICS": {
     "TITLE": "Analytics — Transactions",
     "SUBTITLE_SUFFIX": "transactions · Virtual Scroll CDK",
+    "SUBTITLE_LOADING": "Loading...",
+    "LOADING_LABEL": "Loading transactions...",
     "BTN_BACK": "Back to Dashboard",
     "STATS": {
       "TOTAL": "Total Records",

@@ -1,4 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -8,18 +14,32 @@ import { AnalyticsService } from './analytics.service';
 import { ExportService } from '../core/services/export.service';
 import { AnalyticsStatsComponent } from './analytics-stats.component';
 import { AnalyticsTableComponent } from './analytics-table.component';
+import { SpinnerComponent } from '../shared/spinner/spinner.component';
 
 @Component({
   selector: 'app-analytics',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, TranslateModule, AnalyticsStatsComponent, AnalyticsTableComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    TranslateModule,
+    AnalyticsStatsComponent,
+    AnalyticsTableComponent,
+    SpinnerComponent,
+  ],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent {
   private readonly analyticsService = inject(AnalyticsService);
   private readonly exportService = inject(ExportService);
+
+  readonly transactions = toSignal<Transaction[] | undefined>(
+    this.analyticsService.getTransactions(),
+    { initialValue: undefined }
+  );
 
   private allTransactions: Transaction[] = [];
   transaccionesFiltradas: Transaction[] = [];
@@ -33,9 +53,14 @@ export class AnalyticsComponent implements OnInit {
   numTransacciones = 0;
   exportando = false;
 
-  ngOnInit(): void {
-    this.allTransactions = this.analyticsService.getTransactions();
-    this.aplicarFiltros();
+  constructor() {
+    effect(() => {
+      const loaded = this.transactions();
+      if (loaded) {
+        this.allTransactions = loaded;
+        this.aplicarFiltros();
+      }
+    });
   }
 
   aplicarFiltros(): void {
