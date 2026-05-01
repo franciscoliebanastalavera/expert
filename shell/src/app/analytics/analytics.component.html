@@ -4,7 +4,7 @@
       <h1>{{ 'ANALYTICS.TITLE' | translate }}</h1>
       <p class="subtitle">
         @if (transactions()) {
-          {{ numTransacciones }} {{ 'ANALYTICS.SUBTITLE_SUFFIX' | translate }}
+          {{ numTransacciones() }} {{ 'ANALYTICS.SUBTITLE_SUFFIX' | translate }}
         } @else {
           {{ 'ANALYTICS.SUBTITLE_LOADING' | translate }}
         }
@@ -15,11 +15,11 @@
     </button>
   </div>
 
-  @if (transactions(); as loaded) {
+  @if (transactions()) {
     <app-analytics-stats
-      [total]="numTransacciones"
-      [income]="totalIngresos"
-      [expenses]="totalGastos">
+      [total]="numTransacciones()"
+      [income]="totalIngresos()"
+      [expenses]="totalGastos()">
     </app-analytics-stats>
 
     <div class="filtros">
@@ -27,8 +27,8 @@
         <label>{{ 'ANALYTICS.FILTERS.SEARCH' | translate }}</label>
         <input
           type="text"
-          [(ngModel)]="filtroTexto"
-          (ngModelChange)="aplicarFiltros()"
+          [ngModel]="filtroTexto()"
+          (ngModelChange)="filtroTexto.set($event)"
           [placeholder]="'ANALYTICS.FILTERS.SEARCH_PLACEHOLDER' | translate"
           class="filtro-input"
         />
@@ -37,8 +37,8 @@
         <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MIN' | translate }}</label>
         <input
           type="number"
-          [(ngModel)]="filtroImporteMin"
-          (ngModelChange)="aplicarFiltros()"
+          [ngModel]="filtroImporteMin()"
+          (ngModelChange)="filtroImporteMin.set($event)"
           placeholder="€ Min"
           class="filtro-input filtro-num"
         />
@@ -47,15 +47,15 @@
         <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MAX' | translate }}</label>
         <input
           type="number"
-          [(ngModel)]="filtroImporteMax"
-          (ngModelChange)="aplicarFiltros()"
+          [ngModel]="filtroImporteMax()"
+          (ngModelChange)="filtroImporteMax.set($event)"
           placeholder="€ Max"
           class="filtro-input filtro-num"
         />
       </div>
       <button class="btn btn-sm" (click)="limpiarFiltros()">{{ 'ANALYTICS.FILTERS.CLEAR' | translate }}</button>
-      <button class="btn btn-primary" (click)="exportarCSV()" [disabled]="exportando">
-        @if (exportando) {
+      <button class="btn btn-primary" (click)="exportarCSV()" [disabled]="exportando()">
+        @if (exportando()) {
           {{ 'ANALYTICS.FILTERS.EXPORTING' | translate }}
         } @else {
           {{ 'ANALYTICS.FILTERS.EXPORT' | translate }}
@@ -63,7 +63,7 @@
       </button>
     </div>
 
-    <app-analytics-table [transactions]="transaccionesFiltradas"></app-analytics-table>
+    <app-analytics-table [transactions]="transaccionesFiltradas()"></app-analytics-table>
   } @else {
     <div class="loading-wrapper">
       <app-spinner [label]="'ANALYTICS.LOADING_LABEL' | translate" />

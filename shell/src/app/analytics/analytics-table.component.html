@@ -10,7 +10,7 @@
     <div class="dg-cell dg-cat">{{ 'ANALYTICS.GRID.CATEGORY' | translate }}</div>
   </div>
   <cdk-virtual-scroll-viewport itemSize="48" class="datagrid-body">
-    <div class="datagrid-row" *cdkVirtualFor="let t of transactions; trackBy: trackById">
+    <div class="datagrid-row" *cdkVirtualFor="let t of transactions(); trackBy: trackById">
       <div class="dg-cell dg-id">{{ t.id }}</div>
       <div class="dg-cell dg-fecha">{{ t.fecha }}</div>
       <div class="dg-cell dg-tipo">{{ t.tipo }}</div>
@@ -20,7 +20,12 @@
         {{ formatAmount(t.importe) }}
       </div>
       <div class="dg-cell dg-estado">
-        <span class="estado-badge" [ngClass]="{ completada: t.estado === 'Completada', procesando: t.estado === 'Procesando', pendiente: t.estado === 'Pendiente', rechazada: t.estado === 'Rechazada' }">{{ t.estado }}</span>
+        <span class="estado-badge" [ngClass]="{
+          completada: t.estado === transactionStatus.Completed,
+          procesando: t.estado === transactionStatus.Processing,
+          pendiente: t.estado === transactionStatus.Pending,
+          rechazada: t.estado === transactionStatus.Rejected
+        }">{{ t.estado }}</span>
       </div>
       <div class="dg-cell dg-cat">{{ t.categoria }}</div>
     </div>

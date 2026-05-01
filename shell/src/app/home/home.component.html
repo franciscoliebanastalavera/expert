@@ -25,15 +25,15 @@
       @for (tab of tabs; track tab.id) {
         <button
           class="tab-btn"
-          [class.active]="tabActiva === tab.id"
-          (click)="tabActiva = tab.id">
+          [class.active]="tabActiva() === tab.id"
+          (click)="selectTab(tab.id)">
           {{ tab.label | translate }}
         </button>
       }
     </div>
 
-    @switch (tabActiva) {
-      @case ('resumen') {
+    @switch (tabActiva()) {
+      @case (dashboardTabId.Summary) {
         <div class="tab-content">
           <h2>{{ 'HOME.OPERATIONS.TITLE' | translate }}</h2>
           <div class="tabla-operaciones">
@@ -55,9 +55,9 @@
                     <td>{{ op.fecha }}</td>
                     <td>
                       <span class="estado-badge"
-                        [class.estado-completada]="op.estado === 'Completada'"
-                        [class.estado-procesando]="op.estado === 'Procesando'"
-                        [class.estado-pendiente]="op.estado === 'Pendiente'">
+                        [class.estado-completada]="op.estado === transactionStatus.Completed"
+                        [class.estado-procesando]="op.estado === transactionStatus.Processing"
+                        [class.estado-pendiente]="op.estado === transactionStatus.Pending">
                         {{ op.estado }}
                       </span>
                     </td>
@@ -69,19 +69,19 @@
           </div>
         </div>
       }
-      @case ('tesoreria') {
+      @case (dashboardTabId.Treasury) {
         <div class="tab-content">
           <h2>{{ 'HOME.TABS_CONTENT.TREASURY_TITLE' | translate }}</h2>
           <p>{{ 'HOME.TABS_CONTENT.TREASURY_DESC' | translate }}</p>
         </div>
       }
-      @case ('pagos') {
+      @case (dashboardTabId.Payments) {
         <div class="tab-content">
           <h2>{{ 'HOME.TABS_CONTENT.PAYMENTS_TITLE' | translate }}</h2>
           <p>{{ 'HOME.TABS_CONTENT.PAYMENTS_DESC' | translate }}</p>
         </div>
       }
-      @case ('compliance') {
+      @case (dashboardTabId.Compliance) {
         <div class="tab-content">
           <h2>{{ 'HOME.TABS_CONTENT.COMPLIANCE_TITLE' | translate }}</h2>
           <p>{{ 'HOME.TABS_CONTENT.COMPLIANCE_DESC' | translate }}</p>

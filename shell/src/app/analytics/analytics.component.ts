@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
+  computed,
+  DestroyRef,
   inject,
+  signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -15,6 +17,16 @@ import { ExportService } from '../core/services/export.service';
 import { AnalyticsStatsComponent } from './analytics-stats.component';
 import { AnalyticsTableComponent } from './analytics-table.component';
 import { SpinnerComponent } from '../shared/spinner/spinner.component';
+
+interface AnalyticsStats {
+  total: number;
+  income: number;
+  expenses: number;
+}
+
+const EMPTY_FILTER_TEXT = '';
+const EMPTY_AMOUNT_FILTER = null;
+const EMPTY_STATS: AnalyticsStats = { total: 0, income: 0, expenses: 0 };
 
 @Component({
   selector: 'app-analytics',
@@ -35,64 +47,56 @@ import { SpinnerComponent } from '../shared/spinner/spinner.component';
 export class AnalyticsComponent {
   private readonly analyticsService = inject(AnalyticsService);
   private readonly exportService = inject(ExportService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly transactions = toSignal<Transaction[] | undefined>(
     this.analyticsService.getTransactions(),
     { initialValue: undefined }
   );
 
-  private allTransactions: Transaction[] = [];
-  transaccionesFiltradas: Transaction[] = [];
+  readonly filtroTexto = signal<string>(EMPTY_FILTER_TEXT);
+  readonly filtroImporteMin = signal<number | null>(EMPTY_AMOUNT_FILTER);
+  readonly filtroImporteMax = signal<number | null>(EMPTY_AMOUNT_FILTER);
 
-  filtroTexto = '';
-  filtroImporteMin: number | null = null;
-  filtroImporteMax: number | null = null;
-
-  totalIngresos = 0;
-  totalGastos = 0;
-  numTransacciones = 0;
-  exportando = false;
-
-  constructor() {
-    effect(() => {
-      const loaded = this.transactions();
-      if (loaded) {
-        this.allTransactions = loaded;
-        this.aplicarFiltros();
-      }
-    });
-  }
-
-  aplicarFiltros(): void {
-    this.transaccionesFiltradas = this.analyticsService.filterTransactions(
-      this.allTransactions,
-      this.filtroTexto,
-      this.filtroImporteMin,
-      this.filtroImporteMax
+  readonly transaccionesFiltradas = computed<Transaction[]>(() => {
+    const data = this.transactions();
+    if (!data) {
+      return [];
+    }
+    return this.analyticsService.filterTransactions(
+      data,
+      this.filtroTexto(),
+      this.filtroImporteMin(),
+      this.filtroImporteMax()
     );
-    const stats = this.analyticsService.calculateStats(this.transaccionesFiltradas);
-    this.numTransacciones = stats.total;
-    this.totalIngresos = stats.income;
-    this.totalGastos = stats.expenses;
-  }
+  });
+
+  private readonly stats = computed<AnalyticsStats>(() =>
+    this.transactions()
+      ? this.analyticsService.calculateStats(this.transaccionesFiltradas())
+      : EMPTY_STATS
+  );
+
+  readonly numTransacciones = computed<number>(() => this.stats().total);
+  readonly totalIngresos = computed<number>(() => this.stats().income);
+  readonly totalGastos = computed<number>(() => this.stats().expenses);
+
+  readonly exportando = signal<boolean>(false);
 
   limpiarFiltros(): void {
-    this.filtroTexto = '';
-    this.filtroImporteMin = null;
-    this.filtroImporteMax = null;
-    this.aplicarFiltros();
+    this.filtroTexto.set(EMPTY_FILTER_TEXT);
+    this.filtroImporteMin.set(EMPTY_AMOUNT_FILTER);
+    this.filtroImporteMax.set(EMPTY_AMOUNT_FILTER);
   }
 
   exportarCSV(): void {
-    this.exportando = true;
-    this.exportService.exportToCSV(this.transaccionesFiltradas).subscribe({
-      next: () => { this.exportando = false; },
-      error: () => { this.exportando = false; },
-    });
-  }
-
-  formatearImporte(importe: number): string {
-    const formatted = Math.abs(importe).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return importe >= 0 ? `+€${formatted}` : `-€${formatted}`;
+    this.exportando.set(true);
+    this.exportService
+      .exportToCSV(this.transaccionesFiltradas())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.exportando.set(false),
+        error: () => this.exportando.set(false),
+      });
   }
 }

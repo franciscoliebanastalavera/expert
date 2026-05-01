@@ -1,6 +1,11 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+
+const AMOUNT_LOCALE = 'es-ES';
+const AMOUNT_FRACTION_DIGITS = 2;
+const DEFAULT_AMOUNT = 0;
+const DEFAULT_TOTAL = 0;
 
 @Component({
   selector: 'app-analytics-stats',
@@ -11,11 +16,15 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrls: ['./analytics-stats.component.scss'],
 })
 export class AnalyticsStatsComponent {
-  @Input() total = 0;
-  @Input() income = 0;
-  @Input() expenses = 0;
+  readonly total = input<number>(DEFAULT_TOTAL);
+  readonly income = input<number>(DEFAULT_AMOUNT);
+  readonly expenses = input<number>(DEFAULT_AMOUNT);
 
   formatAmount(amount: number): string {
-    return `€${Math.abs(amount).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const formatted = Math.abs(amount).toLocaleString(AMOUNT_LOCALE, {
+      minimumFractionDigits: AMOUNT_FRACTION_DIGITS,
+      maximumFractionDigits: AMOUNT_FRACTION_DIGITS,
+    });
+    return `€${formatted}`;
   }
 }

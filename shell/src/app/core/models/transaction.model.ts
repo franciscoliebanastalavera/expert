@@ -28,11 +28,11 @@ export enum TransactionCategory {
 export interface Transaction {
   id: number;
   fecha: string;
-  tipo: string;
+  tipo: TransactionType;
   descripcion: string;
   iban: string;
   importe: number;
   divisa: string;
-  estado: string;
-  categoria: string;
+  estado: TransactionStatus;
+  categoria: TransactionCategory;
 }

@@ -1,3 +1,12 @@
+import { TransactionStatus } from './transaction.model';
+
+export enum DashboardTabId {
+  Summary = 'resumen',
+  Treasury = 'tesoreria',
+  Payments = 'pagos',
+  Compliance = 'compliance',
+}
+
 export interface DashboardMetric {
   titulo: string;
   valor: string;
@@ -9,7 +18,7 @@ export interface DashboardMetric {
 }
 
 export interface DashboardTab {
-  id: string;
+  id: DashboardTabId;
   label: string;
 }
 
@@ -17,6 +26,6 @@ export interface DashboardOperation {
   tipo: string;
   importe: string;
   fecha: string;
-  estado: string;
+  estado: TransactionStatus;
   iban: string;
 }
