@@ -1,5 +1,4 @@
 {
-  /* Configuracion extendida para compilacion de la biblioteca */
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
