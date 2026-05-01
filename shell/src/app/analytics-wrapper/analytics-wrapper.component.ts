@@ -13,6 +13,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { loadRemoteModule } from '@angular-architects/module-federation';
+import { CapSpinnerComponent } from '@capitalflow/shared-ui';
 
 const HTTPS_PORT = 443;
 const HTTP_PORT = 80;
@@ -28,7 +29,7 @@ const FADE_OUT_DELAY_MS = 300;
 @Component({
   selector: 'app-analytics-wrapper',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslateModule, CapSpinnerComponent],
   templateUrl: './analytics-wrapper.component.html',
   styleUrls: ['./analytics-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

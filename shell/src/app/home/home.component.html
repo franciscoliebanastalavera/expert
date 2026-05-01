@@ -6,17 +6,15 @@
 
   <div class="metricas-grid">
     @for (m of metricas; track m.titulo) {
-      <div class="metrica-card" [routerLink]="m.ruta">
-        <div class="metrica-header">
-          <app-icon class="metrica-icono" [name]="m.icono" />
-          <span class="metrica-variacion" [class.positivo]="m.positivo" [class.negativo]="!m.positivo">
-            {{ m.variacion }}
-          </span>
-        </div>
-        <div class="metrica-valor">{{ m.valor }}</div>
-        <div class="metrica-titulo">{{ m.titulo | translate }}</div>
-        <div class="metrica-desc">{{ m.descripcion | translate }}</div>
-      </div>
+      <cap-metric-card
+        [iconName]="m.icono"
+        [value]="m.valor"
+        [variation]="m.variacion"
+        [title]="m.titulo | translate"
+        [description]="m.descripcion | translate"
+        [positive]="m.positivo"
+        [clickable]="true"
+        (cardClick)="navigateTo(m.ruta)" />
     }
   </div>
 
@@ -36,37 +34,11 @@
       @case (dashboardTabId.Summary) {
         <div class="tab-content">
           <h2>{{ 'HOME.OPERATIONS.TITLE' | translate }}</h2>
-          <div class="tabla-operaciones">
-            <table>
-              <thead>
-                <tr>
-                  <th>{{ 'HOME.OPERATIONS.COL_TYPE' | translate }}</th>
-                  <th>{{ 'HOME.OPERATIONS.COL_AMOUNT' | translate }}</th>
-                  <th>{{ 'HOME.OPERATIONS.COL_DATE' | translate }}</th>
-                  <th>{{ 'HOME.OPERATIONS.COL_STATUS' | translate }}</th>
-                  <th>{{ 'HOME.OPERATIONS.COL_IBAN' | translate }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (op of ultimasOperaciones; track op.iban) {
-                  <tr>
-                    <td>{{ op.tipo }}</td>
-                    <td class="importe">{{ op.importe }}</td>
-                    <td>{{ op.fecha }}</td>
-                    <td>
-                      <span class="estado-badge"
-                        [class.estado-completada]="op.estado === transactionStatus.Completed"
-                        [class.estado-procesando]="op.estado === transactionStatus.Processing"
-                        [class.estado-pendiente]="op.estado === transactionStatus.Pending">
-                        {{ op.estado }}
-                      </span>
-                    </td>
-                    <td class="iban">{{ op.iban }}</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+          <cap-table [columns]="tableColumns()" [data]="ultimasOperaciones" trackByKey="iban">
+            <ng-template [capCellTemplate]="'estado'" let-value>
+              <cap-status-badge [kind]="statusKind(value)">{{ value }}</cap-status-badge>
+            </ng-template>
+          </cap-table>
         </div>
       }
       @case (dashboardTabId.Treasury) {
@@ -91,11 +63,17 @@
   </div>
 
   <div class="acciones">
-    <button class="btn btn-primary" routerLink="/analytics">
-      {{ 'HOME.BTN_ANALYTICS' | translate }}
-    </button>
-    <button class="btn btn-secondary" routerLink="/analytics-mfe">
-      {{ 'HOME.BTN_MFE' | translate }}
-    </button>
+    <a routerLink="/analytics" class="btn-link">
+      <cap-button
+        variant="capitalflow-primary"
+        textStyle="none"
+        [label]="'HOME.BTN_ANALYTICS' | translate" />
+    </a>
+    <a routerLink="/analytics-mfe" class="btn-link">
+      <cap-button
+        variant="capitalflow-secondary"
+        textStyle="none"
+        [label]="'HOME.BTN_MFE' | translate" />
+    </a>
   </div>
 </section>

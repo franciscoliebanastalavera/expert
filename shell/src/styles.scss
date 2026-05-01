@@ -49,6 +49,17 @@ a {
   --cap-radius-md: 0.5rem;
   --cap-radius-lg: 0.75rem;
   --cap-transition: all 0.2s ease-in-out;
+  --cap-status-success-bg: #e8f5e9;
+  --cap-status-success-fg: #2e7d32;
+  --cap-status-warning-bg: #fff3e0;
+  --cap-status-warning-fg: #ef6c00;
+  --cap-status-info-bg: #e3f2fd;
+  --cap-status-info-fg: #1565c0;
+  --cap-status-danger-bg: #fce4ec;
+  --cap-status-danger-fg: #c62828;
+  --cap-table-head-bg: #2a85c4;
+  --cap-table-head-fg: #ffffff;
+  --cap-table-row-hover-bg: rgba(0, 0, 0, 0.02);
 }
 
 .dark-theme .capitalflow-theme,
@@ -73,6 +84,17 @@ a {
   --cap-shadow-sm: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.4);
   --cap-shadow-md: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.5);
   --cap-shadow-lg: 0 0.625rem 0.9375rem rgba(0, 0, 0, 0.6);
+  --cap-status-success-bg: rgba(46, 125, 50, 0.2);
+  --cap-status-success-fg: #83e86a;
+  --cap-status-warning-bg: rgba(239, 108, 0, 0.2);
+  --cap-status-warning-fg: #ffb74d;
+  --cap-status-info-bg: rgba(21, 101, 192, 0.2);
+  --cap-status-info-fg: #64b5f6;
+  --cap-status-danger-bg: rgba(198, 40, 40, 0.2);
+  --cap-status-danger-fg: #f06070;
+  --cap-table-head-bg: var(--cap-bg-elevated);
+  --cap-table-head-fg: var(--cap-text);
+  --cap-table-row-hover-bg: rgba(255, 255, 255, 0.04);
 }
 
 .dark-theme {
@@ -93,60 +115,13 @@ a {
   border-color: var(--cap-border, #3d3d3d);
 }
 
-.dark-theme .estado-badge {
-  &.estado-completada,
-  &.completada {
-    background: rgba(46, 125, 50, 0.2);
-    color: #83e86a;
-  }
-
-  &.estado-procesando,
-  &.procesando {
-    background: rgba(239, 108, 0, 0.2);
-    color: #ffb74d;
-  }
-
-  &.estado-pendiente,
-  &.pendiente {
-    background: rgba(21, 101, 192, 0.2);
-    color: #64b5f6;
-  }
-
-  &.rechazada {
-    background: rgba(198, 40, 40, 0.2);
-    color: #f06070;
-  }
-}
-
-.dark-theme .metrica-variacion {
-  &.positivo {
-    color: #83e86a;
-    background: rgba(46, 125, 50, 0.15);
-  }
-
-  &.negativo {
-    color: #f06070;
-    background: rgba(198, 40, 40, 0.15);
-  }
-}
-
-.dark-theme .stat {
-  &.ingreso .stat-value {
-    color: #83e86a;
-  }
-
-  &.gasto .stat-value {
-    color: #f06070;
-  }
-}
-
 .dark-theme .dg-importe {
   &.ingreso {
-    color: #83e86a;
+    color: var(--cap-status-success-fg, #83e86a);
   }
 
   &.gasto {
-    color: #f06070;
+    color: var(--cap-status-danger-fg, #f06070);
   }
 }
 

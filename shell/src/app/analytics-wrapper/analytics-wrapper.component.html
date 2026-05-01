@@ -1,10 +1,7 @@
 <div #container class="mfe-container">
   @if (cargando()) {
     <div class="spinner-wrapper" [class.fade-out]="fadeOut()">
-      <svg class="spinner" focusable="false" aria-hidden="true">
-        <use href="/assets/svgs/spinner.svg#loader" />
-      </svg>
-      <span class="spinner-text">{{ 'MFE.LOADING' | translate }}</span>
+      <cap-spinner [label]="'MFE.LOADING' | translate" />
     </div>
   }
   @if (error()) {

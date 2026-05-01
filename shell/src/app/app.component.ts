@@ -9,9 +9,13 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, map } from 'rxjs';
-import { CapHeaderComponent, NavItem } from './shared/cap-header/cap-header.component';
+import { CapHeaderComponent, NavItem } from '@capitalflow/shared-ui';
 import { ThemeService } from './core/services/theme.service';
-import { AppLanguage, DEFAULT_LANGUAGE } from './language.constants';
+import {
+  AppLanguage,
+  LANGUAGE_STORAGE_KEY,
+  resolveInitialLanguage,
+} from './language.constants';
 import { AppRoute, toRouteLink } from './routes.constants';
 
 @Component({
@@ -27,7 +31,7 @@ export class AppComponent {
   private readonly translate = inject(TranslateService);
   private readonly document = inject(DOCUMENT);
 
-  readonly idiomaActual = signal<AppLanguage>(DEFAULT_LANGUAGE);
+  readonly idiomaActual = signal<AppLanguage>(resolveInitialLanguage());
   menuAbierto = false;
 
   readonly navItems = toSignal(
@@ -44,9 +48,10 @@ export class AppComponent {
   );
 
   constructor() {
-    this.translate.setDefaultLang(DEFAULT_LANGUAGE);
-    this.translate.use(DEFAULT_LANGUAGE);
-    this.document.documentElement.lang = DEFAULT_LANGUAGE;
+    const initial = this.idiomaActual();
+    this.translate.setDefaultLang(initial);
+    this.translate.use(initial);
+    this.document.documentElement.lang = initial;
   }
 
   toggleMenu(): void {
@@ -59,5 +64,8 @@ export class AppComponent {
     this.translate.use(next);
     this.document.documentElement.lang = next;
     this.idiomaActual.set(next);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, next);
+    }
   }
 }

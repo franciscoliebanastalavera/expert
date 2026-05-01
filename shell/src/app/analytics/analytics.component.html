@@ -10,9 +10,13 @@
         }
       </p>
     </div>
-    <button class="btn btn-outline" routerLink="/">
-      {{ 'ANALYTICS.BTN_BACK' | translate }}
-    </button>
+    <a routerLink="/" class="btn-link">
+      <cap-button
+        variant="capitalflow-outline"
+        size="small"
+        textStyle="none"
+        [label]="'ANALYTICS.BTN_BACK' | translate" />
+    </a>
   </div>
 
   @if (transactions()) {
@@ -53,20 +57,27 @@
           class="filtro-input filtro-num"
         />
       </div>
-      <button class="btn btn-sm" (click)="limpiarFiltros()">{{ 'ANALYTICS.FILTERS.CLEAR' | translate }}</button>
-      <button class="btn btn-primary" (click)="exportarCSV()" [disabled]="exportando()">
-        @if (exportando()) {
-          {{ 'ANALYTICS.FILTERS.EXPORTING' | translate }}
-        } @else {
-          {{ 'ANALYTICS.FILTERS.EXPORT' | translate }}
-        }
-      </button>
+      <cap-button
+        variant="secondary"
+        size="small"
+        textStyle="none"
+        [label]="'ANALYTICS.FILTERS.CLEAR' | translate"
+        (capClick)="limpiarFiltros()" />
+      <cap-button
+        variant="primary"
+        size="small"
+        textStyle="none"
+        [disabled]="exportando()"
+        [loading]="exportando()"
+        [label]="'ANALYTICS.FILTERS.EXPORT' | translate"
+        [loadingText]="'ANALYTICS.FILTERS.EXPORTING' | translate"
+        (capClick)="exportarCSV()" />
     </div>
 
     <app-analytics-table [transactions]="transaccionesFiltradas()"></app-analytics-table>
   } @else {
     <div class="loading-wrapper">
-      <app-spinner [label]="'ANALYTICS.LOADING_LABEL' | translate" />
+      <cap-spinner [label]="'ANALYTICS.LOADING_LABEL' | translate" />
     </div>
   }
 </section>

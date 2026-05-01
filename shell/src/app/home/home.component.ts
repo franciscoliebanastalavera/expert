@@ -1,7 +1,18 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { combineLatest, map } from 'rxjs';
+import {
+  CapButtonComponent,
+  CapCellTemplateDirective,
+  CapMetricCardComponent,
+  CapStatusBadgeComponent,
+  CapStatusBadgeKind,
+  CapTableColumn,
+  CapTableComponent,
+} from '@capitalflow/shared-ui';
 import {
   DashboardMetric,
   DashboardOperation,
@@ -9,23 +20,40 @@ import {
   DashboardTabId,
   TransactionStatus,
 } from '../core/models';
-import { IconComponent } from '../shared/icon/icon.component';
 import { IconName } from '../shared/icon/icon.constants';
 
 const DEFAULT_TAB: DashboardTabId = DashboardTabId.Summary;
 
+const STATUS_KIND_MAP: Record<TransactionStatus, CapStatusBadgeKind> = {
+  [TransactionStatus.Completed]: 'success',
+  [TransactionStatus.Processing]: 'warning',
+  [TransactionStatus.Pending]: 'info',
+  [TransactionStatus.Rejected]: 'danger',
+};
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, IconComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    CapButtonComponent,
+    CapMetricCardComponent,
+    CapTableComponent,
+    CapCellTemplateDirective,
+    CapStatusBadgeComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
+
   readonly tabActiva = signal<DashboardTabId>(DEFAULT_TAB);
   readonly dashboardTabId = DashboardTabId;
-  readonly transactionStatus = TransactionStatus;
 
   readonly metricas: DashboardMetric[] = [
     {
@@ -81,7 +109,34 @@ export class HomeComponent {
     { tipo: 'Domiciliación', importe: '€3.200', fecha: '09/04/2026', estado: TransactionStatus.Completed, iban: 'FR7630006000011234567890189' },
   ];
 
+  readonly tableColumns = toSignal(
+    combineLatest([
+      this.translate.stream('HOME.OPERATIONS.COL_TYPE'),
+      this.translate.stream('HOME.OPERATIONS.COL_AMOUNT'),
+      this.translate.stream('HOME.OPERATIONS.COL_DATE'),
+      this.translate.stream('HOME.OPERATIONS.COL_STATUS'),
+      this.translate.stream('HOME.OPERATIONS.COL_IBAN'),
+    ]).pipe(
+      map(([tipo, importe, fecha, estado, iban]): CapTableColumn[] => [
+        { key: 'tipo', label: tipo as string },
+        { key: 'importe', label: importe as string, cssClass: 'home-table__importe' },
+        { key: 'fecha', label: fecha as string },
+        { key: 'estado', label: estado as string },
+        { key: 'iban', label: iban as string, cssClass: 'home-table__iban' },
+      ])
+    ),
+    { initialValue: [] as CapTableColumn[] }
+  );
+
   selectTab(id: DashboardTabId): void {
     this.tabActiva.set(id);
+  }
+
+  navigateTo(ruta: string): void {
+    this.router.navigate([ruta]);
+  }
+
+  statusKind(status: TransactionStatus): CapStatusBadgeKind {
+    return STATUS_KIND_MAP[status];
   }
 }

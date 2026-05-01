@@ -11,12 +11,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { CapButtonComponent, CapSpinnerComponent } from '@capitalflow/shared-ui';
 import { Transaction } from '../core/models';
 import { AnalyticsService } from './analytics.service';
 import { ExportService } from '../core/services/export.service';
 import { AnalyticsStatsComponent } from './analytics-stats.component';
 import { AnalyticsTableComponent } from './analytics-table.component';
-import { SpinnerComponent } from '../shared/spinner/spinner.component';
 
 interface AnalyticsStats {
   total: number;
@@ -38,7 +38,8 @@ const EMPTY_STATS: AnalyticsStats = { total: 0, income: 0, expenses: 0 };
     TranslateModule,
     AnalyticsStatsComponent,
     AnalyticsTableComponent,
-    SpinnerComponent,
+    CapSpinnerComponent,
+    CapButtonComponent,
   ],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss'],
@@ -90,9 +91,13 @@ export class AnalyticsComponent {
   }
 
   exportarCSV(): void {
+    const rows = this.transaccionesFiltradas();
+    if (rows.length === 0) {
+      return;
+    }
     this.exportando.set(true);
     this.exportService
-      .exportToCSV(this.transaccionesFiltradas())
+      .exportToCSV(rows)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.exportando.set(false),
