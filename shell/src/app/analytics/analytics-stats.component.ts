@@ -26,6 +26,6 @@ export class AnalyticsStatsComponent {
       minimumFractionDigits: AMOUNT_FRACTION_DIGITS,
       maximumFractionDigits: AMOUNT_FRACTION_DIGITS,
     });
-    return `€${formatted}`;
+    return `${formatted} €`;
   }
 }

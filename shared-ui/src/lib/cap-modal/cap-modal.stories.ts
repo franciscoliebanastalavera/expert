@@ -60,7 +60,7 @@ export const Default: Story = {
     showModal: false,
     size: 'standard',
     title: 'Confirmar operación',
-    text: '¿Está seguro de que desea aprobar esta transferencia de €45.200?',
+    text: '¿Está seguro de que desea aprobar esta transferencia de 45.200 €?',
     showPrimaryButton: true,
     labelPrimaryButton: 'Aprobar',
     showSecondaryButton: true,

@@ -58,7 +58,7 @@ export class HomeComponent {
   readonly metricas: DashboardMetric[] = [
     {
       titulo: 'HOME.METRICS.TREASURY.TITLE',
-      valor: '€2.450.000',
+      valor: '2.450.000 €',
       variacion: '+12.5%',
       icono: IconName.MetricTreasury,
       positivo: true,
@@ -67,7 +67,7 @@ export class HomeComponent {
     },
     {
       titulo: 'HOME.METRICS.PAYMENTS.TITLE',
-      valor: '€380.000',
+      valor: '380.000 €',
       variacion: '-8.3%',
       icono: IconName.MetricPayments,
       positivo: true,
@@ -102,11 +102,11 @@ export class HomeComponent {
   ];
 
   readonly ultimasOperaciones: DashboardOperation[] = [
-    { tipo: 'Transferencia SEPA', importe: '€45.200', fecha: '11/04/2026', estado: TransactionStatus.Completed, iban: 'ES9121000418450200051332' },
-    { tipo: 'Pago Nóminas', importe: '€128.500', fecha: '10/04/2026', estado: TransactionStatus.Processing, iban: 'ES7620770024003102575766' },
-    { tipo: 'Cobro Factura', importe: '€15.800', fecha: '10/04/2026', estado: TransactionStatus.Completed, iban: 'ES0049001822162211067891' },
-    { tipo: 'Transferencia Internacional', importe: '€92.000', fecha: '09/04/2026', estado: TransactionStatus.Pending, iban: 'DE89370400440532013000' },
-    { tipo: 'Domiciliación', importe: '€3.200', fecha: '09/04/2026', estado: TransactionStatus.Completed, iban: 'FR7630006000011234567890189' },
+    { tipo: 'Transferencia SEPA', importe: '45.200 €', fecha: '11/04/2026', estado: TransactionStatus.Completed, iban: 'ES9121000418450200051332' },
+    { tipo: 'Pago Nóminas', importe: '128.500 €', fecha: '10/04/2026', estado: TransactionStatus.Processing, iban: 'ES7620770024003102575766' },
+    { tipo: 'Cobro Factura', importe: '15.800 €', fecha: '10/04/2026', estado: TransactionStatus.Completed, iban: 'ES0049001822162211067891' },
+    { tipo: 'Transferencia Internacional', importe: '92.000 €', fecha: '09/04/2026', estado: TransactionStatus.Pending, iban: 'DE89370400440532013000' },
+    { tipo: 'Domiciliación', importe: '3.200 €', fecha: '09/04/2026', estado: TransactionStatus.Completed, iban: 'FR7630006000011234567890189' },
   ];
 
   readonly tableColumns = toSignal(

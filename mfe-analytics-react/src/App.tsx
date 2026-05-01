@@ -183,18 +183,18 @@ const App: React.FC = () => {
   const t = translations[lang];
 
   const datosKPI = [
-    { titulo: t.totalIncome, valor: '€1.245.320', variacion: '+12.5%', positivo: true },
-    { titulo: t.opExpenses, valor: '€387.210', variacion: '+3.2%', positivo: false },
-    { titulo: t.netProfit, valor: '€858.110', variacion: '+18.7%', positivo: true },
+    { titulo: t.totalIncome, valor: '1.245.320 €', variacion: '+12.5%', positivo: true },
+    { titulo: t.opExpenses, valor: '387.210 €', variacion: '+3.2%', positivo: false },
+    { titulo: t.netProfit, valor: '858.110 €', variacion: '+18.7%', positivo: true },
     { titulo: t.activeClients, valor: '2.847', variacion: '+5.1%', positivo: true },
   ];
 
   const transacciones = [
-    { id: 'TXN-001', fecha: '2026-04-10', concepto: t.txSepa, importe: '€15.200', estado: t.completed },
-    { id: 'TXN-002', fecha: '2026-04-10', concepto: t.txPayroll, importe: '€42.800', estado: t.completed },
-    { id: 'TXN-003', fecha: '2026-04-09', concepto: t.txInvoice, importe: '€8.350', estado: t.pending },
-    { id: 'TXN-004', fecha: '2026-04-09', concepto: t.txFee, importe: '€120', estado: t.completed },
-    { id: 'TXN-005', fecha: '2026-04-08', concepto: t.txInvestment, importe: '€50.000', estado: t.inProgress },
+    { id: 'TXN-001', fecha: '2026-04-10', concepto: t.txSepa, importe: '15.200 €', estado: t.completed },
+    { id: 'TXN-002', fecha: '2026-04-10', concepto: t.txPayroll, importe: '42.800 €', estado: t.completed },
+    { id: 'TXN-003', fecha: '2026-04-09', concepto: t.txInvoice, importe: '8.350 €', estado: t.pending },
+    { id: 'TXN-004', fecha: '2026-04-09', concepto: t.txFee, importe: '120 €', estado: t.completed },
+    { id: 'TXN-005', fecha: '2026-04-08', concepto: t.txInvestment, importe: '50.000 €', estado: t.inProgress },
   ];
 
   return (

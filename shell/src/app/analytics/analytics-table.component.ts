@@ -16,8 +16,9 @@ const IBAN_GROUP_REGEX = /(.{4})/g;
 const IBAN_GROUP_SEPARATOR = ' ';
 const AMOUNT_LOCALE = 'es-ES';
 const AMOUNT_FRACTION_DIGITS = 2;
-const POSITIVE_AMOUNT_PREFIX = '+€';
-const NEGATIVE_AMOUNT_PREFIX = '-€';
+const POSITIVE_SIGN = '+';
+const NEGATIVE_SIGN = '-';
+const AMOUNT_CURRENCY_SUFFIX = ' €';
 const ROW_ITEM_SIZE_PX = 48;
 
 const STATUS_KIND_MAP: Record<TransactionStatus, CapStatusBadgeKind> = {
@@ -81,7 +82,8 @@ export class AnalyticsTableComponent {
       minimumFractionDigits: AMOUNT_FRACTION_DIGITS,
       maximumFractionDigits: AMOUNT_FRACTION_DIGITS,
     });
-    return importe >= 0 ? `${POSITIVE_AMOUNT_PREFIX}${formatted}` : `${NEGATIVE_AMOUNT_PREFIX}${formatted}`;
+    const sign = importe >= 0 ? POSITIVE_SIGN : NEGATIVE_SIGN;
+    return `${sign}${formatted}${AMOUNT_CURRENCY_SUFFIX}`;
   }
 
   statusKind(status: TransactionStatus): CapStatusBadgeKind {
