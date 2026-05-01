@@ -12,4 +12,7 @@ export type ButtonVariant =
   | 'action-secondary'
   | 'circle-primary'
   | 'circle-secondary'
-  | 'icon-button';
+  | 'icon-button'
+  | 'capitalflow-primary'
+  | 'capitalflow-secondary'
+  | 'capitalflow-outline';

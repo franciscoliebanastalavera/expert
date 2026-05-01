@@ -298,6 +298,65 @@
         }
     }
 
+    &__capitalflow-primary {
+        color: #fff;
+        background-color: var(--cap-primary, #2a85c4);
+        border: none;
+
+        &:hover:not(:disabled) {
+            background-color: var(--cap-primary-hover, #1e6da6);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--cap-primary-active, #1d2550);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__capitalflow-secondary {
+        color: #fff;
+        background-color: var(--cap-secondary, #f47c20);
+        border: none;
+
+        &:hover:not(:disabled) {
+            background-color: var(--cap-secondary-hover, #d96512);
+        }
+
+        &:active:not(:disabled) {
+            background-color: var(--cap-secondary-hover, #d96512);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__capitalflow-outline {
+        color: var(--cap-text, #1e1e1e);
+        background-color: var(--cap-bg-surface, #fff);
+        border: 0.0625rem solid var(--cap-border, #cac8c2);
+
+        &:hover:not(:disabled) {
+            border-color: var(--cap-primary, #2a85c4);
+            color: var(--cap-primary, #2a85c4);
+        }
+
+        &:active:not(:disabled) {
+            border-color: var(--cap-primary-hover, #1e6da6);
+            color: var(--cap-primary-hover, #1e6da6);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
     &__label-uppercase {
         text-transform: uppercase;
     }
