@@ -23,9 +23,14 @@
       "ES2022",
       "dom"
     ],
+    "baseUrl": "./",
     "paths": {
-      "@capitalflow/shared-ui": ["../shared-ui/dist"],
-      "@capitalflow/shared-ui/*": ["../shared-ui/dist/*"]
+      "@capitalflow/shared-ui": ["../shared-ui/src/public-api-source.ts"],
+      "@capitalflow/shared-ui/*": ["../shared-ui/src/*"],
+      "@angular/*": ["node_modules/@angular/*"],
+      "rxjs": ["node_modules/rxjs"],
+      "rxjs/*": ["node_modules/rxjs/*"],
+      "tslib": ["node_modules/tslib"]
     }
   },
   "angularCompilerOptions": {
