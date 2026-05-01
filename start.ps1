@@ -12,7 +12,7 @@ $services = @(
 
 Write-Host ''
 Write-Host '=== CapitalFlow: levantando contenedores Docker ===' -ForegroundColor Cyan
-docker compose up -d | Out-Host
+docker compose up -d
 
 Write-Host ''
 Write-Host 'Esperando a que los servicios respondan (max 60s)...' -ForegroundColor Yellow

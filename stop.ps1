@@ -6,7 +6,7 @@ Set-Location $PSScriptRoot
 
 Write-Host ''
 Write-Host '=== CapitalFlow: parando contenedores Docker ===' -ForegroundColor Cyan
-docker compose down | Out-Host
+docker compose down
 
 Write-Host ''
 $running = docker compose ps --status running --quiet 2>$null
@@ -15,7 +15,7 @@ if ([string]::IsNullOrWhiteSpace($running)) {
     Write-Host '[OK] Todos los contenedores parados y la red eliminada.' -ForegroundColor Green
 } else {
     Write-Host '[WARN] Algunos contenedores siguen en ejecucion:' -ForegroundColor Yellow
-    docker compose ps | Out-Host
+    docker compose ps
     exit 1
 }
 Write-Host ''
