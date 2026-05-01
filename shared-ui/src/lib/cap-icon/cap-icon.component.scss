@@ -1,0 +1,14 @@
+$icon-default-size: 1.5rem;
+
+:host {
+  display: inline-flex;
+  width: $icon-default-size;
+  height: $icon-default-size;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.cap-icon__svg {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,32 @@
+.cap-status-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--cap-radius-sm, 0.25rem);
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  &--success {
+    background: var(--cap-status-success-bg, #e8f5e9);
+    color: var(--cap-status-success-fg, #2e7d32);
+  }
+
+  &--warning {
+    background: var(--cap-status-warning-bg, #fff3e0);
+    color: var(--cap-status-warning-fg, #ef6c00);
+  }
+
+  &--info {
+    background: var(--cap-status-info-bg, #e3f2fd);
+    color: var(--cap-status-info-fg, #1565c0);
+  }
+
+  &--danger {
+    background: var(--cap-status-danger-bg, #fce4ec);
+    color: var(--cap-status-danger-fg, #c62828);
+  }
+
+  &--neutral {
+    background: var(--cap-bg, #f2f2f2);
+    color: var(--cap-text, #1e1e1e);
+  }
+}

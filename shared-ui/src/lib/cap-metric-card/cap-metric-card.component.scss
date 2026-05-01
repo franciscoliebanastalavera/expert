@@ -1,0 +1,66 @@
+.cap-metric-card {
+  background: var(--cap-bg-surface, #fff);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-lg, 0.75rem);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: var(--cap-transition, all 0.2s ease-in-out);
+
+  &--clickable {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: var(--cap-shadow-md, 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1));
+      transform: translateY(-0.125rem);
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  &__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--cap-primary, #2a85c4);
+  }
+
+  &__variation {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--cap-radius-sm, 0.25rem);
+
+    &--positive {
+      color: var(--cap-status-success-fg, #33841f);
+      background: var(--cap-status-success-bg, #e8f5e9);
+    }
+
+    &--negative {
+      color: var(--cap-status-danger-fg, #c51321);
+      background: var(--cap-status-danger-bg, #fce4ec);
+    }
+  }
+
+  &__value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cap-text, #1e1e1e);
+  }
+
+  &__title {
+    font-size: 0.95rem;
+    color: var(--cap-text-secondary, #4d4d4d);
+    margin-top: 0.25rem;
+  }
+
+  &__description {
+    font-size: 0.8rem;
+    color: var(--cap-text-muted, #b2b2b2);
+    margin-top: 0.5rem;
+  }
+}

@@ -1,0 +1,32 @@
+.cap-stat-card {
+  background: var(--cap-bg-surface, #fff);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 0.5rem);
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--cap-text-muted, #b2b2b2);
+    margin-bottom: 0.25rem;
+  }
+
+  &__value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--cap-text, #1e1e1e);
+  }
+
+  &--positive .cap-stat-card__value {
+    color: var(--cap-status-success-fg, #2e7d32);
+  }
+
+  &--negative .cap-stat-card__value {
+    color: var(--cap-status-danger-fg, #c62828);
+  }
+}

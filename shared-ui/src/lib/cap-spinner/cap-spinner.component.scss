@@ -1,0 +1,46 @@
+$rotation-duration: 1s;
+$full-rotation: 360deg;
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cap-spinner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--cap-primary, #2a85c4);
+
+  &--small .cap-spinner__svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &--medium .cap-spinner__svg {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  &--large .cap-spinner__svg {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}
+
+.cap-spinner__svg {
+  animation: cap-spinner-rotate $rotation-duration linear infinite;
+}
+
+.cap-spinner__label {
+  font-size: 0.875rem;
+  color: var(--cap-text-secondary, #4d4d4d);
+}
+
+@keyframes cap-spinner-rotate {
+  100% {
+    transform: rotate($full-rotation);
+  }
+}
