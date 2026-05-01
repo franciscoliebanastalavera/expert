@@ -1,5 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Transaction } from '../core/models';
+import {
+  Transaction,
+  TransactionCategory,
+  TransactionStatus,
+  TransactionType,
+} from '../core/models';
+import {
+  DATE_PAD_CHAR,
+  DATE_PART_PAD_LENGTH,
+  DEFAULT_CURRENCY,
+  LAZY_GENERATION_THRESHOLD_MS,
+  MOCK_AMOUNT_DECIMAL_FACTOR,
+  MOCK_COUNTRIES,
+  MOCK_DAYS_PER_MONTH,
+  MOCK_DESCRIPTIONS,
+  MOCK_IBAN_ACCOUNT_SLICE_END,
+  MOCK_IBAN_DIGITS_COUNT,
+  MOCK_INCOME_PROBABILITY,
+  MOCK_MAX_EXPENSE_AMOUNT,
+  MOCK_MAX_INCOME_AMOUNT,
+  MOCK_MONTHS_RANGE,
+  MOCK_TRANSACTIONS_COUNT,
+  MOCK_YEAR,
+} from './analytics.constants';
+
+const TRANSACTION_TYPES = Object.values(TransactionType);
+const TRANSACTION_STATUSES = Object.values(TransactionStatus);
+const TRANSACTION_CATEGORIES = Object.values(TransactionCategory);
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
@@ -51,45 +78,44 @@ export class AnalyticsService {
   }
 
   private generateMockTransactions(): Transaction[] {
-    const tipos = ['Transferencia SEPA', 'Pago Nómina', 'Cobro Factura', 'Domiciliación', 'Transferencia Internacional', 'Pago Proveedor', 'Ingreso Cliente'];
-    const estados = ['Completada', 'Procesando', 'Pendiente', 'Rechazada'];
-    const categorias = ['Tesorería', 'Nóminas', 'Proveedores', 'Clientes', 'Impuestos', 'Seguros', 'Servicios'];
-    const paises = ['ES', 'DE', 'FR', 'IT', 'PT', 'NL', 'BE'];
-    const descripciones = [
-      'Pago factura servicios profesionales',
-      'Nómina empleados marzo 2026',
-      'Cobro factura cliente Premium',
-      'Domiciliación seguro empresarial',
-      'Transferencia tesorería central',
-      'Pago proveedor materias primas',
-      'Ingreso por venta de activos',
-      'Liquidación IVA trimestral',
-      'Pago alquiler oficinas centrales',
-      'Cobro intereses depósito a plazo',
-    ];
-
+    const start = performance.now();
     const result: Transaction[] = [];
-    for (let i = 1; i <= 1000; i++) {
-      const dia = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
-      const mes = String(Math.floor(Math.random() * 4) + 1).padStart(2, '0');
-      const pais = paises[Math.floor(Math.random() * paises.length)];
-      const numCuenta = Array.from({ length: 20 }, () => Math.floor(Math.random() * 10)).join('');
-      const esIngreso = Math.random() > 0.45;
+
+    for (let i = 1; i <= MOCK_TRANSACTIONS_COUNT; i++) {
+      const dia = String(Math.floor(Math.random() * MOCK_DAYS_PER_MONTH) + 1)
+        .padStart(DATE_PART_PAD_LENGTH, DATE_PAD_CHAR);
+      const mes = String(Math.floor(Math.random() * MOCK_MONTHS_RANGE) + 1)
+        .padStart(DATE_PART_PAD_LENGTH, DATE_PAD_CHAR);
+      const pais = MOCK_COUNTRIES[Math.floor(Math.random() * MOCK_COUNTRIES.length)];
+      const numCuenta = Array.from({ length: MOCK_IBAN_DIGITS_COUNT }, () =>
+        Math.floor(Math.random() * 10)
+      ).join('');
+      const esIngreso = Math.random() < MOCK_INCOME_PROBABILITY;
 
       result.push({
         id: i,
-        fecha: `${dia}/${mes}/2026`,
-        tipo: tipos[Math.floor(Math.random() * tipos.length)],
-        descripcion: descripciones[Math.floor(Math.random() * descripciones.length)],
-        iban: `${pais}${numCuenta.slice(0, 22)}`,
+        fecha: `${dia}/${mes}/${MOCK_YEAR}`,
+        tipo: TRANSACTION_TYPES[Math.floor(Math.random() * TRANSACTION_TYPES.length)],
+        descripcion: MOCK_DESCRIPTIONS[Math.floor(Math.random() * MOCK_DESCRIPTIONS.length)],
+        iban: `${pais}${numCuenta.slice(0, MOCK_IBAN_ACCOUNT_SLICE_END)}`,
         importe: esIngreso
-          ? Math.round(Math.random() * 150000 * 100) / 100
-          : -Math.round(Math.random() * 100000 * 100) / 100,
-        divisa: 'EUR',
-        estado: estados[Math.floor(Math.random() * estados.length)],
-        categoria: categorias[Math.floor(Math.random() * categorias.length)],
+          ? Math.round(Math.random() * MOCK_MAX_INCOME_AMOUNT * MOCK_AMOUNT_DECIMAL_FACTOR) / MOCK_AMOUNT_DECIMAL_FACTOR
+          : -Math.round(Math.random() * MOCK_MAX_EXPENSE_AMOUNT * MOCK_AMOUNT_DECIMAL_FACTOR) / MOCK_AMOUNT_DECIMAL_FACTOR,
+        divisa: DEFAULT_CURRENCY,
+        estado: TRANSACTION_STATUSES[Math.floor(Math.random() * TRANSACTION_STATUSES.length)],
+        categoria: TRANSACTION_CATEGORIES[Math.floor(Math.random() * TRANSACTION_CATEGORIES.length)],
       });
     }
+
+    const elapsed = performance.now() - start;
+    if (elapsed > LAZY_GENERATION_THRESHOLD_MS) {
+      console.warn(
+        `[AnalyticsService] Mock generation took ${elapsed.toFixed(0)}ms ` +
+        `(threshold: ${LAZY_GENERATION_THRESHOLD_MS}ms). ` +
+        `For production this would move to Web Worker / streamed pagination.`
+      );
+    }
+
     return result;
   }
 }
