@@ -1,0 +1,42 @@
+<div class="cap-data-grid">
+  <div class="cap-data-grid__inner">
+    <div class="cap-data-grid__header" role="rowgroup">
+      <div class="cap-data-grid__row cap-data-grid__row--header" role="row">
+        <div
+          *ngFor="let col of columns"
+          class="cap-data-grid__cell cap-data-grid__cell--header"
+          role="columnheader"
+          [ngClass]="col.cssClass || null"
+        >
+          {{ col.label }}
+        </div>
+      </div>
+    </div>
+    <cdk-virtual-scroll-viewport
+      [itemSize]="itemSize"
+      class="cap-data-grid__viewport"
+      [style.height]="viewportHeight"
+    >
+      <div
+        *cdkVirtualFor="let row of data; trackBy: trackByRow"
+        class="cap-data-grid__row"
+        role="row"
+        [style.height.px]="itemSize"
+      >
+        <div
+          *ngFor="let col of columns"
+          class="cap-data-grid__cell"
+          role="cell"
+          [ngClass]="col.cssClass || null"
+        >
+          <ng-container
+            *ngIf="templateFor(col.key) as cellTpl; else defaultCell"
+            [ngTemplateOutlet]="cellTpl"
+            [ngTemplateOutletContext]="{ $implicit: getCellValue(row, col.key), row: row, column: col }"
+          ></ng-container>
+          <ng-template #defaultCell>{{ getCellValue(row, col.key) }}</ng-template>
+        </div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>

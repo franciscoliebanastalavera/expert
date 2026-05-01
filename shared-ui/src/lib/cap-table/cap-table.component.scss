@@ -1,0 +1,39 @@
+.cap-table__wrapper {
+  overflow-x: auto;
+  border-radius: var(--cap-radius-md, 0.5rem);
+}
+
+.cap-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--cap-bg-surface, #fff);
+}
+
+.cap-table__head {
+  background: var(--cap-table-head-bg, var(--cap-primary, #2a85c4));
+}
+
+.cap-table__th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--cap-table-head-fg, #fff);
+  font-weight: 700;
+  border-bottom: 0.0625rem solid var(--cap-border, #cac8c2);
+}
+
+.cap-table__row {
+  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--cap-table-row-hover-bg, rgba(0, 0, 0, 0.02));
+  }
+}
+
+.cap-table__td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: var(--cap-text, #1e1e1e);
+}

@@ -1,0 +1,61 @@
+.cap-data-grid {
+  background: var(--cap-bg-surface, #fff);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 0.5rem);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.cap-data-grid__inner {
+  min-width: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.cap-data-grid__header {
+  display: flex;
+  flex-direction: column;
+  background: var(--cap-table-head-bg, var(--cap-primary, #2a85c4));
+  border-bottom: 0.125rem solid var(--cap-border, #cac8c2);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--cap-table-head-fg, #fff);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.cap-data-grid__row {
+  display: flex;
+  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.1s;
+
+  &:not(.cap-data-grid__row--header):hover {
+    background: var(--cap-table-row-hover-bg, rgba(0, 0, 0, 0.02));
+  }
+}
+
+.cap-data-grid__cell {
+  padding: 0.75rem 0.8rem;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+
+  &--header {
+    padding: 0.75rem 0.8rem;
+  }
+}
+
+.cap-data-grid__viewport {
+  display: block;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+
+  ::ng-deep .cdk-virtual-scroll-content-wrapper {
+    min-width: 100%;
+  }
+}
