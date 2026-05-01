@@ -7,6 +7,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppLanguage } from '../../language.constants';
+import { IconComponent } from '../../shared/icon/icon.component';
+import { IconName } from '../../shared/icon/icon.constants';
 
 export interface NavItem {
   label: string;
@@ -15,18 +17,19 @@ export interface NavItem {
 }
 
 const DEFAULT_BRAND_NAME = 'CapitalFlow';
+const DEFAULT_BRAND_LOGO = '/assets/svgs/brand-logo.svg';
 
 @Component({
   selector: 'cap-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cap-header.component.html',
   styleUrls: ['./cap-header.component.scss'],
 })
 export class CapHeaderComponent {
   readonly brandName = input<string>(DEFAULT_BRAND_NAME);
-  readonly brandIcon = input<string>('');
+  readonly brandIcon = input<string>(DEFAULT_BRAND_LOGO);
   readonly navItems = input<NavItem[]>([]);
   readonly showThemeToggle = input<boolean>(true);
   readonly showLangSelector = input<boolean>(true);
@@ -37,6 +40,7 @@ export class CapHeaderComponent {
   readonly langChange = output<AppLanguage>();
 
   readonly appLanguage = AppLanguage;
+  readonly iconName = IconName;
 
   menuOpen = false;
 

@@ -63,6 +63,16 @@
   width: 1rem;
   height: 1rem;
   flex-shrink: 0;
+
+  &--md {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  &--lg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
 }
 
 .cap-header__actions {
@@ -86,11 +96,6 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
-  }
-
-  .cap-header__icon {
-    width: 1.125rem;
-    height: 1.125rem;
   }
 }
 
@@ -126,11 +131,6 @@
   color: #fff;
   cursor: pointer;
   margin-left: auto;
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
 }
 
 @media (max-width: 48em) {

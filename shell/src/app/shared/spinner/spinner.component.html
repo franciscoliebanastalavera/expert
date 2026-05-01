@@ -1,7 +1,6 @@
 <div class="spinner" role="status" aria-live="polite">
-  <svg class="spinner-svg" viewBox="0 0 50 50" aria-hidden="true">
-    <circle class="spinner-track" cx="25" cy="25" r="20" fill="none" stroke-width="4" />
-    <circle class="spinner-progress" cx="25" cy="25" r="20" fill="none" stroke-width="4" />
+  <svg class="spinner-svg" focusable="false" aria-hidden="true">
+    <use href="/assets/svgs/spinner.svg#loader" />
   </svg>
   @if (label()) {
     <span class="spinner-label">{{ label() }}</span>

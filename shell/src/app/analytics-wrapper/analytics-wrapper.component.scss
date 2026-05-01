@@ -1,6 +1,17 @@
+$mfe-min-height: 25rem;
+$mfe-padding: 1rem;
+$spinner-wrapper-vertical-padding: 4rem;
+$spinner-size: 3rem;
+$spinner-rotation-duration: 1s;
+$spinner-full-rotation: 360deg;
+$spinner-label-font-size: 0.875rem;
+$spinner-gap: 1rem;
+$fade-duration: 0.3s;
+$error-padding: 2rem;
+
 .mfe-container {
-  min-height: 25rem;
-  padding: 1rem;
+  min-height: $mfe-min-height;
+  padding: $mfe-padding;
 }
 
 .spinner-wrapper {
@@ -8,10 +19,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 4rem 0;
+  gap: $spinner-gap;
+  padding: $spinner-wrapper-vertical-padding 0;
+  color: var(--cap-primary, #2a85c4);
   opacity: 1;
-  transition: opacity 0.3s ease;
+  transition: opacity $fade-duration ease;
 
   &.fade-out {
     opacity: 0;
@@ -19,29 +31,13 @@
 }
 
 .spinner {
-  width: 3rem;
-  height: 3rem;
-  animation: spin 1s linear infinite;
-
-  circle {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: 0;
-    animation: dash 1.5s ease-in-out infinite;
-  }
-}
-
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes dash {
-  0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-  50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+  width: $spinner-size;
+  height: $spinner-size;
+  animation: spin $spinner-rotation-duration linear infinite;
 }
 
 .spinner-text {
-  font-size: 0.875rem;
+  font-size: $spinner-label-font-size;
   color: var(--cap-text-muted, #999);
 }
 
@@ -49,5 +45,11 @@
   color: var(--cap-danger, #c51321);
   font-weight: 600;
   text-align: center;
-  padding: 2rem;
+  padding: $error-padding;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate($spinner-full-rotation);
+  }
 }

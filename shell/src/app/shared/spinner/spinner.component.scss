@@ -1,7 +1,5 @@
 $spinner-size: 3rem;
-$spinner-stroke-width: 0.25rem;
 $spinner-rotation-duration: 1s;
-$spinner-dash-duration: 1.5s;
 $spinner-full-rotation: 360deg;
 $spinner-label-font-size: 0.875rem;
 $spinner-gap: 0.75rem;
@@ -17,26 +15,13 @@ $spinner-gap: 0.75rem;
   flex-direction: column;
   align-items: center;
   gap: $spinner-gap;
+  color: var(--cap-primary, #2a85c4);
 }
 
 .spinner-svg {
   width: $spinner-size;
   height: $spinner-size;
   animation: spinner-rotate $spinner-rotation-duration linear infinite;
-}
-
-.spinner-track {
-  stroke: var(--cap-border, #d4d4d4);
-  stroke-width: $spinner-stroke-width;
-}
-
-.spinner-progress {
-  stroke: var(--cap-primary, #2a85c4);
-  stroke-width: $spinner-stroke-width;
-  stroke-linecap: round;
-  stroke-dasharray: 90, 150;
-  stroke-dashoffset: -2.1875rem;
-  animation: spinner-dash $spinner-dash-duration ease-in-out infinite;
 }
 
 .spinner-label {
@@ -47,20 +32,5 @@ $spinner-gap: 0.75rem;
 @keyframes spinner-rotate {
   100% {
     transform: rotate($spinner-full-rotation);
-  }
-}
-
-@keyframes spinner-dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -2.1875rem;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -7.8125rem;
   }
 }
