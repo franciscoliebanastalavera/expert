@@ -8,7 +8,7 @@
     @for (m of metricas; track m.titulo) {
       <div class="metrica-card" [routerLink]="m.ruta">
         <div class="metrica-header">
-          <span class="metrica-icono">{{ m.icono }}</span>
+          <app-icon class="metrica-icono" [name]="m.icono" />
           <span class="metrica-variacion" [class.positivo]="m.positivo" [class.negativo]="!m.positivo">
             {{ m.variacion }}
           </span>

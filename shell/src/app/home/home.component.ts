@@ -9,13 +9,15 @@ import {
   DashboardTabId,
   TransactionStatus,
 } from '../core/models';
+import { IconComponent } from '../shared/icon/icon.component';
+import { IconName } from '../shared/icon/icon.constants';
 
 const DEFAULT_TAB: DashboardTabId = DashboardTabId.Summary;
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [CommonModule, RouterModule, TranslateModule, IconComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,7 +32,7 @@ export class HomeComponent {
       titulo: 'HOME.METRICS.TREASURY.TITLE',
       valor: '€2.450.000',
       variacion: '+12.5%',
-      icono: '🏦',
+      icono: IconName.MetricTreasury,
       positivo: true,
       descripcion: 'HOME.METRICS.TREASURY.DESC',
       ruta: '/analytics',
@@ -39,7 +41,7 @@ export class HomeComponent {
       titulo: 'HOME.METRICS.PAYMENTS.TITLE',
       valor: '€380.000',
       variacion: '-8.3%',
-      icono: '💳',
+      icono: IconName.MetricPayments,
       positivo: true,
       descripcion: 'HOME.METRICS.PAYMENTS.DESC',
       ruta: '/analytics',
@@ -48,7 +50,7 @@ export class HomeComponent {
       titulo: 'HOME.METRICS.RECONCILIATION.TITLE',
       valor: '94.2%',
       variacion: '+3.1%',
-      icono: '✅',
+      icono: IconName.MetricReconciliation,
       positivo: true,
       descripcion: 'HOME.METRICS.RECONCILIATION.DESC',
       ruta: '/analytics',
@@ -57,7 +59,7 @@ export class HomeComponent {
       titulo: 'HOME.METRICS.ALERTS.TITLE',
       valor: '3',
       variacion: '+2',
-      icono: '⚠️',
+      icono: IconName.MetricAlert,
       positivo: false,
       descripcion: 'HOME.METRICS.ALERTS.DESC',
       ruta: '/analytics',
