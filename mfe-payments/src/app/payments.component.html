@@ -1,0 +1,55 @@
+<section class="payments">
+  <header class="payments__header">
+    <h1 class="payments__title">Pagos Internacionales</h1>
+    <p class="payments__subtitle">International Payments · MFE Angular 17</p>
+  </header>
+
+  <div class="payments__kpis">
+    <cap-metric-card
+      [iconName]="iconVolume"
+      [value]="volumeValue"
+      [variation]="volumeVariation"
+      title="Volumen Pagado"
+      description="Acumulado del trimestre actual"
+      [positive]="true">
+    </cap-metric-card>
+
+    <cap-metric-card
+      [iconName]="iconPending"
+      [value]="pendingValue"
+      [variation]="pendingVariation"
+      title="Pagos Pendientes"
+      description="Operaciones en espera de aprobación"
+      [positive]="true">
+    </cap-metric-card>
+
+    <cap-metric-card
+      [iconName]="iconAvgTime"
+      [value]="avgTimeValue"
+      [variation]="avgTimeVariation"
+      title="Tiempo Medio"
+      description="Días promedio de procesamiento"
+      [positive]="true">
+    </cap-metric-card>
+  </div>
+
+  <div class="payments__table">
+    <cap-table [columns]="columns" [data]="payments" trackByKey="id">
+      <ng-template capCellTemplate="amount" let-value>
+        <span class="payments__amount">{{ formatAmount(value) }}</span>
+      </ng-template>
+      <ng-template capCellTemplate="status" let-value>
+        <cap-status-badge [kind]="statusKind[asStatus(value)]">
+          {{ statusLabel[asStatus(value)] }}
+        </cap-status-badge>
+      </ng-template>
+    </cap-table>
+  </div>
+
+  <footer class="payments__footer">
+    <p>
+      En fase 2 conexión con servicio Payments backend
+      (REST + WebSocket para estado en tiempo real).
+    </p>
+  </footer>
+</section>

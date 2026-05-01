@@ -1,0 +1,77 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--cap-text, #1e1e1e);
+}
+
+.payments {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 87.5rem;
+  margin: 0 auto;
+}
+
+.payments__header h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem;
+  color: var(--cap-text, #1e1e1e);
+}
+
+.payments__subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--cap-text-secondary, #4d4d4d);
+}
+
+.payments__kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.payments__table {
+  background: var(--cap-bg-surface, #ffffff);
+  border-radius: var(--cap-radius-md, 0.5rem);
+}
+
+.payments-table__amount {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.payments__amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.payments__footer {
+  font-size: 0.8125rem;
+  color: var(--cap-text-muted, #8a8a8a);
+  text-align: center;
+  border-top: 0.0625rem solid var(--cap-border, #d4d4d4);
+  padding-top: 1rem;
+}
+
+.payments__footer p {
+  margin: 0;
+}
+
+@media (max-width: 56em) {
+  .payments__kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 36em) {
+  .payments {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .payments__kpis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
