@@ -1,6 +1,7 @@
 import {
   Component,
   AfterViewInit,
+  CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   ViewChild,
   OnDestroy,
@@ -20,6 +21,7 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
   templateUrl: './analytics-wrapper.component.html',
   styleUrls: ['./analytics-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AnalyticsWrapperComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;

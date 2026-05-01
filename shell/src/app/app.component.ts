@@ -1,21 +1,33 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DOCUMENT } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, map } from 'rxjs';
+import { CapHeaderComponent, NavItem } from './shared/cap-header/cap-header.component';
 import { ThemeService } from './core/services/theme.service';
+import { AppLanguage, DEFAULT_LANGUAGE } from './language.constants';
+import { AppRoute, toRouteLink } from './routes.constants';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, TranslateModule, CapHeaderComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   readonly themeService = inject(ThemeService);
   private readonly translate = inject(TranslateService);
   private readonly document = inject(DOCUMENT);
 
-  readonly idiomaActual = signal<'es' | 'en'>('es');
+  readonly idiomaActual = signal<AppLanguage>(DEFAULT_LANGUAGE);
   menuAbierto = false;
 
   readonly navItems = toSignal(
@@ -23,26 +35,27 @@ export class AppComponent {
       this.translate.stream('NAV.HOME'),
       this.translate.stream('NAV.ANALYTICS'),
     ]).pipe(
-      map(([home, analytics]) => [
-        { label: home as string, route: '/' },
-        { label: analytics as string, route: '/analytics' },
-      ]),
+      map(([home, analytics]): NavItem[] => [
+        { label: home as string, route: toRouteLink(AppRoute.Home) },
+        { label: analytics as string, route: toRouteLink(AppRoute.Analytics) },
+      ])
     ),
-    { initialValue: [] as { label: string; route: string }[] },
+    { initialValue: [] as NavItem[] }
   );
 
   constructor() {
-    this.translate.setDefaultLang('es');
-    this.translate.use('es');
-    this.document.documentElement.lang = 'es';
+    this.translate.setDefaultLang(DEFAULT_LANGUAGE);
+    this.translate.use(DEFAULT_LANGUAGE);
+    this.document.documentElement.lang = DEFAULT_LANGUAGE;
   }
 
   toggleMenu(): void {
     this.menuAbierto = !this.menuAbierto;
   }
 
-  cambiarIdioma(lang?: 'es' | 'en'): void {
-    const next = lang ?? (this.idiomaActual() === 'es' ? 'en' : 'es');
+  cambiarIdioma(lang?: AppLanguage): void {
+    const next: AppLanguage =
+      lang ?? (this.idiomaActual() === AppLanguage.Es ? AppLanguage.En : AppLanguage.Es);
     this.translate.use(next);
     this.document.documentElement.lang = next;
     this.idiomaActual.set(next);

@@ -1,10 +1,10 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-import { AppModule } from './app/app.module';
+import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+import { APP_LOCALE_ID } from './app/language.constants';
 
-registerLocaleData(localeEs, 'es-ES');
+registerLocaleData(localeEs, APP_LOCALE_ID);
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule, { ngZoneEventCoalescing: true })
-  .catch(() => {});
+bootstrapApplication(AppComponent, appConfig).catch(() => {});
