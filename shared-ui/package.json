@@ -1,7 +1,7 @@
 {
   "name": "@capitalflow/shared-ui",
-  "version": "0.0.1",
-  "description": "Biblioteca de componentes compartidos para Capitalflow",
+  "version": "1.0.0",
+  "description": "Shared component library for CapitalFlow microfrontends",
   "peerDependencies": {
     "@angular/cdk": "^18.0.0",
     "@angular/common": "^18.0.0",
