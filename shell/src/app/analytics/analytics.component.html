@@ -26,37 +26,55 @@
       [expenses]="totalGastos()">
     </app-analytics-stats>
 
-    <div class="filtros">
+    <div class="filtros" [formGroup]="filterForm">
       <div class="filtro-grupo">
         <label>{{ 'ANALYTICS.FILTERS.SEARCH' | translate }}</label>
         <input
           type="text"
-          [ngModel]="filtroTexto()"
-          (ngModelChange)="filtroTexto.set($event)"
+          formControlName="texto"
+          maxlength="80"
           [placeholder]="'ANALYTICS.FILTERS.SEARCH_PLACEHOLDER' | translate"
           class="filtro-input"
+          [class.is-invalid]="filterForm.controls.texto.invalid && filterForm.controls.texto.touched"
         />
+        @if (filterForm.controls.texto.errors?.['pattern'] && filterForm.controls.texto.touched) {
+          <p class="filtro-error">{{ 'ANALYTICS.ERRORS.TEXT_INVALID' | translate }}</p>
+        }
       </div>
       <div class="filtro-grupo">
         <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MIN' | translate }}</label>
         <input
           type="number"
-          [ngModel]="filtroImporteMin()"
-          (ngModelChange)="filtroImporteMin.set($event)"
+          formControlName="importeMin"
+          min="0"
           placeholder="€ Min"
           class="filtro-input filtro-num"
+          [class.is-invalid]="filterForm.controls.importeMin.invalid && filterForm.controls.importeMin.touched"
         />
+        @if (filterForm.controls.importeMin.errors?.['min'] && filterForm.controls.importeMin.touched) {
+          <p class="filtro-error">{{ 'ANALYTICS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
+        }
       </div>
       <div class="filtro-grupo">
         <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MAX' | translate }}</label>
         <input
           type="number"
-          [ngModel]="filtroImporteMax()"
-          (ngModelChange)="filtroImporteMax.set($event)"
+          formControlName="importeMax"
+          min="0"
           placeholder="€ Max"
           class="filtro-input filtro-num"
+          [class.is-invalid]="filterForm.controls.importeMax.invalid && filterForm.controls.importeMax.touched"
         />
+        @if (filterForm.controls.importeMax.errors?.['min'] && filterForm.controls.importeMax.touched) {
+          <p class="filtro-error">{{ 'ANALYTICS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
+        }
       </div>
+      @if (filterForm.controls.importeMin.errors?.['max'] || filterForm.controls.importeMax.errors?.['max']) {
+        <p class="filtro-error filtro-error--row">{{ 'ANALYTICS.ERRORS.AMOUNT_TOO_LARGE' | translate }}</p>
+      }
+      @if (filterForm.errors?.['amountRange']) {
+        <p class="filtro-error filtro-error--row">{{ 'ANALYTICS.ERRORS.AMOUNT_RANGE' | translate }}</p>
+      }
       <cap-button
         variant="secondary"
         size="small"

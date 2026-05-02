@@ -118,10 +118,11 @@ describe('AnalyticsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('initialises filters as empty', () => {
-    expect(component.filtroTexto()).toBe('');
-    expect(component.filtroImporteMin()).toBeNull();
-    expect(component.filtroImporteMax()).toBeNull();
+  it('initialises the filter form with empty defaults and a valid state', () => {
+    expect(component.filterForm.controls.texto.value).toBe('');
+    expect(component.filterForm.controls.importeMin.value).toBeNull();
+    expect(component.filterForm.controls.importeMax.value).toBeNull();
+    expect(component.filterForm.valid).toBeTrue();
     expect(component.exportando()).toBeFalse();
   });
 
@@ -137,29 +138,83 @@ describe('AnalyticsComponent', () => {
   });
 
   it('updates the filtered list when the search filter changes', () => {
-    component.filtroTexto.set('payroll');
+    component.filterForm.controls.texto.setValue('payroll');
     expect(component.transaccionesFiltradas().length).toBe(1);
     expect(component.transaccionesFiltradas()[0].id).toBe(2);
   });
 
   it('applies the minimum and maximum amount filters', () => {
-    component.filtroImporteMin.set(1000);
+    component.filterForm.controls.importeMin.setValue(1000);
     expect(component.transaccionesFiltradas().every((t) => Math.abs(t.importe) >= 1000)).toBeTrue();
 
-    component.filtroImporteMin.set(null);
-    component.filtroImporteMax.set(800);
+    component.filterForm.controls.importeMin.setValue(null);
+    component.filterForm.controls.importeMax.setValue(800);
     expect(component.transaccionesFiltradas().every((t) => Math.abs(t.importe) <= 800)).toBeTrue();
   });
 
-  it('limpiarFiltros resets all three filter signals', () => {
-    component.filtroTexto.set('payroll');
-    component.filtroImporteMin.set(100);
-    component.filtroImporteMax.set(900);
+  it('limpiarFiltros resets the form back to empty defaults', () => {
+    component.filterForm.controls.texto.setValue('payroll');
+    component.filterForm.controls.importeMin.setValue(100);
+    component.filterForm.controls.importeMax.setValue(900);
 
     component.limpiarFiltros();
-    expect(component.filtroTexto()).toBe('');
-    expect(component.filtroImporteMin()).toBeNull();
-    expect(component.filtroImporteMax()).toBeNull();
+    expect(component.filterForm.controls.texto.value).toBe('');
+    expect(component.filterForm.controls.importeMin.value).toBeNull();
+    expect(component.filterForm.controls.importeMax.value).toBeNull();
+    expect(component.filterForm.valid).toBeTrue();
+  });
+
+  describe('Validators', () => {
+    it('rejects XSS-like text via the safe-text pattern validator', () => {
+      component.filterForm.controls.texto.setValue('<script>alert(1)</script>');
+      expect(component.filterForm.controls.texto.errors?.['pattern']).toBeTruthy();
+      expect(component.filterForm.controls.texto.invalid).toBeTrue();
+    });
+
+    it('accepts a normal alphanumeric search term', () => {
+      component.filterForm.controls.texto.setValue('Pago factura 2026');
+      expect(component.filterForm.controls.texto.errors).toBeNull();
+      expect(component.filterForm.controls.texto.valid).toBeTrue();
+    });
+
+    it('rejects negative amounts via Validators.min(0) on importeMin', () => {
+      component.filterForm.controls.importeMin.setValue(-100);
+      expect(component.filterForm.controls.importeMin.errors?.['min']).toBeTruthy();
+    });
+
+    it('rejects negative amounts via Validators.min(0) on importeMax', () => {
+      component.filterForm.controls.importeMax.setValue(-50);
+      expect(component.filterForm.controls.importeMax.errors?.['min']).toBeTruthy();
+    });
+
+    it('rejects amounts above MAX_AMOUNT via Validators.max', () => {
+      component.filterForm.controls.importeMax.setValue(99_999_999);
+      expect(component.filterForm.controls.importeMax.errors?.['max']).toBeTruthy();
+    });
+
+    it('flags the form as invalid via cross-field amountRange when min > max', () => {
+      component.filterForm.controls.importeMin.setValue(1000);
+      component.filterForm.controls.importeMax.setValue(500);
+      expect(component.filterForm.errors?.['amountRange']).toBeTrue();
+      expect(component.filterForm.invalid).toBeTrue();
+    });
+
+    it('clears the amountRange error once min <= max', () => {
+      component.filterForm.controls.importeMin.setValue(1000);
+      component.filterForm.controls.importeMax.setValue(500);
+      expect(component.filterForm.errors?.['amountRange']).toBeTrue();
+
+      component.filterForm.controls.importeMax.setValue(2000);
+      expect(component.filterForm.errors).toBeNull();
+      expect(component.filterForm.valid).toBeTrue();
+    });
+
+    it('keeps transaccionesFiltradas reactive to valid form changes (toSignal of valueChanges)', () => {
+      expect(component.transaccionesFiltradas().length).toBe(3);
+      component.filterForm.controls.texto.setValue('invoice');
+      expect(component.transaccionesFiltradas().length).toBe(1);
+      expect(component.transaccionesFiltradas()[0].id).toBe(3);
+    });
   });
 
   it('exportarCSV calls the ExportService and toggles the exportando flag', () => {
@@ -170,7 +225,7 @@ describe('AnalyticsComponent', () => {
   });
 
   it('does not call ExportService when there are no rows to export', () => {
-    component.filtroTexto.set('zzz-no-match');
+    component.filterForm.controls.texto.setValue('zzz-no-match');
     expect(component.transaccionesFiltradas().length).toBe(0);
     component.exportarCSV();
     expect(exportService.exportToCSV).not.toHaveBeenCalled();

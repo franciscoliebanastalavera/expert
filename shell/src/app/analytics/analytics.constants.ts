@@ -33,3 +33,7 @@ export const MOCK_DESCRIPTIONS = [
   'Cobro intereses depósito a plazo',
 ] as const;
 export type MockDescription = (typeof MOCK_DESCRIPTIONS)[number];
+
+export const SEARCH_MAX_LENGTH = 80;
+export const MAX_AMOUNT = 10_000_000;
+export const SAFE_TEXT_PATTERN = /^[\p{L}\p{N}\s\-_.,()€$]*$/u;

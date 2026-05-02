@@ -76,6 +76,12 @@
       "EXPORT": "Exportar CSV",
       "EXPORTING": "Exportando..."
     },
+    "ERRORS": {
+      "TEXT_INVALID": "Caracteres no permitidos",
+      "AMOUNT_NEGATIVE": "El importe no puede ser negativo",
+      "AMOUNT_TOO_LARGE": "Importe demasiado grande",
+      "AMOUNT_RANGE": "El mínimo no puede ser mayor que el máximo"
+    },
     "GRID": {
       "ID": "ID",
       "DATE": "Fecha",

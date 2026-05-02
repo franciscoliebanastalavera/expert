@@ -64,8 +64,25 @@ app-analytics-stats {
     box-shadow: 0 0 0 0.125rem rgba(42, 133, 196, 0.15);
   }
 
+  &.is-invalid {
+    border-color: var(--cap-danger, #c51321);
+    box-shadow: 0 0 0 0.125rem rgba(197, 19, 33, 0.15);
+  }
+
   &.filtro-num {
     min-width: 7.5rem;
+  }
+}
+
+.filtro-error {
+  margin: 0.25rem 0 0;
+  color: var(--cap-danger, #c51321);
+  font-size: 0.75rem;
+  line-height: 1.2;
+
+  &--row {
+    flex-basis: 100%;
+    margin-top: -0.5rem;
   }
 }
 
