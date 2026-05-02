@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { SearchDemoComponent } from './search-demo.component';
 
@@ -8,7 +11,8 @@ describe('SearchDemoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchDemoComponent],
+      imports: [SearchDemoComponent, TranslateModule.forRoot()],
+      providers: [provideRouter([]), provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchDemoComponent);
@@ -27,8 +31,14 @@ describe('SearchDemoComponent', () => {
 
     const heading = fixture.debugElement.query(By.css('.search-demo__heading'));
     expect(heading).not.toBeNull();
-    // No real <script> child gets injected — Angular escapes via [innerText].
     expect(heading.nativeElement.querySelector('script')).toBeNull();
     expect(heading.nativeElement.textContent).toContain('<script>alert(1)</script>');
+  });
+
+  it('navigates back to the admin landing when goBack is called', () => {
+    const router = TestBed.inject(Router);
+    const navSpy = spyOn(router, 'navigate');
+    component.goBack();
+    expect(navSpy).toHaveBeenCalledWith(['/admin']);
   });
 });

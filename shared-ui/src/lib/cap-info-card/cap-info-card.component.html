@@ -1,0 +1,12 @@
+<article class="cap-info-card">
+  <h3 class="cap-info-card__title">{{ title }}</h3>
+  <p class="cap-info-card__description">{{ description }}</p>
+  <cap-button
+    class="cap-info-card__cta"
+    variant="capitalflow-primary"
+    size="small"
+    textStyle="none"
+    [label]="ctaLabel"
+    (capClick)="handleCtaClick()">
+  </cap-button>
+</article>

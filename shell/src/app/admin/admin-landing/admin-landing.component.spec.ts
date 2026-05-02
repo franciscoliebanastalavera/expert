@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter, RouterLink } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
+import { CapInfoCardComponent } from '@capitalflow/shared-ui';
 import { AdminLandingComponent } from './admin-landing.component';
 import {
   SECURITY_DEMOS,
@@ -14,6 +15,7 @@ import {
 describe('AdminLandingComponent', () => {
   let fixture: ComponentFixture<AdminLandingComponent>;
   let component: AdminLandingComponent;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,6 +25,7 @@ describe('AdminLandingComponent', () => {
 
     fixture = TestBed.createComponent(AdminLandingComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -36,21 +39,21 @@ describe('AdminLandingComponent', () => {
     expect(component.i18n.TITLE).toBe('ADMIN.LANDING.TITLE');
     expect(component.i18n.LEAD).toBe('ADMIN.LANDING.LEAD');
     expect(component.i18n.OPEN).toBe('ADMIN.DEMOS.OPEN');
+    expect(component.i18n.BACK).toBe('ADMIN.DEMOS.BACK');
   });
 
-  it('renders one card per security demo', () => {
-    const cards = fixture.debugElement.queryAll(By.css('.admin-landing__card'));
+  it('renders one cap-info-card per security demo', () => {
+    const cards = fixture.debugElement.queryAll(By.directive(CapInfoCardComponent));
     expect(cards.length).toBe(EXPECTED_DEMO_COUNT);
   });
 
-  it('renders cards in the same order as SECURITY_DEMOS, each binding routerLink to the demo route', () => {
-    const cards = fixture.debugElement.queryAll(By.css('.admin-landing__card'));
-    cards.forEach((card, idx) => {
+  it('binds each cap-info-card title and ctaLabel from the demo entry', () => {
+    const cards = fixture.debugElement.queryAll(By.directive(CapInfoCardComponent));
+    cards.forEach((cardDe, idx) => {
+      const cardInstance = cardDe.componentInstance as CapInfoCardComponent;
       const expectedDemo = SECURITY_DEMOS[idx];
-      const linkDe = card.query(By.directive(RouterLink));
-      expect(linkDe).withContext(`card ${idx} must contain a RouterLink directive`).not.toBeNull();
-      const reflected = linkDe.nativeElement.getAttribute('ng-reflect-router-link');
-      expect(reflected).toBe(expectedDemo.route);
+      expect(cardInstance.title).toBe(expectedDemo.titleKey);
+      expect(cardInstance.ctaLabel).toBe(expectedDemo.ctaKey);
     });
   });
 
@@ -70,6 +73,20 @@ describe('AdminLandingComponent', () => {
   it('trackByRoute returns the route as the unique identifier', () => {
     const demo = SECURITY_DEMOS[0];
     expect(component.trackByRoute(0, demo)).toBe(demo.route);
+  });
+
+  it('navigates to the demo route when navigateToDemo is called', () => {
+    const navSpy = spyOn(router, 'navigate');
+    component.navigateToDemo(SECURITY_DEMOS[0].route);
+    expect(navSpy).toHaveBeenCalledWith([SECURITY_DEMOS[0].route]);
+  });
+
+  it('navigates when a cap-info-card emits ctaClick', () => {
+    const navSpy = spyOn(router, 'navigate');
+    const cards = fixture.debugElement.queryAll(By.directive(CapInfoCardComponent));
+    const firstCard = cards[0].componentInstance as CapInfoCardComponent;
+    firstCard.ctaClick.emit();
+    expect(navSpy).toHaveBeenCalledWith([SECURITY_DEMOS[0].route]);
   });
 
   it('renders the page title and lead from i18n keys', () => {

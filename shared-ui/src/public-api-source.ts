@@ -22,3 +22,8 @@ export * from './lib/cap-table/cap-table.types';
 export * from './lib/cap-data-grid/cap-data-grid.component';
 
 export * from './lib/cap-header/cap-header.component';
+
+export * from './lib/cap-alert/cap-alert.component';
+export * from './lib/cap-alert/cap-alert.types';
+
+export * from './lib/cap-info-card/cap-info-card.component';

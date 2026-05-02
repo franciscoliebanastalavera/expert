@@ -17,21 +17,52 @@
     },
     "DEMOS": {
       "OPEN": "Open demo",
+      "BACK": "Back to demos",
       "WYSIWYG": {
         "TITLE": "WYSIWYG editor",
-        "DESCRIPTION": "Stored XSS via report templates. Quill 2 + DOMPurify strip script tags, onerror handlers and javascript: URLs from administrator-authored content."
+        "DESCRIPTION": "Stored XSS via report templates. Quill 2 + DOMPurify strip script tags, onerror handlers and javascript: URLs from administrator-authored content.",
+        "PAGE_TITLE": "Report templates",
+        "PAGE_LEAD": "WYSIWYG editor for regulatory report templates. The output is sanitised through DOMPurify before rendering or persisting — script tags, onerror handlers and javascript: URLs are stripped.",
+        "SAVE_BUTTON": "Save and preview sanitised output",
+        "RAW_HEADING": "Raw editor output (before sanitisation)",
+        "INJECTION_WARNING": "⚠ The raw HTML contained at least one injection vector (script, onerror, onload or javascript:). It was stripped in the sanitised output.",
+        "SANITIZED_HEADING": "Sanitised output (rendered safely)"
       },
       "PDF": {
         "TITLE": "PDF report viewer",
-        "DESCRIPTION": "URL injection in dynamic iframes. Allowlist regex (HTTPS + host whitelist + .pdf extension) precedes bypassSecurityTrustResourceUrl."
+        "DESCRIPTION": "URL injection in dynamic iframes. Allowlist regex (HTTPS + host whitelist + .pdf extension) precedes bypassSecurityTrustResourceUrl.",
+        "PAGE_TITLE": "PDF report viewer",
+        "PAGE_LEAD": "URLs are validated against an allowlist regex (HTTPS, host whitelist, /reports/ path, .pdf extension) before being passed to bypassSecurityTrustResourceUrl. Attempts to inject javascript:, data: or arbitrary HTTP origins are rejected.",
+        "FIELD_LABEL": "Report URL",
+        "LOAD_BUTTON": "Load report",
+        "INVALID_URL": "Invalid report URL. Only HTTPS URLs under /reports/ pointing to a .pdf file are allowed.",
+        "FRAME_TITLE": "Regulatory report",
+        "HINTS_TITLE": "Try these URLs",
+        "HINT_VALID": "→ allowed",
+        "HINT_INVALID_PROTOCOL": "→ rejected (javascript:)",
+        "HINT_INVALID_HTTP": "→ rejected (HTTP, not HTTPS)",
+        "HINT_INVALID_PATH": "→ rejected (path)"
       },
       "DOCUMENTS": {
         "TITLE": "Document uploads",
-        "DESCRIPTION": "Stored XSS via filename. Angular interpolation auto-escapes <, > and & — hostile filenames render as literal text."
+        "DESCRIPTION": "Stored XSS via filename. Angular interpolation auto-escapes <, > and & — hostile filenames render as literal text.",
+        "PAGE_TITLE": "Document uploads",
+        "PAGE_LEAD": "Filenames are rendered through Angular interpolation, which automatically escapes <, > and &. The fourth row contains a hostile filename — note that it renders as literal text instead of triggering the embedded onerror handler.",
+        "COL_ID": "ID",
+        "COL_NAME": "Filename (rendered safely)",
+        "COL_SIZE": "Size",
+        "COL_UPLOADED": "Uploaded"
       },
       "SEARCH": {
         "TITLE": "Reflected search",
-        "DESCRIPTION": "Reflected XSS in search header. [innerText] binding renders the query as literal characters, no HTML execution."
+        "DESCRIPTION": "Reflected XSS in search header. [innerText] binding renders the query as literal characters, no HTML execution.",
+        "PAGE_TITLE": "Reflected search demo",
+        "PAGE_LEAD": "The previous platform reflected the search term in the page header without encoding, enabling reflected XSS. Here the term is bound through Angular interpolation and [innerText] — angle brackets render as literal characters.",
+        "FIELD_LABEL": "Search term",
+        "FIELD_HINT": "Try special characters to verify escaping",
+        "SEARCH_BUTTON": "Search",
+        "RESULTS_PREFIX": "Results for:",
+        "NOTE": "The script tag is visible as text — it is NOT executed because Angular escaped the < and > characters before insertion."
       }
     }
   },

@@ -17,21 +17,52 @@
     },
     "DEMOS": {
       "OPEN": "Abrir demo",
+      "BACK": "Volver a demos",
       "WYSIWYG": {
         "TITLE": "Editor WYSIWYG",
-        "DESCRIPTION": "XSS almacenado vía plantillas de informes. Quill 2 + DOMPurify eliminan etiquetas script, atributos onerror y URLs javascript: del contenido editado por administradores."
+        "DESCRIPTION": "XSS almacenado vía plantillas de informes. Quill 2 + DOMPurify eliminan etiquetas script, atributos onerror y URLs javascript: del contenido editado por administradores.",
+        "PAGE_TITLE": "Plantillas de informes",
+        "PAGE_LEAD": "Editor WYSIWYG para plantillas de informes regulatorios. La salida se sanitiza con DOMPurify antes de renderizar o persistir — etiquetas script, manejadores onerror y URLs javascript: se eliminan.",
+        "SAVE_BUTTON": "Guardar y previsualizar salida sanitizada",
+        "RAW_HEADING": "HTML del editor sin procesar (antes de sanitización)",
+        "INJECTION_WARNING": "⚠ El HTML sin procesar contenía al menos un vector de inyección (script, onerror, onload o javascript:). Se eliminó en la salida sanitizada.",
+        "SANITIZED_HEADING": "Salida sanitizada (renderizada de forma segura)"
       },
       "PDF": {
         "TITLE": "Visor de informes PDF",
-        "DESCRIPTION": "Inyección de URL en iframes dinámicos. Allowlist regex (HTTPS + dominio en lista blanca + extensión .pdf) precede a bypassSecurityTrustResourceUrl."
+        "DESCRIPTION": "Inyección de URL en iframes dinámicos. Allowlist regex (HTTPS + dominio en lista blanca + extensión .pdf) precede a bypassSecurityTrustResourceUrl.",
+        "PAGE_TITLE": "Visor de informes PDF",
+        "PAGE_LEAD": "Las URLs se validan contra una expresión regular de lista blanca (HTTPS + dominio permitido + ruta /reports/ + extensión .pdf) antes de pasarse a bypassSecurityTrustResourceUrl. Los intentos de inyectar javascript:, data: u orígenes HTTP arbitrarios se rechazan.",
+        "FIELD_LABEL": "URL del informe",
+        "LOAD_BUTTON": "Cargar informe",
+        "INVALID_URL": "URL inválida. Solo se permiten URLs HTTPS bajo /reports/ apuntando a un fichero .pdf.",
+        "FRAME_TITLE": "Informe regulatorio",
+        "HINTS_TITLE": "Prueba con estas URLs",
+        "HINT_VALID": "→ permitida",
+        "HINT_INVALID_PROTOCOL": "→ rechazada (javascript:)",
+        "HINT_INVALID_HTTP": "→ rechazada (HTTP, no HTTPS)",
+        "HINT_INVALID_PATH": "→ rechazada (ruta no /reports/)"
       },
       "DOCUMENTS": {
         "TITLE": "Carga de documentos",
-        "DESCRIPTION": "XSS almacenado vía nombre de fichero. La interpolación de Angular escapa automáticamente <, > y & — los nombres hostiles se renderizan como texto literal."
+        "DESCRIPTION": "XSS almacenado vía nombre de fichero. La interpolación de Angular escapa automáticamente <, > y & — los nombres hostiles se renderizan como texto literal.",
+        "PAGE_TITLE": "Carga de documentos",
+        "PAGE_LEAD": "Los nombres de fichero se renderizan mediante interpolación de Angular, que escapa automáticamente <, > y &. La cuarta fila contiene un nombre hostil — observa que se renderiza como texto literal en lugar de disparar el manejador onerror embebido.",
+        "COL_ID": "ID",
+        "COL_NAME": "Nombre del fichero (renderizado de forma segura)",
+        "COL_SIZE": "Tamaño",
+        "COL_UPLOADED": "Subido"
       },
       "SEARCH": {
         "TITLE": "Búsqueda reflejada",
-        "DESCRIPTION": "XSS reflejado en el header de búsqueda. El binding [innerText] renderiza la consulta como caracteres literales, sin ejecución de HTML."
+        "DESCRIPTION": "XSS reflejado en el header de búsqueda. El binding [innerText] renderiza la consulta como caracteres literales, sin ejecución de HTML.",
+        "PAGE_TITLE": "Demo de búsqueda reflejada",
+        "PAGE_LEAD": "La plataforma anterior reflejaba el término de búsqueda en el encabezado de la página sin codificación, permitiendo XSS reflejado. Aquí el término se enlaza mediante interpolación de Angular y [innerText] — los símbolos < y > se renderizan como caracteres literales.",
+        "FIELD_LABEL": "Término de búsqueda",
+        "FIELD_HINT": "Prueba con caracteres especiales para verificar el escape",
+        "SEARCH_BUTTON": "Buscar",
+        "RESULTS_PREFIX": "Resultados para:",
+        "NOTE": "La etiqueta script es visible como texto — NO se ejecuta porque Angular escapó los caracteres < y > antes de la inserción."
       }
     }
   },

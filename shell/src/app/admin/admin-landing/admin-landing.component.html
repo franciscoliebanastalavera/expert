@@ -5,12 +5,12 @@
   </header>
 
   <div class="admin-landing__grid">
-    <article *ngFor="let demo of demos; trackBy: trackByRoute" class="admin-landing__card">
-      <h2>{{ demo.titleKey | translate }}</h2>
-      <p>{{ demo.descriptionKey | translate }}</p>
-      <a [routerLink]="demo.route" class="admin-landing__cta">
-        {{ demo.ctaKey | translate }} →
-      </a>
-    </article>
+    <cap-info-card
+      *ngFor="let demo of demos; trackBy: trackByRoute"
+      [title]="demo.titleKey | translate"
+      [description]="demo.descriptionKey | translate"
+      [ctaLabel]="demo.ctaKey | translate"
+      (ctaClick)="navigateToDemo(demo.route)">
+    </cap-info-card>
   </div>
 </section>

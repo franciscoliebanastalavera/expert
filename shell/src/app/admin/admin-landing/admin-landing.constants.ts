@@ -4,7 +4,10 @@ export const ADMIN_LANDING_I18N = {
   TITLE: 'ADMIN.LANDING.TITLE',
   LEAD: 'ADMIN.LANDING.LEAD',
   OPEN: 'ADMIN.DEMOS.OPEN',
+  BACK: 'ADMIN.DEMOS.BACK',
 } as const;
+
+export const ADMIN_LANDING_ROUTE = '/admin';
 
 export const ADMIN_DEMO_ROUTES = {
   WYSIWYG: '/admin/templates',

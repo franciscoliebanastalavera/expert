@@ -5,6 +5,16 @@ All notable changes to the @capitalflow/shared-ui library will be documented in 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-05-02
+
+### Added
+- `cap-alert` component — reusable info/success/warning/danger panel with i18n-friendly message input. Used by the security demo pages to surface validation feedback consistently.
+- `cap-info-card` component — descriptive content tile with title, description and a built-in CTA `cap-button`. Used by the admin landing page to list the security demos in a uniform grid.
+
+### Notes
+- Both new components are exported via `src/public-api-source.ts` for source-import consumers; the published APF entry remains `public-api.ts`.
+- No breaking changes vs `1.0.0`.
+
 ## [1.0.0] - 2026-05-02
 
 ### Added

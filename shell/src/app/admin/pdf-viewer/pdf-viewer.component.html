@@ -1,34 +1,49 @@
 <section class="pdf-viewer">
-  <h1>PDF report viewer</h1>
-  <p class="lead">
-    URLs are validated against an allowlist regex (HTTPS, host whitelist, <code>/reports/</code> path,
-    <code>.pdf</code> extension) before being passed to <code>bypassSecurityTrustResourceUrl</code>.
-    Attempts to inject <code>javascript:</code>, <code>data:</code> or arbitrary HTTP origins are rejected.
-  </p>
+  <cap-button
+    variant="capitalflow-outline"
+    size="small"
+    textStyle="none"
+    [label]="'← ' + (i18n.BACK | translate)"
+    (capClick)="goBack()">
+  </cap-button>
+
+  <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
+  <p class="lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
   <form (submit)="load(); $event.preventDefault()">
     <label class="pdf-viewer__field">
-      <span>Report URL</span>
+      <span>{{ i18n.FIELD_LABEL | translate }}</span>
       <input type="text" [formControl]="urlControl" autocomplete="off" />
     </label>
-    <button type="submit">Load report</button>
+    <cap-button
+      variant="capitalflow-primary"
+      size="small"
+      textStyle="none"
+      type="submit"
+      [label]="i18n.LOAD_BUTTON | translate"
+      (capClick)="load()">
+    </cap-button>
   </form>
 
-  @if (errorMessage()) {
-    <p class="pdf-viewer__error">{{ errorMessage() }}</p>
+  @if (errorKey()) {
+    <cap-alert kind="danger" [message]="errorKey() | translate"></cap-alert>
   }
 
   @if (trustedUrl()) {
-    <iframe class="pdf-viewer__frame" [src]="trustedUrl()" title="Regulatory report"></iframe>
+    <iframe
+      class="pdf-viewer__frame"
+      [src]="trustedUrl()"
+      [title]="i18n.FRAME_TITLE | translate">
+    </iframe>
   }
 
   <details class="pdf-viewer__hint">
-    <summary>Try these URLs</summary>
+    <summary>{{ i18n.HINTS_TITLE | translate }}</summary>
     <ul>
-      <li><code>https://reports.capitalflow.example.com/reports/q1-2026.pdf</code> → allowed</li>
-      <li><code>javascript:alert(1)</code> → rejected</li>
-      <li><code>http://reports.capitalflow.example.com/reports/q1-2026.pdf</code> → rejected (HTTP)</li>
-      <li><code>https://attacker.example.com/evil.html</code> → rejected (path)</li>
+      <li><code>https://reports.capitalflow.example.com/reports/q1-2026.pdf</code> {{ i18n.HINT_VALID | translate }}</li>
+      <li><code>javascript:alert(1)</code> {{ i18n.HINT_INVALID_PROTOCOL | translate }}</li>
+      <li><code>http://reports.capitalflow.example.com/reports/q1-2026.pdf</code> {{ i18n.HINT_INVALID_HTTP | translate }}</li>
+      <li><code>https://attacker.example.com/evil.html</code> {{ i18n.HINT_INVALID_PATH | translate }}</li>
     </ul>
   </details>
 </section>
