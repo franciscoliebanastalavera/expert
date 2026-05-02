@@ -67,14 +67,18 @@ describe('AppComponent', () => {
     expect(useSpy).toHaveBeenCalledWith(AppLanguage.Es);
   });
 
-  it('builds the navItems signal with 4 entries from the translate streams', () => {
+  it('builds the navItems signal with 8 entries from the translate streams', () => {
     const items = component.navItems();
-    expect(items.length).toBe(4);
+    expect(items.length).toBe(8);
     expect(items.map((i) => i.route)).toEqual([
       '/',
       '/analytics',
       '/analytics-mfe',
       '/payments-mfe',
+      '/admin/templates',
+      '/admin/reports',
+      '/admin/documents',
+      '/search-demo',
     ]);
   });
 

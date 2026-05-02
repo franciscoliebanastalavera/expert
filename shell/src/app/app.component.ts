@@ -40,12 +40,20 @@ export class AppComponent {
       this.translate.stream('NAV.TRANSACTIONS'),
       this.translate.stream('NAV.ANALYTICS'),
       this.translate.stream('NAV.PAYMENTS'),
+      this.translate.stream('NAV.ADMIN_TEMPLATES'),
+      this.translate.stream('NAV.ADMIN_REPORTS'),
+      this.translate.stream('NAV.ADMIN_DOCUMENTS'),
+      this.translate.stream('NAV.SEARCH_DEMO'),
     ]).pipe(
-      map(([home, transactions, analytics, payments]): NavItem[] => [
+      map(([home, transactions, analytics, payments, adminTemplates, adminReports, adminDocuments, searchDemo]): NavItem[] => [
         { label: home as string, route: toRouteLink(AppRoute.Home) },
         { label: transactions as string, route: toRouteLink(AppRoute.Analytics) },
         { label: analytics as string, route: toRouteLink(AppRoute.AnalyticsMfe) },
         { label: payments as string, route: toRouteLink(AppRoute.PaymentsMfe) },
+        { label: adminTemplates as string, route: toRouteLink(AppRoute.AdminTemplates) },
+        { label: adminReports as string, route: toRouteLink(AppRoute.AdminReports) },
+        { label: adminDocuments as string, route: toRouteLink(AppRoute.AdminDocuments) },
+        { label: searchDemo as string, route: toRouteLink(AppRoute.SearchDemo) },
       ])
     ),
     { initialValue: [] as NavItem[] }

@@ -5,6 +5,10 @@
     "TRANSACTIONS": "Transactions",
     "ANALYTICS": "Analytics",
     "PAYMENTS": "Payments",
+    "ADMIN_TEMPLATES": "WYSIWYG editor",
+    "ADMIN_REPORTS": "PDF reports",
+    "ADMIN_DOCUMENTS": "Documents",
+    "SEARCH_DEMO": "Search demo",
     "THEME_LIGHT": "Light mode",
     "THEME_DARK": "Dark mode",
     "LANG": "Language"
