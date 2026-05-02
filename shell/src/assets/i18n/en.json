@@ -5,13 +5,35 @@
     "TRANSACTIONS": "Transactions",
     "ANALYTICS": "Analytics",
     "PAYMENTS": "Payments",
-    "ADMIN_TEMPLATES": "WYSIWYG editor",
-    "ADMIN_REPORTS": "PDF reports",
-    "ADMIN_DOCUMENTS": "Documents",
-    "SEARCH_DEMO": "Search demo",
+    "SECURITY_DEMOS": "Security demos",
     "THEME_LIGHT": "Light mode",
     "THEME_DARK": "Dark mode",
     "LANG": "Language"
+  },
+  "ADMIN": {
+    "LANDING": {
+      "TITLE": "Security remediation demos",
+      "LEAD": "These pages demonstrate the mitigation patterns applied to the 11 vulnerabilities identified in the security audit. Each demo isolates one attack vector and shows the safe rendering pattern."
+    },
+    "DEMOS": {
+      "OPEN": "Open demo",
+      "WYSIWYG": {
+        "TITLE": "WYSIWYG editor",
+        "DESCRIPTION": "Stored XSS via report templates. Quill 2 + DOMPurify strip script tags, onerror handlers and javascript: URLs from administrator-authored content."
+      },
+      "PDF": {
+        "TITLE": "PDF report viewer",
+        "DESCRIPTION": "URL injection in dynamic iframes. Allowlist regex (HTTPS + host whitelist + .pdf extension) precedes bypassSecurityTrustResourceUrl."
+      },
+      "DOCUMENTS": {
+        "TITLE": "Document uploads",
+        "DESCRIPTION": "Stored XSS via filename. Angular interpolation auto-escapes <, > and & — hostile filenames render as literal text."
+      },
+      "SEARCH": {
+        "TITLE": "Reflected search",
+        "DESCRIPTION": "Reflected XSS in search header. [innerText] binding renders the query as literal characters, no HTML execution."
+      }
+    }
   },
   "HOME": {
     "TITLE": "Financial Dashboard",

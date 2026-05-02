@@ -5,13 +5,35 @@
     "TRANSACTIONS": "Transacciones",
     "ANALYTICS": "Analytics",
     "PAYMENTS": "Pagos",
-    "ADMIN_TEMPLATES": "Editor WYSIWYG",
-    "ADMIN_REPORTS": "Informes PDF",
-    "ADMIN_DOCUMENTS": "Documentos",
-    "SEARCH_DEMO": "Demo búsqueda",
+    "SECURITY_DEMOS": "Demos de seguridad",
     "THEME_LIGHT": "Modo claro",
     "THEME_DARK": "Modo oscuro",
     "LANG": "Idioma"
+  },
+  "ADMIN": {
+    "LANDING": {
+      "TITLE": "Demos de remediación de seguridad",
+      "LEAD": "Estas páginas demuestran los patrones de mitigación aplicados a las 11 vulnerabilidades identificadas en la auditoría. Cada demo aísla un vector de ataque y muestra el patrón de renderizado seguro."
+    },
+    "DEMOS": {
+      "OPEN": "Abrir demo",
+      "WYSIWYG": {
+        "TITLE": "Editor WYSIWYG",
+        "DESCRIPTION": "XSS almacenado vía plantillas de informes. Quill 2 + DOMPurify eliminan etiquetas script, atributos onerror y URLs javascript: del contenido editado por administradores."
+      },
+      "PDF": {
+        "TITLE": "Visor de informes PDF",
+        "DESCRIPTION": "Inyección de URL en iframes dinámicos. Allowlist regex (HTTPS + dominio en lista blanca + extensión .pdf) precede a bypassSecurityTrustResourceUrl."
+      },
+      "DOCUMENTS": {
+        "TITLE": "Carga de documentos",
+        "DESCRIPTION": "XSS almacenado vía nombre de fichero. La interpolación de Angular escapa automáticamente <, > y & — los nombres hostiles se renderizan como texto literal."
+      },
+      "SEARCH": {
+        "TITLE": "Búsqueda reflejada",
+        "DESCRIPTION": "XSS reflejado en el header de búsqueda. El binding [innerText] renderiza la consulta como caracteres literales, sin ejecución de HTML."
+      }
+    }
   },
   "HOME": {
     "TITLE": "Dashboard Financiero",

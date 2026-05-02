@@ -1,0 +1,16 @@
+<section class="admin-landing">
+  <header class="admin-landing__header">
+    <h1>{{ i18n.TITLE | translate }}</h1>
+    <p class="admin-landing__lead">{{ i18n.LEAD | translate }}</p>
+  </header>
+
+  <div class="admin-landing__grid">
+    <article *ngFor="let demo of demos; trackBy: trackByRoute" class="admin-landing__card">
+      <h2>{{ demo.titleKey | translate }}</h2>
+      <p>{{ demo.descriptionKey | translate }}</p>
+      <a [routerLink]="demo.route" class="admin-landing__cta">
+        {{ demo.ctaKey | translate }} →
+      </a>
+    </article>
+  </div>
+</section>

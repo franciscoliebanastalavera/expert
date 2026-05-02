@@ -31,6 +31,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: AppRoute.Admin,
+    title: AppRouteTitle.Admin,
+    loadComponent: () =>
+      import('./admin/admin-landing/admin-landing.component').then(
+        (m) => m.AdminLandingComponent
+      ),
+  },
+  {
     path: AppRoute.AdminTemplates,
     title: AppRouteTitle.AdminTemplates,
     loadComponent: () =>
