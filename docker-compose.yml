@@ -1,43 +1,72 @@
-# Docker Compose para el proyecto CapitalFlow
-# Orquesta el shell principal, el microfrontend y la documentación Storybook
-
 services:
-  # Aplicación shell principal (Angular 18)
   shell:
     build:
-      context: ./shell
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: shell/Dockerfile
+    container_name: capitalflow-shell
     ports:
       - "8081:80"
     depends_on:
-      - mfe-analytics
+      mfe-analytics:
+        condition: service_healthy
+      mfe-payments:
+        condition: service_healthy
     networks:
       - capitalflow-net
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
-  # Microfrontend de analíticas (React 18)
   mfe-analytics:
     build:
-      context: ./mfe-analytics-react
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: mfe-analytics-react/Dockerfile
+    container_name: capitalflow-mfe-analytics
     ports:
       - "8082:80"
     networks:
       - capitalflow-net
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
-  # Documentación de componentes (Storybook estático de shared-ui)
+  mfe-payments:
+    build:
+      context: .
+      dockerfile: mfe-payments/Dockerfile
+    container_name: capitalflow-mfe-payments
+    ports:
+      - "8083:80"
+    networks:
+      - capitalflow-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
   storybook:
     build:
       context: ./shared-ui
       dockerfile: Dockerfile
+    container_name: capitalflow-storybook
     ports:
       - "6007:80"
     networks:
       - capitalflow-net
     restart: unless-stopped
 
-# Red compartida entre todos los servicios
 networks:
   capitalflow-net:
     driver: bridge
+    name: capitalflow-net

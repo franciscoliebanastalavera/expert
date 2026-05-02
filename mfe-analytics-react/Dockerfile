@@ -1,34 +1,19 @@
-# Etapa 1: Construcción de la aplicación React (Microfrontend)
 FROM node:20-alpine AS build
-
 WORKDIR /app
 
-# Copiar archivos de dependencias primero para aprovechar la caché de Docker
-COPY package*.json ./
+COPY mfe-analytics-react/package*.json ./mfe-analytics-react/
 
-# Instalar dependencias de forma limpia
-RUN npm ci
+RUN cd mfe-analytics-react && npm ci
 
-# Copiar el código fuente
-COPY . .
+COPY mfe-analytics-react ./mfe-analytics-react
 
-# Construir la aplicación
+WORKDIR /app/mfe-analytics-react
 RUN npm run build
 
-# Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine AS serve
-
-# Eliminar la configuración por defecto de Nginx
 RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/mfe-analytics-react/dist /usr/share/nginx/html
+COPY mfe-analytics-react/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copiar los archivos compilados desde la etapa de construcción
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copiar la configuración personalizada de Nginx con CORS
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Exponer el puerto 80
 EXPOSE 80
-
-# Iniciar Nginx en primer plano
 CMD ["nginx", "-g", "daemon off;"]

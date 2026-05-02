@@ -24,9 +24,9 @@ const MFE_ELEMENT_TAG = 'mfe-payments';
 const MIN_LOADING_DELAY_MS = 600;
 const FADE_OUT_DELAY_MS = 300;
 
-// TODO: en producción leer endpoint del MFE de un meta-tag inyectado por nginx
-// (window.__MFE_REMOTES__.payments) en vez de hardcodear el host:puerto.
-const MFE_PAYMENTS_HOST = 'http://localhost:4202';
+const HTTPS_PORT = 443;
+const HTTP_PORT = 80;
+const HTTPS_PROTOCOL = 'https:';
 
 @Component({
   selector: 'app-payments-wrapper',
@@ -48,6 +48,13 @@ export class PaymentsWrapperComponent implements AfterViewInit, OnDestroy {
   readonly fadeOut = signal(false);
   readonly error = signal('');
 
+  private buildMfeRemoteEntry(): string {
+    const { protocol, hostname, port } = window.location;
+    const shellPort = Number(port) || (protocol === HTTPS_PROTOCOL ? HTTPS_PORT : HTTP_PORT);
+    const mfePort = shellPort + 2;
+    return `${protocol}//${hostname}:${mfePort}${REMOTE_ENTRY_PATH}`;
+  }
+
   async ngAfterViewInit(): Promise<void> {
     const minDelay = new Promise<void>((r) => setTimeout(r, MIN_LOADING_DELAY_MS));
 
@@ -55,7 +62,7 @@ export class PaymentsWrapperComponent implements AfterViewInit, OnDestroy {
       const [module] = await Promise.all([
         loadRemoteModule({
           type: REMOTE_TYPE,
-          remoteEntry: `${MFE_PAYMENTS_HOST}${REMOTE_ENTRY_PATH}`,
+          remoteEntry: this.buildMfeRemoteEntry(),
           remoteName: REMOTE_NAME,
           exposedModule: EXPOSED_MODULE,
         }),

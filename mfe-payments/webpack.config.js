@@ -3,9 +3,14 @@ const path = require('path');
 
 module.exports = {
   output: {
-    // TODO: en producción reemplazar por meta-tag inyectado por nginx (window.__MFE_PAYMENTS_HOST__)
-    publicPath: 'http://localhost:4202/',
+    publicPath: 'auto',
     uniqueName: 'mfePayments',
+    module: false,
+    scriptType: 'text/javascript',
+    environment: {
+      module: false,
+      dynamicImport: false,
+    },
   },
 
   optimization: {

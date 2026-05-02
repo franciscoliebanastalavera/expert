@@ -11,35 +11,45 @@ const meta: Meta<CapCardComponent> = {
     }),
   ],
   tags: ['autodocs'],
+  argTypes: {
+    title: { control: 'text' },
+    subtitle: { control: 'text' },
+    content: { control: 'text' },
+    type: { control: 'radio', options: ['primary', 'secondary'] },
+    borderRadius: { control: 'text' },
+    customStyle: { control: 'text' },
+  },
 };
 
 export default meta;
 type Story = StoryObj<CapCardComponent>;
 
 export const Default: Story = {
-  render: () => ({
-    template: `
-      <cap-card>
-        <h3 style="margin: 0 0 0.5rem; color: var(--cap-text, #1e1e1e);">Tesorería</h3>
-        <p style="font-size: 2rem; font-weight: 700; margin: 0; color: var(--cap-text, #1e1e1e);">2.450.000 €</p>
-        <p style="color: #2e7d32; font-size: 0.875rem; margin: 0.5rem 0 0;">+12.5% vs. mes anterior</p>
-      </cap-card>
-    `,
-  }),
+  args: {
+    title: 'Tesorería',
+    subtitle: '2.450.000 €',
+    content: '+12.5% vs. mes anterior',
+    type: 'primary',
+    borderRadius: '20px',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    title: 'Liquidez',
+    subtitle: '987.430 €',
+    content: 'Disponibilidad inmediata',
+    type: 'secondary',
+    borderRadius: '20px',
+  },
 };
 
 export const FinancialGrid: Story = {
   render: () => ({
     template: `
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 40rem;">
-        <cap-card>
-          <p style="font-size: 0.75rem; text-transform: uppercase; color: var(--cap-text-muted, #999); margin: 0 0 0.25rem;">Ingresos</p>
-          <p style="font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--cap-text, #1e1e1e);">1.245.320 €</p>
-        </cap-card>
-        <cap-card>
-          <p style="font-size: 0.75rem; text-transform: uppercase; color: var(--cap-text-muted, #999); margin: 0 0 0.25rem;">Gastos</p>
-          <p style="font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--cap-text, #1e1e1e);">387.210 €</p>
-        </cap-card>
+        <cap-card title="Ingresos" subtitle="1.245.320 €" content="+8.4%" type="primary"></cap-card>
+        <cap-card title="Gastos" subtitle="387.210 €" content="-2.1%" type="secondary"></cap-card>
       </div>
     `,
   }),

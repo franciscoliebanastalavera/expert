@@ -14,7 +14,10 @@ const meta: Meta<CapSwitchComponent> = {
   tags: ['autodocs'],
   argTypes: {
     label: { control: 'text' },
+    checked: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    labelColor: { control: 'radio', options: ['black', 'white'] },
+    labelWeight: { control: 'radio', options: ['normal', 'bold'] },
   },
 };
 
@@ -22,7 +25,11 @@ export default meta;
 type Story = StoryObj<CapSwitchComponent>;
 
 export const Default: Story = {
-  args: { label: 'Modo oscuro' },
+  args: { label: 'Modo oscuro', checked: false, labelColor: 'black', labelWeight: 'normal' },
+};
+
+export const Checked: Story = {
+  args: { label: 'Notificaciones', checked: true, labelColor: 'black', labelWeight: 'bold' },
 };
 
 export const Disabled: Story = {

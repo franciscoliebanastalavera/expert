@@ -21,6 +21,10 @@ const meta: Meta<CapModalComponent> = {
     showSecondaryButton: { control: 'boolean' },
     labelPrimaryButton: { control: 'text' },
     labelSecondaryButton: { control: 'text' },
+    bgBlocked: { control: 'boolean' },
+    image: { control: 'boolean' },
+    imageUrl: { control: 'text' },
+    tooltipModal: { control: 'boolean' },
     closeModal: { action: 'closeModal' },
     confirm: { action: 'confirm' },
   },
@@ -100,5 +104,41 @@ export const Small: Story = {
     text: 'La sesión expirará en 5 minutos.',
     showPrimaryButton: true,
     labelPrimaryButton: 'Entendido',
+  },
+};
+
+export const BlockingBackground: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      localShowModal: args.showModal,
+      toggleModal: function () {
+        this.localShowModal = !this.localShowModal;
+      },
+    },
+    template: `
+      <div style="display: flex; justify-content: center; align-items: center; height: 400px; position: relative; z-index: 1;">
+        <cap-button label="Abrir Bloqueante" variant="primary" (capClick)="toggleModal()"></cap-button>
+        <cap-modal
+          [showModal]="localShowModal"
+          [size]="size"
+          [title]="title"
+          [text]="text"
+          [bgBlocked]="bgBlocked"
+          [showPrimaryButton]="showPrimaryButton"
+          [labelPrimaryButton]="labelPrimaryButton"
+          (confirm)="localShowModal = false"
+        ></cap-modal>
+      </div>
+    `,
+  }),
+  args: {
+    showModal: false,
+    size: 'standard',
+    title: 'Operación irreversible',
+    text: 'No puede cerrar este aviso pulsando fuera. Confirme para continuar.',
+    bgBlocked: true,
+    showPrimaryButton: true,
+    labelPrimaryButton: 'Confirmar',
   },
 };

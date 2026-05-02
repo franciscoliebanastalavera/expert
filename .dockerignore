@@ -1,0 +1,37 @@
+# Dependencies
+**/node_modules
+**/.npm
+
+# Build outputs (will be regenerated inside container)
+**/dist
+**/.angular
+
+# Tests / coverage
+**/coverage
+**/.nyc_output
+
+# IDE / OS
+**/.vscode
+**/.idea
+**/.DS_Store
+**/Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docs / examples (irrelevant for build)
+docs
+*.md
+
+# Logs
+**/*.log
+**/npm-debug.log*
+
+# CI / DevOps configs (only Dockerfiles needed)
+.gitlab-ci.yml
+docker-compose*.yml
+
+# Storybook static (built at runtime if needed)
+shared-ui/storybook-static
