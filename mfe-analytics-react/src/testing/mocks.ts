@@ -1,0 +1,15 @@
+export const TRANSLATIONS_ES_MOCK = {
+  title: 'Analytics',
+  totalIncome: 'Ingresos totales',
+  opExpenses: 'Gastos operativos',
+  netProfit: 'Beneficio neto',
+  activeClients: 'Clientes activos',
+  txSepa: 'Transferencia SEPA',
+  txPayroll: 'Pago Nominas',
+  txInvoice: 'Cobro Factura',
+  txFee: 'Comision bancaria',
+  txInvestment: 'Inversion',
+  completed: 'Completada',
+  pending: 'Pendiente',
+  inProgress: 'En proceso',
+};
