@@ -25,10 +25,10 @@ export const PAYMENTS_MOCK: readonly Payment[] = [
 
 export const PAYMENT_TABLE_COLUMNS: readonly CapTableColumn[] = [
   { key: 'id', label: 'ID', cssClass: 'payments-table__id' },
-  { key: 'beneficiary', label: 'Beneficiario' },
+  { key: 'beneficiary', label: 'Beneficiario', cssClass: 'payments-table__beneficiary' },
   { key: 'amount', label: 'Importe', cssClass: 'payments-table__amount' },
-  { key: 'status', label: 'Estado' },
-  { key: 'date', label: 'Fecha' },
+  { key: 'status', label: 'Estado', cssClass: 'payments-table__status' },
+  { key: 'date', label: 'Fecha', cssClass: 'payments-table__date' },
 ] as const;
 
 export const KPI_VOLUME_VALUE = '1.245.300 €';
