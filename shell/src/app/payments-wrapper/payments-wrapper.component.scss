@@ -1,0 +1,34 @@
+$mfe-min-height: 25rem;
+$mfe-padding: 1rem;
+$spinner-wrapper-vertical-padding: 4rem;
+$spinner-gap: 1rem;
+$fade-duration: 0.3s;
+$error-padding: 2rem;
+
+.mfe-container {
+  min-height: $mfe-min-height;
+  padding: $mfe-padding;
+}
+
+.spinner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spinner-gap;
+  padding: $spinner-wrapper-vertical-padding 0;
+  color: var(--cap-primary, #2a85c4);
+  opacity: 1;
+  transition: opacity $fade-duration ease;
+
+  &.fade-out {
+    opacity: 0;
+  }
+}
+
+.error {
+  color: var(--cap-danger, #c51321);
+  font-weight: 600;
+  text-align: center;
+  padding: $error-padding;
+}

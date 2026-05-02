@@ -1,0 +1,10 @@
+<div #container class="mfe-container">
+  @if (cargando()) {
+    <div class="spinner-wrapper" [class.fade-out]="fadeOut()">
+      <cap-spinner [label]="'MFE_PAYMENTS.LOADING' | translate" />
+    </div>
+  }
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>

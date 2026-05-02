@@ -72,7 +72,7 @@ export class HomeComponent {
       icono: IconName.MetricPayments,
       positivo: true,
       descripcion: 'HOME.METRICS.PAYMENTS.DESC',
-      ruta: '/analytics',
+      ruta: '/payments-mfe',
     },
     {
       titulo: 'HOME.METRICS.RECONCILIATION.TITLE',

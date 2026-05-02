@@ -22,5 +22,13 @@ export const routes: Routes = [
         (m) => m.AnalyticsWrapperComponent
       ),
   },
+  {
+    path: AppRoute.PaymentsMfe,
+    title: AppRouteTitle.PaymentsMfe,
+    loadComponent: () =>
+      import('./payments-wrapper/payments-wrapper.component').then(
+        (m) => m.PaymentsWrapperComponent
+      ),
+  },
   { path: ROUTE_WILDCARD, redirectTo: AppRoute.Home },
 ];

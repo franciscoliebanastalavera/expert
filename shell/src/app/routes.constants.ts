@@ -2,12 +2,14 @@ export enum AppRoute {
   Home = '',
   Analytics = 'analytics',
   AnalyticsMfe = 'analytics-mfe',
+  PaymentsMfe = 'payments-mfe',
 }
 
 export enum AppRouteTitle {
   Home = 'CapitalFlow — Home',
   Analytics = 'CapitalFlow — Analytics',
   AnalyticsMfe = 'CapitalFlow — Analytics MFE',
+  PaymentsMfe = 'CapitalFlow — Payments MFE',
 }
 
 export const ROUTE_WILDCARD = '**';

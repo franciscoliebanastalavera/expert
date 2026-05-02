@@ -5,7 +5,7 @@ export const AppLanguage = {
 
 export type AppLanguage = (typeof AppLanguage)[keyof typeof AppLanguage];
 
-export const DEFAULT_LANGUAGE: AppLanguage = AppLanguage.Es;
+export const DEFAULT_LANGUAGE: AppLanguage = AppLanguage.En;
 
 export const APP_LOCALE_ID = 'es-ES';
 export const I18N_ASSETS_PATH = './assets/i18n/';
@@ -23,12 +23,6 @@ export function resolveInitialLanguage(): AppLanguage {
     const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY);
     if (isSupportedLanguage(stored)) {
       return stored;
-    }
-  }
-  if (typeof navigator !== 'undefined' && navigator.language) {
-    const browserLang = navigator.language.split('-')[0];
-    if (isSupportedLanguage(browserLang)) {
-      return browserLang;
     }
   }
   return DEFAULT_LANGUAGE;

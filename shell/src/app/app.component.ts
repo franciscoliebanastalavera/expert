@@ -37,11 +37,15 @@ export class AppComponent {
   readonly navItems = toSignal(
     combineLatest([
       this.translate.stream('NAV.HOME'),
+      this.translate.stream('NAV.TRANSACTIONS'),
       this.translate.stream('NAV.ANALYTICS'),
+      this.translate.stream('NAV.PAYMENTS'),
     ]).pipe(
-      map(([home, analytics]): NavItem[] => [
+      map(([home, transactions, analytics, payments]): NavItem[] => [
         { label: home as string, route: toRouteLink(AppRoute.Home) },
-        { label: analytics as string, route: toRouteLink(AppRoute.Analytics) },
+        { label: transactions as string, route: toRouteLink(AppRoute.Analytics) },
+        { label: analytics as string, route: toRouteLink(AppRoute.AnalyticsMfe) },
+        { label: payments as string, route: toRouteLink(AppRoute.PaymentsMfe) },
       ])
     ),
     { initialValue: [] as NavItem[] }

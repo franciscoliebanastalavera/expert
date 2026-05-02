@@ -2,7 +2,9 @@
   "NAV": {
     "BRAND": "CapitalFlow",
     "HOME": "Home",
+    "TRANSACTIONS": "Transactions",
     "ANALYTICS": "Analytics",
+    "PAYMENTS": "Payments",
     "THEME_LIGHT": "Light mode",
     "THEME_DARK": "Dark mode",
     "LANG": "Language"
@@ -10,8 +12,9 @@
   "HOME": {
     "TITLE": "Financial Dashboard",
     "SUBTITLE": "Operations summary — April 2026",
-    "BTN_ANALYTICS": "View Full Analytics",
-    "BTN_MFE": "Analytics MFE (React)",
+    "BTN_TRANSACTIONS": "View Transactions",
+    "BTN_ANALYTICS": "View Analytics",
+    "BTN_PAYMENTS": "View Payments",
     "TABS": {
       "SUMMARY": "General Summary",
       "TREASURY": "Treasury",
@@ -54,7 +57,7 @@
     }
   },
   "ANALYTICS": {
-    "TITLE": "Analytics — Transactions",
+    "TITLE": "Transactions",
     "SUBTITLE_SUFFIX": "transactions · Virtual Scroll CDK",
     "SUBTITLE_LOADING": "Loading...",
     "LOADING_LABEL": "Loading transactions...",
@@ -93,6 +96,10 @@
   "MFE": {
     "LOADING": "Loading Analytics module...",
     "ERROR": "Could not load Analytics module. Verify that the MFE is running."
+  },
+  "MFE_PAYMENTS": {
+    "LOADING": "Loading Payments module...",
+    "ERROR": "Could not load Payments module. Verify that the MFE is running."
   },
   "FOOTER": {
     "COPYRIGHT": "© 2026 CapitalFlow by Nter. All rights reserved."
