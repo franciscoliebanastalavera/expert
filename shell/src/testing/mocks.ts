@@ -23,6 +23,9 @@ export class TranslateServiceMock {
   stream(key: string): Observable<string> {
     return of(key);
   }
+  getParsedResult(_translations: unknown, key: string | string[]): string | Record<string, string> {
+    return typeof key === 'string' ? key : Object.fromEntries(key.map((k) => [k, k]));
+  }
 }
 
 export class RouterMock {
