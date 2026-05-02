@@ -145,14 +145,14 @@ export class AnalyticsComponent {
     this.filterForm.reset(DEFAULT_FILTERS);
   }
 
-  exportarCSV(): void {
+  exportarExcel(): void {
     const rows = this.transaccionesFiltradas();
     if (rows.length === 0) {
       return;
     }
     this.exportando.set(true);
     this.exportService
-      .exportToCSV(rows)
+      .exportToXLSX(rows)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.exportando.set(false),

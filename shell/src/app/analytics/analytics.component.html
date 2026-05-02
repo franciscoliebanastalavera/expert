@@ -89,7 +89,7 @@
         [loading]="exportando()"
         [label]="'ANALYTICS.FILTERS.EXPORT' | translate"
         [loadingText]="'ANALYTICS.FILTERS.EXPORTING' | translate"
-        (capClick)="exportarCSV()" />
+        (capClick)="exportarExcel()" />
     </div>
 
     <app-analytics-table [transactions]="transaccionesFiltradas()"></app-analytics-table>

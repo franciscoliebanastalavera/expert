@@ -90,8 +90,8 @@ class AnalyticsServiceStub {
 }
 
 class ExportServiceStub {
-  exportToCSV = jasmine
-    .createSpy('exportToCSV')
+  exportToXLSX = jasmine
+    .createSpy('exportToXLSX')
     .and.callFake((_rows: Transaction[]) => of(undefined));
 }
 
@@ -217,24 +217,24 @@ describe('AnalyticsComponent', () => {
     });
   });
 
-  it('exportarCSV calls the ExportService and toggles the exportando flag', () => {
-    component.exportarCSV();
-    expect(exportService.exportToCSV).toHaveBeenCalledTimes(1);
-    expect(exportService.exportToCSV.calls.mostRecent().args[0].length).toBe(3);
+  it('exportarExcel calls the ExportService and toggles the exportando flag', () => {
+    component.exportarExcel();
+    expect(exportService.exportToXLSX).toHaveBeenCalledTimes(1);
+    expect(exportService.exportToXLSX.calls.mostRecent().args[0].length).toBe(3);
     expect(component.exportando()).toBeFalse();
   });
 
   it('does not call ExportService when there are no rows to export', () => {
     component.filterForm.controls.texto.setValue('zzz-no-match');
     expect(component.transaccionesFiltradas().length).toBe(0);
-    component.exportarCSV();
-    expect(exportService.exportToCSV).not.toHaveBeenCalled();
+    component.exportarExcel();
+    expect(exportService.exportToXLSX).not.toHaveBeenCalled();
     expect(component.exportando()).toBeFalse();
   });
 
   it('clears the exportando flag even when ExportService errors', () => {
-    exportService.exportToCSV.and.callFake(() => throwError(() => new Error('boom')));
-    component.exportarCSV();
+    exportService.exportToXLSX.and.callFake(() => throwError(() => new Error('boom')));
+    component.exportarExcel();
     expect(component.exportando()).toBeFalse();
   });
 });

@@ -1,36 +1,50 @@
 /// <reference lib="webworker" />
 
-interface ExportRow {
-  id: number;
-  fecha: string;
-  tipo: string;
-  descripcion: string;
-  iban: string;
-  importe: number;
-  divisa: string;
-  estado: string;
-  categoria: string;
+import type { Transaction } from '../core/models';
+
+interface ExportRequest {
+  rows: Transaction[];
 }
 
-addEventListener('message', ({ data }: MessageEvent<ExportRow[]>) => {
-  const headers = ['ID', 'Fecha', 'Tipo', 'Descripción', 'IBAN', 'Importe', 'Divisa', 'Estado', 'Categoría'];
-  const csvRows = [headers.join(';')];
+interface ExportSuccess {
+  success: true;
+  blob: Blob;
+}
 
-  for (const row of data) {
-    csvRows.push([
-      row.id,
-      row.fecha,
-      row.tipo,
-      `"${row.descripcion}"`,
-      row.iban,
-      row.importe.toFixed(2),
-      row.divisa,
-      row.estado,
-      row.categoria,
-    ].join(';'));
+interface ExportFailure {
+  success: false;
+  error: string;
+}
+
+type ExportResponse = ExportSuccess | ExportFailure;
+
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+const COLUMNS = [
+  { header: 'ID', key: 'id', width: 8 },
+  { header: 'Fecha', key: 'fecha', width: 12 },
+  { header: 'Tipo', key: 'tipo', width: 18 },
+  { header: 'Descripción', key: 'descripcion', width: 30 },
+  { header: 'IBAN', key: 'iban', width: 26 },
+  { header: 'Importe', key: 'importe', width: 12 },
+  { header: 'Divisa', key: 'divisa', width: 8 },
+  { header: 'Estado', key: 'estado', width: 12 },
+  { header: 'Categoría', key: 'categoria', width: 16 },
+];
+
+addEventListener('message', async ({ data }: MessageEvent<ExportRequest>) => {
+  try {
+    const ExcelJS = await import('exceljs');
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Transacciones');
+    worksheet.columns = COLUMNS;
+    worksheet.addRows(data.rows);
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: XLSX_MIME });
+    const response: ExportResponse = { success: true, blob };
+    postMessage(response);
+  } catch (error) {
+    const response: ExportResponse = { success: false, error: String(error) };
+    postMessage(response);
   }
-
-  const csvContent = csvRows.join('\n');
-  const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
-  postMessage(blob);
 });

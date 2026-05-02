@@ -73,7 +73,7 @@
       "AMOUNT_MIN": "Importe mínimo",
       "AMOUNT_MAX": "Importe máximo",
       "CLEAR": "Limpiar",
-      "EXPORT": "Exportar CSV",
+      "EXPORT": "Exportar Excel",
       "EXPORTING": "Exportando..."
     },
     "ERRORS": {

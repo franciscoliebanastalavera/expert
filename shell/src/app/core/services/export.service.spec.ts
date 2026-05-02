@@ -7,9 +7,13 @@ import {
 } from '../models';
 import { ExportService } from './export.service';
 
+type ExportMessage =
+  | { success: true; blob: Blob }
+  | { success: false; error: string };
+
 class FakeWorker {
   static instances: FakeWorker[] = [];
-  onmessage: ((event: MessageEvent<Blob>) => void) | null = null;
+  onmessage: ((event: MessageEvent<ExportMessage>) => void) | null = null;
   onerror: ((err: ErrorEvent) => void) | null = null;
   postedMessages: unknown[] = [];
   terminated = false;
@@ -27,13 +31,15 @@ class FakeWorker {
   }
 
   fireSuccess(blob: Blob): void {
-    this.onmessage?.({ data: blob } as MessageEvent<Blob>);
+    this.onmessage?.({ data: { success: true, blob } } as MessageEvent<ExportMessage>);
   }
 
   fireError(err: ErrorEvent): void {
     this.onerror?.(err);
   }
 }
+
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
 const sampleTransactions: Transaction[] = [
   {
@@ -94,14 +100,22 @@ describe('ExportService', () => {
     expect(service).toBeInstanceOf(ExportService);
   });
 
-  it('spawns a Worker, posts the transactions and resolves on worker message', (done) => {
-    const observable = service.exportToCSV(sampleTransactions);
+  it('spawns a Worker, posts {rows} payload and downloads the xlsx blob on success', (done) => {
+    const anchor = document.createElement('a');
+    const clickSpy = spyOn(anchor, 'click');
+    spyOn(document, 'createElement').and.returnValue(anchor);
+
+    const observable = service.exportToXLSX(sampleTransactions);
     observable.subscribe({
       next: () => {
         expect(FakeWorker.instances.length).toBe(1);
         const worker = FakeWorker.instances[0];
-        expect(worker.postedMessages).toEqual([sampleTransactions]);
+        expect(worker.postedMessages).toEqual([{ rows: sampleTransactions }]);
         expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
+        const blob = createObjectURLSpy.calls.mostRecent().args[0] as Blob;
+        expect(blob.type).toContain('spreadsheetml');
+        expect(anchor.download).toBe('capitalflow-transacciones.xlsx');
+        expect(clickSpy).toHaveBeenCalledTimes(1);
         expect(revokeObjectURLSpy).toHaveBeenCalledTimes(1);
         expect(worker.terminated).toBeTrue();
         done();
@@ -110,11 +124,11 @@ describe('ExportService', () => {
     });
 
     const worker = FakeWorker.instances[0];
-    worker.fireSuccess(new Blob(['fake csv'], { type: 'text/csv' }));
+    worker.fireSuccess(new Blob(['xlsx-bytes'], { type: XLSX_MIME }));
   });
 
   it('emits an error and terminates the worker when the worker reports an error', (done) => {
-    const observable = service.exportToCSV(sampleTransactions);
+    const observable = service.exportToXLSX(sampleTransactions);
     observable.subscribe({
       next: () => done.fail('expected error, got next'),
       error: (err) => {
@@ -128,10 +142,10 @@ describe('ExportService', () => {
     worker.fireError(new ErrorEvent('error', { message: 'worker boom' }));
   });
 
-  it('falls back to synchronous export when Worker is unavailable', (done) => {
+  it('falls back to synchronous CSV export when Worker is unavailable', (done) => {
     (window as { Worker: unknown }).Worker = undefined;
 
-    service.exportToCSV(sampleTransactions).subscribe({
+    service.exportToXLSX(sampleTransactions).subscribe({
       next: () => {
         expect(FakeWorker.instances.length).toBe(0);
         expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
@@ -143,13 +157,13 @@ describe('ExportService', () => {
     });
   });
 
-  it('triggers a download link click with the configured filename in fallback mode', () => {
+  it('triggers a download link click with the csv fallback filename when Worker is unavailable', () => {
     (window as { Worker: unknown }).Worker = undefined;
     const anchor = document.createElement('a');
     const clickSpy = spyOn(anchor, 'click');
     spyOn(document, 'createElement').and.returnValue(anchor);
 
-    service.exportToCSV(sampleTransactions).subscribe();
+    service.exportToXLSX(sampleTransactions).subscribe();
 
     expect(clickSpy).toHaveBeenCalledTimes(1);
     expect(anchor.download).toBe('capitalflow-transacciones.csv');
@@ -159,7 +173,7 @@ describe('ExportService', () => {
   it('produces CSV content with header row plus one row per transaction in fallback mode', () => {
     (window as { Worker: unknown }).Worker = undefined;
 
-    service.exportToCSV(sampleTransactions).subscribe();
+    service.exportToXLSX(sampleTransactions).subscribe();
 
     const blob = createObjectURLSpy.calls.mostRecent().args[0] as Blob;
     expect(blob).toBeInstanceOf(Blob);
