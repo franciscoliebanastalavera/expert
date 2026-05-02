@@ -105,4 +105,19 @@ describe('CapDataGridComponent', () => {
     const result = gridInstance.trackByRow(7, { id: 9, name: 'Z', amount: 0 });
     expect(result).toBe(7);
   });
+
+  it('does not render every row in the DOM when data is large (virtual scroll contract)', () => {
+    const largeData: Row[] = Array.from({ length: 1000 }, (_, i) => ({
+      id: i + 1,
+      name: `Row ${i + 1}`,
+      amount: i,
+    }));
+    fixture.componentInstance.data = largeData;
+    fixture.detectChanges();
+
+    const renderedRows = fixture.debugElement.queryAll(
+      By.css('.cap-data-grid__row:not(.cap-data-grid__row--header)')
+    );
+    expect(renderedRows.length).toBeLessThan(largeData.length);
+  });
 });
