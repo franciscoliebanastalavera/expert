@@ -3,7 +3,8 @@ const path = require('path');
 
 module.exports = {
   output: {
-    publicPath: 'auto',
+    // TODO: en producción reemplazar por meta-tag inyectado por nginx (window.__MFE_PAYMENTS_HOST__)
+    publicPath: 'http://localhost:4202/',
     uniqueName: 'mfePayments',
   },
 
@@ -36,6 +37,10 @@ module.exports = {
   ],
 
   devServer: {
+    hot: false,
+    liveReload: false,
+    webSocketServer: false,
+    client: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',

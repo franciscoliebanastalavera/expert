@@ -1,10 +1,13 @@
+import { NgZone, ɵNoopNgZone } from '@angular/core';
 import { createApplication } from '@angular/platform-browser';
 import { createCustomElement } from '@angular/elements';
 import { PaymentsComponent } from './app/payments.component';
 
 const ELEMENT_TAG = 'mfe-payments';
 
-createApplication({ providers: [] })
+createApplication({
+  providers: [{ provide: NgZone, useClass: ɵNoopNgZone }],
+})
   .then((appRef) => {
     const PaymentsElement = createCustomElement(PaymentsComponent, {
       injector: appRef.injector,
