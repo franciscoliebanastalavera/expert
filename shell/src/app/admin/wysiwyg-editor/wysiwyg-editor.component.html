@@ -1,0 +1,31 @@
+<section class="wysiwyg">
+  <h1>Report templates</h1>
+  <p class="lead">
+    WYSIWYG editor for regulatory report templates. The output is sanitised through
+    <code>DOMPurify</code> before rendering or persisting — <code>&lt;script&gt;</code>,
+    <code>onerror</code> and <code>javascript:</code> URLs are stripped.
+  </p>
+
+  <div class="wysiwyg__editor">
+    <div #editorHost></div>
+  </div>
+
+  <button type="button" class="wysiwyg__save" (click)="save()">Save and preview sanitised output</button>
+
+  @if (rawHtml()) {
+    <div class="wysiwyg__output">
+      <h2>Raw editor output (before sanitisation)</h2>
+      <pre>{{ rawHtml() }}</pre>
+
+      @if (hasInjectionAttempt()) {
+        <p class="wysiwyg__warning">
+          ⚠ The raw HTML contained at least one injection vector (<code>&lt;script&gt;</code>,
+          <code>onerror=</code>, <code>onload=</code> or <code>javascript:</code>). It was stripped below.
+        </p>
+      }
+
+      <h2>Sanitised output (rendered safely)</h2>
+      <div class="wysiwyg__preview" [innerHTML]="sanitizedPreview()"></div>
+    </div>
+  }
+</section>

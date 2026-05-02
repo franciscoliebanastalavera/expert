@@ -1,0 +1,24 @@
+<section class="search-demo">
+  <h1>Reflected search demo</h1>
+  <p class="lead">
+    The previous platform reflected the search term in the page header without encoding,
+    enabling reflected XSS. Here the term is bound through Angular interpolation and
+    <code>[innerText]</code> — angle brackets render as literal characters.
+  </p>
+
+  <form (submit)="search(); $event.preventDefault()">
+    <label class="search-demo__field">
+      <span>Search term (try <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>)</span>
+      <input type="text" [formControl]="queryControl" autocomplete="off" />
+    </label>
+    <button type="submit">Search</button>
+  </form>
+
+  @if (query()) {
+    <h2 class="search-demo__heading">Results for: <span [innerText]="query()"></span></h2>
+    <p class="search-demo__note">
+      The script tag is visible as text — it is NOT executed by the browser because Angular
+      escaped the <code>&lt;</code> and <code>&gt;</code> characters before insertion.
+    </p>
+  }
+</section>

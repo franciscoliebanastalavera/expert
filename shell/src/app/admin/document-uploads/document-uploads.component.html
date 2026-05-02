@@ -1,0 +1,30 @@
+<section class="document-uploads">
+  <h1>Document uploads</h1>
+  <p class="lead">
+    Filenames are rendered through Angular interpolation (<code>{{ '{{' }} document.name {{ '}}' }}</code>),
+    which automatically escapes <code>&lt;</code>, <code>&gt;</code> and <code>&amp;</code>.
+    The fourth row contains a hostile filename — note that it renders as literal text
+    instead of triggering the embedded <code>onerror</code> handler.
+  </p>
+
+  <table class="document-uploads__table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Filename (rendered safely via interpolation)</th>
+        <th>Size</th>
+        <th>Uploaded</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (doc of documents(); track doc.id) {
+        <tr>
+          <td>{{ doc.id }}</td>
+          <td class="document-uploads__filename">{{ doc.name }}</td>
+          <td>{{ doc.size }}</td>
+          <td>{{ doc.uploadedAt }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

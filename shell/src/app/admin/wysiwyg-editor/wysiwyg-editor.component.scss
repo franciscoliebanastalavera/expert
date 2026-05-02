@@ -1,0 +1,55 @@
+.wysiwyg {
+  max-width: 50rem;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+
+  &__editor {
+    margin: 1rem 0;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  &__save {
+    background: #1e293b;
+    color: #fff;
+    border: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+
+    &:hover {
+      background: #334155;
+    }
+  }
+
+  &__output {
+    margin-top: 1.5rem;
+
+    pre {
+      background: #f4f4f5;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.8125rem;
+    }
+  }
+
+  &__warning {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 0.25rem 0.25rem 0;
+    color: #78350f;
+    font-size: 0.875rem;
+  }
+
+  &__preview {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #fff;
+  }
+}

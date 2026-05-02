@@ -1,0 +1,29 @@
+.document-uploads {
+  max-width: 50rem;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.875rem;
+    }
+
+    th {
+      background: #f4f4f5;
+      font-weight: 600;
+    }
+  }
+
+  &__filename {
+    font-family: monospace;
+    word-break: break-word;
+  }
+}

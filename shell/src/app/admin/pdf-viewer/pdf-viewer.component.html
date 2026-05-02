@@ -1,0 +1,34 @@
+<section class="pdf-viewer">
+  <h1>PDF report viewer</h1>
+  <p class="lead">
+    URLs are validated against an allowlist regex (HTTPS, host whitelist, <code>/reports/</code> path,
+    <code>.pdf</code> extension) before being passed to <code>bypassSecurityTrustResourceUrl</code>.
+    Attempts to inject <code>javascript:</code>, <code>data:</code> or arbitrary HTTP origins are rejected.
+  </p>
+
+  <form (submit)="load(); $event.preventDefault()">
+    <label class="pdf-viewer__field">
+      <span>Report URL</span>
+      <input type="text" [formControl]="urlControl" autocomplete="off" />
+    </label>
+    <button type="submit">Load report</button>
+  </form>
+
+  @if (errorMessage()) {
+    <p class="pdf-viewer__error">{{ errorMessage() }}</p>
+  }
+
+  @if (trustedUrl()) {
+    <iframe class="pdf-viewer__frame" [src]="trustedUrl()" title="Regulatory report"></iframe>
+  }
+
+  <details class="pdf-viewer__hint">
+    <summary>Try these URLs</summary>
+    <ul>
+      <li><code>https://reports.capitalflow.example.com/reports/q1-2026.pdf</code> → allowed</li>
+      <li><code>javascript:alert(1)</code> → rejected</li>
+      <li><code>http://reports.capitalflow.example.com/reports/q1-2026.pdf</code> → rejected (HTTP)</li>
+      <li><code>https://attacker.example.com/evil.html</code> → rejected (path)</li>
+    </ul>
+  </details>
+</section>

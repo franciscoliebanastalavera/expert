@@ -30,5 +30,37 @@ export const routes: Routes = [
         (m) => m.PaymentsWrapperComponent
       ),
   },
+  {
+    path: AppRoute.AdminTemplates,
+    title: AppRouteTitle.AdminTemplates,
+    loadComponent: () =>
+      import('./admin/wysiwyg-editor/wysiwyg-editor.component').then(
+        (m) => m.WysiwygEditorComponent
+      ),
+  },
+  {
+    path: AppRoute.AdminReports,
+    title: AppRouteTitle.AdminReports,
+    loadComponent: () =>
+      import('./admin/pdf-viewer/pdf-viewer.component').then(
+        (m) => m.PdfViewerComponent
+      ),
+  },
+  {
+    path: AppRoute.AdminDocuments,
+    title: AppRouteTitle.AdminDocuments,
+    loadComponent: () =>
+      import('./admin/document-uploads/document-uploads.component').then(
+        (m) => m.DocumentUploadsComponent
+      ),
+  },
+  {
+    path: AppRoute.SearchDemo,
+    title: AppRouteTitle.SearchDemo,
+    loadComponent: () =>
+      import('./search-demo/search-demo.component').then(
+        (m) => m.SearchDemoComponent
+      ),
+  },
   { path: ROUTE_WILDCARD, redirectTo: AppRoute.Home },
 ];

@@ -3,6 +3,10 @@ export enum AppRoute {
   Analytics = 'analytics',
   AnalyticsMfe = 'analytics-mfe',
   PaymentsMfe = 'payments-mfe',
+  AdminTemplates = 'admin/templates',
+  AdminReports = 'admin/reports',
+  AdminDocuments = 'admin/documents',
+  SearchDemo = 'search-demo',
 }
 
 export enum AppRouteTitle {
@@ -10,6 +14,10 @@ export enum AppRouteTitle {
   Analytics = 'CapitalFlow — Analytics',
   AnalyticsMfe = 'CapitalFlow — Analytics MFE',
   PaymentsMfe = 'CapitalFlow — Payments MFE',
+  AdminTemplates = 'CapitalFlow — Admin · Report templates',
+  AdminReports = 'CapitalFlow — Admin · PDF reports',
+  AdminDocuments = 'CapitalFlow — Admin · Documents',
+  SearchDemo = 'CapitalFlow — Search demo',
 }
 
 export const ROUTE_WILDCARD = '**';
