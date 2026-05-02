@@ -1,19 +1,11 @@
 <section class="pdf-viewer">
-  <cap-button
-    variant="capitalflow-outline"
-    size="small"
-    textStyle="none"
-    [label]="'← ' + (i18n.BACK | translate)"
-    (capClick)="goBack()">
-  </cap-button>
-
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
-  <p class="lead">{{ i18n.PAGE_LEAD | translate }}</p>
+  <p class="pdf-viewer__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
-  <form (submit)="load(); $event.preventDefault()">
+  <form class="pdf-viewer__form" (submit)="load(); $event.preventDefault()">
     <label class="pdf-viewer__field">
-      <span>{{ i18n.FIELD_LABEL | translate }}</span>
-      <input type="text" [formControl]="urlControl" autocomplete="off" />
+      <span class="pdf-viewer__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
+      <input type="text" [formControl]="urlControl" autocomplete="off" class="pdf-viewer__input" />
     </label>
     <cap-button
       variant="capitalflow-primary"
@@ -29,12 +21,11 @@
     <cap-alert kind="danger" [message]="errorKey() | translate"></cap-alert>
   }
 
-  @if (trustedUrl()) {
-    <iframe
-      class="pdf-viewer__frame"
-      [src]="trustedUrl()"
-      [title]="i18n.FRAME_TITLE | translate">
-    </iframe>
+  @if (validatedUrl()) {
+    <cap-alert kind="success" [message]="i18n.VALIDATED_HEADER | translate">
+      <p class="pdf-viewer__validated-url"><code>{{ validatedUrl() }}</code></p>
+      <p class="pdf-viewer__validated-note">{{ i18n.VALIDATED_NOTE | translate }}</p>
+    </cap-alert>
   }
 
   <details class="pdf-viewer__hint">
@@ -46,4 +37,14 @@
       <li><code>https://attacker.example.com/evil.html</code> {{ i18n.HINT_INVALID_PATH | translate }}</li>
     </ul>
   </details>
+
+  <footer class="pdf-viewer__footer">
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="'← ' + (i18n.BACK | translate)"
+      (capClick)="goBack()">
+    </cap-button>
+  </footer>
 </section>

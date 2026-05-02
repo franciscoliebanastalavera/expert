@@ -26,14 +26,15 @@ describe('PdfViewerComponent', () => {
   it('rejects javascript: protocol injection attempt', () => {
     component.urlControl.setValue('javascript:alert(1)');
     component.load();
-    expect(component.trustedUrl()).toBeNull();
+    expect(component.validatedUrl()).toBe('');
     expect(component.errorKey()).toBe('ADMIN.DEMOS.PDF.INVALID_URL');
   });
 
   it('accepts a well-formed HTTPS report URL', () => {
-    component.urlControl.setValue('https://reports.capitalflow.example.com/reports/q1-2026.pdf');
+    const url = 'https://reports.capitalflow.example.com/reports/q1-2026.pdf';
+    component.urlControl.setValue(url);
     component.load();
-    expect(component.trustedUrl()).not.toBeNull();
+    expect(component.validatedUrl()).toBe(url);
     expect(component.errorKey()).toBe('');
   });
 

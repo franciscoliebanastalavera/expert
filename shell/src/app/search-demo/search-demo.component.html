@@ -1,19 +1,11 @@
 <section class="search-demo">
-  <cap-button
-    variant="capitalflow-outline"
-    size="small"
-    textStyle="none"
-    [label]="'← ' + (i18n.BACK | translate)"
-    (capClick)="goBack()">
-  </cap-button>
-
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
-  <p class="lead">{{ i18n.PAGE_LEAD | translate }}</p>
+  <p class="search-demo__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
-  <form (submit)="search(); $event.preventDefault()">
+  <form class="search-demo__form" (submit)="search(); $event.preventDefault()">
     <label class="search-demo__field">
-      <span>{{ i18n.FIELD_LABEL | translate }}</span>
-      <input type="text" [formControl]="queryControl" autocomplete="off" [attr.aria-describedby]="'search-hint'" />
+      <span class="search-demo__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
+      <input type="text" [formControl]="queryControl" autocomplete="off" class="search-demo__input" [attr.aria-describedby]="'search-hint'" />
       <small id="search-hint" class="search-demo__hint">{{ i18n.FIELD_HINT | translate }}</small>
     </label>
     <cap-button
@@ -30,4 +22,14 @@
     <h2 class="search-demo__heading">{{ i18n.RESULTS_PREFIX | translate }} <span [innerText]="query()"></span></h2>
     <cap-alert kind="success" [message]="i18n.NOTE | translate"></cap-alert>
   }
+
+  <footer class="search-demo__footer">
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="'← ' + (i18n.BACK | translate)"
+      (capClick)="goBack()">
+    </cap-button>
+  </footer>
 </section>

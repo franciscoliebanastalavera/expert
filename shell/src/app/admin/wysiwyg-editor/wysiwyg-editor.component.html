@@ -1,14 +1,6 @@
 <section class="wysiwyg">
-  <cap-button
-    variant="capitalflow-outline"
-    size="small"
-    textStyle="none"
-    [label]="'← ' + (i18n.BACK | translate)"
-    (capClick)="goBack()">
-  </cap-button>
-
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
-  <p class="lead">{{ i18n.PAGE_LEAD | translate }}</p>
+  <p class="wysiwyg__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
   <div class="wysiwyg__editor">
     <div #editorHost></div>
@@ -35,4 +27,14 @@
       <div class="wysiwyg__preview" [innerHTML]="sanitizedPreview()"></div>
     </div>
   }
+
+  <footer class="wysiwyg__footer">
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="'← ' + (i18n.BACK | translate)"
+      (capClick)="goBack()">
+    </cap-button>
+  </footer>
 </section>

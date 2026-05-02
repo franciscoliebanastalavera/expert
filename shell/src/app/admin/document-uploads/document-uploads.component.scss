@@ -3,27 +3,25 @@
   margin: 1.5rem auto;
   padding: 0 1rem;
 
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+  h1 {
+    margin: 0 0 0.5rem;
+  }
 
-    th,
-    td {
-      text-align: left;
-      padding: 0.5rem 0.75rem;
-      border-bottom: 1px solid #e5e7eb;
-      font-size: 0.875rem;
-    }
-
-    th {
-      background: #f4f4f5;
-      font-weight: 600;
-    }
+  &__lead {
+    font-size: 1.0625rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0 0 2rem;
   }
 
   &__filename {
-    font-family: monospace;
+    font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", monospace;
     word-break: break-word;
+  }
+
+  &__footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
   }
 }

@@ -3,25 +3,27 @@
   margin: 1.5rem auto;
   padding: 0 1rem;
 
+  h1 {
+    margin: 0 0 0.5rem;
+  }
+
+  &__lead {
+    font-size: 1.0625rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0 0 2rem;
+  }
+
+  h2 {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.25rem;
+  }
+
   &__editor {
-    margin: 1rem 0;
+    margin-bottom: 1rem;
     border: 1px solid #d1d5db;
     border-radius: 0.5rem;
     overflow: hidden;
-  }
-
-  &__save {
-    background: #1e293b;
-    color: #fff;
-    border: 0;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-weight: 500;
-
-    &:hover {
-      background: #334155;
-    }
   }
 
   &__output {
@@ -34,16 +36,8 @@
       white-space: pre-wrap;
       word-break: break-word;
       font-size: 0.8125rem;
+      margin: 0;
     }
-  }
-
-  &__warning {
-    background: #fef3c7;
-    border-left: 4px solid #f59e0b;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0 0.25rem 0.25rem 0;
-    color: #78350f;
-    font-size: 0.875rem;
   }
 
   &__preview {
@@ -51,5 +45,11 @@
     border-radius: 0.5rem;
     padding: 1rem;
     background: #fff;
+  }
+
+  &__footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
   }
 }

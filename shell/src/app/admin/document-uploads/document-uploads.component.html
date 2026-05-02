@@ -1,18 +1,20 @@
 <section class="document-uploads">
-  <cap-button
-    variant="capitalflow-outline"
-    size="small"
-    textStyle="none"
-    [label]="'← ' + (i18n.BACK | translate)"
-    (capClick)="goBack()">
-  </cap-button>
-
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
-  <p class="lead">{{ i18n.PAGE_LEAD | translate }}</p>
+  <p class="document-uploads__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
   <cap-table
     [columns]="columns()"
     [data]="documents()"
     [trackByKey]="'id'">
   </cap-table>
+
+  <footer class="document-uploads__footer">
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="'← ' + (i18n.BACK | translate)"
+      (capClick)="goBack()">
+    </cap-button>
+  </footer>
 </section>
