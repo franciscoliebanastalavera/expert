@@ -6,11 +6,14 @@
   &__header {
     margin-bottom: 1.5rem;
 
-    h1 { margin: 0 0 0.5rem; }
+    h1 {
+      margin: 0 0 0.5rem;
+      color: var(--cap-text, #1e1e1e);
+    }
   }
 
   &__lead {
-    color: var(--cap-text-muted, #666);
+    color: var(--cap-text-secondary, #4d4d4d);
     line-height: 1.5;
     margin: 0;
   }

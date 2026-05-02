@@ -5,11 +5,12 @@
 
   h1 {
     margin: 0 0 0.5rem;
+    color: var(--cap-text, #1e1e1e);
   }
 
   &__lead {
     font-size: 1.0625rem;
-    color: #4b5563;
+    color: var(--cap-text-secondary, #4d4d4d);
     line-height: 1.6;
     margin: 0 0 2rem;
   }
@@ -17,22 +18,25 @@
   h2 {
     margin: 2rem 0 0.75rem;
     font-size: 1.25rem;
+    color: var(--cap-text, #1e1e1e);
   }
 
   &__editor {
     margin-bottom: 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
+    border: 1px solid var(--cap-border, #d1d5db);
+    border-radius: var(--cap-radius-md, 0.5rem);
     overflow: hidden;
+    background: var(--cap-bg-surface, #fff);
   }
 
   &__output {
     margin-top: 1.5rem;
 
     pre {
-      background: #f4f4f5;
+      background: rgba(127, 127, 127, 0.12);
+      color: var(--cap-text, #1e1e1e);
       padding: 0.75rem;
-      border-radius: 0.5rem;
+      border-radius: var(--cap-radius-md, 0.5rem);
       white-space: pre-wrap;
       word-break: break-word;
       font-size: 0.8125rem;
@@ -41,13 +45,15 @@
   }
 
   &__preview {
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
+    border: 1px solid var(--cap-border, #d1d5db);
+    border-radius: var(--cap-radius-md, 0.5rem);
     padding: 1rem 1.25rem;
-    background: #fff;
+    background: var(--cap-bg-surface, #fff);
+    color: var(--cap-text, #1e1e1e);
 
     h1, h2, h3, h4, h5, h6 {
       margin: 0 0 0.5rem;
+      color: inherit;
     }
 
     p {
@@ -66,7 +72,7 @@
     }
 
     a {
-      color: #2563eb;
+      color: var(--cap-primary, #2a85c4);
       text-decoration: underline;
     }
   }
@@ -74,6 +80,6 @@
   &__footer {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--cap-border, #e5e7eb);
   }
 }

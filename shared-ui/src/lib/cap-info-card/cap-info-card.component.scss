@@ -1,9 +1,9 @@
 .cap-info-card {
   padding: 1.25rem;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: var(--cap-bg-surface, #fff);
+  border: 1px solid var(--cap-border, #e5e7eb);
+  border-radius: var(--cap-radius-lg, 0.75rem);
+  box-shadow: var(--cap-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -12,12 +12,13 @@
     margin: 0 0 0.5rem;
     font-size: 1.125rem;
     font-weight: 600;
+    color: var(--cap-text, #1e1e1e);
   }
 
   &__description {
     flex: 1;
     margin: 0 0 1rem;
-    color: #555;
+    color: var(--cap-text-secondary, #4d4d4d);
     font-size: 0.875rem;
     line-height: 1.5;
   }

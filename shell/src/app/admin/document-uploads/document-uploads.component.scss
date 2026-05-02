@@ -5,11 +5,12 @@
 
   h1 {
     margin: 0 0 0.5rem;
+    color: var(--cap-text, #1e1e1e);
   }
 
   &__lead {
     font-size: 1.0625rem;
-    color: #4b5563;
+    color: var(--cap-text-secondary, #4d4d4d);
     line-height: 1.6;
     margin: 0 0 2rem;
   }
@@ -22,6 +23,6 @@
   &__footer {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--cap-border, #e5e7eb);
   }
 }

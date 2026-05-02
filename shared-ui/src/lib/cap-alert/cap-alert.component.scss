@@ -9,6 +9,8 @@
     margin: 0;
   }
 
+  // Pastel backgrounds + dark text. The explicit color wins over global
+  // .dark-theme body color via selector specificity.
   &--info {
     background: #e0f2fe;
     border-left-color: #0284c7;
