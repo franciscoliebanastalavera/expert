@@ -5,6 +5,7 @@ COPY mfe-analytics-react/package*.json ./mfe-analytics-react/
 
 RUN cd mfe-analytics-react && npm ci
 
+COPY shared-ui ./shared-ui
 COPY mfe-analytics-react ./mfe-analytics-react
 
 WORKDIR /app/mfe-analytics-react
