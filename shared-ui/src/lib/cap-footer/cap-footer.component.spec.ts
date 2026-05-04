@@ -30,14 +30,14 @@ describe('CapFooterComponent', () => {
   });
 
   it('renders the provided copyright text when the input changes', () => {
-    instance.copyrightText = 'Custom Copyright 2030';
+    fixture.componentRef.setInput('copyrightText', 'Custom Copyright 2030');
     fixture.detectChanges();
     const span = fixture.debugElement.query(By.css('footer.cap-footer span'));
     expect(span.nativeElement.textContent.trim()).toBe('Custom Copyright 2030');
   });
 
   it('reflects an empty string copyright as an empty span', () => {
-    instance.copyrightText = '';
+    fixture.componentRef.setInput('copyrightText', '');
     fixture.detectChanges();
     const span = fixture.debugElement.query(By.css('footer.cap-footer span'));
     expect(span.nativeElement.textContent.trim()).toBe('');

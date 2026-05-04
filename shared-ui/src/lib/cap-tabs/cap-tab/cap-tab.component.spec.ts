@@ -36,15 +36,15 @@ describe('CapTabComponent', () => {
   });
 
   it('shows the tab content when active is true', () => {
-    instance.active = true;
+    fixture.componentRef.setInput('active', true);
     fixture.detectChanges();
     const root = fixture.debugElement.query(By.css('.tab-content'));
     expect(root.nativeElement.hasAttribute('hidden')).toBeFalse();
   });
 
   it('exposes the disabled and label inputs as plain properties', () => {
-    instance.disabled = true;
-    instance.label = 'My Tab';
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentRef.setInput('label', 'My Tab');
     fixture.detectChanges();
     expect(instance.disabled).toBeTrue();
     expect(instance.label).toBe('My Tab');

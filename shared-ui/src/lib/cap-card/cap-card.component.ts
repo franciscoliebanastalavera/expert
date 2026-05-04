@@ -1,4 +1,11 @@
-import { Component, DestroyRef, Input, OnChanges, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  Input,
+  OnChanges,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicCssService } from '../services/dynamic-css.service';
 
@@ -8,6 +15,7 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   imports: [CommonModule],
   templateUrl: './cap-card.component.html',
   styleUrls: ['./cap-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapCardComponent implements OnChanges {
   @Input() title = '';

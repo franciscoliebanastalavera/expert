@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './cap-footer.component.html',
   styleUrls: ['./cap-footer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapFooterComponent {
   @Input() copyrightText = '© 2026 CapitalFlow by Nter.';

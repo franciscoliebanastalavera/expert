@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     forwardRef,
@@ -14,6 +15,7 @@ import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/fo
     imports: [CommonModule, FormsModule, ReactiveFormsModule],
     templateUrl: './cap-checkbox.component.html',
     styleUrl: './cap-checkbox.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

@@ -33,10 +33,9 @@ describe('CapCardComponent', () => {
   });
 
   it('renders the title, subtitle and content provided through inputs', () => {
-    instance.title = 'My Title';
-    instance.subtitle = 'My Subtitle';
-    instance.content = 'My Content';
-    instance.ngOnChanges();
+    fixture.componentRef.setInput('title', 'My Title');
+    fixture.componentRef.setInput('subtitle', 'My Subtitle');
+    fixture.componentRef.setInput('content', 'My Content');
     fixture.detectChanges();
     const header = fixture.debugElement.query(By.css('.cap-card__header h3'));
     const paragraphs = fixture.debugElement.queryAll(By.css('.cap-card__footer p'));
@@ -46,22 +45,22 @@ describe('CapCardComponent', () => {
   });
 
   it('uses the primary background image by default and switches to secondary when type changes', () => {
-    instance.ngOnChanges();
+    fixture.componentRef.setInput('type', 'primary');
+    fixture.detectChanges();
     expect(instance.backgroundImage).toContain('fondoCap.png');
-    instance.type = 'secondary';
-    instance.ngOnChanges();
+    fixture.componentRef.setInput('type', 'secondary');
+    fixture.detectChanges();
     expect(instance.backgroundImage).toContain('fondoCapOpuesta.png');
   });
 
   it('produces a dynamic class that includes the configured border radius', () => {
-    instance.borderRadius = '5px';
-    instance.ngOnChanges();
+    fixture.componentRef.setInput('borderRadius', '5px');
     fixture.detectChanges();
     expect(instance.cardClass).toContain('cap-card-dynamic');
   });
 
   it('exposes a non-empty component id and applies background-image style', () => {
-    instance.ngOnChanges();
+    fixture.componentRef.setInput('type', 'primary');
     fixture.detectChanges();
     const root: HTMLElement = fixture.debugElement.query(By.css('.cap-card')).nativeElement;
     expect(root.style.backgroundImage).toContain('fondoCap.png');

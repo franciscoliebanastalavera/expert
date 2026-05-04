@@ -53,12 +53,12 @@ describe('CapCheckboxComponent', () => {
   });
 
   it('applies the labelPosition class for left and right', () => {
-    instance.labelPosition = 'left';
+    fixture.componentRef.setInput('labelPosition', 'left');
     fixture.detectChanges();
     let label = fixture.debugElement.query(By.css('label.cap-checkbox__label'));
     expect(label.nativeElement.classList.contains('cap-checkbox__label--left')).toBeTrue();
 
-    instance.labelPosition = 'right';
+    fixture.componentRef.setInput('labelPosition', 'right');
     fixture.detectChanges();
     label = fixture.debugElement.query(By.css('label.cap-checkbox__label'));
     expect(label.nativeElement.classList.contains('cap-checkbox__label--right')).toBeTrue();
