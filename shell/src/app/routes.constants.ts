@@ -4,6 +4,7 @@ export enum AppRoute {
   AnalyticsMfe = 'analytics-mfe',
   PaymentsMfe = 'payments-mfe',
   Admin = 'admin',
+  DesignSystem = 'design-system',
   AdminTemplates = 'admin/templates',
   AdminReports = 'admin/reports',
   AdminDocuments = 'admin/documents',
@@ -11,15 +12,16 @@ export enum AppRoute {
 }
 
 export enum AppRouteTitle {
-  Home = 'CapitalFlow — Home',
-  Analytics = 'CapitalFlow — Analytics',
-  AnalyticsMfe = 'CapitalFlow — Analytics MFE',
-  PaymentsMfe = 'CapitalFlow — Payments MFE',
-  Admin = 'CapitalFlow — Security demos',
-  AdminTemplates = 'CapitalFlow — Admin · Report templates',
-  AdminReports = 'CapitalFlow — Admin · PDF reports',
-  AdminDocuments = 'CapitalFlow — Admin · Documents',
-  SearchDemo = 'CapitalFlow — Search demo',
+  Home = 'CapitalFlow - Home',
+  Analytics = 'CapitalFlow - Analytics',
+  AnalyticsMfe = 'CapitalFlow - Analytics MFE',
+  PaymentsMfe = 'CapitalFlow - Payments MFE',
+  Admin = 'CapitalFlow - Security demos',
+  DesignSystem = 'CapitalFlow - Design System',
+  AdminTemplates = 'CapitalFlow - Admin - Report templates',
+  AdminReports = 'CapitalFlow - Admin - PDF reports',
+  AdminDocuments = 'CapitalFlow - Admin - Documents',
+  SearchDemo = 'CapitalFlow - Search demo',
 }
 
 export const ROUTE_WILDCARD = '**';

@@ -6,6 +6,7 @@
     "ANALYTICS": "Analytics",
     "PAYMENTS": "Payments",
     "SECURITY_DEMOS": "Security demos",
+    "DESIGN_SYSTEM": "Design System",
     "THEME_LIGHT": "Light mode",
     "THEME_DARK": "Dark mode",
     "LANG": "Language"
@@ -271,6 +272,33 @@
     "LOADING_FROM": "Loading module from",
     "RETRY": "Retry load",
     "ERROR": "Could not load Payments module. Verify that the MFE is running."
+  },
+  "DESIGN_SYSTEM": {
+    "TITLE": "Design System",
+    "LEAD": "Reference page for the shared components used directly in the CapitalFlow shell. Form controls and complex grids remain documented in Storybook.",
+    "BUTTONS": "Buttons",
+    "PRIMARY": "Primary",
+    "SECONDARY": "Secondary",
+    "OUTLINE": "Outline",
+    "ALERTS": "Alerts",
+    "ALERT_INFO": "Informational message",
+    "ALERT_SUCCESS": "Successful operation",
+    "ALERT_WARNING": "Warning state",
+    "ALERT_DANGER": "Critical state",
+    "INFO_CARD": "Info card",
+    "INFO_TITLE": "Shared component contract",
+    "INFO_DESCRIPTION": "Reusable UI primitives keep Angular and React experiences aligned through common tokens.",
+    "BADGES": "Status badges",
+    "METRICS": "Metrics",
+    "ACTIVE_USERS": "Active clients",
+    "ACTIVE_USERS_VALUE": "850",
+    "SLA": "SLA",
+    "SLA_VALUE": "99.95%",
+    "SLA_VARIATION": "+0.4%",
+    "SLA_DESCRIPTION": "Current regulated client availability target.",
+    "LOADING": "Loading state",
+    "LOADING_LABEL": "Loading data...",
+    "STORYBOOK_LINK": "Open Storybook for form controls, modal, tabs, table and data grid"
   },
   "FOOTER": {
     "COPYRIGHT": "(c) 2026 CapitalFlow by Nter. All rights reserved."

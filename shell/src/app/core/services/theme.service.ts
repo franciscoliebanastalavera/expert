@@ -47,6 +47,8 @@ export class ThemeService {
   private applyTheme(theme: 'light' | 'dark'): void {
     const html = this.document.documentElement;
     const body = this.document.body;
+    this.renderer.setAttribute(html, 'data-theme', theme);
+    this.renderer.setAttribute(body, 'data-theme', theme);
     if (theme === 'dark') {
       this.renderer.addClass(html, 'dark-theme');
       this.renderer.removeClass(html, 'light-theme');

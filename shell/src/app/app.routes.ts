@@ -39,6 +39,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: AppRoute.DesignSystem,
+    title: AppRouteTitle.DesignSystem,
+    loadComponent: () =>
+      import('./design-system/design-system.component').then(
+        (m) => m.DesignSystemComponent
+      ),
+  },
+  {
     path: AppRoute.AdminTemplates,
     title: AppRouteTitle.AdminTemplates,
     loadComponent: () =>

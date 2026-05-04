@@ -31,6 +31,10 @@ module.exports = (env, argv) => {
           },
           exclude: /node_modules/,
         },
+        {
+          test: /\.scss$/,
+          type: 'asset/source',
+        },
       ],
     },
 

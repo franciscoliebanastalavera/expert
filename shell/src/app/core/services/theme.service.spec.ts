@@ -34,4 +34,14 @@ describe('ThemeService', () => {
     expect(localStorage.getItem('capitalflow-theme')).toBe('dark');
     expect(service.isDark()).toBe(true);
   });
+
+  it('should expose the selected theme through data-theme attributes', () => {
+    service.setTheme('dark');
+    expect(document.documentElement.dataset['theme']).toBe('dark');
+    expect(document.body.dataset['theme']).toBe('dark');
+
+    service.setTheme('light');
+    expect(document.documentElement.dataset['theme']).toBe('light');
+    expect(document.body.dataset['theme']).toBe('light');
+  });
 });

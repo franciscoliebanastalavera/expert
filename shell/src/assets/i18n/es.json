@@ -6,6 +6,7 @@
     "ANALYTICS": "Analytics",
     "PAYMENTS": "Pagos",
     "SECURITY_DEMOS": "Demos de seguridad",
+    "DESIGN_SYSTEM": "Design System",
     "THEME_LIGHT": "Modo claro",
     "THEME_DARK": "Modo oscuro",
     "LANG": "Idioma"
@@ -271,6 +272,33 @@
     "LOADING_FROM": "Cargando módulo desde",
     "RETRY": "Reintentar carga",
     "ERROR": "No se pudo cargar el módulo de Pagos. Verifique que el MFE esté en ejecución."
+  },
+  "DESIGN_SYSTEM": {
+    "TITLE": "Design System",
+    "LEAD": "Página de referencia para los componentes compartidos usados directamente en el shell de CapitalFlow. Los controles de formulario y grids complejos siguen documentados en Storybook.",
+    "BUTTONS": "Botones",
+    "PRIMARY": "Primario",
+    "SECONDARY": "Secundario",
+    "OUTLINE": "Contorno",
+    "ALERTS": "Alertas",
+    "ALERT_INFO": "Mensaje informativo",
+    "ALERT_SUCCESS": "Operación completada",
+    "ALERT_WARNING": "Estado de aviso",
+    "ALERT_DANGER": "Estado crítico",
+    "INFO_CARD": "Info card",
+    "INFO_TITLE": "Contrato de componente compartido",
+    "INFO_DESCRIPTION": "Los primitivos UI reutilizables alinean la experiencia Angular y React mediante tokens comunes.",
+    "BADGES": "Badges de estado",
+    "METRICS": "Métricas",
+    "ACTIVE_USERS": "Clientes activos",
+    "ACTIVE_USERS_VALUE": "850",
+    "SLA": "SLA",
+    "SLA_VALUE": "99,95 %",
+    "SLA_VARIATION": "+0,4 %",
+    "SLA_DESCRIPTION": "Objetivo actual de disponibilidad para clientes regulados.",
+    "LOADING": "Estado de carga",
+    "LOADING_LABEL": "Cargando datos...",
+    "STORYBOOK_LINK": "Abrir Storybook para controles de formulario, modal, tabs, tabla y data grid"
   },
   "FOOTER": {
     "COPYRIGHT": "(c) 2026 CapitalFlow by Nter. Todos los derechos reservados."

@@ -41,13 +41,15 @@ export class AppComponent {
       this.translate.stream('NAV.ANALYTICS'),
       this.translate.stream('NAV.PAYMENTS'),
       this.translate.stream('NAV.SECURITY_DEMOS'),
+      this.translate.stream('NAV.DESIGN_SYSTEM'),
     ]).pipe(
-      map(([home, transactions, analytics, payments, securityDemos]): NavItem[] => [
+      map(([home, transactions, analytics, payments, securityDemos, designSystem]): NavItem[] => [
         { label: home as string, route: toRouteLink(AppRoute.Home) },
         { label: transactions as string, route: toRouteLink(AppRoute.Analytics) },
         { label: analytics as string, route: toRouteLink(AppRoute.AnalyticsMfe) },
         { label: payments as string, route: toRouteLink(AppRoute.PaymentsMfe) },
         { label: securityDemos as string, route: toRouteLink(AppRoute.Admin) },
+        { label: designSystem as string, route: toRouteLink(AppRoute.DesignSystem) },
       ])
     ),
     { initialValue: [] as NavItem[] }

@@ -1,0 +1,74 @@
+<section class="design-system">
+  <header class="design-system__header">
+    <h1>{{ 'DESIGN_SYSTEM.TITLE' | translate }}</h1>
+    <p>{{ 'DESIGN_SYSTEM.LEAD' | translate }}</p>
+  </header>
+
+  <div class="design-system__grid">
+    <section class="design-system__panel">
+      <h2>{{ 'DESIGN_SYSTEM.BUTTONS' | translate }}</h2>
+      <div class="design-system__row">
+        <cap-button variant="capitalflow-primary" [label]="'DESIGN_SYSTEM.PRIMARY' | translate"></cap-button>
+        <cap-button variant="capitalflow-secondary" [label]="'DESIGN_SYSTEM.SECONDARY' | translate"></cap-button>
+        <cap-button variant="capitalflow-outline" [label]="'DESIGN_SYSTEM.OUTLINE' | translate"></cap-button>
+      </div>
+    </section>
+
+    <section class="design-system__panel">
+      <h2>{{ 'DESIGN_SYSTEM.ALERTS' | translate }}</h2>
+      <div class="design-system__stack">
+        <cap-alert kind="info" [message]="'DESIGN_SYSTEM.ALERT_INFO' | translate"></cap-alert>
+        <cap-alert kind="success" [message]="'DESIGN_SYSTEM.ALERT_SUCCESS' | translate"></cap-alert>
+        <cap-alert kind="warning" [message]="'DESIGN_SYSTEM.ALERT_WARNING' | translate"></cap-alert>
+        <cap-alert kind="danger" [message]="'DESIGN_SYSTEM.ALERT_DANGER' | translate"></cap-alert>
+      </div>
+    </section>
+
+    <section class="design-system__panel">
+      <h2>{{ 'DESIGN_SYSTEM.INFO_CARD' | translate }}</h2>
+      <cap-info-card
+        [title]="'DESIGN_SYSTEM.INFO_TITLE' | translate"
+        [description]="'DESIGN_SYSTEM.INFO_DESCRIPTION' | translate">
+      </cap-info-card>
+    </section>
+
+    <section class="design-system__panel">
+      <h2>{{ 'DESIGN_SYSTEM.BADGES' | translate }}</h2>
+      <div class="design-system__row">
+        <cap-status-badge kind="success"></cap-status-badge>
+        <cap-status-badge kind="warning"></cap-status-badge>
+        <cap-status-badge kind="danger"></cap-status-badge>
+        <cap-status-badge kind="neutral"></cap-status-badge>
+      </div>
+    </section>
+
+    <section class="design-system__panel">
+      <h2>{{ 'DESIGN_SYSTEM.METRICS' | translate }}</h2>
+      <div class="design-system__cards">
+        <cap-stat-card
+          [label]="'DESIGN_SYSTEM.ACTIVE_USERS' | translate"
+          [value]="'DESIGN_SYSTEM.ACTIVE_USERS_VALUE' | translate"
+          kind="positive">
+        </cap-stat-card>
+        <cap-metric-card
+          [title]="'DESIGN_SYSTEM.SLA' | translate"
+          [value]="'DESIGN_SYSTEM.SLA_VALUE' | translate"
+          [variation]="'DESIGN_SYSTEM.SLA_VARIATION' | translate"
+          [description]="'DESIGN_SYSTEM.SLA_DESCRIPTION' | translate"
+          [positive]="true">
+        </cap-metric-card>
+      </div>
+    </section>
+
+    <section class="design-system__panel">
+      <h2>{{ 'DESIGN_SYSTEM.LOADING' | translate }}</h2>
+      <cap-spinner size="medium" [label]="'DESIGN_SYSTEM.LOADING_LABEL' | translate"></cap-spinner>
+    </section>
+  </div>
+
+  <footer class="design-system__storybook">
+    <a href="http://localhost:6007" target="_blank" rel="noreferrer">
+      {{ 'DESIGN_SYSTEM.STORYBOOK_LINK' | translate }}
+    </a>
+  </footer>
+</section>
