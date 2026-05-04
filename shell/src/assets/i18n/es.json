@@ -250,10 +250,14 @@
   },
   "MFE": {
     "LOADING": "Cargando módulo de Analytics...",
+    "LOADING_FROM": "Cargando módulo desde",
+    "RETRY": "Reintentar carga",
     "ERROR": "No se pudo cargar el módulo de Analytics. Verifique que el MFE esté en ejecución."
   },
   "MFE_PAYMENTS": {
     "LOADING": "Cargando módulo de Pagos...",
+    "LOADING_FROM": "Cargando módulo desde",
+    "RETRY": "Reintentar carga",
     "ERROR": "No se pudo cargar el módulo de Pagos. Verifique que el MFE esté en ejecución."
   },
   "FOOTER": {

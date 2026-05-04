@@ -7,6 +7,8 @@ import {
   tick,
 } from '@angular/core/testing';
 import { TranslateService, TranslateStore } from '@ngx-translate/core';
+import { By } from '@angular/platform-browser';
+import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
 import { PaymentsWrapperComponent } from './payments-wrapper.component';
 import { TranslateServiceMock } from '../../testing/mocks';
 
@@ -167,6 +169,49 @@ describe('PaymentsWrapperComponent', () => {
       expect(component.cargando()).toBeFalse();
       expect(component.error()).toContain('Payments');
       expect(component.container().nativeElement.querySelector('mfe-payments')).toBeNull();
+    } finally {
+      stubs.restore();
+      discardPeriodicTasks();
+    }
+  }));
+
+  it('shows a diagnostic alert with the attempted remote url when loading fails', fakeAsync(() => {
+    sharedContainerGet.and.callFake(() => Promise.reject(new Error('boom')));
+    const stubs = stubScriptLoading({ failScript: false });
+    try {
+      fixture.detectChanges();
+      flush();
+      tick(FULL_DELAY_MS);
+      flush();
+      fixture.detectChanges();
+
+      const alert = fixture.debugElement.query(By.directive(CapAlertComponent));
+      const retryButton = fixture.debugElement.query(By.directive(CapButtonComponent));
+      expect(alert).not.toBeNull();
+      expect(retryButton).not.toBeNull();
+      expect(component.loadError()).toContain('/remoteEntry.js');
+      expect(component.loadError()).toContain('boom');
+    } finally {
+      stubs.restore();
+      discardPeriodicTasks();
+    }
+  }));
+
+  it('increments attempts and retries the remote load', fakeAsync(() => {
+    sharedContainerGet.and.callFake(() => Promise.reject(new Error('boom')));
+    const stubs = stubScriptLoading({ failScript: false });
+    try {
+      fixture.detectChanges();
+      flush();
+      tick(FULL_DELAY_MS);
+      flush();
+
+      component.retryLoad();
+      expect(component.loadAttempts()).toBe(1);
+      flush();
+      tick(FULL_DELAY_MS);
+      flush();
+      expect(component.loadError()).toContain('/remoteEntry.js');
     } finally {
       stubs.restore();
       discardPeriodicTasks();

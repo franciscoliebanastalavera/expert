@@ -10,11 +10,27 @@ export interface RemoteMfeConfig {
   errorMessage: string;
 }
 
+export interface RemoteMfeLoadSuccess {
+  readonly success: true;
+  readonly customElementTag: string;
+  readonly attemptedUrl: string;
+}
+
+export interface RemoteMfeLoadFailure {
+  readonly success: false;
+  readonly error: string;
+  readonly attemptedUrl: string;
+}
+
+export type RemoteMfeLoadResult = RemoteMfeLoadSuccess | RemoteMfeLoadFailure;
+
 export const REMOTE_MFE_PORTS = {
   https: 443,
   http: 80,
   httpsProtocol: 'https:',
 } as const;
+
+export const REMOTE_MFE_TIMEOUT_MS = 15_000;
 
 export const ANALYTICS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   remoteEntryPath: '/remoteEntry.js',

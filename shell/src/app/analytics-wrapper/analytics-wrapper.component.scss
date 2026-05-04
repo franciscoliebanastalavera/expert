@@ -8,10 +8,22 @@ $spinner-label-font-size: 0.875rem;
 $spinner-gap: 1rem;
 $fade-duration: 0.3s;
 $error-padding: 2rem;
+$remote-url-font-size: 0.8125rem;
 
 .mfe-container {
   min-height: $mfe-min-height;
   padding: $mfe-padding;
+
+  &__remote-url {
+    margin: 0;
+    color: var(--cap-text-muted, #6b7280);
+    font-size: $remote-url-font-size;
+    text-align: center;
+
+    code {
+      word-break: break-all;
+    }
+  }
 }
 
 .spinner-wrapper {

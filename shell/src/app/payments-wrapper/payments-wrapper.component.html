@@ -2,9 +2,22 @@
   @if (cargando()) {
     <div class="spinner-wrapper" [class.fade-out]="fadeOut()">
       <cap-spinner [label]="'MFE_PAYMENTS.LOADING' | translate" />
+      @if (attemptedUrl()) {
+        <p class="mfe-container__remote-url">
+          {{ 'MFE_PAYMENTS.LOADING_FROM' | translate }} <code>{{ attemptedUrl() }}</code>
+        </p>
+      }
     </div>
   }
-  @if (error()) {
-    <p class="error">{{ error() }}</p>
+  @if (loadError()) {
+    <cap-alert kind="danger" [message]="loadError() ?? ''">
+      <cap-button
+        variant="capitalflow-outline"
+        size="small"
+        textStyle="none"
+        [label]="'MFE_PAYMENTS.RETRY' | translate"
+        (capClick)="retryLoad()">
+      </cap-button>
+    </cap-alert>
   }
 </div>
