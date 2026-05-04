@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, inject } from '@angular/core';
+import { Directive, TemplateRef, inject, input } from '@angular/core';
 
 @Directive({
   selector: '[capCellTemplate]',
@@ -7,5 +7,5 @@ import { Directive, Input, TemplateRef, inject } from '@angular/core';
 export class CapCellTemplateDirective {
   readonly templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 
-  @Input({ required: true, alias: 'capCellTemplate' }) columnKey!: string;
+  readonly columnKey = input.required<string>({ alias: 'capCellTemplate' });
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 export type CapStatusBadgeKind = 'success' | 'warning' | 'info' | 'danger' | 'neutral';
@@ -12,5 +12,5 @@ export type CapStatusBadgeKind = 'success' | 'warning' | 'info' | 'danger' | 'ne
   styleUrl: './cap-status-badge.component.scss',
 })
 export class CapStatusBadgeComponent {
-  @Input() kind: CapStatusBadgeKind = 'neutral';
+  readonly kind = input<CapStatusBadgeKind>('neutral');
 }

@@ -1,9 +1,9 @@
 <div
   appClickOutside
   (clickedOutside)="clickOutside()"
-  [class]="'cap-select__field cap-select__field-' + size"
+  [class]="'cap-select__field cap-select__field-' + size()"
   [ngClass]="{
-    'cap-select__field-disabled': disabled,
+    'cap-select__field-disabled': disabled(),
     'cap-select__field-unfold': unfold,
     'cap-select__field-invalid': control.valid === false && control.touched,
   }"
@@ -11,14 +11,14 @@
   <div class="controls">
     <input
       #selector
-      [id]="name"
-      [type]="type"
+      [id]="name()"
+      [type]="type()"
       [ngModel]="getValueLabel()"
       (ngModelChange)="controlInputValue($event)"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [placeholder]="placeholderSelector()"
       [attr.focus]="fieldOnFocus"
-      [readonly]="predictiveType === 'none'"
+      [readonly]="predictiveType() === 'none'"
       spellcheck="false"
       autocomplete="off"
       (input)="handleSelector(selector.value)"
@@ -26,25 +26,25 @@
       (blur)="handleBlur($event)"
       (keyup)="filterOptions($event, selector.value)"
     />
-    @if (label) {
+    @if (label()) {
       <label
-        [for]="name"
-        [class]="'cap-select__label cap-select__label-' + size"
+        [for]="name()"
+        [class]="'cap-select__label cap-select__label-' + size()"
         [ngClass]="{
           'cap-select__label-floating': fieldOnFocus || !!value,
           'cap-select__label-invalid': control.valid === false && control.touched,
         }"
       >
-        {{ label }}
+        {{ label() }}
       </label>
     }
     <div
       class="cap-select__buttons"
       [ngClass]="{
-        'cap-select__buttons-small': size === 'small',
+        'cap-select__buttons-small': size() === 'small',
       }"
     >
-      @if (!!value && fieldOnFocus && predictiveType !== 'none' && unfold) {
+      @if (!!value && fieldOnFocus && predictiveType() !== 'none' && unfold) {
         <cap-button
           variant="icon-button"
           [inputButton]="true"
@@ -68,10 +68,10 @@
       class="cap-select__dropdown"
       [ngClass]="{
         'cap-select__dropdown-auto': displayOptions.length < dropdownSize,
-        'cap-select__dropdown-small': size === 'small',
-        'cap-select__dropdown-short': shortDropdown && !description,
-        'cap-select__dropdown-description': description && !shortDropdown,
-        'cap-select__dropdown-description-short': description && shortDropdown,
+        'cap-select__dropdown-small': size() === 'small',
+        'cap-select__dropdown-short': shortDropdown() && !description(),
+        'cap-select__dropdown-description': description() && !shortDropdown(),
+        'cap-select__dropdown-description-short': description() && shortDropdown(),
       }"
     >
       @if (displayOptions.length !== 0) {
@@ -103,7 +103,7 @@
                     <img src="images/check.svg" alt="" />
                   }
                 </span>
-                @if (description && option.value !== 'todos' && option.value !== 'todas') {
+                @if (description() && option.value !== 'todos' && option.value !== 'todas') {
                   <div class="description">
                     <p>{{ option.description }}</p>
                   </div>
@@ -123,21 +123,21 @@
   }
 </div>
 <div class="cap-select__helpers">
-  @if (helper && (control.valid !== false || !control.touched)) {
+  @if (helper() && (control.valid !== false || !control.touched)) {
     <span>
-      {{ helper }}
+      {{ helper() }}
     </span>
   }
   @if (control.valid === false && control.touched) {
     <span class="cap-select__helpers-error">
-      @if (!!errorMessages) {
+      @if (errorMessages() && (errorMessages() | keyvalue).length) {
         @for (error of control.errors | keyvalue; track error.key) {
           <span>
-            {{ errorMessages[error.key] }}
+            {{ errorMessages()[error.key] }}
           </span>
         }
       } @else {
-        <span>{{ helper }}</span>
+        <span>{{ helper() }}</span>
       }
     </span>
   }

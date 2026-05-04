@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, ElementRef, HostListener, output } from '@angular/core';
 
 @Directive({
   selector: '[capClickOutside]',
@@ -7,7 +7,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angu
 export class ClickOutsideDirective {
   constructor(private elementRef: ElementRef) {}
 
-  @Output() clickedOutside = new EventEmitter();
+  readonly clickedOutside = output<EventTarget>();
 
   @HostListener('document:click', ['$event.target'])
   public onClick(target: EventTarget) {

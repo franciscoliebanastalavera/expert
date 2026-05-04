@@ -72,15 +72,15 @@ describe('CapDataGridComponent', () => {
   it('exposes the configured row data to the grid component', () => {
     const gridDe = fixture.debugElement.query(By.directive(CapDataGridComponent));
     const gridInstance = gridDe.componentInstance as CapDataGridComponent<Row>;
-    expect(gridInstance.data.length).toBe(2);
-    expect(gridInstance.data[0].name).toBe('Alice');
-    expect(gridInstance.getCellValue(gridInstance.data[0], 'amount')).toBe(100);
+    expect(gridInstance.data().length).toBe(2);
+    expect(gridInstance.data()[0].name).toBe('Alice');
+    expect(gridInstance.getCellValue(gridInstance.data()[0], 'amount')).toBe(100);
   });
 
   it('registers the projected ng-template under its column key', () => {
     const gridDe = fixture.debugElement.query(By.directive(CapDataGridComponent));
     const gridInstance = gridDe.componentInstance as CapDataGridComponent<Row>;
-    expect(gridInstance.cellTemplates.length).toBe(1);
+    expect(gridInstance.cellTemplates().length).toBe(1);
     expect(gridInstance.templateFor('amount')).not.toBeNull();
     expect(gridInstance.templateFor('id')).toBeNull();
   });

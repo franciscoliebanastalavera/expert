@@ -4,15 +4,14 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   forwardRef,
-  HostBinding,
   Inject,
   inject,
   Injector,
-  Input,
-  Output,
-  ViewChild,
+  input,
+  model,
+  output,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -53,6 +52,9 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   templateUrl: './cap-input.component.html',
   styleUrl: './cap-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.width]': 'width()',
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -62,56 +64,34 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   ],
 })
 export class CapInputComponent {
-  @Input() name: string;
+  readonly name = input<string>('');
+  readonly label = input<string>('');
+  readonly defaultValue = input<string>('');
+  readonly disabled = input(false);
+  readonly placeholder = input('');
+  readonly helper = input<string>('');
+  readonly tooltipPermanent = input(false);
+  readonly tooltipTitle = input<string>('');
+  readonly tooltipText = input<string>('');
+  readonly tooltipAlign = input<AlignVariant>('center');
+  readonly tooltipVertical = input<boolean>(false);
+  readonly tooltipModal = input(true);
+  readonly maxLength = input(65);
+  readonly multiline = input(false);
+  readonly prefix = input<string>('');
+  readonly suffix = input<string>('');
+  readonly errorMessages = model<{ [key: string]: string }>({});
+  readonly width = input('300px');
+  readonly size = input<'standard' | 'small'>('standard');
+  readonly variant = input<'standard' | 'clear'>('standard');
+  readonly type = input<'text' | 'number' | 'password'>('text');
+  readonly customBehaviour = input<'IBAN' | 'password' | undefined>(undefined);
+  readonly customClass = input<Record<string, string>>({});
 
-  @Input() label: string;
+  readonly inputChage = output<string>();
 
-  @Input() defaultValue: string;
-
-  @Input() disabled = false;
-
-  @Input() placeholder = '';
-
-  @Input() helper: string;
-
-  @Input() tooltipPermanent = false;
-
-  @Input() tooltipTitle: string;
-
-  @Input() tooltipText: string;
-
-  @Input() tooltipAlign: AlignVariant;
-
-  @Input() tooltipVertical: boolean;
-
-  @Input() tooltipModal = true;
-
-  @Input() maxLength = 65;
-
-  @Input() multiline = false;
-
-  @Input() prefix: string;
-
-  @Input() suffix: string;
-
-  @Input() errorMessages: { [key: string]: string };
-
-  @Input() @HostBinding('style.width') width = '300px';
-
-  @Input() size: 'standard' | 'small' = 'standard';
-
-  @Input() variant: 'standard' | 'clear' = 'standard';
-
-  @Input() type: 'text' | 'number' | 'password' = 'text';
-
-  @Input() customBehaviour: 'IBAN' | 'password';
-
-  @Input() customClass: Record<string, string>;
-
-  @Output() inputChage = new EventEmitter<string>();
-
-  @ViewChild('textarea') textarea: ElementRef;
-  @ViewChild('fieldContainer') fieldContainer: ElementRef;
+  readonly textarea = viewChild<ElementRef>('textarea');
+  readonly fieldContainer = viewChild.required<ElementRef>('fieldContainer');
 
   private innerValue = '';
 
@@ -155,20 +135,21 @@ export class CapInputComponent {
   ngOnInit(): void {
     this.componentId = this.dynamicCssService.generateComponentId();
     this.setControl();
-    if (this.control && this.customBehaviour === 'IBAN') {
+    if (this.control && this.customBehaviour() === 'IBAN') {
       this.control.setValidators(this.IBANValidator());
-      this.errorMessages = {
+      this.errorMessages.update((current) => ({
         iban: 'El IBAN introducido no es válido: ES00 0000 0000 00 0000000000',
-        ...this.errorMessages,
-      };
+        ...current,
+      }));
     }
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.defaultValue) {
-        this.writeValue(this.defaultValue);
-        this.onChange(this.defaultValue);
+      const defaultValue = this.defaultValue();
+      if (defaultValue) {
+        this.writeValue(defaultValue);
+        this.onChange(defaultValue);
       }
     }, 0);
 
@@ -176,19 +157,20 @@ export class CapInputComponent {
   }
 
   private createDyamicClasses() {
-    if (Object.keys(this.customClass).length > 0) {
+    const customClass = this.customClass();
+    if (Object.keys(customClass).length > 0) {
       this.dynamicCssService.createMultipleDynamicClasses(
         [
           {
             className: 'cap-input__label-custom',
-            cssContent: this.customClass.hasOwnProperty('label')
-              ? this.customClass['label']
+            cssContent: customClass.hasOwnProperty('label')
+              ? customClass['label']
               : '',
           },
           {
             className: 'cap-input__field-custom',
-            cssContent: this.customClass.hasOwnProperty('input')
-              ? this.customClass['input']
+            cssContent: customClass.hasOwnProperty('input')
+              ? customClass['input']
               : '',
           },
         ],
@@ -198,18 +180,20 @@ export class CapInputComponent {
   }
 
   ngAfterViewChecked(): void {
-    if (this.textarea) {
+    const textarea = this.textarea();
+    const fieldContainer = this.fieldContainer();
+    if (textarea) {
       if (!this.value) {
-        this.fieldContainer.nativeElement.style.height = null;
-        this.textarea.nativeElement.style.height = null;
+        fieldContainer.nativeElement.style.height = null;
+        textarea.nativeElement.style.height = null;
       } else {
-        this.fieldContainer.nativeElement.style.height = 'auto';
-        this.textarea.nativeElement.style.height = 'auto';
-        this.fieldContainer.nativeElement.style.height = `${this.textarea.nativeElement.scrollHeight}px`;
-        this.textarea.nativeElement.style.height = `${this.textarea.nativeElement.scrollHeight}px`;
+        fieldContainer.nativeElement.style.height = 'auto';
+        textarea.nativeElement.style.height = 'auto';
+        fieldContainer.nativeElement.style.height = `${textarea.nativeElement.scrollHeight}px`;
+        textarea.nativeElement.style.height = `${textarea.nativeElement.scrollHeight}px`;
       }
     } else {
-      this.fieldContainer.nativeElement.style.height = null;
+      fieldContainer.nativeElement.style.height = null;
     }
   }
 
@@ -223,7 +207,7 @@ export class CapInputComponent {
   handleFocus(): void {
     this.fieldOnFocus = true;
     this.showIBAN = true;
-    if (this.customBehaviour === 'password') this.control.setErrors(null);
+    if (this.customBehaviour() === 'password') this.control.setErrors(null);
   }
 
   handleBlur(event: FocusEvent): void {
@@ -235,7 +219,7 @@ export class CapInputComponent {
     if (this.showIBAN) {
       this.showIBAN = false;
     }
-    if (this.customBehaviour === 'password' && !this.passwordValid && this.value !== '') {
+    if (this.customBehaviour() === 'password' && !this.passwordValid && this.value !== '') {
       this.control.setErrors({ noValid: 'noValid' });
     }
   }
@@ -293,7 +277,7 @@ export class CapInputComponent {
 
   handleShow(): void {
     this.showPassword = !this.showPassword;
-    this.showIBAN = this.customBehaviour === 'IBAN' ? !this.showIBAN : false;
+    this.showIBAN = this.customBehaviour() === 'IBAN' ? !this.showIBAN : false;
   }
 
   handleClear(): void {
@@ -302,7 +286,7 @@ export class CapInputComponent {
 
     this.handleInput('');
 
-    if (this.customBehaviour === 'password') {
+    if (this.customBehaviour() === 'password') {
       this.checkLength = false;
       this.checkOneCap = false;
       this.checkOneDigit = false;
@@ -311,7 +295,7 @@ export class CapInputComponent {
   }
 
   handleKeyUp(value: string): void {
-    if (this.customBehaviour === 'password') this.passwordValidation(value);
+    if (this.customBehaviour() === 'password') this.passwordValidation(value);
   }
 
   passwordValidation(value: string): void {

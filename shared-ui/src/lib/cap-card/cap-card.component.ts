@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Input,
   OnChanges,
   inject,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicCssService } from '../services/dynamic-css.service';
@@ -18,19 +18,13 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapCardComponent implements OnChanges {
-  @Input() title = '';
-
-  @Input() subtitle = '';
-
-  @Input() content = '';
-
-  @Input() type: 'primary' | 'secondary' = 'primary';
-
-  @Input() borderRadius = '20px';
-
-  @Input() customStyle = '';
-
-  @Input() mixin = 'TRANSPARENT_BACKGROUND';
+  readonly title = input('');
+  readonly subtitle = input('');
+  readonly content = input('');
+  readonly type = input<'primary' | 'secondary'>('primary');
+  readonly borderRadius = input('20px');
+  readonly customStyle = input('');
+  readonly mixin = input('TRANSPARENT_BACKGROUND');
 
   backgroundImage = '';
   cardClass = '';
@@ -47,21 +41,20 @@ export class CapCardComponent implements OnChanges {
   ngOnChanges(): void {
     const base = 'public/';
     this.backgroundImage =
-      this.type === 'secondary'
+      this.type() === 'secondary'
         ? `${base}fondoCapOpuesta.png`
         : `${base}fondoCap.png`;
 
     this.cardClass = this.dynamicCss.createDynamicClass(
       'cap-card-dynamic',
       `
-        border-radius: ${this.borderRadius};
-        box-shadow: ${this.type === 'secondary'
+        border-radius: ${this.borderRadius()};
+        box-shadow: ${this.type() === 'secondary'
           ? '0 10px 30px rgba(0,0,0,0.35)'
           : '0 6px 20px rgba(0,0,0,0.25)'};
-        ${this.customStyle || this.mixin};
+        ${this.customStyle() || this.mixin()};
       `,
       this.componentId
     );
   }
-
 }

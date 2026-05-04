@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 export type CapStatCardKind = 'neutral' | 'positive' | 'negative';
@@ -12,7 +12,7 @@ export type CapStatCardKind = 'neutral' | 'positive' | 'negative';
   styleUrl: './cap-stat-card.component.scss',
 })
 export class CapStatCardComponent {
-  @Input() label = '';
-  @Input() value = '';
-  @Input() kind: CapStatCardKind = 'neutral';
+  readonly label = input('');
+  readonly value = input('');
+  readonly kind = input<CapStatCardKind>('neutral');
 }

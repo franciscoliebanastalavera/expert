@@ -1,22 +1,22 @@
 <label
     class="cap-checkbox__label"
     [ngClass]="{
-        'cap-checkbox__disabled': disabled,
-        'cap-checkbox__label--left': labelPosition === 'left',
-        'cap-checkbox__label--right': labelPosition === 'right',
+        'cap-checkbox__disabled': disabled(),
+        'cap-checkbox__label--left': labelPosition() === 'left',
+        'cap-checkbox__label--right': labelPosition() === 'right',
     }"
 >
     <div>
-        @if (label || description) {
+        @if (label() || description()) {
           <span class="cap-checkbox__text-wrapper">
-              <span class="cap-checkbox__text">{{ label }}</span>
-              @if (description) {
-                <span class="cap-checkbox__description">{{ description }}</span>
+              <span class="cap-checkbox__text">{{ label() }}</span>
+              @if (description()) {
+                <span class="cap-checkbox__description">{{ description() }}</span>
               }
           </span>
         }
 
-        <input #input type="checkbox" class="cap-checkbox__input" [name]="name" [(ngModel)]="value" [checked]="checked" [disabled]="disabled" (change)="toggleCheckbox($event)" />
+        <input #input type="checkbox" class="cap-checkbox__input" [name]="name()" [(ngModel)]="value" [checked]="checked()" [disabled]="disabled()" (change)="toggleCheckbox($event)" />
 
         <span class="cap-checkbox__control"></span>
     </div>

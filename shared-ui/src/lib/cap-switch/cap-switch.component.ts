@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   forwardRef,
-  Input,
-  Output,
+  input,
+  model,
+  output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -25,17 +25,13 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class CapSwitchComponent {
-  @Input() checked = false;
+  readonly checked = model(false);
+  readonly label = input('');
+  readonly labelColor = input<'black' | 'white'>('black');
+  readonly labelWeight = input<'normal' | 'bold'>('normal');
+  readonly disabled = model(false);
 
-  @Input() label = '';
-
-  @Input() labelColor: 'black' | 'white' = 'black';
-
-  @Input() labelWeight: 'normal' | 'bold' = 'normal';
-
-  @Input() disabled = false;
-
-  @Output() switchChange = new EventEmitter<boolean>();
+  readonly switchChange = output<boolean>();
 
   controlId = `cap-switch-${Math.random().toString(36).substring(2)}`;
 
@@ -44,14 +40,14 @@ export class CapSwitchComponent {
   onTouch = (): void => {};
 
   handleChange(checked: boolean): void {
-    this.checked = checked;
+    this.checked.set(checked);
     this.onTouch();
-    this.onChange(this.checked);
+    this.onChange(this.checked());
     this.switchChange.emit(checked);
   }
 
   writeValue(value: boolean): void {
-    this.checked = value;
+    this.checked.set(value);
   }
 
   registerOnChange(fn: (_: boolean) => void): void {
@@ -63,6 +59,6 @@ export class CapSwitchComponent {
   }
 
   setDisabledState?(disabled: boolean): void {
-    this.disabled = disabled;
+    this.disabled.set(disabled);
   }
 }

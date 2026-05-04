@@ -2,38 +2,37 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
-  Input,
-  QueryList,
   TemplateRef,
+  contentChildren,
+  input,
 } from '@angular/core';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { CapCellTemplateDirective } from './cap-cell-template.directive';
 import { CapTableColumn } from './cap-table.types';
 
 @Component({
   selector: 'cap-table',
   standalone: true,
-  imports: [NgClass, NgFor, NgIf, NgTemplateOutlet],
+  imports: [NgClass, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cap-table.component.html',
   styleUrl: './cap-table.component.scss',
 })
 export class CapTableComponent<T extends object = object> implements AfterContentInit {
-  @Input() columns: readonly CapTableColumn[] = [];
-  @Input() data: readonly T[] = [];
-  @Input() trackByKey: keyof T | null = null;
+  readonly columns = input<readonly CapTableColumn[]>([]);
+  readonly data = input<readonly T[]>([]);
+  readonly trackByKey = input<keyof T | null>(null);
 
-  @ContentChildren(CapCellTemplateDirective) cellTemplates!: QueryList<CapCellTemplateDirective>;
+  readonly cellTemplates = contentChildren(CapCellTemplateDirective);
 
   private readonly templateMap = new Map<string, TemplateRef<unknown>>();
 
   ngAfterContentInit(): void {
     this.refreshTemplateMap();
-    this.cellTemplates.changes.subscribe(() => this.refreshTemplateMap());
   }
 
   templateFor(columnKey: string): TemplateRef<unknown> | null {
+    this.refreshTemplateMap();
     return this.templateMap.get(columnKey) ?? null;
   }
 
@@ -42,16 +41,17 @@ export class CapTableComponent<T extends object = object> implements AfterConten
   }
 
   trackByRow = (index: number, row: T): unknown => {
-    if (this.trackByKey === null) {
+    const key = this.trackByKey();
+    if (key === null) {
       return index;
     }
-    return row[this.trackByKey];
+    return row[key];
   };
 
   private refreshTemplateMap(): void {
     this.templateMap.clear();
-    this.cellTemplates.forEach((entry) =>
-      this.templateMap.set(entry.columnKey, entry.templateRef)
+    this.cellTemplates().forEach((entry) =>
+      this.templateMap.set(entry.columnKey(), entry.templateRef)
     );
   }
 }

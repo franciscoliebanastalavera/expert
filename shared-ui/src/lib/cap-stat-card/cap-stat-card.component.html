@@ -1,4 +1,4 @@
-<div class="cap-stat-card" [ngClass]="'cap-stat-card--' + kind">
-  <span class="cap-stat-card__label">{{ label }}</span>
-  <span class="cap-stat-card__value">{{ value }}</span>
+<div class="cap-stat-card" [ngClass]="'cap-stat-card--' + kind()">
+  <span class="cap-stat-card__label">{{ label() }}</span>
+  <span class="cap-stat-card__value">{{ value() }}</span>
 </div>

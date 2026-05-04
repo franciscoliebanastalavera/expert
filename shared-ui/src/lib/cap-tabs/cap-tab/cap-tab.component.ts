@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, input, model } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -18,9 +18,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class CapTabComponent {
-  @Input() label: string;
-
-  @Input() active = false;
-
-  @Input() disabled = false;
+  readonly label = input<string>('');
+  readonly active = model(false);
+  readonly disabled = input(false);
 }

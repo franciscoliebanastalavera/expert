@@ -1,28 +1,28 @@
 <button
-    [type]="type"
-    [disabled]="disabled"
-    [ngClass]="buttonClasses"
-    [class]="iconClass"
-    [style.width]="width"
-    [style.min-width]="minWidth"
-    [attr.aria-label]="ariaLabel || label"
-    [attr.aria-describedby]="ariaDescribedBy"
-    [attr.aria-pressed]="selected"
-    [attr.aria-busy]="loading"
-    [tabIndex]="tabIndex"
+    [type]="type()"
+    [disabled]="disabled()"
+    [ngClass]="buttonClasses()"
+    [class]="iconClass()"
+    [style.width]="width()"
+    [style.min-width]="minWidth()"
+    [attr.aria-label]="ariaLabel() || label()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-pressed]="selected()"
+    [attr.aria-busy]="loading()"
+    [tabIndex]="tabIndex()"
     (click)="handleButton()"
 >
-    @if (loading) {
+    @if (loading()) {
         <span class="cap-button__spinner" aria-hidden="true"></span>
-        @if (loadingText) {
-            <span class="cap-button__loading-text">{{ loadingText }}</span>
+        @if (loadingText()) {
+            <span class="cap-button__loading-text">{{ loadingText() }}</span>
         }
     } @else {
-        @if (showIcon) {
-            <img class="cap-button__icon" [src]="icon" alt="" />
+        @if (showIcon()) {
+            <img class="cap-button__icon" [src]="icon()" alt="" />
         }
-        @if (showLabel) {
-            <span [class]="'cap-button__label-' + textStyle">{{ label }}</span>
+        @if (showLabel()) {
+            <span [class]="'cap-button__label-' + textStyle()">{{ label() }}</span>
         }
     }
 </button>

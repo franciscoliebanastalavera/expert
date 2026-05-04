@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CapAlertKind } from './cap-alert.types';
 
@@ -11,6 +11,6 @@ import { CapAlertKind } from './cap-alert.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapAlertComponent {
-  @Input() kind: CapAlertKind = 'info';
-  @Input() message: string = '';
+  readonly kind = input<CapAlertKind>('info');
+  readonly message = input('');
 }

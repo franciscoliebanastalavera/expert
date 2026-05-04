@@ -93,7 +93,7 @@ describe('CapTooltipComponent', () => {
   });
 
   it('does not open the modal tooltip when enableTooltipModal is false', () => {
-    instance.enableTooltipModal = false;
+    fixture.componentRef.setInput('enableTooltipModal', false);
     instance.openModalTooltip(true);
     expect(instance.showModalTooltip).toBeFalse();
   });

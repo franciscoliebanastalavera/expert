@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CapButtonComponent } from '../cap-button/cap-button.component';
 
@@ -17,11 +11,11 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapInfoCardComponent {
-  @Input() title: string = '';
-  @Input() description: string = '';
-  @Input() ctaLabel: string = '';
+  readonly title = input('');
+  readonly description = input('');
+  readonly ctaLabel = input('');
 
-  @Output() ctaClick = new EventEmitter<void>();
+  readonly ctaClick = output<void>();
 
   handleCtaClick(): void {
     this.ctaClick.emit();

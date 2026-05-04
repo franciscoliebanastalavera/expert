@@ -80,36 +80,36 @@ describe('PaymentsComponent', () => {
       .map((d) => d.componentInstance as CapMetricCardComponent);
     const [volume, pending, avgTime] = cards;
 
-    expect(volume.iconName).toBe(ICON_METRIC_PAYMENTS);
-    expect(volume.value).toBe(KPI_VOLUME_VALUE);
-    expect(volume.variation).toBe(KPI_VOLUME_VARIATION);
-    expect(volume.title).toBe('Volumen Pagado');
+    expect(volume.iconName()).toBe(ICON_METRIC_PAYMENTS);
+    expect(volume.value()).toBe(KPI_VOLUME_VALUE);
+    expect(volume.variation()).toBe(KPI_VOLUME_VARIATION);
+    expect(volume.title()).toBe('Volumen Pagado');
 
-    expect(pending.iconName).toBe(ICON_METRIC_ALERT);
-    expect(pending.value).toBe(KPI_PENDING_VALUE);
-    expect(pending.variation).toBe(KPI_PENDING_VARIATION);
-    expect(pending.title).toBe('Pagos Pendientes');
+    expect(pending.iconName()).toBe(ICON_METRIC_ALERT);
+    expect(pending.value()).toBe(KPI_PENDING_VALUE);
+    expect(pending.variation()).toBe(KPI_PENDING_VARIATION);
+    expect(pending.title()).toBe('Pagos Pendientes');
 
-    expect(avgTime.iconName).toBe(ICON_METRIC_RECONCILIATION);
-    expect(avgTime.value).toBe(KPI_AVG_TIME_VALUE);
-    expect(avgTime.variation).toBe(KPI_AVG_TIME_VARIATION);
-    expect(avgTime.title).toBe('Tiempo Medio');
+    expect(avgTime.iconName()).toBe(ICON_METRIC_RECONCILIATION);
+    expect(avgTime.value()).toBe(KPI_AVG_TIME_VALUE);
+    expect(avgTime.variation()).toBe(KPI_AVG_TIME_VARIATION);
+    expect(avgTime.title()).toBe('Tiempo Medio');
   });
 
   it('marks every KPI as positive (mock screenshot, not real data)', () => {
     const cards = fixture.debugElement
       .queryAll(By.directive(CapMetricCardComponent))
       .map((d) => d.componentInstance as CapMetricCardComponent);
-    cards.forEach((card) => expect(card.positive).toBeTrue());
+    cards.forEach((card) => expect(card.positive()).toBeTrue());
   });
 
   it('renders a cap-table wired to the columns, mock payments and id-based trackBy', () => {
     const tableDebug = fixture.debugElement.query(By.directive(CapTableComponent));
     expect(tableDebug).not.toBeNull();
     const table = tableDebug.componentInstance as CapTableComponent;
-    expect(table.columns).toBe(PAYMENT_TABLE_COLUMNS);
-    expect(table.data).toBe(PAYMENTS_MOCK);
-    expect(table.trackByKey).toBe('id' as never);
+    expect(table.columns()).toBe(PAYMENT_TABLE_COLUMNS);
+    expect(table.data()).toBe(PAYMENTS_MOCK);
+    expect(table.trackByKey()).toBe('id' as never);
   });
 
   it('renders one table body row per mock payment (5 rows)', () => {
@@ -131,7 +131,7 @@ describe('PaymentsComponent', () => {
     expect(badges.length).toBe(PAYMENTS_MOCK.length);
     PAYMENTS_MOCK.forEach((payment, index) => {
       const badge = badges[index].componentInstance as CapStatusBadgeComponent;
-      expect(badge.kind).toBe(PAYMENT_STATUS_KIND[payment.status]);
+      expect(badge.kind()).toBe(PAYMENT_STATUS_KIND[payment.status]);
       const text = badges[index].nativeElement.textContent.trim();
       expect(text).toBe(PAYMENT_STATUS_LABEL[payment.status]);
     });

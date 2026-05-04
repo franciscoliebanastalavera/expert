@@ -57,16 +57,16 @@ describe('CapSwitchComponent', () => {
     const spy = spyOn(instance.switchChange, 'emit');
     instance.handleChange(true);
     expect(spy).toHaveBeenCalledWith(true);
-    expect(instance.checked).toBeTrue();
+    expect(instance.checked()).toBeTrue();
 
     instance.handleChange(false);
     expect(spy).toHaveBeenCalledWith(false);
-    expect(instance.checked).toBeFalse();
+    expect(instance.checked()).toBeFalse();
   });
 
   it('writeValue updates checked, registerOnChange wires the change handler', () => {
     instance.writeValue(true);
-    expect(instance.checked).toBeTrue();
+    expect(instance.checked()).toBeTrue();
 
     let received: boolean | undefined;
     instance.registerOnChange((value: boolean) => {

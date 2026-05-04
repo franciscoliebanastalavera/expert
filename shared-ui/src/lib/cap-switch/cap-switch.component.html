@@ -1,14 +1,14 @@
-@if (label) {
+@if (label()) {
   <label
     [for]="controlId"
     class="cap-switch__label"
-    [ngClass]="{ 'cap-switch__disabled': disabled }"
+    [ngClass]="{ 'cap-switch__disabled': disabled() }"
     [ngStyle]="{
-      color: labelColor === 'black' ? 'inherit' : 'white',
-      fontFamily: labelWeight === 'normal' ? 'inherit' : 'SenticoSansDT-Medium',
+      color: labelColor() === 'black' ? 'inherit' : 'white',
+      fontFamily: labelWeight() === 'normal' ? 'inherit' : 'SenticoSansDT-Medium',
     }"
   >
-    {{ label }}
+    {{ label() }}
   </label>
 }
 <input
@@ -16,8 +16,8 @@
   type="checkbox"
   [id]="controlId"
   class="cap-switch__input"
-  [checked]="checked"
-  [disabled]="disabled"
+  [checked]="checked()"
+  [disabled]="disabled()"
   (change)="handleChange(switch.checked)"
 />
 <label [for]="controlId" class="cap-switch__control"></label>

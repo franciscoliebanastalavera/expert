@@ -46,8 +46,8 @@ describe('CapTabComponent', () => {
     fixture.componentRef.setInput('disabled', true);
     fixture.componentRef.setInput('label', 'My Tab');
     fixture.detectChanges();
-    expect(instance.disabled).toBeTrue();
-    expect(instance.label).toBe('My Tab');
+    expect(instance.disabled()).toBeTrue();
+    expect(instance.label()).toBe('My Tab');
   });
 
   it('projects content via ng-content when wrapped by a host', () => {

@@ -125,10 +125,12 @@ describe('CapDatepickerComponent', () => {
   });
 
   it('uses different heights for small and standard sizes', () => {
-    host.child.size = 'small';
+    host.size = 'small';
+    fixture.detectChanges();
     host.child.setHeight();
     expect(host.child.height).toBe('36px');
-    host.child.size = 'standard';
+    host.size = 'standard';
+    fixture.detectChanges();
     host.child.setHeight();
     expect(host.child.height).toBe('48px');
   });

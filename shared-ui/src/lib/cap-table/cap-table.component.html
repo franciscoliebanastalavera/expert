@@ -2,7 +2,7 @@
   <table class="cap-table">
     <thead class="cap-table__head">
       <tr>
-        @for (col of columns; track col.key) {
+        @for (col of columns(); track col.key) {
           <th
             class="cap-table__th"
             [ngClass]="col.cssClass || null"
@@ -13,9 +13,9 @@
       </tr>
     </thead>
     <tbody class="cap-table__body">
-      @for (row of data; track trackByRow($index, row)) {
+      @for (row of data(); track trackByRow($index, row)) {
         <tr class="cap-table__row">
-          @for (col of columns; track col.key) {
+          @for (col of columns(); track col.key) {
             <td
               class="cap-table__td"
               [ngClass]="col.cssClass || null"

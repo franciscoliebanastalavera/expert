@@ -29,7 +29,7 @@ describe('CapCheckboxComponent', () => {
   });
 
   it('renders the label when label input is set', () => {
-    instance.label = 'Accept terms';
+    fixture.componentRef.setInput('label', 'Accept terms');
     fixture.detectChanges();
     const text = fixture.debugElement.query(By.css('.cap-checkbox__text'));
     expect(text).not.toBeNull();
@@ -37,8 +37,8 @@ describe('CapCheckboxComponent', () => {
   });
 
   it('renders description when set', () => {
-    instance.label = 'Accept';
-    instance.description = 'Read the terms first';
+    fixture.componentRef.setInput('label', 'Accept');
+    fixture.componentRef.setInput('description', 'Read the terms first');
     fixture.detectChanges();
     const description = fixture.debugElement.query(By.css('.cap-checkbox__description'));
     expect(description).not.toBeNull();
@@ -65,11 +65,12 @@ describe('CapCheckboxComponent', () => {
   });
 
   it('emits checkboxChange when the input toggles via the change handler', () => {
-    const spy = spyOn(instance.checkboxChange, 'emit');
+    let received: boolean | undefined;
+    instance.checkboxChange.subscribe((value) => (received = value));
     const input = fixture.debugElement.query(By.css('input.cap-checkbox__input')).nativeElement as HTMLInputElement;
     input.checked = true;
     instance.toggleCheckbox({ target: input } as unknown as Event);
-    expect(spy).toHaveBeenCalledWith(true);
+    expect(received).toBeTrue();
     expect(instance.value).toBeTrue();
   });
 
@@ -89,8 +90,8 @@ describe('CapCheckboxComponent', () => {
 
   it('setDisabledState updates the disabled property', () => {
     instance.setDisabledState(true);
-    expect(instance.disabled).toBeTrue();
+    expect(instance.disabled()).toBeTrue();
     instance.setDisabledState(false);
-    expect(instance.disabled).toBeFalse();
+    expect(instance.disabled()).toBeFalse();
   });
 });

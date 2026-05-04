@@ -3,12 +3,10 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
-  EventEmitter,
+  contentChildren,
   forwardRef,
-  Input,
-  Output,
-  QueryList,
+  input,
+  output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AlignVariant } from '../core/types/components.types';
@@ -30,35 +28,35 @@ import { CapTabComponent } from './cap-tab/cap-tab.component';
   ],
 })
 export class CapTabsComponent implements AfterContentInit {
-  @Input() tabAlignment: AlignVariant = 'left';
+  readonly tabAlignment = input<AlignVariant>('left');
+  readonly tabMobile = input(false);
+  readonly tabsChange = output<string>();
 
-  @Input() tabMobile = false;
-
-  @Output() tabsChange = new EventEmitter<string>();
-
-  @ContentChildren(CapTabComponent) tabs: QueryList<CapTabComponent>;
+  readonly tabs = contentChildren(CapTabComponent);
 
   ngAfterContentInit() {
-    const activeTabs = this.tabs.filter((tab) => tab.active);
+    const tabs = this.tabs();
+    const activeTabs = tabs.filter((tab) => tab.active());
     if (activeTabs.length === 0) {
-      this.selectTab(this.tabs.first);
+      this.selectTab(tabs[0]);
     } else {
       this.getActiveTab();
     }
   }
 
   selectTab(tab: CapTabComponent) {
-    if (tab.disabled === true) {
+    if (tab.disabled() === true) {
       return;
     }
-    this.tabs.toArray().forEach((tab) => (tab.active = false));
-    tab.active = true;
+    this.tabs().forEach((tab) => tab.active.set(false));
+    tab.active.set(true);
     this.getActiveTab();
   }
 
   getActiveTab(): void {
-    const even = (element) => element.active === true;
-    const activeTab = this.tabs.toArray().find(even).label;
-    this.tabsChange.emit(activeTab);
+    const activeTab = this.tabs().find((tab) => tab.active() === true)?.label();
+    if (activeTab !== undefined) {
+      this.tabsChange.emit(activeTab);
+    }
   }
 }

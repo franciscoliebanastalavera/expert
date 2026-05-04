@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    EventEmitter,
     forwardRef,
-    Input,
-    Output,
+    input,
+    model,
+    output,
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -25,27 +25,21 @@ import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/fo
     ],
 })
 export class CapCheckboxComponent {
-    @Input() name: string;
+    readonly name = input<string>('');
+    readonly label = input<string>('');
+    readonly checked = input<boolean>(false);
+    readonly disabled = model(false);
+    readonly labelPosition = input<'left' | 'right'>('right');
+    readonly description = input('');
+    readonly descriptionPosition = input<'bottom' | 'right'>('bottom');
 
-    @Input() label: string;
-
-    @Input() checked: boolean;
-
-    @Input() disabled = false;
-
-    @Input() labelPosition: 'left' | 'right' = 'right';
-
-    @Input() description: string = '';
-
-    @Input() descriptionPosition: 'bottom' | 'right' = 'bottom';
-
-    @Output() checkboxChange = new EventEmitter<boolean>();
+    readonly checkboxChange = output<boolean>();
 
     private innerValue = false;
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.checked === true) {
+            if (this.checked() === true) {
                 this.writeValue(true);
                 this.onChange(true);
             }
@@ -89,6 +83,6 @@ export class CapCheckboxComponent {
     }
 
     setDisabledState(disabled: boolean): void {
-        this.disabled = disabled;
+        this.disabled.set(disabled);
     }
 }

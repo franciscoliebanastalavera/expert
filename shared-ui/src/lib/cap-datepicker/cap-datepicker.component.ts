@@ -4,14 +4,13 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   forwardRef,
   HostListener,
   Inject,
   inject,
   Injector,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -44,12 +43,14 @@ import { tap } from 'rxjs/operators';
   ],
 })
 export class CapDatepickerComponent {
-  @Input() size: 'small' | 'standard' = 'small';
-  @Input() label: string;
-  @Input() helper: string;
-  @Input() errorMessages: { [key: string]: string };
-  @Input() today = false;
-  @Output() date: EventEmitter<Date> = new EventEmitter();
+  readonly size = input<'small' | 'standard'>('small');
+  readonly label = input<string>('');
+  readonly helper = input<string>('');
+  readonly errorMessages = input<{ [key: string]: string }>({});
+  readonly today = input(false);
+  readonly invertHorizontal = input(false);
+
+  readonly date = output<Date | null>();
   isDatePickerActive = false;
   isDayActive = false;
   isYearsActive = false;
@@ -96,7 +97,6 @@ export class CapDatepickerComponent {
   isInputHovered = false;
   height = '36px';
   disabled = false;
-  @Input() invertHorizontal = false;
 
   private readonly destroyRef = inject(DestroyRef);
   control: FormControl;
@@ -162,15 +162,15 @@ export class CapDatepickerComponent {
   }
 
   setHeight(): void {
-    if (this.size === 'small') {
+    if (this.size() === 'small') {
       this.height = '36px';
-    } else if (this.size === 'standard') {
+    } else if (this.size() === 'standard') {
       this.height = '48px';
     }
   }
 
   setToday() {
-    if (this.today) {
+    if (this.today()) {
       this.selectedDateFormated = this._datePipeService.transform(
         this.selectedDate,
         'dd/MM/yyyy'

@@ -1,11 +1,11 @@
 <div
   [ngClass]="{
-    'modal-close': !showModal,
-    'modal-open': showModal,
+    'modal-close': !showModal(),
+    'modal-open': showModal(),
     'modal-transition': true,
   }"
 >
-  @if (showModal) {
+  @if (showModal()) {
     <div
       id="modal-back"
       class="modal-back"
@@ -13,56 +13,56 @@
       (click)="onExit($event)"
     >
       <div
-        [class]="'box-modal-' + size"
+        [class]="'box-modal-' + size()"
         class="box-modal"
         [ngClass]="{
-          'box-modal-responsive': !tooltipModal,
+          'box-modal-responsive': !tooltipModal(),
         }"
       >
-        @if (!bgBlocked) {
+        @if (!bgBlocked()) {
           <div class="modal-icon-close" (click)="close()">
             <img src="images/icon-close-reb.svg" alt="cerrar" />
           </div>
         }
-        @if (!isActiveNgContent) {
+        @if (!isActiveNgContent()) {
           <div>
-            <p class="modal-title">{{ title }}</p>
-            @if (image) {
+            <p class="modal-title">{{ title() }}</p>
+            @if (image()) {
               <div class="modal-img-content">
                 <div class="modal-img-content-box">
-                  <img [src]="imageUrl" alt="image" />
+                  <img [src]="imageUrl()" alt="image" />
                 </div>
               </div>
             }
-            <p class="modal-text">{{ text }}</p>
-            @if (showPrimaryButton || showSecondaryButton) {
+            <p class="modal-text">{{ text() }}</p>
+            @if (showPrimaryButton() || showSecondaryButton()) {
               <div
                 [ngClass]="{
                   'modal-buttons-content-one-button':
-                    (showPrimaryButton && !showSecondaryButton) ||
-                    (!showPrimaryButton && showSecondaryButton),
-                  'modal-buttons-content-two-buttons': showPrimaryButton && showSecondaryButton,
+                    (showPrimaryButton() && !showSecondaryButton()) ||
+                    (!showPrimaryButton() && showSecondaryButton()),
+                  'modal-buttons-content-two-buttons': showPrimaryButton() && showSecondaryButton(),
                 }"
               >
-                @if (showSecondaryButton) {
+                @if (showSecondaryButton()) {
                   <div class="modal-buttons-content-box-primary">
                     <cap-button
                       variant="tertiary"
                       size="small"
-                      [width]="size === 'small' ? '100%' : 'auto'"
-                      [label]="labelSecondaryButton"
+                      [width]="size() === 'small' ? '100%' : 'auto'"
+                      [label]="labelSecondaryButton()"
                       textStyle="none"
                       (nterClick)="close()"
                     ></cap-button>
                   </div>
                 }
-                @if (showPrimaryButton) {
+                @if (showPrimaryButton()) {
                   <div class="modal-buttons-content-box-secondary">
                     <cap-button
                       variant="primary"
                       size="small"
-                      [width]="size === 'small' ? '100%' : 'auto'"
-                      [label]="labelPrimaryButton"
+                      [width]="size() === 'small' ? '100%' : 'auto'"
+                      [label]="labelPrimaryButton()"
                       textStyle="none"
                       (nterClick)="handlePrimaryButtonClick()"
                     ></cap-button>

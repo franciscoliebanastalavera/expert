@@ -1,9 +1,8 @@
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
 } from '@angular/core';
 
 @Component({
@@ -14,11 +13,10 @@ import {
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
-  @Input() isOpen: boolean = false;
+  readonly isOpen = input(false);
+  readonly title = input('');
 
-  @Input() title: string = '';
-
-  @Output() closed = new EventEmitter<void>();
+  readonly closed = output<void>();
 
   readonly titleId = 'cf-modal-title-' + Math.random().toString(36).substring(2, 9);
 

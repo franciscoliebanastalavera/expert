@@ -4,12 +4,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
   inject,
+  input,
+  output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -43,10 +42,10 @@ function sanitizeHtml(source: string): string {
   styleUrls: ['./wysiwyg-editor.component.scss'],
 })
 export class WysiwygEditorComponent implements AfterViewInit {
-  @Input() initialContent: string = WYSIWYG_SAMPLE_TEMPLATE;
-  @Output() contentChange = new EventEmitter<string>();
+  readonly initialContent = input(WYSIWYG_SAMPLE_TEMPLATE);
+  readonly contentChange = output<string>();
 
-  @ViewChild('editorHost', { static: true }) editorHost!: ElementRef<HTMLDivElement>;
+  readonly editorHost = viewChild.required<ElementRef<HTMLDivElement>>('editorHost');
 
   private readonly sanitizer = inject(DomSanitizer);
   private readonly router = inject(Router);
@@ -67,11 +66,11 @@ export class WysiwygEditorComponent implements AfterViewInit {
   readonly hasInjectionAttempt = signal<boolean>(false);
 
   ngAfterViewInit(): void {
-    this.quill = new Quill(this.editorHost.nativeElement, {
+    this.quill = new Quill(this.editorHost().nativeElement, {
       theme: 'snow',
       modules: { toolbar: WYSIWYG_TOOLBAR },
     });
-    this.quill.clipboard.dangerouslyPasteHTML(this.initialContent);
+    this.quill.clipboard.dangerouslyPasteHTML(this.initialContent());
   }
 
   save(): void {

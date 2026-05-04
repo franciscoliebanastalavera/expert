@@ -1,20 +1,20 @@
 <div class="cap-tooltip">
-  @if (!showTablet || !enableTooltipModal) {
+  @if (!showTablet || !enableTooltipModal()) {
     <div
       class="cap-tooltip__desktop"
-      [ngClass]="{ 'cap-tooltip__desktop__vertical-invert': invertVertical }"
+      [ngClass]="{ 'cap-tooltip__desktop__vertical-invert': invertVertical() }"
     >
       <div
         class="cap-tooltip__desktop__box"
-        [class]="'cap-tooltip__desktop__box-' + tooltipAlign"
+        [class]="'cap-tooltip__desktop__box-' + tooltipAlign()"
         [ngStyle]="{
           visibility: showTooltip ? 'visible' : 'hidden',
         }"
       >
-        @if (titleTooltip) {
-          <p class="title" [innerHTML]="titleTooltip"></p>
+        @if (titleTooltip()) {
+          <p class="title" [innerHTML]="titleTooltip()"></p>
         }
-        <p [innerHTML]="textTooltip"></p>
+        <p [innerHTML]="textTooltip()"></p>
       </div>
       <div
         class="cap-tooltip__desktop__triangle"
@@ -25,7 +25,7 @@
       </div>
     </div>
   }
-  @if (showTablet && enableTooltipModal) {
+  @if (showTablet && enableTooltipModal()) {
     <div>
       <div class="icon" (click)="openModalTooltip(true)">
         <img src="images/info-reb.svg" alt="" />
@@ -38,10 +38,10 @@
         (closeModal)="openModalTooltip(false)"
       >
         <div class="container__modal">
-          @if (titleTooltip) {
-            <p class="title__modal" [innerHTML]="titleTooltip"></p>
+          @if (titleTooltip()) {
+            <p class="title__modal" [innerHTML]="titleTooltip()"></p>
           }
-          <p class="text" [innerHTML]="textTooltip"></p>
+          <p class="text" [innerHTML]="textTooltip()"></p>
         </div>
       </cap-modal>
     </div>

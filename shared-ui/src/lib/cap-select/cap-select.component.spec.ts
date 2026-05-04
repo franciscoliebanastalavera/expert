@@ -88,7 +88,7 @@ describe('CapSelectComponent', () => {
   it('emits selectChange and updates the value when selectOption is called', () => {
     host.child.handleUnfold();
     fixture.detectChanges();
-    const option = host.child.options[0];
+    const option = host.child.options()[0];
     host.child.selectOption(new Event('change'), option);
     fixture.detectChanges();
     expect(host.emitted[host.emitted.length - 1]).toBe(option);
@@ -99,7 +99,7 @@ describe('CapSelectComponent', () => {
   it('handleClear empties the value and emits null', () => {
     host.child.handleUnfold();
     fixture.detectChanges();
-    const option = host.child.options[0];
+    const option = host.child.options()[0];
     host.child.selectOption(new Event('change'), option);
     fixture.detectChanges();
     host.child.handleClear();
@@ -115,7 +115,7 @@ describe('CapSelectComponent', () => {
   });
 
   it('writeValue updates the inner value and registerOnChange wires the change handler', () => {
-    const newOption: SelectOption = host.child.options[1];
+    const newOption: SelectOption = host.child.options()[1];
     host.child.writeValue(newOption);
     expect(host.child.value).toBe(newOption);
     expect(newOption.checked).toBeTrue();
@@ -134,7 +134,7 @@ describe('CapSelectComponent', () => {
     host = fixture.componentInstance;
     host.allOption = true;
     fixture.detectChanges();
-    expect(host.child.options[0].label).toBe('Todos');
+    expect(host.child.options()[0].label).toBe('Todos');
   });
 
   it('clickOutside collapses the dropdown when there is no checked option', () => {

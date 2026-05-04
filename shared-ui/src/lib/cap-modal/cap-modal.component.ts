@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostListener,
-  Input,
-  Output,
+  input,
+  model,
+  output,
 } from '@angular/core';
 import { CapButtonComponent } from '../cap-button/cap-button.component';
 
@@ -18,37 +18,23 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapModalComponent {
-  @Input() showModal: boolean;
+  readonly showModal = model<boolean>(false);
+  readonly size = input<'small' | 'large' | 'extra-large' | 'standard'>('standard');
+  readonly timeModalOpen = input<number | undefined>(undefined);
+  readonly bgBlocked = input(false);
+  readonly title = input<string>('');
+  readonly image = input(false);
+  readonly imageUrl = input('');
+  readonly text = input<string>('');
+  readonly showPrimaryButton = input(false);
+  readonly showSecondaryButton = input(false);
+  readonly labelPrimaryButton = input('Aceptar');
+  readonly labelSecondaryButton = input('Cancelar');
+  readonly isActiveNgContent = input(false);
+  readonly tooltipModal = input(false);
 
-  @Input() size: 'small' | 'large' | 'extra-large' | 'standard' = 'standard';
-
-  @Input() timeModalOpen: number;
-
-  @Input() bgBlocked = false;
-
-  @Input() title: string;
-
-  @Input() image = false;
-
-  @Input() imageUrl = '';
-
-  @Input() text: string;
-
-  @Input() showPrimaryButton = false;
-
-  @Input() showSecondaryButton = false;
-
-  @Input() labelPrimaryButton = 'Aceptar';
-
-  @Input() labelSecondaryButton = 'Cancelar';
-
-  @Input() isActiveNgContent = false;
-
-  @Input() tooltipModal = false;
-
-  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
-  @Output() confirm: EventEmitter<boolean> = new EventEmitter();
+  readonly closeModal = output<boolean>();
+  readonly confirm = output<boolean>();
 
   ngOnChanges(): void {
     this.setTimeModalOpen();
@@ -57,7 +43,7 @@ export class CapModalComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeyDown($event: KeyboardEvent): void {
-    if (!this.bgBlocked && this.showModal) {
+    if (!this.bgBlocked() && this.showModal()) {
       if ($event.key === 'Escape') {
         this.close();
       }
@@ -65,7 +51,7 @@ export class CapModalComponent {
   }
 
   onExit($event: MouseEvent): void {
-    if (!this.bgBlocked) {
+    if (!this.bgBlocked()) {
       const targetElement = $event.target as HTMLElement;
       if (targetElement.id === 'modal-back') {
         this.close();
@@ -80,19 +66,19 @@ export class CapModalComponent {
 
   handlePrimaryButtonClick(): void {
     this.confirm.emit(true);
-    this.showModal = false;
+    this.showModal.set(false);
   }
 
   setTimeModalOpen(): void {
-    if (this.showModal && this.timeModalOpen) {
+    if (this.showModal() && this.timeModalOpen()) {
       setTimeout(() => {
         this.close();
-      }, this.timeModalOpen);
+      }, this.timeModalOpen());
     }
   }
 
   blockBodyScroll(): void {
-    this.showModal
+    this.showModal()
       ? (document.body.style.overflow = 'hidden')
       : (document.body.style.overflow = 'auto');
   }

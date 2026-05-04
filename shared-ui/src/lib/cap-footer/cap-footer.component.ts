@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapFooterComponent {
-  @Input() copyrightText = '© 2026 CapitalFlow by Nter.';
+  readonly copyrightText = input('© 2026 CapitalFlow by Nter.');
 }

@@ -17,8 +17,8 @@ describe('CapInfoCardComponent', () => {
   });
 
   it('renders the title and description via interpolation (escaping HTML)', () => {
-    component.title = '<script>alert(1)</script>';
-    component.description = 'safe text';
+    fixture.componentRef.setInput('title', '<script>alert(1)</script>');
+    fixture.componentRef.setInput('description', 'safe text');
     fixture.detectChanges();
 
     const titleEl = fixture.debugElement.query(By.css('.cap-info-card__title'));
@@ -30,12 +30,12 @@ describe('CapInfoCardComponent', () => {
   });
 
   it('embeds a cap-button with the configured ctaLabel', () => {
-    component.ctaLabel = 'Open demo';
+    fixture.componentRef.setInput('ctaLabel', 'Open demo');
     fixture.detectChanges();
     const btnDe = fixture.debugElement.query(By.directive(CapButtonComponent));
     expect(btnDe).not.toBeNull();
     const btnInstance = btnDe.componentInstance as CapButtonComponent;
-    expect(btnInstance.label).toBe('Open demo');
+    expect(btnInstance.label()).toBe('Open demo');
   });
 
   it('emits ctaClick when handleCtaClick runs', () => {

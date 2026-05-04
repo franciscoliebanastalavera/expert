@@ -2,12 +2,11 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
-  Input,
-  QueryList,
   TemplateRef,
+  contentChildren,
+  input,
 } from '@angular/core';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CapCellTemplateDirective } from '../cap-table/cap-cell-template.directive';
 import { CapTableColumn } from '../cap-table/cap-table.types';
@@ -18,28 +17,28 @@ const DEFAULT_VIEWPORT_HEIGHT = '37.5rem';
 @Component({
   selector: 'cap-data-grid',
   standalone: true,
-  imports: [NgClass, NgFor, NgIf, NgTemplateOutlet, ScrollingModule],
+  imports: [NgClass, NgTemplateOutlet, ScrollingModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cap-data-grid.component.html',
   styleUrl: './cap-data-grid.component.scss',
 })
 export class CapDataGridComponent<T extends object = object> implements AfterContentInit {
-  @Input() columns: readonly CapTableColumn[] = [];
-  @Input() data: readonly T[] = [];
-  @Input() trackByKey: keyof T | null = null;
-  @Input() itemSize: number = DEFAULT_ITEM_SIZE_PX;
-  @Input() viewportHeight: string = DEFAULT_VIEWPORT_HEIGHT;
+  readonly columns = input<readonly CapTableColumn[]>([]);
+  readonly data = input<readonly T[]>([]);
+  readonly trackByKey = input<keyof T | null>(null);
+  readonly itemSize = input(DEFAULT_ITEM_SIZE_PX);
+  readonly viewportHeight = input(DEFAULT_VIEWPORT_HEIGHT);
 
-  @ContentChildren(CapCellTemplateDirective) cellTemplates!: QueryList<CapCellTemplateDirective>;
+  readonly cellTemplates = contentChildren(CapCellTemplateDirective);
 
   private readonly templateMap = new Map<string, TemplateRef<unknown>>();
 
   ngAfterContentInit(): void {
     this.refreshTemplateMap();
-    this.cellTemplates.changes.subscribe(() => this.refreshTemplateMap());
   }
 
   templateFor(columnKey: string): TemplateRef<unknown> | null {
+    this.refreshTemplateMap();
     return this.templateMap.get(columnKey) ?? null;
   }
 
@@ -48,16 +47,17 @@ export class CapDataGridComponent<T extends object = object> implements AfterCon
   }
 
   trackByRow = (index: number, row: T): unknown => {
-    if (this.trackByKey === null) {
+    const key = this.trackByKey();
+    if (key === null) {
       return index;
     }
-    return row[this.trackByKey];
+    return row[key];
   };
 
   private refreshTemplateMap(): void {
     this.templateMap.clear();
-    this.cellTemplates.forEach((entry) =>
-      this.templateMap.set(entry.columnKey, entry.templateRef)
+    this.cellTemplates().forEach((entry) =>
+      this.templateMap.set(entry.columnKey(), entry.templateRef)
     );
   }
 }

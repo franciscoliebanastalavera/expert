@@ -2,28 +2,28 @@
   appClickOutside
   (clickedOutside)="clickOutside()"
   #fieldContainer
-  [class]="'cap-input__field cap-input__field-' + size"
+  [class]="'cap-input__field cap-input__field-' + size()"
   [ngClass]="{
-    'cap-input__field-disabled': disabled,
-    'cap-input__field-clear': variant === 'clear',
+    'cap-input__field-disabled': disabled(),
+    'cap-input__field-clear': variant() === 'clear',
     'cap-input__field-invalid': control.valid === false && control.touched,
   }"
 >
-  @if (prefix && (!!value || fieldOnFocus)) {
+  @if (prefix() && (!!value || fieldOnFocus)) {
     <span class="cap-input__prefix">
-      {{ prefix }}
+      {{ prefix() }}
     </span>
   }
-  @if (!multiline) {
+  @if (!multiline()) {
     <input
       #input
-      [id]="name"
-      [name]="name"
-      [ngModel]="value | iban: control : !showIBAN && customBehaviour === 'IBAN'"
-      [type]="showPassword ? 'text' : type"
-      [placeholder]="placeholder"
-      [disabled]="disabled"
-      [attr.maxlength]="maxLength"
+      [id]="name()"
+      [name]="name()"
+      [ngModel]="value | iban: control : !showIBAN && customBehaviour() === 'IBAN'"
+      [type]="showPassword ? 'text' : type()"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      [attr.maxlength]="maxLength()"
       [class]="'cap-input__field-custom-' + componentId"
       spellcheck="false"
       (input)="handleInput(input.value)"
@@ -35,45 +35,45 @@
     <textarea
       #textarea
       class="cap-input__field-multiline"
-      [placeholder]="placeholder"
-      [id]="name"
-      [name]="name"
+      [placeholder]="placeholder()"
+      [id]="name()"
+      [name]="name()"
       [ngModel]="value"
-      [disabled]="disabled"
-      [attr.maxlength]="maxLength"
+      [disabled]="disabled()"
+      [attr.maxlength]="maxLength()"
       spellcheck="false"
       (input)="handleInput(textarea.value)"
       (focus)="handleFocus()"
       (blur)="handleBlur($event)"
     ></textarea>
   }
-  @if (label) {
+  @if (label()) {
     <label
-      [for]="name"
+      [for]="name()"
       [class]="
         'cap-input__label-custom-' +
         componentId +
         ' cap-input__label cap-input__label-' +
-        size
+        size()
       "
       [ngClass]="{
-        'cap-input__label-floating': fieldOnFocus || !!value || variant === 'clear',
-        'cap-input__label-clear': variant === 'clear',
+        'cap-input__label-floating': fieldOnFocus || !!value || variant() === 'clear',
+        'cap-input__label-clear': variant() === 'clear',
         'cap-input__label-invalid': control.valid === false && control.touched,
       }"
     >
-      {{ label }}
+      {{ label() }}
     </label>
   }
-  @if (suffix && (!!value || fieldOnFocus)) {
+  @if (suffix() && (!!value || fieldOnFocus)) {
     <span class="cap-input__suffix">
-      {{ suffix }}
+      {{ suffix() }}
     </span>
   }
   <div
     class="cap-input__buttons"
     [ngClass]="{
-      'clear-buttons': variant === 'clear',
+      'clear-buttons': variant() === 'clear',
     }"
   >
     @if (fieldOnFocus && !!value) {
@@ -87,8 +87,8 @@
       ></cap-button>
     }
     @if (
-      ((showPassword && type === 'password') ||
-        (showIBAN && customBehaviour === 'IBAN')) &&
+      ((showPassword && type() === 'password') ||
+        (showIBAN && customBehaviour() === 'IBAN')) &&
       !!value
     ) {
       <cap-button
@@ -101,8 +101,8 @@
       ></cap-button>
     }
     @if (
-      ((!showPassword && type === 'password') ||
-        (!showIBAN && customBehaviour === 'IBAN')) &&
+      ((!showPassword && type() === 'password') ||
+        (!showIBAN && customBehaviour() === 'IBAN')) &&
       !!value
     ) {
       <cap-button
@@ -114,13 +114,13 @@
         (click)="handleShow()"
       ></cap-button>
     }
-    @if ((tooltipText && value === '') || (tooltipText && tooltipPermanent)) {
+    @if ((tooltipText() && value === '') || (tooltipText() && tooltipPermanent())) {
       <cap-tooltip
-        [titleTooltip]="tooltipTitle"
-        [textTooltip]="tooltipText"
-        [tooltipAlign]="tooltipAlign"
-        [invertVertical]="tooltipVertical"
-        [enableTooltipModal]="tooltipModal"
+        [titleTooltip]="tooltipTitle()"
+        [textTooltip]="tooltipText()"
+        [tooltipAlign]="tooltipAlign()"
+        [invertVertical]="tooltipVertical()"
+        [enableTooltipModal]="tooltipModal()"
       >
       </cap-tooltip>
     }
@@ -129,12 +129,12 @@
 <div
   class="cap-input__helpers"
   [ngClass]="{
-    'cap-input__helpers-clear': variant === 'clear',
+    'cap-input__helpers-clear': variant() === 'clear',
   }"
 >
   @if (
-    type === 'password' &&
-    customBehaviour === 'password' &&
+    type() === 'password' &&
+    customBehaviour() === 'password' &&
     (!(control.errors?.required && control.valid === false) || !control.touched)
   ) {
     <span
@@ -149,31 +149,31 @@
       <span [ngClass]="{ 'cap-input__helpers-match': checkOneDigit }">, y número.</span>
     </span>
   }
-  @if (helper && (control.valid !== false || !control.touched)) {
+  @if (helper() && (control.valid !== false || !control.touched)) {
     <span class="helper-text">
-      {{ helper }}
+      {{ helper() }}
     </span>
   }
   <br />
   @for (error of control.errors | keyvalue; track error.key) {
     <span style="color: #f93b0b; font-style: italics">
-      {{ errorMessages[error.key] }}
+      {{ errorMessages()[error.key] }}
     </span>
   }
   @if (control.valid === false && control.touched) {
     <span class="helper-text cap-input__helpers-error">
-      @if (!!errorMessages) {
+      @if (errorMessages() && (errorMessages() | keyvalue).length) {
         @for (error of control.errors | keyvalue; track error.key) {
           <span>
-            {{ errorMessages[error.key] }}
+            {{ errorMessages()[error.key] }}
           </span>
         }
       } @else {
-        <span>{{ helper }}</span>
+        <span>{{ helper() }}</span>
       }
     </span>
   }
-  @if (maxLength !== 65) {
-    <span> {{ value.length || 0 }}/{{ maxLength }} </span>
+  @if (maxLength() !== 65) {
+    <span> {{ value.length || 0 }}/{{ maxLength() }} </span>
   }
 </div>

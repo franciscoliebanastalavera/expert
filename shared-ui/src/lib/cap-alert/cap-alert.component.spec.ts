@@ -19,7 +19,7 @@ describe('CapAlertComponent', () => {
   it('defaults to kind="info" when no kind is provided', () => {
     fixture.detectChanges();
     const root = fixture.debugElement.query(By.css('.cap-alert'));
-    expect(component.kind).toBe('info');
+    expect(component.kind()).toBe('info');
     expect(root.nativeElement.classList.contains('cap-alert--info')).toBeTrue();
   });
 

@@ -3,14 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
   forwardRef,
-  HostBinding,
   Inject,
   inject,
   Injector,
-  Input,
-  Output,
+  input,
+  model,
+  output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -42,6 +41,9 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   templateUrl: './cap-select.component.html',
   styleUrl: './cap-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.width]': 'width()',
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -51,49 +53,29 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   ],
 })
 export class CapSelectComponent {
-  @Input() options: SelectOption[];
+  readonly options = model<SelectOption[]>([]);
+  readonly name = input<string>('');
+  readonly label = input<string>('');
+  readonly disabled = model(false);
+  readonly type = input<'text' | 'number'>('text');
+  readonly placeholder = input('');
+  readonly helper = input<string>('');
+  readonly defaultValue = input<string>('');
+  readonly errorMessages = input<{ [key: string]: string }>({});
+  readonly width = input('300px');
+  readonly size = input<'standard' | 'small'>('standard');
+  readonly sizeAutoscroll = input<number | undefined>(undefined);
+  readonly allOption = input(false);
+  readonly everAllOption = input(false);
+  readonly shortDropdown = input(false);
+  readonly gender = input<'f' | 'm'>('m');
+  readonly alphabetical = input(true);
+  readonly description = input(false);
+  readonly descriptionFilter = input(false);
+  readonly predictiveType = input<'contains' | 'start' | 'none'>('none');
+  readonly story = input(false);
 
-  @Input() name: string;
-
-  @Input() label: string;
-
-  @Input() disabled = false;
-
-  @Input() type: 'text' | 'number' = 'text';
-
-  @Input() placeholder = '';
-
-  @Input() helper: string;
-
-  @Input() defaultValue: string;
-
-  @Input() errorMessages: { [key: string]: string };
-
-  @Input() @HostBinding('style.width') width = '300px';
-
-  @Input() size: 'standard' | 'small' = 'standard';
-
-  @Input() sizeAutoscroll: number;
-
-  @Input() allOption = false;
-
-  @Input() everAllOption = false;
-
-  @Input() shortDropdown = false;
-
-  @Input() gender: 'f' | 'm' = 'm';
-
-  @Input() alphabetical = true;
-
-  @Input() description = false;
-
-  @Input() descriptionFilter = false;
-
-  @Input() predictiveType: 'contains' | 'start' | 'none' = 'none';
-
-  @Output() selectChange = new EventEmitter<SelectOption>();
-
-  @Input() story = false;
+  readonly selectChange = output<SelectOption | null>();
 
   private innerValue: SelectOption | string | null = null;
   control: FormControl;
@@ -112,17 +94,17 @@ export class CapSelectComponent {
   ngOnInit(): void {
     this.setControl();
     this.cleanAllOptionDuplicate();
-    this.backupOptions = this.options;
+    this.backupOptions = this.options();
 
-    if (this.shortDropdown) this.dropdownSize = 4;
+    if (this.shortDropdown()) this.dropdownSize = 4;
 
     this.initOptions();
   }
 
   ngAfterViewChecked(): void {
-    if (!this.unfold && this.backupOptions !== this.options) {
+    if (!this.unfold && this.backupOptions !== this.options()) {
       this.initOptions();
-      this.backupOptions = this.options;
+      this.backupOptions = this.options();
     }
   }
 
@@ -181,7 +163,7 @@ export class CapSelectComponent {
   }
 
   setDisabledState?(disabled: boolean): void {
-    this.disabled = disabled;
+    this.disabled.set(disabled);
   }
 
   controlInputValue(value: SelectOption | string | null): boolean {
@@ -196,16 +178,18 @@ export class CapSelectComponent {
   }
 
   initOptions(): void {
-    if (this.alphabetical) {
-      this.options = this.options?.sort((a, b) => a.label.localeCompare(b.label));
+    if (this.alphabetical()) {
+      this.options.update((opts) => [...(opts ?? [])].sort((a, b) => a.label.localeCompare(b.label)));
     }
 
     this.displayDefaultValue();
 
-    if (this.allOption && (this.options?.length > 1 || this.everAllOption))
+    const opts = this.options();
+    if (this.allOption() && (opts?.length > 1 || this.everAllOption())) {
       this.icludeAllOption();
+    }
 
-    this.displayOptions = this.options;
+    this.displayOptions = this.options();
   }
 
   selectOption(_event: Event, option: SelectOption): void {
@@ -214,7 +198,7 @@ export class CapSelectComponent {
       this.handleSelector(null);
       this.selectChange.emit(null);
     } else {
-      this.options.forEach((item) => {
+      this.options().forEach((item) => {
         if (item.value === option.value) item.checked = true;
         else item.checked = false;
       });
@@ -222,71 +206,76 @@ export class CapSelectComponent {
       this.selectChange.emit(option);
       this.fieldOnFocus = false;
       this.unfold = false;
-      this.displayOptions = this.options;
+      this.displayOptions = this.options();
     }
   }
 
   uncheckAll(): void {
-    this.options?.forEach((item) => (item.checked = false));
+    this.options()?.forEach((item) => (item.checked = false));
   }
 
   displayDefaultValue() {
     setTimeout(() => {
-      const even = (element) => element.label === this.defaultValue;
-      const someSelected = this.options?.some(even);
+      const defaultValue = this.defaultValue();
+      const even = (element: SelectOption) => element.label === defaultValue;
+      const opts = this.options();
+      const someSelected = opts?.some(even);
       if (someSelected) {
-        const defaultOption = this.options.find(even);
-        defaultOption.checked = true;
-        this.handleSelector(defaultOption);
-        this.selectChange.emit(defaultOption);
-        this.onChange(defaultOption);
+        const defaultOption = opts.find(even);
+        if (defaultOption) {
+          defaultOption.checked = true;
+          this.handleSelector(defaultOption);
+          this.selectChange.emit(defaultOption);
+          this.onChange(defaultOption);
+        }
       }
     }, 0);
   }
 
   setCheckValue(label: string): void {
     if (label) {
-      this.options.forEach((item) => {
+      this.options().forEach((item) => {
         if (item.label === label) item.checked = true;
         else item.checked = false;
       });
-      this.displayOptions = this.options;
+      this.displayOptions = this.options();
     }
   }
 
   filterOptions(event: KeyboardEvent, shearch: string): void {
     this.unfold = true;
     const args = shearch.toLowerCase();
-    if (event && this.predictiveType !== 'none' && !!this.value) {
-      switch (this.predictiveType) {
+    const opts = this.options();
+    if (event && this.predictiveType() !== 'none' && !!this.value) {
+      switch (this.predictiveType()) {
         case 'contains':
-          this.descriptionFilter
-            ? (this.displayOptions = this.options.filter((item: SelectOption) => {
+          this.descriptionFilter()
+            ? (this.displayOptions = opts.filter((item: SelectOption) => {
                 return (
                   item.label.toLowerCase().includes(args) ||
                   item.description.toLowerCase().includes(args)
                 );
               }))
-            : (this.displayOptions = this.options.filter((item: SelectOption) => {
+            : (this.displayOptions = opts.filter((item: SelectOption) => {
                 return item.label.toLowerCase().includes(args);
               }));
           break;
         case 'start':
-          this.descriptionFilter
-            ? (this.displayOptions = this.options.filter((item: SelectOption) => {
+          this.descriptionFilter()
+            ? (this.displayOptions = opts.filter((item: SelectOption) => {
                 return (
                   item.label.toLowerCase().startsWith(args) ||
                   item.description.toLowerCase().startsWith(args)
                 );
               }))
-            : (this.displayOptions = this.options.filter((item: SelectOption) => {
+            : (this.displayOptions = opts.filter((item: SelectOption) => {
                 return item.label.toLowerCase().startsWith(args);
               }));
           break;
       }
     }
     if (this.value === null) {
-      this.displayOptions = this.options;
+      this.displayOptions = opts;
     }
   }
 
@@ -304,41 +293,41 @@ export class CapSelectComponent {
       description: 'allOptions',
       checked: false,
     };
-    switch (this.gender) {
+    switch (this.gender()) {
       case 'f':
-        this.options.unshift(todas);
+        this.options.update((opts) => [todas, ...opts]);
         break;
       case 'm':
-        this.options.unshift(todos);
+        this.options.update((opts) => [todos, ...opts]);
         break;
     }
   }
 
   placeholderSelector(): string {
-    return this.unfold && this.fieldOnFocus ? this.placeholder : '';
+    return this.unfold && this.fieldOnFocus ? this.placeholder() : '';
   }
 
   clickOutside() {
     this.unfold = false;
-    let selected: SelectOption;
+    let selected: SelectOption | undefined;
 
-    this.options?.forEach((item) => {
+    this.options()?.forEach((item) => {
       if (item.checked) selected = item;
     });
 
     if (selected) {
       this.handleSelector(selected);
-      this.displayOptions = this.options;
+      this.displayOptions = this.options();
     } else {
       this.handleSelector(null);
-      this.displayOptions = this.options;
+      this.displayOptions = this.options();
     }
     if (!this.value) this.fieldOnFocus = false;
   }
 
   handleClear(): void {
     this.uncheckAll();
-    this.displayOptions = this.options;
+    this.displayOptions = this.options();
     this.handleSelector(null);
     this.selectChange.emit(null);
     this.control?.setValue(this.value);
@@ -355,19 +344,18 @@ export class CapSelectComponent {
 
   autoScrollSelected(): void {
     const dropdown = document.getElementById('dropdown');
-    const index = this.options.findIndex(function (item) {
-      return item.checked;
-    });
-    const distance = this.sizeAutoscroll
-      ? this.sizeAutoscroll
-      : !this.description
+    const opts = this.options();
+    const index = opts.findIndex((item) => item.checked);
+    const distance = this.sizeAutoscroll()
+      ? this.sizeAutoscroll()!
+      : !this.description()
         ? 380
         : 500;
 
     if (index !== -1 && index >= 3) {
       const selected = document.getElementById('checked');
-      const position = selected.getBoundingClientRect().top;
-      dropdown.scrollTo({
+      const position = selected?.getBoundingClientRect().top ?? 0;
+      dropdown?.scrollTo({
         top: position - distance,
         behavior: 'smooth',
       });
@@ -404,11 +392,10 @@ export class CapSelectComponent {
   }
 
   cleanAllOptionDuplicate(): void {
-    const index = this.options?.findIndex(function (item) {
-      return item.description === 'allOptions';
-    });
-    if (index !== -1) {
-      this.options?.splice(index, 1);
+    const opts = this.options();
+    const index = opts?.findIndex((item) => item.description === 'allOptions');
+    if (index !== undefined && index !== -1) {
+      this.options.update((arr) => arr.filter((_, i) => i !== index));
     }
   }
 }

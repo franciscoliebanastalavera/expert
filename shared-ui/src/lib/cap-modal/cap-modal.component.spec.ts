@@ -63,7 +63,7 @@ describe('CapModalComponent', () => {
     fixture.detectChanges();
     instance.handlePrimaryButtonClick();
     expect(spy).toHaveBeenCalledWith(true);
-    expect(instance.showModal).toBeFalse();
+    expect(instance.showModal()).toBeFalse();
   });
 
   it('closes the modal on Escape key when not bgBlocked', () => {

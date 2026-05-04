@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 export const CAP_ICON_DEFAULT_SPRITE_PATH = '/assets/icons.svg';
 
@@ -10,10 +10,8 @@ export const CAP_ICON_DEFAULT_SPRITE_PATH = '/assets/icons.svg';
   styleUrl: './cap-icon.component.scss',
 })
 export class CapIconComponent {
-  @Input({ required: true }) name!: string;
-  @Input() spritePath: string = CAP_ICON_DEFAULT_SPRITE_PATH;
+  readonly name = input.required<string>();
+  readonly spritePath = input(CAP_ICON_DEFAULT_SPRITE_PATH);
 
-  get href(): string {
-    return `${this.spritePath}#${this.name}`;
-  }
+  readonly href = computed(() => `${this.spritePath()}#${this.name()}`);
 }

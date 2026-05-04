@@ -6,7 +6,7 @@ import {
   DestroyRef,
   forwardRef,
   inject,
-  Input,
+  input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -29,15 +29,11 @@ import { CapModalComponent } from '../cap-modal/cap-modal.component';
   ],
 })
 export class CapTooltipComponent {
-  @Input() titleTooltip: string;
-
-  @Input() textTooltip: string;
-
-  @Input() tooltipAlign: AlignVariant = 'center';
-
-  @Input() invertVertical = false;
-
-  @Input() enableTooltipModal = true;
+  readonly titleTooltip = input<string>('');
+  readonly textTooltip = input<string>('');
+  readonly tooltipAlign = input<AlignVariant>('center');
+  readonly invertVertical = input(false);
+  readonly enableTooltipModal = input(true);
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -61,7 +57,7 @@ export class CapTooltipComponent {
   }
 
   openModalTooltip(event: boolean): void {
-    if (this.enableTooltipModal) {
+    if (this.enableTooltipModal()) {
       this.showModalTooltip = event;
     }
   }

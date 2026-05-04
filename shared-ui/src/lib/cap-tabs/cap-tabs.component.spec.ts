@@ -50,7 +50,7 @@ describe('CapTabsComponent', () => {
   });
 
   it('selects the first tab as active by default and emits its label on init', () => {
-    expect(host.tabs.tabs.first.active).toBeTrue();
+    expect(host.tabs.tabs()[0].active()).toBeTrue();
     expect(host.emitted.length).toBeGreaterThanOrEqual(1);
     expect(host.emitted[0]).toBe('One');
     const activeLabel = fixture.debugElement.query(By.css('.cap-tabs__tabLabel-active'));
@@ -74,7 +74,7 @@ describe('CapTabsComponent', () => {
     const items = fixture.debugElement.queryAll(By.css('.cap-tabs li'));
     items[1].nativeElement.click();
     fixture.detectChanges();
-    expect(host.tabs.tabs.first.active).toBeTrue();
+    expect(host.tabs.tabs()[0].active()).toBeTrue();
     const disabledSpan = fixture.debugElement.query(By.css('.cap-tabs__tabLabel-disabled'));
     expect(disabledSpan).not.toBeNull();
     expect(disabledSpan.nativeElement.textContent.trim()).toBe('Two');

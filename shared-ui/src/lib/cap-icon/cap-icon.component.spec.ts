@@ -40,7 +40,7 @@ describe('CapIconComponent', () => {
     fixture.componentRef.setInput('spritePath', '/custom/sprite.svg');
     fixture.componentRef.setInput('name', 'star');
     fixture.detectChanges();
-    expect(instance.href).toBe('/custom/sprite.svg#star');
+    expect(instance.href()).toBe('/custom/sprite.svg#star');
     const use = fixture.debugElement.query(By.css('svg.cap-icon__svg use'));
     expect(use.nativeElement.getAttribute('href')).toBe('/custom/sprite.svg#star');
   });

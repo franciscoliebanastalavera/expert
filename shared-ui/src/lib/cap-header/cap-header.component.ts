@@ -3,12 +3,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   HostListener,
-  Input,
   OnInit,
-  Output,
   inject,
+  input,
+  output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
@@ -32,16 +31,16 @@ const DESKTOP_BREAKPOINT_PX = 768;
   styleUrls: ['./cap-header.component.scss'],
 })
 export class CapHeaderComponent implements OnInit {
-  @Input() brandName = 'CapitalFlow';
-  @Input() brandIcon = '';
-  @Input() navItems: NavItem[] = [];
-  @Input() showThemeToggle = true;
-  @Input() showLangSelector = true;
-  @Input() currentLang: 'es' | 'en' = 'es';
-  @Input() isDark = false;
+  readonly brandName = input('CapitalFlow');
+  readonly brandIcon = input('');
+  readonly navItems = input<NavItem[]>([]);
+  readonly showThemeToggle = input(true);
+  readonly showLangSelector = input(true);
+  readonly currentLang = input<'es' | 'en'>('es');
+  readonly isDark = input(false);
 
-  @Output() themeToggle = new EventEmitter<void>();
-  @Output() langChange = new EventEmitter<'es' | 'en'>();
+  readonly themeToggle = output<void>();
+  readonly langChange = output<'es' | 'en'>();
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly router = inject(Router);
@@ -61,7 +60,7 @@ export class CapHeaderComponent implements OnInit {
   }
 
   onLangChange(): void {
-    const next = this.currentLang === 'es' ? 'en' : 'es';
+    const next = this.currentLang() === 'es' ? 'en' : 'es';
     this.langChange.emit(next);
   }
 
