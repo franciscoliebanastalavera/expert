@@ -2,16 +2,19 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   forwardRef,
   HostBinding,
   Inject,
+  inject,
   Injector,
   Input,
   Output,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormControl,
@@ -27,8 +30,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 
-import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { DirectivesModule } from '../core/directives/directives.module';
 import { PipesModule } from '../core/pipes/pipes.module';
 import { AlignVariant } from '../core/types/components.types';
@@ -115,7 +117,7 @@ export class CapInputComponent {
 
   componentId!: string;
 
-  destroy = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
   control: FormControl;
   showPassword = false;
   showIBAN = false;
@@ -211,11 +213,6 @@ export class CapInputComponent {
     }
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
-  }
-
   handleInput(value: string): void {
     this.innerValue = value;
     this.onTouched();
@@ -272,7 +269,7 @@ export class CapInputComponent {
             tap((value) => {
               update.emit(value);
             }),
-            takeUntil(this.destroy)
+            takeUntilDestroyed(this.destroyRef)
           )
           .subscribe();
         break;

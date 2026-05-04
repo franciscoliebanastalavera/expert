@@ -2,14 +2,17 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   forwardRef,
   HostBinding,
   Inject,
+  inject,
   Injector,
   Input,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormControlDirective,
@@ -21,8 +24,7 @@ import {
   NgModel,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { DirectivesModule } from '../core/directives/directives.module';
 import { SelectOption } from '../core/models/components.models';
 import { CapButtonComponent } from '../cap-button/cap-button.component';
@@ -96,7 +98,7 @@ export class CapSelectComponent {
   private innerValue: SelectOption | string | null = null;
   control: FormControl;
 
-  destroy = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   fieldOnFocus = false;
   touched = false;
@@ -122,11 +124,6 @@ export class CapSelectComponent {
       this.initOptions();
       this.backupOptions = this.options;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
   }
 
   onChange: (value: SelectOption | string | null) => void = () => {};
@@ -388,7 +385,7 @@ export class CapSelectComponent {
             tap((value) => {
               update.emit(value);
             }),
-            takeUntil(this.destroy)
+            takeUntilDestroyed(this.destroyRef)
           )
           .subscribe();
         break;

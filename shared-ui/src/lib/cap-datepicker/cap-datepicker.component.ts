@@ -2,15 +2,18 @@ import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   forwardRef,
   HostListener,
   Inject,
+  inject,
   Injector,
   Input,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormControlDirective,
@@ -22,8 +25,7 @@ import {
   NgModel,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cap-datepicker',
@@ -96,7 +98,7 @@ export class CapDatepickerComponent {
   disabled = false;
   @Input() invertHorizontal = false;
 
-  destroy = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
   control: FormControl;
   private innerValue: Date = null;
 
@@ -127,11 +129,6 @@ export class CapDatepickerComponent {
     this.setHeight();
     this.getYears(this.currentYear);
     this.setControl();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
   }
 
   handleDate(value: Date): void {
@@ -510,7 +507,7 @@ getStyleMonth(month: number): { [key: string]: string } {
             tap((value) => {
               update.emit(value);
             }),
-            takeUntil(this.destroy)
+            takeUntilDestroyed(this.destroyRef)
           )
           .subscribe();
         break;

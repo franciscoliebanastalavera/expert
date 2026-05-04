@@ -1,9 +1,15 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  forwardRef,
+  inject,
+  Input,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AlignVariant } from '../core/types/components.types';
 import { CapModalComponent } from '../cap-modal/cap-modal.component';
 
@@ -33,7 +39,7 @@ export class CapTooltipComponent {
 
   @Input() enableTooltipModal = true;
 
-  alive: Subject<boolean> = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
   showTablet: boolean;
   showTooltip = false;
@@ -44,7 +50,7 @@ export class CapTooltipComponent {
   ngOnInit() {
     this.breakpointObserver
       .observe(['(max-width: 768px)'])
-      .pipe(takeUntil(this.alive))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state: BreakpointState) => {
         this.showTablet = state.matches;
       });
@@ -58,10 +64,5 @@ export class CapTooltipComponent {
     if (this.enableTooltipModal) {
       this.showModalTooltip = event;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.alive.next(true);
-    this.alive.unsubscribe();
   }
 }
