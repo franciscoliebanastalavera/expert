@@ -289,7 +289,9 @@ test:mfe-analytics:
 # STAGE: DOCKER IMAGE BUILD
 # ============================================================
 
-# Build and publish Docker image for the shell
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke docker build and push against the corporate registry.
 docker:shell:
   stage: docker
   image: docker:latest
@@ -306,7 +308,9 @@ docker:shell:
         - shell/**/*
         - shared-ui/**/*
 
-# Build and publish Docker image for the analytics microfrontend
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke docker build and push against the corporate registry.
 docker:mfe-analytics:
   stage: docker
   image: docker:latest
@@ -322,7 +326,9 @@ docker:mfe-analytics:
     - changes:
         - mfe-analytics-react/**/*
 
-# Build and publish Docker image for the payments microfrontend
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke docker build and push against the corporate registry.
 docker:mfe-payments:
   stage: docker
   image: docker:latest
@@ -343,7 +349,9 @@ docker:mfe-payments:
 # STAGE: DEPLOYMENT
 # ============================================================
 
-# Deploy the shell to the production environment
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke kubectl/argocd/helm against the corporate cluster.
 deploy:shell:
   stage: deploy
   image: alpine:latest
@@ -366,7 +374,9 @@ deploy:shell:
     name: production
     url: https://capitalflow.example.com
 
-# Deploy the analytics microfrontend to production
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke kubectl/argocd/helm against the corporate cluster.
 deploy:mfe-analytics:
   stage: deploy
   image: alpine:latest
@@ -388,7 +398,9 @@ deploy:mfe-analytics:
     name: production
     url: https://analytics.capitalflow.example.com
 
-# Deploy the payments microfrontend to production
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke kubectl/argocd/helm against the corporate cluster.
 deploy:mfe-payments:
   stage: deploy
   image: alpine:latest

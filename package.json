@@ -1,0 +1,13 @@
+{
+  "name": "capitalflow-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "stack:up": "docker compose up -d --build",
+    "stack:down": "docker compose down",
+    "test:e2e": "playwright test -c e2e/playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  }
+}
