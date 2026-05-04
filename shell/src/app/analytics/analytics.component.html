@@ -21,6 +21,7 @@
 
   @if (transactions()) {
     <app-analytics-stats
+      [datasetTotal]="datasetTotal()"
       [total]="numTransacciones()"
       [income]="totalIngresos()"
       [expenses]="totalGastos()">
@@ -47,7 +48,7 @@
           type="number"
           formControlName="importeMin"
           min="0"
-          placeholder="€ Min"
+          placeholder="EUR Min"
           class="filtro-input filtro-num"
           [class.is-invalid]="filterForm.controls.importeMin.invalid && filterForm.controls.importeMin.touched"
         />
@@ -61,7 +62,7 @@
           type="number"
           formControlName="importeMax"
           min="0"
-          placeholder="€ Max"
+          placeholder="EUR Max"
           class="filtro-input filtro-num"
           [class.is-invalid]="filterForm.controls.importeMax.invalid && filterForm.controls.importeMax.touched"
         />
@@ -91,6 +92,10 @@
         [loadingText]="'ANALYTICS.FILTERS.EXPORTING' | translate"
         (capClick)="exportarExcel()" />
     </div>
+
+    @if (exportPhase() !== 'idle') {
+      <cap-alert kind="info" [message]="('ANALYTICS.EXPORT_PHASE.' + exportPhase()) | translate"></cap-alert>
+    }
 
     <app-analytics-table [transactions]="transaccionesFiltradas()"></app-analytics-table>
   } @else {

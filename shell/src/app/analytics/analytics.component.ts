@@ -1,4 +1,5 @@
 import {
+  afterRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -18,10 +19,11 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { CapButtonComponent, CapSpinnerComponent } from '@capitalflow/shared-ui';
+import { CapAlertComponent, CapButtonComponent, CapSpinnerComponent } from '@capitalflow/shared-ui';
 import { Transaction } from '../core/models';
 import { AnalyticsService } from './services/analytics.service';
 import { ExportService } from '../core/services/export.service';
+import { AnalyticsMetricsService } from './services/analytics-metrics.service';
 import { AnalyticsStatsComponent } from './components/analytics-stats/analytics-stats.component';
 import { AnalyticsTableComponent } from './components/analytics-table/analytics-table.component';
 import {
@@ -51,6 +53,7 @@ function amountRangeValidator(control: AbstractControl): ValidationErrors | null
     TranslateModule,
     AnalyticsStatsComponent,
     AnalyticsTableComponent,
+    CapAlertComponent,
     CapSpinnerComponent,
     CapButtonComponent,
   ],
@@ -61,6 +64,7 @@ function amountRangeValidator(control: AbstractControl): ValidationErrors | null
 export class AnalyticsComponent {
   private readonly analyticsService = inject(AnalyticsService);
   private readonly exportService = inject(ExportService);
+  private readonly metricsService = inject(AnalyticsMetricsService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly transactions = toSignal<Transaction[] | undefined>(
@@ -109,9 +113,16 @@ export class AnalyticsComponent {
   });
 
   constructor() {
+    afterRender({ read: () => this.recordGridDomNodeCount() });
+
     this.filterForm.valueChanges
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.filterValues.set(this.filterForm.getRawValue()));
+      .subscribe(() => {
+        const start = performance.now();
+        this.filterValues.set(this.filterForm.getRawValue());
+        this.transaccionesFiltradas();
+        this.metricsService.recordFilterTime(performance.now() - start);
+      });
   }
 
   private readonly stats = computed<AnalyticsStats>(() =>
@@ -123,6 +134,8 @@ export class AnalyticsComponent {
   readonly numTransacciones = computed<number>(() => this.stats().total);
   readonly totalIngresos = computed<number>(() => this.stats().income);
   readonly totalGastos = computed<number>(() => this.stats().expenses);
+  readonly datasetTotal = computed<number>(() => this.transactions()?.length ?? 0);
+  readonly exportPhase = this.exportService.exportPhase;
 
   readonly exportando = signal<boolean>(false);
 
@@ -143,5 +156,10 @@ export class AnalyticsComponent {
         next: () => this.exportando.set(false),
         error: () => this.exportando.set(false),
       });
+  }
+
+  private recordGridDomNodeCount(): void {
+    const count = document.querySelectorAll('.cap-data-grid__row').length;
+    this.metricsService.recordDomNodeCount(count);
   }
 }

@@ -5,17 +5,23 @@ interface ExportRequest {
   rows: Transaction[];
 }
 
+interface ExportPhaseMessage {
+  phase: 'preparing' | 'generating';
+}
+
 interface ExportSuccess {
   success: true;
+  phase: 'success';
   blob: Blob;
 }
 
 interface ExportFailure {
   success: false;
+  phase: 'error';
   error: string;
 }
 
-type ExportResponse = ExportSuccess | ExportFailure;
+type ExportResponse = ExportPhaseMessage | ExportSuccess | ExportFailure;
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
@@ -32,9 +38,11 @@ const COLUMNS = [
 ];
 
 addEventListener('message', ({ data }: MessageEvent<ExportRequest>) => {
+  postPhase('preparing');
   from(import('exceljs'))
     .pipe(
       switchMap((ExcelJS) => {
+        postPhase('generating');
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Transacciones');
         worksheet.columns = COLUMNS;
@@ -43,9 +51,15 @@ addEventListener('message', ({ data }: MessageEvent<ExportRequest>) => {
       }),
       map((buffer): ExportResponse => {
         const blob = new Blob([buffer], { type: XLSX_MIME });
-        return { success: true, blob };
+        return { success: true, phase: 'success', blob };
       }),
-      catchError((error) => of({ success: false, error: String(error) } as ExportResponse))
+      catchError((error) =>
+        of({ success: false, phase: 'error', error: String(error) } as ExportResponse),
+      ),
     )
     .subscribe((response) => postMessage(response));
 });
+
+function postPhase(phase: ExportPhaseMessage['phase']): void {
+  postMessage({ phase });
+}

@@ -28,9 +28,9 @@ describe('AnalyticsStatsComponent', () => {
     expect(component.expenses()).toBe(0);
   });
 
-  it('renders three stat cards in the stats bar', () => {
+  it('renders seven stat cards in the stats bar', () => {
     const cards = fixture.debugElement.queryAll(By.css('cap-stat-card'));
-    expect(cards.length).toBe(3);
+    expect(cards.length).toBe(7);
   });
 
   it('reflects the total input on the first stat card value attribute', () => {
@@ -64,5 +64,17 @@ describe('AnalyticsStatsComponent', () => {
     fixture.detectChanges();
     const cards = fixture.debugElement.queryAll(By.css('cap-stat-card'));
     expect(cards[2].nativeElement.getAttribute('ng-reflect-value')).toBe('-100,00 \u20ac');
+  });
+
+  it('renders the performance metrics cards', () => {
+    fixture.componentRef.setInput('datasetTotal', 120000);
+    fixture.componentRef.setInput('total', 420);
+    fixture.detectChanges();
+
+    const cards = fixture.debugElement.queryAll(By.css('cap-stat-card'));
+    expect(cards[3].nativeElement.getAttribute('ng-reflect-value')).toBe('120000');
+    expect(cards[4].nativeElement.getAttribute('ng-reflect-value')).toBe('420');
+    expect(cards[5].nativeElement.getAttribute('ng-reflect-value')).toBe('0');
+    expect(cards[6].nativeElement.getAttribute('ng-reflect-value')).toBe('0.00');
   });
 });

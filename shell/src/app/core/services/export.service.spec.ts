@@ -8,8 +8,9 @@ import {
 import { ExportService } from './export.service';
 
 type ExportMessage =
-  | { success: true; blob: Blob }
-  | { success: false; error: string };
+  | { phase: 'preparing' | 'generating' }
+  | { success: true; phase: 'success'; blob: Blob }
+  | { success: false; phase: 'error'; error: string };
 
 class FakeWorker {
   static instances: FakeWorker[] = [];
@@ -31,7 +32,11 @@ class FakeWorker {
   }
 
   fireSuccess(blob: Blob): void {
-    this.onmessage?.({ data: { success: true, blob } } as MessageEvent<ExportMessage>);
+    this.onmessage?.({ data: { success: true, phase: 'success', blob } } as MessageEvent<ExportMessage>);
+  }
+
+  firePhase(phase: 'preparing' | 'generating'): void {
+    this.onmessage?.({ data: { phase } } as MessageEvent<ExportMessage>);
   }
 
   fireError(err: ErrorEvent): void {
@@ -118,12 +123,15 @@ describe('ExportService', () => {
         expect(clickSpy).toHaveBeenCalledTimes(1);
         expect(revokeObjectURLSpy).toHaveBeenCalledTimes(1);
         expect(worker.terminated).toBeTrue();
+        expect(service.exportPhase()).toBe('success');
         done();
       },
       error: () => done.fail('expected next, got error'),
     });
 
     const worker = FakeWorker.instances[0];
+    worker.firePhase('generating');
+    expect(service.exportPhase()).toBe('generating');
     worker.fireSuccess(new Blob(['xlsx-bytes'], { type: XLSX_MIME }));
   });
 
@@ -134,12 +142,22 @@ describe('ExportService', () => {
       error: (err) => {
         expect(err).toBeInstanceOf(ErrorEvent);
         expect(FakeWorker.instances[0].terminated).toBeTrue();
+        expect(service.exportPhase()).toBe('error');
         done();
       },
     });
 
     const worker = FakeWorker.instances[0];
     worker.fireError(new ErrorEvent('error', { message: 'worker boom' }));
+  });
+
+  it('tracks worker export phases before completion', () => {
+    service.exportToXLSX(sampleTransactions).subscribe();
+
+    const worker = FakeWorker.instances[0];
+    expect(service.exportPhase()).toBe('preparing');
+    worker.firePhase('generating');
+    expect(service.exportPhase()).toBe('generating');
   });
 
   it('falls back to synchronous CSV export when Worker is unavailable', (done) => {
@@ -151,6 +169,7 @@ describe('ExportService', () => {
         expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
         const blob = createObjectURLSpy.calls.mostRecent().args[0] as Blob;
         expect(blob.type).toContain('text/csv');
+        expect(service.exportPhase()).toBe('success');
         done();
       },
       error: () => done.fail('sync fallback should not error'),
@@ -178,7 +197,7 @@ describe('ExportService', () => {
     const blob = createObjectURLSpy.calls.mostRecent().args[0] as Blob;
     expect(blob).toBeInstanceOf(Blob);
     return blob.text().then((text) => {
-      const lines = text.replace(/^﻿/, '').split('\n');
+      const lines = text.replace(/^\ufeff/, '').split('\n');
       expect(lines.length).toBe(1 + sampleTransactions.length);
       expect(lines[0]).toContain('ID');
       expect(lines[0]).toContain('Fecha');

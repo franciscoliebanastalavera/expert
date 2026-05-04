@@ -214,7 +214,11 @@
     "STATS": {
       "TOTAL": "Total Records",
       "INCOME": "Total Income",
-      "EXPENSES": "Total Expenses"
+      "EXPENSES": "Total Expenses",
+      "DATASET_TOTAL": "Dataset rows",
+      "FILTERED_ROWS": "Filtered rows",
+      "DOM_ROWS": "DOM rows",
+      "LAST_FILTER_MS": "Last filter ms"
     },
     "FILTERS": {
       "SEARCH": "Search",
@@ -240,6 +244,14 @@
       "AMOUNT": "Amount",
       "STATUS": "Status",
       "CATEGORY": "Category"
+    },
+    "EXPORT_PHASE": {
+      "idle": "Export idle",
+      "preparing": "Preparing export...",
+      "generating": "Generating workbook...",
+      "downloading": "Downloading file...",
+      "success": "Export completed.",
+      "error": "Export failed."
     }
   },
   "STATUS": {

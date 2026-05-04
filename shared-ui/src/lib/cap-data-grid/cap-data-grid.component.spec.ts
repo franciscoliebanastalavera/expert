@@ -17,7 +17,7 @@ interface Row {
   template: `
     <cap-data-grid [columns]="columns" [data]="data" [trackByKey]="trackByKey" [itemSize]="itemSize">
       <ng-template capCellTemplate="amount" let-value>
-        <span class="amount-tpl">€ {{ value }}</span>
+        <span class="amount-tpl">EUR {{ value }}</span>
       </ng-template>
     </cap-data-grid>
   `,
@@ -116,8 +116,23 @@ describe('CapDataGridComponent', () => {
     fixture.detectChanges();
 
     const renderedRows = fixture.debugElement.queryAll(
-      By.css('.cap-data-grid__row:not(.cap-data-grid__row--header)')
+      By.css('.cap-data-grid__row:not(.cap-data-grid__row--header)'),
     );
     expect(renderedRows.length).toBeLessThan(largeData.length);
+  });
+
+  it('renders less than 100 dom rows even with 80k dataset', () => {
+    const largeData: Row[] = Array.from({ length: 80_000 }, (_, i) => ({
+      id: i + 1,
+      name: `Row ${i + 1}`,
+      amount: i,
+    }));
+    fixture.componentInstance.data = largeData;
+    fixture.detectChanges();
+
+    const renderedRows = fixture.debugElement.queryAll(
+      By.css('.cap-data-grid__row:not(.cap-data-grid__row--header)'),
+    );
+    expect(renderedRows.length).toBeLessThan(100);
   });
 });

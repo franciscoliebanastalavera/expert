@@ -214,7 +214,11 @@
     "STATS": {
       "TOTAL": "Total Registros",
       "INCOME": "Total Ingresos",
-      "EXPENSES": "Total Gastos"
+      "EXPENSES": "Total Gastos",
+      "DATASET_TOTAL": "Filas del dataset",
+      "FILTERED_ROWS": "Filas filtradas",
+      "DOM_ROWS": "Filas DOM",
+      "LAST_FILTER_MS": "Último filtro ms"
     },
     "FILTERS": {
       "SEARCH": "Buscar",
@@ -240,6 +244,14 @@
       "AMOUNT": "Importe",
       "STATUS": "Estado",
       "CATEGORY": "Categoría"
+    },
+    "EXPORT_PHASE": {
+      "idle": "Exportación inactiva",
+      "preparing": "Preparando exportación...",
+      "generating": "Generando libro...",
+      "downloading": "Descargando archivo...",
+      "success": "Exportación completada.",
+      "error": "La exportación ha fallado."
     }
   },
   "STATUS": {

@@ -1,15 +1,9 @@
 .stats-bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 1.5rem;
-}
 
-@media (max-width: 48em) {
-  .stats-bar {
-    flex-wrap: wrap;
-
-    cap-stat-card {
-      min-width: 10rem;
-      flex: 1 1 100%;
-    }
+  cap-stat-card {
+    min-width: 0;
   }
 }
