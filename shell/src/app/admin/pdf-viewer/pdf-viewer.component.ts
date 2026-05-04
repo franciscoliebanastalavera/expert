@@ -5,10 +5,12 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
 import { ADMIN_LANDING_ROUTE } from '../admin-landing/admin-landing.constants';
-
-const ALLOWED_REPORT_URL = /^https:\/\/[a-z0-9.-]+\/reports\/[a-z0-9._-]+\.pdf(\?[a-z0-9=&._-]*)?$/i;
-
-const DEFAULT_URL = 'https://reports.capitalflow.example.com/reports/q1-2026.pdf';
+import {
+  PDF_ALLOWED_HOSTS,
+  PDF_PATH_PATTERN,
+  PDF_REQUIRED_PROTOCOL,
+  PDF_VIEWER_DEFAULT_URL,
+} from './pdf-viewer.constants';
 
 const I18N_KEYS = {
   PAGE_TITLE: 'ADMIN.DEMOS.PDF.PAGE_TITLE',
@@ -38,7 +40,7 @@ export class PdfViewerComponent {
   private readonly router = inject(Router);
 
   readonly i18n = I18N_KEYS;
-  readonly urlControl = new FormControl<string>(DEFAULT_URL, {
+  readonly urlControl = new FormControl<string>(PDF_VIEWER_DEFAULT_URL, {
     nonNullable: true,
     validators: [Validators.required],
   });
@@ -51,19 +53,29 @@ export class PdfViewerComponent {
     this.errorKey.set('');
     this.validatedUrl.set('');
 
-    if (!ALLOWED_REPORT_URL.test(candidate)) {
+    if (!this.isAllowedReportUrl(candidate)) {
       this.errorKey.set(I18N_KEYS.INVALID_URL);
       return;
     }
 
-    // The URL passed the allowlist regex. In production this is the boundary that
-    // would feed bypassSecurityTrustResourceUrl + an iframe sandbox. For this demo
-    // we surface the accepted URL — the security decision is what we are showcasing,
-    // not the PDF render itself.
     this.validatedUrl.set(candidate);
   }
 
   goBack(): void {
     this.router.navigate([ADMIN_LANDING_ROUTE]);
+  }
+
+  private isAllowedReportUrl(rawUrl: string): boolean {
+    try {
+      const parsed = new URL(rawUrl);
+      const reportPath = `${parsed.pathname}${parsed.search}`;
+      return (
+        parsed.protocol === PDF_REQUIRED_PROTOCOL &&
+        PDF_ALLOWED_HOSTS.includes(parsed.host) &&
+        PDF_PATH_PATTERN.test(reportPath)
+      );
+    } catch {
+      return false;
+    }
   }
 }

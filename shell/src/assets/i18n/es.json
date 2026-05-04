@@ -13,7 +13,82 @@
   "ADMIN": {
     "LANDING": {
       "TITLE": "Demos de remediación de seguridad",
-      "LEAD": "Estas páginas demuestran los patrones de mitigación aplicados a las 11 vulnerabilidades identificadas en la auditoría. Cada demo aísla un vector de ataque y muestra el patrón de renderizado seguro."
+      "LEAD": "Estas páginas demuestran los patrones de mitigación aplicados a los hallazgos de auditoría. Cada demo aísla un vector de ataque y muestra el patrón de renderizado seguro."
+    },
+    "MATRIX": {
+      "TITLE": "Matriz de auditoría de seguridad",
+      "LEAD": "Relación entre los hallazgos del briefing Angular Expert, las mitigaciones frontend implementadas y los controles que siguen siendo responsabilidad de plataforma o proceso.",
+      "SUMMARY_TITLE": "Cobertura del briefing",
+      "SUMMARY_DESCRIPTION": "Aquí se trazan 7 vulnerabilidades del briefing y 4 controles adicionales. 4 hallazgos del briefing tienen demo interactiva; los controles de plataforma quedan documentados aparte.",
+      "COL_ID": "ID",
+      "COL_VULNERABILITY": "Vulnerabilidad",
+      "COL_MITIGATION": "Mitigación",
+      "COL_STATUS": "Estado",
+      "COL_FILES": "Archivos",
+      "COL_DEMO": "Demo",
+      "OPEN_DEMO": "Abrir demo",
+      "STATUS": {
+        "mitigated": "Mitigado",
+        "partial": "Parcial",
+        "documented": "Documentado"
+      },
+      "ITEMS": {
+        "BRIEFING_01": {
+          "TITLE": "XSS almacenado en comentarios públicos",
+          "DESCRIPTION": "Los comentarios de transacciones se renderizaban directamente en el DOM, permitiendo ejecutar código en el navegador de otros usuarios.",
+          "MITIGATION": "Se usa interpolación de Angular por defecto y el contenido enriquecido pasa por DOMPurify cuando se permite HTML."
+        },
+        "BRIEFING_02": {
+          "TITLE": "Inyección de URL en iframe PDF",
+          "DESCRIPTION": "Las URLs de PDF generadas por backend se pasaban a un iframe sin validación, incluyendo payloads javascript:.",
+          "MITIGATION": "Se aplica allowlist estricta de hosts HTTPS, validación con URL parser y ruta limitada a /reports/*.pdf antes de confiar en la URL."
+        },
+        "BRIEFING_03": {
+          "TITLE": "XSS por nombre de fichero en uploads",
+          "DESCRIPTION": "Los nombres de documentos subidos podían contener marcado ejecutable que después aparecía en la tabla de otro usuario.",
+          "MITIGATION": "Los nombres de fichero se renderizan como texto mediante bindings de Angular, por lo que el marcado se escapa y no se ejecuta."
+        },
+        "BRIEFING_04": {
+          "TITLE": "XSS reflejado en búsqueda global",
+          "DESCRIPTION": "El término de búsqueda se reflejaba en la cabecera de la página sin encoding, habilitando ataques reflejados.",
+          "MITIGATION": "La cabecera de resultados enlaza la consulta mediante renderizado de texto, por lo que los símbolos < y > permanecen como caracteres literales."
+        },
+        "BRIEFING_05": {
+          "TITLE": "XSS WYSIWYG en plantillas de informes",
+          "DESCRIPTION": "El editor de plantillas de administradores aceptaba HTML sin restricciones, incluyendo etiquetas script.",
+          "MITIGATION": "Quill se usa como editor y DOMPurify sanitiza el HTML guardado antes de renderizarlo o persistirlo."
+        },
+        "BRIEFING_06": {
+          "TITLE": "Ausencia de Content Security Policy",
+          "DESCRIPTION": "El despliegue anterior no enviaba cabecera CSP, aumentando el impacto potencial de XSS.",
+          "MITIGATION": "Content-Security-Policy con orígenes de script restringidos. style-src mantiene unsafe-inline por el requisito runtime de Angular Emulated encapsulation, documentado como trade-off acotado."
+        },
+        "BRIEFING_07": {
+          "TITLE": "Cookies de sesión sin HttpOnly ni Secure",
+          "DESCRIPTION": "Las cookies de sesión carecían de flags de seguridad requeridos en la plataforma auditada.",
+          "MITIGATION": "Control de backend/plataforma fuera del alcance frontend. Documentado en el runbook de despliegue."
+        },
+        "ADDITIONAL_01": {
+          "TITLE": "Protección CSRF",
+          "DESCRIPTION": "Las operaciones autenticadas que cambian estado requieren defensas frente a cross-site request forgery.",
+          "MITIGATION": "Documentado como control de backend y gateway mediante cookies SameSite y tokens CSRF."
+        },
+        "ADDITIONAL_02": {
+          "TITLE": "Dependency confusion y supply chain",
+          "DESCRIPTION": "La resolución de paquetes y las instalaciones de CI deben impedir que paquetes no confiables suplanten dependencias internas.",
+          "MITIGATION": "Hay lockfiles y checks de CI; el pinning de registro y la revisión de dependencias quedan en el roadmap de hardening."
+        },
+        "ADDITIONAL_03": {
+          "TITLE": "Filtración de secretos en repositorio",
+          "DESCRIPTION": "El control de versiones no debe contener credenciales, tokens ni artefactos sensibles generados.",
+          "MITIGATION": "Hay reglas de ignore e higiene de CI; el secret scanning automático queda trazado como control de entrega."
+        },
+        "ADDITIONAL_04": {
+          "TITLE": "Prototype pollution",
+          "DESCRIPTION": "La mezcla de objetos no confiables puede modificar prototipos JavaScript y alterar el comportamiento de la aplicación.",
+          "MITIGATION": "Documentado como estándar de código y requisito de revisión de dependencias para utilidades compartidas."
+        }
+      }
     },
     "DEMOS": {
       "OPEN": "Abrir demo",
@@ -22,33 +97,33 @@
         "TITLE": "Editor WYSIWYG",
         "DESCRIPTION": "XSS almacenado vía plantillas de informes. Quill 2 + DOMPurify eliminan etiquetas script, atributos onerror y URLs javascript: del contenido editado por administradores.",
         "PAGE_TITLE": "Plantillas de informes",
-        "PAGE_LEAD": "Editor WYSIWYG para plantillas de informes regulatorios. La salida se sanitiza con DOMPurify antes de renderizar o persistir — etiquetas script, manejadores onerror y URLs javascript: se eliminan.",
+        "PAGE_LEAD": "Editor WYSIWYG para plantillas de informes regulatorios. La salida se sanitiza con DOMPurify antes de renderizar o persistir; etiquetas script, manejadores onerror y URLs javascript: se eliminan.",
         "SAVE_BUTTON": "Guardar y previsualizar salida sanitizada",
         "RAW_HEADING": "HTML del editor sin procesar (antes de sanitización)",
-        "INJECTION_WARNING": "⚠ El HTML sin procesar contenía al menos un vector de inyección (script, onerror, onload o javascript:). Se eliminó en la salida sanitizada.",
+        "INJECTION_WARNING": "El HTML sin procesar contenía al menos un vector de inyección (script, onerror, onload o javascript:). Se eliminó en la salida sanitizada.",
         "SANITIZED_HEADING": "Salida sanitizada (renderizada de forma segura)"
       },
       "PDF": {
         "TITLE": "Visor de informes PDF",
-        "DESCRIPTION": "Inyección de URL en iframes dinámicos. Allowlist regex (HTTPS + dominio en lista blanca + extensión .pdf) precede a bypassSecurityTrustResourceUrl.",
+        "DESCRIPTION": "Inyección de URL en iframes dinámicos. HTTPS, allowlist de hosts y validación de ruta .pdf preceden a bypassSecurityTrustResourceUrl.",
         "PAGE_TITLE": "Visor de informes PDF",
-        "PAGE_LEAD": "Las URLs se validan contra una expresión regular de lista blanca (HTTPS + dominio permitido + ruta /reports/ + extensión .pdf) antes de pasarse a bypassSecurityTrustResourceUrl. Los intentos de inyectar javascript:, data: u orígenes HTTP arbitrarios se rechazan.",
+        "PAGE_LEAD": "Las URLs se validan contra una allowlist estricta antes de pasarse a bypassSecurityTrustResourceUrl. Los intentos de inyectar javascript:, data: u orígenes HTTP arbitrarios se rechazan.",
         "FIELD_LABEL": "URL del informe",
         "LOAD_BUTTON": "Cargar informe",
         "INVALID_URL": "URL inválida. Solo se permiten URLs HTTPS bajo /reports/ apuntando a un fichero .pdf.",
-        "VALIDATED_HEADER": "✅ URL aceptada por el allowlist",
-        "VALIDATED_NOTE": "En producción esta URL alimentaría bypassSecurityTrustResourceUrl + un iframe sandbox. Aquí terminamos en este punto: la decisión de seguridad ya se ha tomado.",
+        "VALIDATED_HEADER": "URL aceptada por el allowlist",
+        "VALIDATED_NOTE": "En producción esta URL alimentaría bypassSecurityTrustResourceUrl y un iframe sandbox. Aquí terminamos en este punto: la decisión de seguridad ya se ha tomado.",
         "HINTS_TITLE": "Prueba con estas URLs",
-        "HINT_VALID": "→ permitida",
-        "HINT_INVALID_PROTOCOL": "→ rechazada (javascript:)",
-        "HINT_INVALID_HTTP": "→ rechazada (HTTP, no HTTPS)",
-        "HINT_INVALID_PATH": "→ rechazada (ruta no /reports/)"
+        "HINT_VALID": "permitida",
+        "HINT_INVALID_PROTOCOL": "rechazada (javascript:)",
+        "HINT_INVALID_HTTP": "rechazada (HTTP, no HTTPS)",
+        "HINT_INVALID_PATH": "rechazada (ruta)"
       },
       "DOCUMENTS": {
         "TITLE": "Carga de documentos",
-        "DESCRIPTION": "XSS almacenado vía nombre de fichero. La interpolación de Angular escapa automáticamente <, > y & — los nombres hostiles se renderizan como texto literal.",
+        "DESCRIPTION": "XSS almacenado vía nombre de fichero. La interpolación de Angular escapa automáticamente <, > y &, por lo que los nombres hostiles se renderizan como texto literal.",
         "PAGE_TITLE": "Carga de documentos",
-        "PAGE_LEAD": "Los nombres de fichero se renderizan mediante interpolación de Angular, que escapa automáticamente <, > y &. La cuarta fila contiene un nombre hostil — observa que se renderiza como texto literal en lugar de disparar el manejador onerror embebido.",
+        "PAGE_LEAD": "Los nombres de fichero se renderizan mediante interpolación de Angular, que escapa automáticamente <, > y &. La cuarta fila contiene un nombre hostil; observa que se renderiza como texto literal en lugar de disparar el manejador onerror embebido.",
         "COL_ID": "ID",
         "COL_NAME": "Nombre del fichero (renderizado de forma segura)",
         "COL_SIZE": "Tamaño",
@@ -58,18 +133,18 @@
         "TITLE": "Búsqueda reflejada",
         "DESCRIPTION": "XSS reflejado en el header de búsqueda. El binding [innerText] renderiza la consulta como caracteres literales, sin ejecución de HTML.",
         "PAGE_TITLE": "Demo de búsqueda reflejada",
-        "PAGE_LEAD": "La plataforma anterior reflejaba el término de búsqueda en el encabezado de la página sin codificación, permitiendo XSS reflejado. Aquí el término se enlaza mediante interpolación de Angular y [innerText] — los símbolos < y > se renderizan como caracteres literales.",
+        "PAGE_LEAD": "La plataforma anterior reflejaba el término de búsqueda en el encabezado de la página sin codificación, permitiendo XSS reflejado. Aquí el término se enlaza mediante interpolación de Angular y [innerText]; los símbolos < y > se renderizan como caracteres literales.",
         "FIELD_LABEL": "Término de búsqueda",
         "FIELD_HINT": "Prueba con caracteres especiales para verificar el escape",
         "SEARCH_BUTTON": "Buscar",
         "RESULTS_PREFIX": "Resultados para:",
-        "NOTE": "La etiqueta script es visible como texto — NO se ejecuta porque Angular escapó los caracteres < y > antes de la inserción."
+        "NOTE": "La etiqueta script es visible como texto; NO se ejecuta porque Angular escapó los caracteres < y > antes de la inserción."
       }
     }
   },
   "HOME": {
     "TITLE": "Dashboard Financiero",
-    "SUBTITLE": "Resumen de operaciones — Abril 2026",
+    "SUBTITLE": "Resumen de operaciones - Abril 2026",
     "BTN_TRANSACTIONS": "Ver Transacciones",
     "BTN_ANALYTICS": "Ver Analytics",
     "BTN_PAYMENTS": "Ver Pagos",
@@ -116,7 +191,7 @@
   },
   "ANALYTICS": {
     "TITLE": "Transacciones",
-    "SUBTITLE_SUFFIX": "transacciones · Virtual Scroll CDK",
+    "SUBTITLE_SUFFIX": "transacciones - Virtual Scroll CDK",
     "SUBTITLE_LOADING": "Cargando...",
     "LOADING_LABEL": "Cargando transacciones...",
     "BTN_BACK": "Volver al Dashboard",
@@ -166,6 +241,6 @@
     "ERROR": "No se pudo cargar el módulo de Pagos. Verifique que el MFE esté en ejecución."
   },
   "FOOTER": {
-    "COPYRIGHT": "© 2026 CapitalFlow by Nter. Todos los derechos reservados."
+    "COPYRIGHT": "(c) 2026 CapitalFlow by Nter. Todos los derechos reservados."
   }
 }

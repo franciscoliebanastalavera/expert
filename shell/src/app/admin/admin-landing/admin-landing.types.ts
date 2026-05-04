@@ -1,11 +1,13 @@
-/**
- * A single security demo entry shown on the admin landing page.
- * Each demo isolates one of the 11 vulnerabilities from the security audit
- * and demonstrates its mitigation pattern.
- */
-export interface SecurityDemo {
+export type VulnerabilityStatus = 'mitigated' | 'partial' | 'documented';
+export type VulnerabilitySource = 'briefing' | 'additional-control';
+
+export interface VulnerabilityRow {
+  readonly id: string;
+  readonly source: VulnerabilitySource;
   readonly titleKey: string;
   readonly descriptionKey: string;
-  readonly route: string;
-  readonly ctaKey: string;
+  readonly mitigationKey: string;
+  readonly status: VulnerabilityStatus;
+  readonly demoRoute: string | null;
+  readonly fileReferences: readonly string[];
 }

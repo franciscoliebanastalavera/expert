@@ -38,6 +38,34 @@ describe('PdfViewerComponent', () => {
     expect(component.errorKey()).toBe('');
   });
 
+  it('rejects HTTP report URLs', () => {
+    component.urlControl.setValue('http://reports.capitalflow.example.com/reports/q1-2026.pdf');
+    component.load();
+    expect(component.validatedUrl()).toBe('');
+    expect(component.errorKey()).toBe('ADMIN.DEMOS.PDF.INVALID_URL');
+  });
+
+  it('rejects hosts outside the report allowlist', () => {
+    component.urlControl.setValue('https://evil.example.com/reports/q1-2026.pdf');
+    component.load();
+    expect(component.validatedUrl()).toBe('');
+    expect(component.errorKey()).toBe('ADMIN.DEMOS.PDF.INVALID_URL');
+  });
+
+  it('rejects paths outside the reports folder', () => {
+    component.urlControl.setValue('https://reports.capitalflow.example.com/private/q1-2026.pdf');
+    component.load();
+    expect(component.validatedUrl()).toBe('');
+    expect(component.errorKey()).toBe('ADMIN.DEMOS.PDF.INVALID_URL');
+  });
+
+  it('rejects data URLs', () => {
+    component.urlControl.setValue('data:application/pdf;base64,AAAA');
+    component.load();
+    expect(component.validatedUrl()).toBe('');
+    expect(component.errorKey()).toBe('ADMIN.DEMOS.PDF.INVALID_URL');
+  });
+
   it('navigates back to the admin landing when goBack is called', () => {
     const router = TestBed.inject(Router);
     const navSpy = spyOn(router, 'navigate');
