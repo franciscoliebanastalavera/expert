@@ -1,311 +1,201 @@
 # CapitalFlow
 
-Plataforma de micro frontends para banca digital construida como proyecto de evaluación
-técnica en Nter. Arquitectura **Module Federation** con shell Angular 18, microfrontend
-React 18 expuesto como Web Component y librería compartida `@capitalflow/shared-ui`
-documentada con Storybook.
+CapitalFlow is a practical Angular Expert evaluation project for a B2B financial
+platform. The repository demonstrates an incremental migration from a fragile
+front-end monolith to a micro-frontend architecture with shared UI, security
+hardening, performance controls, automated tests, and Docker-based local
+deployment.
 
-![Angular](https://img.shields.io/badge/Angular-18-DD0031?logo=angular&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
-![Storybook](https://img.shields.io/badge/Storybook-8-FF4785?logo=storybook&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-multi--stage-2496ED?logo=docker&logoColor=white)
-![CI](https://img.shields.io/badge/GitLab%20CI-green-success)
+## Current Stack
 
----
+- Shell: Angular 18 standalone application, Module Federation host, OnPush, Signals.
+- Payments MFE: Angular 17 remote exposed as a Web Component.
+- Analytics MFE: React 18 remote exposed as a Web Component with Shadow DOM.
+- Shared UI: `@capitalflow/shared-ui` v1.1.0, Angular component library.
+- Integration: Webpack Module Federation via `@angular-architects/module-federation`.
+- Styling: SCSS and CSS custom properties exposed as `--cap-*` design tokens.
+- Testing: Karma/Jasmine for Angular projects, Jest for the React MFE.
+- Runtime: nginx containers orchestrated by Docker Compose.
 
-## Demo
+## Local Docker Stack
 
-> Las capturas se sustituyen por las imágenes reales una vez generadas.
-> Ruta: `docs/img/`.
-
-<p align="center">
-  <img src="docs/img/01-hero.png" width="100%" alt="CapitalFlow hero · shell en modo light" />
-</p>
-
-### Arquitectura visual
-
-<p align="center">
-  <img src="docs/img/02-arquitectura.svg" width="100%" alt="Arquitectura Module Federation — shell Angular 18 + MFE React 18 + shared-ui" />
-</p>
-
-### Shell Angular 18
-
-| Light mode | Dark mode | Responsive (375×812) |
-|:---:|:---:|:---:|
-| <img src="docs/img/03-shell-home-light.png" width="100%" alt="Home light" /> | <img src="docs/img/04-shell-home-dark.png" width="100%" alt="Home dark" /> | <img src="docs/img/05-shell-responsive.png" width="100%" alt="Responsive móvil" /> |
-
-### Microfrontend React integrado en el shell
-
-<p align="center">
-  <img src="docs/img/06-analytics-integrado.png" width="100%" alt="MFE React montado como Web Component dentro del shell Angular" />
-</p>
-
-### Storybook — documentación de shared-ui
-
-<p align="center">
-  <img src="docs/img/09-storybook-intro.png" width="100%" alt="Landing Introduction de Storybook con hero, métricas y catálogo" />
-</p>
-
-### Pipeline GitLab CI
-
-<p align="center">
-  <img src="docs/img/12-pipeline-verde.png" width="100%" alt="Pipeline de GitLab con todas las etapas en verde" />
-</p>
-
----
-
-## Arquitectura
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Shell Angular 18 (host)                  │
-│         Module Federation · Standalone · OnPush             │
-│                                                             │
-│   ┌──────────────┐   ┌─────────────────┐   ┌────────────┐   │
-│   │ home         │   │ analytics       │   │ settings   │   │
-│   │ (dashboard)  │   │ Container /     │   │            │   │
-│   │              │   │ Presentational  │   │            │   │
-│   └──────────────┘   └───────┬─────────┘   └────────────┘   │
-│                              │                              │
-│                              ▼  <mfe-analytics>             │
-│                   ┌──────────────────────┐                  │
-│                   │  MFE React 18        │                  │
-│                   │  Web Component       │                  │
-│                   │  Shadow DOM + i18n   │                  │
-│                   └──────────────────────┘                  │
-└─────────────────────────────────────────────────────────────┘
-
-            @capitalflow/shared-ui (biblioteca Angular)
-              cap-* componentes · design tokens --cap-*
-                    ng-packagr · Storybook 8
-```
-
-- **Shell Angular** orquesta la navegación, el theme global y la i18n.
-- **MFE React** se monta como Web Component (`<mfe-analytics>`) con Shadow DOM para
-  aislar estilos. Recibe idioma y tema vía atributos y los sincroniza con un
-  `MutationObserver`.
-- **shared-ui** expone componentes standalone con OnPush consumiendo design tokens CSS.
-
----
-
-## Stack técnico
-
-| Capa        | Tecnología |
-|-------------|------------|
-| Shell       | Angular 18 standalone · Module Federation (`@angular-architects/module-federation`) · Angular Signals · OnPush |
-| MFE         | React 18 · Vite · Web Component con Shadow DOM · i18next |
-| Librería    | Angular 18 · ng-packagr · CDK (A11y, Virtual Scroll) · Reactive Forms · ControlValueAccessor |
-| Docs        | Storybook 8 (Angular builder) · MDX |
-| Estilo      | SCSS · CSS Custom Properties `--cap-*` · Dark mode |
-| Seguridad   | DOMPurify · DomSanitizer · security headers en nginx |
-| Testing     | Karma + Jasmine + ChromeHeadless |
-| Build       | nginx multi-stage (node:20-alpine → nginx:alpine) |
-| CI/CD       | GitLab CI (runners Kubernetes) · pipeline multi-etapa |
-
----
-
-## Quick start
-
-### Requisitos
-- Node 20 LTS
-- Docker Desktop con el mirror de Google Cloud (`https://mirror.gcr.io`) si tu red
-  bloquea Cloudflare R2. Detalle en [Troubleshooting](#troubleshooting).
-
-### Levantar todo con Docker (recomendado)
-
-```powershell
-.\start.ps1
-```
-
-El script:
-1. Ejecuta `docker compose up -d`.
-2. Hace polling HTTP sobre los tres servicios (timeout 60 s).
-3. Abre automáticamente los tres endpoints en el navegador.
-4. Imprime un resumen con servicios, puertos y URLs.
-
-```powershell
-.\stop.ps1
-```
-
-Para todo con `docker compose down` y verifica que no queda ningún contenedor vivo.
-
-### Servicios expuestos
-
-| Servicio      | URL                       | Descripción                                |
-|---------------|---------------------------|--------------------------------------------|
-| shell         | http://localhost:8081     | Angular 18 shell (Module Federation host)  |
-| mfe-analytics | http://localhost:8082     | React 18 microfrontend (Web Component)     |
-| storybook     | http://localhost:6007     | Documentación de `@capitalflow/shared-ui`  |
-
-### Desarrollo sin Docker
+Build and start all services:
 
 ```bash
-# Shell Angular
-cd shell && npm start                # http://localhost:4200
-
-# MFE React
-cd mfe-analytics-react && npm start  # http://localhost:4201
-
-# Storybook
-cd shared-ui && npm run storybook    # http://localhost:6006
-
-# Build librería
-cd shared-ui && npm run build
+docker compose up -d --build
 ```
 
----
+Stop the stack:
 
-## Estructura del repositorio
-
+```bash
+docker compose down
 ```
+
+Service endpoints:
+
+| Service | URL | Description |
+| --- | --- | --- |
+| shell | http://localhost:8081 | Angular 18 host application |
+| mfe-analytics-react | http://localhost:8082 | React 18 analytics remote |
+| mfe-payments | http://localhost:8083 | Angular 17 payments remote |
+| storybook | http://localhost:6007 | Shared UI documentation |
+
+## Development Servers
+
+```bash
+cd shell
+npm start
+
+cd ../mfe-analytics-react
+npm start
+
+cd ../mfe-payments
+npm start
+
+cd ../shared-ui
+npm run storybook
+```
+
+Default development ports:
+
+| Project | URL |
+| --- | --- |
+| shell | http://localhost:4200 |
+| mfe-analytics-react | http://localhost:4201 |
+| mfe-payments | http://localhost:4202 |
+| shared-ui Storybook | http://localhost:6006 |
+
+## Tests
+
+Run each project test suite independently:
+
+```bash
+cd shell
+npm test
+
+cd ../shared-ui
+npm test
+
+cd ../mfe-payments
+npm test
+
+cd ../mfe-analytics-react
+npm test -- --runInBand
+```
+
+Latest verified local result:
+
+| Project | Test runner | Count |
+| --- | --- | --- |
+| shell | Karma/Jasmine | 111 passing |
+| shared-ui | Karma/Jasmine | 180 passing |
+| mfe-payments | Karma/Jasmine | 25 passing |
+| mfe-analytics-react | Jest | 26 passing |
+
+## Monorepo Layout
+
+```text
 expert/
-├── shell/                      # Angular 18 host
-│   ├── src/app/
-│   │   ├── home/               # Dashboard (standalone, OnPush)
-│   │   ├── analytics/          # Container/Presentational
-│   │   ├── core/               # services, guards, interceptors
-│   │   └── shared/             # componentes compartidos del shell
-│   ├── Dockerfile              # multi-stage → nginx
-│   └── nginx.conf              # security headers, SPA fallback
-│
-├── mfe-analytics-react/        # Microfrontend React 18
-│   ├── src/
-│   │   ├── components/
-│   │   └── i18n/
-│   ├── Dockerfile
-│   └── nginx.conf              # CORS para embedding cross-origin
-│
-├── shared-ui/                  # Librería Angular @capitalflow/shared-ui
-│   ├── src/lib/                # 15 componentes cap-* + data-grid + modal a11y
-│   ├── src/stories/            # Introduction.mdx (landing Storybook)
-│   ├── .storybook/             # config + preview head styles
-│   ├── Dockerfile              # build-storybook → nginx
-│   └── ng-package.json
-│
-├── docker-compose.yml          # orquestación 3 servicios
-├── start.ps1 / stop.ps1        # scripts con polling HTTP
-├── .gitlab-ci.yml              # pipeline install/build/docker/deploy
-└── README.md
+  shell/
+    src/app/
+      admin/                 Security audit demos
+      analytics/             Angular analytics implementation
+      analytics-wrapper/     React MFE host wrapper
+      payments-wrapper/      Payments MFE host wrapper
+      core/                  Models and shared services
+      workers/               XLSX export worker
+    Dockerfile
+    nginx.conf
+    webpack.config.js
+
+  mfe-analytics-react/
+    src/
+      App.tsx
+      web-component.tsx      Registers <mfe-analytics>
+    Dockerfile
+    nginx.conf
+    webpack.config.js
+
+  mfe-payments/
+    src/
+      bootstrap.ts           Registers <mfe-payments>
+    Dockerfile
+    nginx.conf
+    webpack.config.js
+
+  shared-ui/
+    src/lib/                 CapitalFlow component library
+    .storybook/
+    Dockerfile
+    ng-package.json
+
+  docker-compose.yml
+  .gitlab-ci.yml
+  README.md
 ```
 
----
+## Security Demos
 
-## Librería shared-ui
+The shell exposes a security demo area at:
 
-Componentes standalone con OnPush, ControlValueAccessor cuando aplica y tokens CSS
-`--cap-*`. Catálogo actual en Storybook:
+```text
+http://localhost:8081/admin
+```
 
-- `cap-button`, `cap-card`, `cap-checkbox`, `cap-footer`, `cap-header`, `cap-modal`,
-  `cap-select`, `cap-switch`, `cap-tabs`
+Current demos cover:
 
-Pendientes de story (implementados pero sin doc): `cap-datepicker`, `cap-input`,
-`cap-tooltip`, `data-grid`, `modal` (A11y), `safe-html`.
+- WYSIWYG template sanitization with Quill and DOMPurify.
+- PDF report URL validation before iframe usage.
+- Document filename rendering as text instead of executable HTML.
+- Reflected search payload rendering through text binding.
+- CSP and security headers in nginx for the shell.
 
-Design tokens en `src/styles/_capitalflow-theme.scss`:
-`--cap-primary` `#2a85c4` · `--cap-secondary` `#f47c20` · escalas de radius, sombras,
-transición y tipografía.
+These demos map the exam briefing vulnerabilities to concrete implementation
+controls and tests.
 
----
+## Shared UI Library
 
-## Decisiones técnicas destacables
+`shared-ui` contains the CapitalFlow Angular design-system implementation. The
+library currently includes 21 reusable building blocks, including buttons,
+alerts, cards, data tables, virtual data grid, status badges, form controls,
+modal, tabs, spinner, tooltip, metric cards, and sanitization helpers.
 
-- **Module Federation** para aislar el ciclo de release del MFE de analytics.
-- **Web Component con Shadow DOM** en el MFE para evitar colisiones CSS entre frameworks
-  (no hay bleed Angular ↔ React).
-- **Container/Presentational** en `analytics` separando el servicio del componente de tabla.
-- **CDK Virtual Scroll** en `data-grid` para renderizar miles de filas manteniendo
-  menos de 20 nodos DOM.
-- **Web Worker** (`export.worker.ts`) para generar CSV sin bloquear la UI.
-- **Angular Signals** (`signal` + `computed`) en `ThemeService` con `Renderer2` y
-  `DOCUMENT` para dark mode sin side effects globales.
-- **OnPush** en todos los componentes standalone.
-- **`inject()`** sustituye constructor injection en todo el proyecto.
-- **Zero `any`** en todo el código (auditado con grep).
-- **Security headers** en nginx: CSP, HSTS, X-Frame-Options, X-Content-Type-Options,
-  Referrer-Policy, Permissions-Policy, X-XSS-Protection.
-- **DOMPurify + DomSanitizer** en `SafeHtmlPipe` (doble capa de sanitización).
+Storybook is available through Docker at:
 
----
+```text
+http://localhost:6007
+```
+
+The shell consumes the source entry point through TypeScript path mapping:
+
+```text
+@capitalflow/shared-ui -> ../shared-ui/src/public-api-source.ts
+```
+
+## Architecture Notes
+
+- The shell owns routing, global layout, language selection, theme state, and
+  remote loading.
+- Angular and React MFEs are integrated through Web Components so teams can
+  keep their framework choices without blocking each other.
+- Shared UI and design tokens provide a single user experience across Angular
+  and React surfaces.
+- Large datasets use CDK virtual scroll.
+- XLSX generation runs in a Web Worker to avoid blocking the UI thread.
+- Docker Compose provides a local environment close to the intended split
+  runtime topology.
 
 ## CI/CD
 
-Pipeline GitLab (`.gitlab-ci.yml`) con 5 etapas:
+`.gitlab-ci.yml` defines separate install, build, test, docker, and deploy
+stages per project. Build and test stages are executable. Docker and deployment
+jobs are intentionally mocked for the evaluation environment and document where
+production would invoke registry publishing and cluster deployment.
 
-```
-install → build → test → docker → deploy
-```
+## Production Hardening Areas
 
-- Jobs **independientes** por módulo (`install:shell`, `install:mfe-analytics`,
-  `install:shared-ui`) con reglas `changes:` para saltar los que no aplican.
-- `build:shell` instala dependencias en el propio job — los runners Kubernetes de Nter
-  no tienen cache compartida entre pods.
-- Stage `docker` con `allow_failure: true` (sin registry configurado para el examen).
-- Stage `deploy` manual.
-
----
-
-## Testing
-
-```bash
-cd shell && npm test                     # Karma + Jasmine
-cd mfe-analytics-react && npm test       # Vitest
-cd shared-ui && npm test
-```
-
-Cobertura actual: 9 tests en verde. Objetivo a medio plazo: 30 %.
-
----
-
-## Troubleshooting
-
-### `x509: certificate is not valid for any names` en `docker pull`
-Red corporativa con EDR que intercepta TLS sobre `*.r2.cloudflarestorage.com`
-(CDN de Docker Hub). Configurar un mirror que no pase por Cloudflare:
-
-`~/.docker/daemon.json`:
-```json
-{ "registry-mirrors": ["https://mirror.gcr.io"] }
-```
-Reiniciar Docker Desktop.
-
-### `npx ng ... command not found` en CI
-Los runners Kubernetes de GitLab no comparten cache entre pods. Los builds
-(`build:shell`, etc.) instalan sus propias dependencias al arrancar el job.
-
-### `Conflicting values for 'process.env.NODE_ENV'` en Storybook
-Colisión benigna entre el `DefinePlugin` de `@storybook/angular` y el de Angular CLI.
-Silenciada con `config.ignoreWarnings` en `shared-ui/.storybook/main.ts` (API oficial
-de webpack 5).
-
-### `[disabled]` con `[formControl]` en stories
-Usar `new FormControl({value, disabled})` al crear el control en la story. Nunca
-combinar `[disabled]` en el template con un `formControl` activo: la directiva
-reactiva gestiona el disabled y Angular emite el warning correspondiente.
-
----
-
-## Comandos útiles
-
-```bash
-# Ver logs en vivo de un servicio del compose
-docker compose logs -f storybook
-
-# Reiniciar un solo servicio
-docker compose restart shell
-
-# Parar todo y limpiar red
-.\stop.ps1
-
-# Rebuild sin cache de un servicio
-docker compose build --no-cache storybook
-
-# Build local de la librería
-cd shared-ui && npm run build
-```
-
----
-
-## Licencia
-
-Proyecto de evaluación interna de Nter. Uso restringido.
+- Replace local CORS origins with environment-specific values.
+- Add backend session cookie flags: `HttpOnly`, `Secure`, and `SameSite`.
+- Promote Docker mock jobs to real image publishing.
+- Add end-to-end tests against the composed stack.
+- Add performance budgets and Lighthouse CI thresholds.
