@@ -263,13 +263,11 @@
   },
   "MFE": {
     "LOADING": "Loading Analytics module...",
-    "LOADING_FROM": "Loading module from",
     "RETRY": "Retry load",
     "ERROR": "Could not load Analytics module. Verify that the MFE is running."
   },
   "MFE_PAYMENTS": {
     "LOADING": "Loading Payments module...",
-    "LOADING_FROM": "Loading module from",
     "RETRY": "Retry load",
     "ERROR": "Could not load Payments module. Verify that the MFE is running."
   },

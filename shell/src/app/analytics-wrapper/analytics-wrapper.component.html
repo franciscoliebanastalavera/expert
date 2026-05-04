@@ -2,11 +2,6 @@
   @if (cargando()) {
     <div class="spinner-wrapper" [class.fade-out]="fadeOut()">
       <cap-spinner [label]="'MFE.LOADING' | translate" />
-      @if (attemptedUrl()) {
-        <p class="mfe-container__remote-url">
-          {{ 'MFE.LOADING_FROM' | translate }} <code>{{ attemptedUrl() }}</code>
-        </p>
-      }
     </div>
   }
   @if (loadError()) {

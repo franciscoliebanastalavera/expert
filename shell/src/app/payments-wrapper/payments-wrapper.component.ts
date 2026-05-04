@@ -43,7 +43,6 @@ export class PaymentsWrapperComponent implements AfterViewInit {
   readonly error = signal('');
   readonly loadAttempts = signal(0);
   readonly loadError = signal<string | null>(null);
-  readonly attemptedUrl = signal('');
 
   constructor() {
     this.destroyRef.onDestroy(() => {
@@ -68,7 +67,6 @@ export class PaymentsWrapperComponent implements AfterViewInit {
     this.fadeOut.set(false);
     this.error.set('');
     this.loadError.set(null);
-    this.attemptedUrl.set(this.remoteLoader.buildRemoteEntryUrl(this.config));
     this.cdr.detectChanges();
 
     this.remoteLoader
@@ -112,7 +110,6 @@ export class PaymentsWrapperComponent implements AfterViewInit {
     this.cargando.set(false);
     this.error.set(this.config.errorMessage);
     this.loadError.set(message);
-    this.attemptedUrl.set(result.attemptedUrl);
     this.cdr.detectChanges();
   }
 }
