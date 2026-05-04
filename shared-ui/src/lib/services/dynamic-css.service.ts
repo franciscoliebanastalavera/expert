@@ -1,15 +1,17 @@
-import { Injectable, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
+import { DestroyRef, Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { PREDEFINED_MIXINS } from './dynamic-css.const';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DynamicCssService implements OnDestroy {
+export class DynamicCssService {
   private renderer: Renderer2;
   private styleElements: Map<string, HTMLStyleElement> = new Map();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private rendererFactory: RendererFactory2) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
+    this.destroyRef.onDestroy(() => this.clearAllDynamicStyles());
   }
 
   /**
@@ -113,7 +115,4 @@ export class DynamicCssService implements OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.clearAllDynamicStyles();
-  }
 }

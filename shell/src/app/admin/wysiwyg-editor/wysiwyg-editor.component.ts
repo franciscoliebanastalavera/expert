@@ -2,10 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
   Output,
   ViewChild,
   inject,
@@ -42,7 +42,7 @@ function sanitizeHtml(source: string): string {
   templateUrl: './wysiwyg-editor.component.html',
   styleUrls: ['./wysiwyg-editor.component.scss'],
 })
-export class WysiwygEditorComponent implements AfterViewInit, OnDestroy {
+export class WysiwygEditorComponent implements AfterViewInit {
   @Input() initialContent: string = WYSIWYG_SAMPLE_TEMPLATE;
   @Output() contentChange = new EventEmitter<string>();
 
@@ -50,7 +50,14 @@ export class WysiwygEditorComponent implements AfterViewInit, OnDestroy {
 
   private readonly sanitizer = inject(DomSanitizer);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   private quill: Quill | null = null;
+
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.quill = null;
+    });
+  }
 
   readonly i18n = WYSIWYG_I18N_KEYS;
   readonly backLabelPrefix = WYSIWYG_BACK_LABEL_PREFIX;
@@ -65,10 +72,6 @@ export class WysiwygEditorComponent implements AfterViewInit, OnDestroy {
       modules: { toolbar: WYSIWYG_TOOLBAR },
     });
     this.quill.clipboard.dangerouslyPasteHTML(this.initialContent);
-  }
-
-  ngOnDestroy(): void {
-    this.quill = null;
   }
 
   save(): void {

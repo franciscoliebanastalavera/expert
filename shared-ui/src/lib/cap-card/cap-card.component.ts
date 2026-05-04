@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, Input, OnChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicCssService } from '../services/dynamic-css.service';
 
@@ -9,7 +9,7 @@ import { DynamicCssService } from '../services/dynamic-css.service';
   templateUrl: './cap-card.component.html',
   styleUrls: ['./cap-card.component.scss'],
 })
-export class CapCardComponent implements OnChanges, OnDestroy {
+export class CapCardComponent implements OnChanges {
   @Input() title = '';
 
   @Input() subtitle = '';
@@ -27,9 +27,13 @@ export class CapCardComponent implements OnChanges, OnDestroy {
   backgroundImage = '';
   cardClass = '';
   private componentId: string;
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private dynamicCss: DynamicCssService) {
     this.componentId = this.dynamicCss.generateComponentId();
+    this.destroyRef.onDestroy(() => {
+      this.dynamicCss.removeComponentClasses(this.componentId);
+    });
   }
 
   ngOnChanges(): void {
@@ -52,7 +56,4 @@ export class CapCardComponent implements OnChanges, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.dynamicCss.removeComponentClasses(this.componentId);
-  }
 }

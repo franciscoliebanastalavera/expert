@@ -7,7 +7,6 @@ import {
   DestroyRef,
   ElementRef,
   NgZone,
-  OnDestroy,
   inject,
   signal,
   viewChild,
@@ -29,7 +28,7 @@ import { RemoteMfeLoaderService } from '../core/services/remote-mfe-loader.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class PaymentsWrapperComponent implements AfterViewInit, OnDestroy {
+export class PaymentsWrapperComponent implements AfterViewInit {
   readonly container = viewChild.required<ElementRef<HTMLDivElement>>('container');
 
   private readonly document = inject(DOCUMENT);
@@ -46,15 +45,17 @@ export class PaymentsWrapperComponent implements AfterViewInit, OnDestroy {
   readonly loadError = signal<string | null>(null);
   readonly attemptedUrl = signal('');
 
-  ngAfterViewInit(): void {
-    this.loadRemote();
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      const el = this.container().nativeElement.querySelector(this.config.elementTag);
+      if (el) {
+        el.remove();
+      }
+    });
   }
 
-  ngOnDestroy(): void {
-    const el = this.container().nativeElement.querySelector(this.config.elementTag);
-    if (el) {
-      el.remove();
-    }
+  ngAfterViewInit(): void {
+    this.loadRemote();
   }
 
   retryLoad(): void {
