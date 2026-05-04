@@ -1,5 +1,4 @@
-/// <reference lib="webworker" />
-
+import { catchError, from, map, of, switchMap } from 'rxjs';
 import type { Transaction } from '../core/models';
 
 interface ExportRequest {
@@ -32,19 +31,21 @@ const COLUMNS = [
   { header: 'Categoría', key: 'categoria', width: 16 },
 ];
 
-addEventListener('message', async ({ data }: MessageEvent<ExportRequest>) => {
-  try {
-    const ExcelJS = await import('exceljs');
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Transacciones');
-    worksheet.columns = COLUMNS;
-    worksheet.addRows(data.rows);
-    const buffer = await workbook.xlsx.writeBuffer();
-    const blob = new Blob([buffer], { type: XLSX_MIME });
-    const response: ExportResponse = { success: true, blob };
-    postMessage(response);
-  } catch (error) {
-    const response: ExportResponse = { success: false, error: String(error) };
-    postMessage(response);
-  }
+addEventListener('message', ({ data }: MessageEvent<ExportRequest>) => {
+  from(import('exceljs'))
+    .pipe(
+      switchMap((ExcelJS) => {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Transacciones');
+        worksheet.columns = COLUMNS;
+        worksheet.addRows(data.rows);
+        return from(workbook.xlsx.writeBuffer());
+      }),
+      map((buffer): ExportResponse => {
+        const blob = new Blob([buffer], { type: XLSX_MIME });
+        return { success: true, blob };
+      }),
+      catchError((error) => of({ success: false, error: String(error) } as ExportResponse))
+    )
+    .subscribe((response) => postMessage(response));
 });

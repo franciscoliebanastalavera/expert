@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { TranslateService, TranslateStore } from '@ngx-translate/core';
 import { Observable, of, throwError } from 'rxjs';
 import { AnalyticsComponent } from './analytics.component';
-import { AnalyticsService } from './analytics.service';
+import { AnalyticsService } from './services/analytics.service';
 import { ExportService } from '../core/services/export.service';
 import {
   Transaction,
@@ -187,7 +187,7 @@ describe('AnalyticsComponent', () => {
       expect(component.filterForm.controls.importeMax.errors?.['min']).toBeTruthy();
     });
 
-    it('rejects amounts above MAX_AMOUNT via Validators.max', () => {
+    it('rejects amounts above the configured maximum via Validators.max', () => {
       component.filterForm.controls.importeMax.setValue(99_999_999);
       expect(component.filterForm.controls.importeMax.errors?.['max']).toBeTruthy();
     });

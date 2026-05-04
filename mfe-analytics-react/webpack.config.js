@@ -1,4 +1,3 @@
-// Webpack 5 configuration with Module Federation for the Analytics micro-frontend.
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
@@ -12,8 +11,6 @@ module.exports = (env, argv) => {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].js',
-      // `publicPath: 'auto'` is required so Module Federation resolves chunks
-      // relative to the remoteEntry URL at runtime.
       publicPath: 'auto',
       clean: true,
     },
@@ -26,7 +23,12 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.tsx?$/,
-          use: 'ts-loader',
+          use: {
+            loader: 'ts-loader',
+            options: {
+              onlyCompileBundledFiles: true,
+            },
+          },
           exclude: /node_modules/,
         },
       ],
@@ -39,8 +41,6 @@ module.exports = (env, argv) => {
         exposes: {
           './AnalyticsWeb': './src/web-component.tsx',
         },
-        // Share react/react-dom as singletons so the shell and the MFE use
-        // the same runtime instance and hooks keep working across boundaries.
         shared: {
           react: {
             singleton: true,
@@ -63,8 +63,6 @@ module.exports = (env, argv) => {
 
     devServer: {
       port: 4201,
-      // CORS wide open in dev so the shell running on a different port can
-      // fetch remoteEntry.js without preflight issues.
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',

@@ -1,15 +1,12 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AnalyticsService } from './analytics.service';
-import {
-  MOCK_API_DELAY_MS,
-  MOCK_TRANSACTIONS_COUNT,
-} from './analytics.constants';
+import { ANALYTICS_MOCK_CONFIG } from '../models/analytics.model';
 import {
   Transaction,
   TransactionCategory,
   TransactionStatus,
   TransactionType,
-} from '../core/models';
+} from '../../core/models';
 
 describe('AnalyticsService', () => {
   let service: AnalyticsService;
@@ -19,34 +16,34 @@ describe('AnalyticsService', () => {
     service = TestBed.inject(AnalyticsService);
   });
 
-  it(`should generate ${MOCK_TRANSACTIONS_COUNT} transactions`, fakeAsync(() => {
+  it(`should generate ${ANALYTICS_MOCK_CONFIG.transactionsCount} transactions`, fakeAsync(() => {
     let result: Transaction[] | undefined;
     service.getTransactions().subscribe((tx) => (result = tx));
-    tick(MOCK_API_DELAY_MS);
-    expect(result?.length).toBe(MOCK_TRANSACTIONS_COUNT);
+    tick(ANALYTICS_MOCK_CONFIG.apiDelayMs);
+    expect(result?.length).toBe(ANALYTICS_MOCK_CONFIG.transactionsCount);
   }));
 
   it('should return cached transactions on second call', fakeAsync(() => {
     let first: Transaction[] | undefined;
     let second: Transaction[] | undefined;
     service.getTransactions().subscribe((tx) => (first = tx));
-    tick(MOCK_API_DELAY_MS);
+    tick(ANALYTICS_MOCK_CONFIG.apiDelayMs);
     service.getTransactions().subscribe((tx) => (second = tx));
-    tick(MOCK_API_DELAY_MS);
+    tick(ANALYTICS_MOCK_CONFIG.apiDelayMs);
     expect(first).toBe(second);
   }));
 
   it('should filter by search text', fakeAsync(() => {
     let all: Transaction[] = [];
     service.getTransactions().subscribe((tx) => (all = tx));
-    tick(MOCK_API_DELAY_MS);
+    tick(ANALYTICS_MOCK_CONFIG.apiDelayMs);
     const filtered = service.filterTransactions(all, 'SEPA', null, null);
     expect(filtered.length).toBeGreaterThan(0);
     expect(
       filtered.every(
-        (t) =>
-          t.tipo.includes('SEPA') ||
-          t.descripcion.toLowerCase().includes('sepa')
+        (transaction) =>
+          transaction.tipo.includes('SEPA') ||
+          transaction.descripcion.toLowerCase().includes('sepa')
       )
     ).toBe(true);
   }));
@@ -54,9 +51,9 @@ describe('AnalyticsService', () => {
   it('should filter by minimum amount', fakeAsync(() => {
     let all: Transaction[] = [];
     service.getTransactions().subscribe((tx) => (all = tx));
-    tick(MOCK_API_DELAY_MS);
+    tick(ANALYTICS_MOCK_CONFIG.apiDelayMs);
     const filtered = service.filterTransactions(all, '', 50000, null);
-    expect(filtered.every((t) => Math.abs(t.importe) >= 50000)).toBe(true);
+    expect(filtered.every((transaction) => Math.abs(transaction.importe) >= 50000)).toBe(true);
   }));
 
   it('should calculate stats correctly', () => {

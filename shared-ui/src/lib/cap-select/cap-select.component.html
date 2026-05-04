@@ -5,7 +5,7 @@
   [ngClass]="{
     'cap-select__field-disabled': disabled,
     'cap-select__field-unfold': unfold,
-    'cap-select__field-invalid': control?.valid === false && control?.touched,
+    'cap-select__field-invalid': control.valid === false && control.touched,
   }"
 >
   <div class="controls">
@@ -32,7 +32,7 @@
       [class]="'cap-select__label cap-select__label-' + size"
       [ngClass]="{
         'cap-select__label-floating': fieldOnFocus || !!value,
-        'cap-select__label-invalid': control?.valid === false && control?.touched,
+        'cap-select__label-invalid': control.valid === false && control.touched,
       }"
     >
       {{ label }}
@@ -65,14 +65,14 @@
     *ngIf="unfold"
     class="cap-select__dropdown"
     [ngClass]="{
-      'cap-select__dropdown-auto': displayOptions?.length < dropdownSize,
+      'cap-select__dropdown-auto': displayOptions.length < dropdownSize,
       'cap-select__dropdown-small': size === 'small',
       'cap-select__dropdown-short': shortDropdown && !description,
       'cap-select__dropdown-description': description && !shortDropdown,
       'cap-select__dropdown-description-short': description && shortDropdown,
     }"
   >
-    <div *ngIf="displayOptions?.length !== 0">
+    <div *ngIf="displayOptions.length !== 0">
       <div
         class="options"
         *ngFor="let option of displayOptions"
@@ -107,18 +107,18 @@
         </label>
       </div>
     </div>
-    <div *ngIf="displayOptions?.length === 0" class="cap-select__dropdown-no-results">
+    <div *ngIf="displayOptions.length === 0" class="cap-select__dropdown-no-results">
       <div class="divider-option"></div>
       <p>No hay resultados coincidentes.</p>
     </div>
   </div>
 </div>
 <div class="cap-select__helpers">
-  <span *ngIf="helper && (control?.valid !== false || !control?.touched)">
+  <span *ngIf="helper && (control.valid !== false || !control.touched)">
     {{ helper }}
   </span>
   <span
-    *ngIf="control?.valid === false && control?.touched"
+    *ngIf="control.valid === false && control.touched"
     class="cap-select__helpers-error"
   >
     <ng-container
@@ -128,7 +128,7 @@
       <span>{{ helper }}</span>
     </ng-template>
     <ng-template #customError>
-      <span *ngFor="let error of control?.errors | keyvalue">
+      <span *ngFor="let error of control.errors | keyvalue">
         {{ errorMessages[error.key] }}
       </span>
     </ng-template>

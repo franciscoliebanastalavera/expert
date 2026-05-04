@@ -8,7 +8,7 @@
     maxlength="10"
     id="datepicker"
     [ngClass]="{
-      'datepicker-error': control?.valid === false && control?.touched && !disabled,
+      'datepicker-error': control.valid === false && control.touched && !disabled,
       'datepicker-hovered': isInputHovered,
     }"
     [(ngModel)]="selectedDateFormated"
@@ -36,7 +36,7 @@
           ? 'datepicker__label_floating' +
             (selectedDateFormated && !isInputFocused ? ' color-active' : '')
           : 'datepicker__label') +
-        (control?.valid === false && control?.touched && !disabled ? ' color-error' : '')
+        (control.valid === false && control.touched && !disabled ? ' color-error' : '')
       "
     >
       {{ label }}
@@ -202,18 +202,18 @@
 </div>
 <span
   style="color: #f93b0b; font-style: italics"
-  *ngFor="let error of control?.errors | keyvalue"
+  *ngFor="let error of control.errors | keyvalue"
 >
   {{ errorMessages[error.key] }}
 </span>
-<span style="color: #2cc86b; font-style: italics" *ngIf="!control?.errors">
+<span style="color: #2cc86b; font-style: italics" *ngIf="!control.errors">
   Fecha válida
 </span>
 <div class="helper-container" [ngClass]="{ disabled: disabled }">
-  <span class="helper" *ngIf="helper && (control?.valid !== false || !control?.touched)">
+  <span class="helper" *ngIf="helper && (control.valid !== false || !control.touched)">
     {{ helper }}
   </span>
-  <span *ngIf="control?.valid === false && control?.touched" class="helper-error">
+  <span *ngIf="control.valid === false && control.touched" class="helper-error">
     <ng-container
       [ngTemplateOutlet]="!!errorMessages ? customError : helperError"
     ></ng-container>
@@ -221,7 +221,7 @@
       <span>{{ helper }}</span>
     </ng-template>
     <ng-template #customError>
-      <span *ngFor="let error of control?.errors | keyvalue">
+      <span *ngFor="let error of control.errors | keyvalue">
         {{ errorMessages[error.key] }}
       </span>
     </ng-template>

@@ -7,8 +7,8 @@ import {
   TransactionCategory,
   TransactionStatus,
   TransactionType,
-} from '../core/models';
-import { TranslateServiceMock } from '../../testing/mocks';
+} from '../../../core/models';
+import { TranslateServiceMock } from '../../../../testing/mocks';
 
 const sampleTransactions: Transaction[] = [
   {
@@ -80,15 +80,15 @@ describe('AnalyticsTableComponent', () => {
   });
 
   it('formats a positive amount with the + sign and currency suffix', () => {
-    expect(component.formatAmount(1234.5)).toBe('+1234,50 €');
+    expect(component.formatAmount(1234.5)).toBe('+1234,50 \u20ac');
   });
 
   it('formats a negative amount with the - sign and absolute value', () => {
-    expect(component.formatAmount(-987.6)).toBe('-987,60 €');
+    expect(component.formatAmount(-987.6)).toBe('-987,60 \u20ac');
   });
 
-  it('formats zero with the positive sign as +0,00 €', () => {
-    expect(component.formatAmount(0)).toBe('+0,00 €');
+  it('formats zero with the positive sign as +0,00 EUR', () => {
+    expect(component.formatAmount(0)).toBe('+0,00 \u20ac');
   });
 
   it('maps each TransactionStatus to the matching badge kind', () => {

@@ -1,9 +1,8 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "rootDir": "..",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -23,14 +22,13 @@
       "ES2022",
       "dom"
     ],
-    "baseUrl": "./",
     "paths": {
       "@capitalflow/shared-ui": ["../shared-ui/src/public-api-source.ts"],
       "@capitalflow/shared-ui/*": ["../shared-ui/src/*"],
-      "@angular/*": ["node_modules/@angular/*"],
-      "rxjs": ["node_modules/rxjs"],
-      "rxjs/*": ["node_modules/rxjs/*"],
-      "tslib": ["node_modules/tslib"]
+      "@angular/*": ["./node_modules/@angular/*"],
+      "rxjs": ["./node_modules/rxjs"],
+      "rxjs/*": ["./node_modules/rxjs/*"],
+      "tslib": ["./node_modules/tslib"]
     }
   },
   "angularCompilerOptions": {

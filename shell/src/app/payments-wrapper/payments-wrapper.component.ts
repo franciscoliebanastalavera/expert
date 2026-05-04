@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
+  DestroyRef,
   ElementRef,
   NgZone,
   OnDestroy,
@@ -12,21 +13,16 @@ import {
   viewChild,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { CapSpinnerComponent } from '@capitalflow/shared-ui';
-
-const REMOTE_ENTRY_PATH = '/remoteEntry.js';
-const REMOTE_NAME = 'mfePayments';
-const EXPOSED_MODULE = './PaymentsWeb';
-const REMOTE_TYPE = 'script';
-const MFE_ELEMENT_TAG = 'mfe-payments';
-const MIN_LOADING_DELAY_MS = 600;
-const FADE_OUT_DELAY_MS = 300;
-
-const HTTPS_PORT = 443;
-const HTTP_PORT = 80;
-const HTTPS_PROTOCOL = 'https:';
+import { catchError, EMPTY, forkJoin, from, map, Observable, of, switchMap, tap, timer } from 'rxjs';
+import {
+  PAYMENTS_REMOTE_MFE_CONFIG,
+  REMOTE_MFE_PORTS,
+  RemoteMfeConfig,
+} from '../core/models';
 
 @Component({
   selector: 'app-payments-wrapper',
@@ -43,54 +39,75 @@ export class PaymentsWrapperComponent implements AfterViewInit, OnDestroy {
   private readonly document = inject(DOCUMENT);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly config = PAYMENTS_REMOTE_MFE_CONFIG;
 
   readonly cargando = signal(true);
   readonly fadeOut = signal(false);
   readonly error = signal('');
 
-  private buildMfeRemoteEntry(): string {
-    const { protocol, hostname, port } = window.location;
-    const shellPort = Number(port) || (protocol === HTTPS_PROTOCOL ? HTTPS_PORT : HTTP_PORT);
-    const mfePort = shellPort + 2;
-    return `${protocol}//${hostname}:${mfePort}${REMOTE_ENTRY_PATH}`;
-  }
-
-  async ngAfterViewInit(): Promise<void> {
-    const minDelay = new Promise<void>((r) => setTimeout(r, MIN_LOADING_DELAY_MS));
-
-    try {
-      const [module] = await Promise.all([
-        loadRemoteModule({
-          type: REMOTE_TYPE,
-          remoteEntry: this.buildMfeRemoteEntry(),
-          remoteName: REMOTE_NAME,
-          exposedModule: EXPOSED_MODULE,
+  ngAfterViewInit(): void {
+    this.loadMfe(this.config)
+      .pipe(
+        switchMap((loaded) => {
+          if (!loaded) {
+            this.showError();
+            return EMPTY;
+          }
+          this.fadeOut.set(true);
+          this.cdr.detectChanges();
+          return timer(this.config.fadeOutDelayMs).pipe(tap(() => this.appendMfeElement()));
         }),
-        minDelay,
-      ]);
-
-      this.fadeOut.set(true);
-      this.cdr.detectChanges();
-      await new Promise<void>((r) => setTimeout(r, FADE_OUT_DELAY_MS));
-
-      this.ngZone.runOutsideAngular(() => {
-        const paymentsEl = this.document.createElement(MFE_ELEMENT_TAG);
-        this.container().nativeElement.appendChild(paymentsEl);
-      });
-      this.cargando.set(false);
-      this.cdr.detectChanges();
-    } catch (_) {
-      await minDelay;
-      this.cargando.set(false);
-      this.error.set('No se pudo cargar el módulo de Payments. Verifique que el MFE esté en ejecución.');
-      this.cdr.detectChanges();
-    }
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
-    const el = this.container().nativeElement.querySelector(MFE_ELEMENT_TAG);
+    const el = this.container().nativeElement.querySelector(this.config.elementTag);
     if (el) {
       el.remove();
     }
+  }
+
+  private loadMfe(config: RemoteMfeConfig): Observable<boolean> {
+    return forkJoin({
+      loaded: from(
+        loadRemoteModule({
+          type: config.remoteType,
+          remoteEntry: this.buildMfeRemoteEntry(config),
+          remoteName: config.remoteName,
+          exposedModule: config.exposedModule,
+        })
+      ).pipe(
+        map(() => true),
+        catchError(() => of(false))
+      ),
+      delay: timer(config.minLoadingDelayMs),
+    }).pipe(map(({ loaded }) => loaded));
+  }
+
+  private appendMfeElement(): void {
+    this.ngZone.runOutsideAngular(() => {
+      const paymentsEl = this.document.createElement(this.config.elementTag);
+      this.container().nativeElement.appendChild(paymentsEl);
+    });
+    this.cargando.set(false);
+    this.cdr.detectChanges();
+  }
+
+  private showError(): void {
+    this.cargando.set(false);
+    this.error.set(this.config.errorMessage);
+    this.cdr.detectChanges();
+  }
+
+  private buildMfeRemoteEntry(config: RemoteMfeConfig): string {
+    const { protocol, hostname, port } = window.location;
+    const shellPort =
+      Number(port) ||
+      (protocol === REMOTE_MFE_PORTS.httpsProtocol ? REMOTE_MFE_PORTS.https : REMOTE_MFE_PORTS.http);
+    const mfePort = shellPort + config.portOffset;
+    return `${protocol}//${hostname}:${mfePort}${config.remoteEntryPath}`;
   }
 }

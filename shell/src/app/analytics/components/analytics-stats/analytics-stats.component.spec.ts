@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TranslateService, TranslateStore } from '@ngx-translate/core';
 import { AnalyticsStatsComponent } from './analytics-stats.component';
-import { TranslateServiceMock } from '../../testing/mocks';
+import { TranslateServiceMock } from '../../../../testing/mocks';
 
 describe('AnalyticsStatsComponent', () => {
   let fixture: ComponentFixture<AnalyticsStatsComponent>;
@@ -41,28 +41,28 @@ describe('AnalyticsStatsComponent', () => {
   });
 
   it('formats a positive amount with two decimals and the euro suffix', () => {
-    expect(component.formatAmount(1234.5)).toBe('1234,50 €');
+    expect(component.formatAmount(1234.5)).toBe('1234,50 \u20ac');
   });
 
   it('uses the absolute value when formatting a negative amount', () => {
-    expect(component.formatAmount(-987.6)).toBe('987,60 €');
+    expect(component.formatAmount(-987.6)).toBe('987,60 \u20ac');
   });
 
-  it('formats zero as 0,00 €', () => {
-    expect(component.formatAmount(0)).toBe('0,00 €');
+  it('formats zero as 0,00 EUR', () => {
+    expect(component.formatAmount(0)).toBe('0,00 \u20ac');
   });
 
   it('reflects income input as the formatted positive card value', () => {
     fixture.componentRef.setInput('income', 250.5);
     fixture.detectChanges();
     const cards = fixture.debugElement.queryAll(By.css('cap-stat-card'));
-    expect(cards[1].nativeElement.getAttribute('ng-reflect-value')).toBe('250,50 €');
+    expect(cards[1].nativeElement.getAttribute('ng-reflect-value')).toBe('250,50 \u20ac');
   });
 
   it('reflects expenses input as the negative-prefixed card value', () => {
     fixture.componentRef.setInput('expenses', 100);
     fixture.detectChanges();
     const cards = fixture.debugElement.queryAll(By.css('cap-stat-card'));
-    expect(cards[2].nativeElement.getAttribute('ng-reflect-value')).toBe('-100,00 €');
+    expect(cards[2].nativeElement.getAttribute('ng-reflect-value')).toBe('-100,00 \u20ac');
   });
 });

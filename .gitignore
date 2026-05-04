@@ -6,6 +6,10 @@ node_modules/
 dist/
 .angular/
 
+# Coverage reports - any project, any location
+**/coverage/
+**/coverage-*/
+
 # IDE
 .vscode/
 .idea/

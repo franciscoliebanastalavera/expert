@@ -7,8 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-// Note: filterValues uses signal+subscribe instead of toSignal(valueChanges) to keep
-// the strict AnalyticsFilterValues type — FormGroup.valueChanges emits Partial<T>.
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -22,30 +20,17 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapButtonComponent, CapSpinnerComponent } from '@capitalflow/shared-ui';
 import { Transaction } from '../core/models';
-import { AnalyticsService } from './analytics.service';
+import { AnalyticsService } from './services/analytics.service';
 import { ExportService } from '../core/services/export.service';
-import { AnalyticsStatsComponent } from './analytics-stats.component';
-import { AnalyticsTableComponent } from './analytics-table.component';
-import { MAX_AMOUNT, SAFE_TEXT_PATTERN, SEARCH_MAX_LENGTH } from './analytics.constants';
-
-interface AnalyticsStats {
-  total: number;
-  income: number;
-  expenses: number;
-}
-
-interface AnalyticsFilterValues {
-  texto: string;
-  importeMin: number | null;
-  importeMax: number | null;
-}
-
-const EMPTY_STATS: AnalyticsStats = { total: 0, income: 0, expenses: 0 };
-const DEFAULT_FILTERS: AnalyticsFilterValues = {
-  texto: '',
-  importeMin: null,
-  importeMax: null,
-};
+import { AnalyticsStatsComponent } from './components/analytics-stats/analytics-stats.component';
+import { AnalyticsTableComponent } from './components/analytics-table/analytics-table.component';
+import {
+  ANALYTICS_EMPTY_STATS,
+  ANALYTICS_FILTER_DEFAULTS,
+  ANALYTICS_FILTER_VALIDATION,
+  AnalyticsFilterValues,
+  AnalyticsStats,
+} from './models/analytics.model';
 
 function amountRangeValidator(control: AbstractControl): ValidationErrors | null {
   const min = control.get('importeMin')?.value;
@@ -88,17 +73,17 @@ export class AnalyticsComponent {
       texto: new FormControl<string>('', {
         nonNullable: true,
         validators: [
-          Validators.maxLength(SEARCH_MAX_LENGTH),
-          Validators.pattern(SAFE_TEXT_PATTERN),
+          Validators.maxLength(ANALYTICS_FILTER_VALIDATION.searchMaxLength),
+          Validators.pattern(ANALYTICS_FILTER_VALIDATION.safeTextPattern),
         ],
       }),
       importeMin: new FormControl<number | null>(null, [
         Validators.min(0),
-        Validators.max(MAX_AMOUNT),
+        Validators.max(ANALYTICS_FILTER_VALIDATION.maxAmount),
       ]),
       importeMax: new FormControl<number | null>(null, [
         Validators.min(0),
-        Validators.max(MAX_AMOUNT),
+        Validators.max(ANALYTICS_FILTER_VALIDATION.maxAmount),
       ]),
     },
     { validators: [amountRangeValidator] }
@@ -132,7 +117,7 @@ export class AnalyticsComponent {
   private readonly stats = computed<AnalyticsStats>(() =>
     this.transactions()
       ? this.analyticsService.calculateStats(this.transaccionesFiltradas())
-      : EMPTY_STATS
+      : ANALYTICS_EMPTY_STATS
   );
 
   readonly numTransacciones = computed<number>(() => this.stats().total);
@@ -142,7 +127,7 @@ export class AnalyticsComponent {
   readonly exportando = signal<boolean>(false);
 
   limpiarFiltros(): void {
-    this.filterForm.reset(DEFAULT_FILTERS);
+    this.filterForm.reset(ANALYTICS_FILTER_DEFAULTS);
   }
 
   exportarExcel(): void {
