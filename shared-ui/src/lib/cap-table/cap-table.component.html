@@ -2,33 +2,36 @@
   <table class="cap-table">
     <thead class="cap-table__head">
       <tr>
-        <th
-          *ngFor="let col of columns"
-          class="cap-table__th"
-          [ngClass]="col.cssClass || null"
-        >
-          {{ col.label }}
-        </th>
+        @for (col of columns; track col.key) {
+          <th
+            class="cap-table__th"
+            [ngClass]="col.cssClass || null"
+          >
+            {{ col.label }}
+          </th>
+        }
       </tr>
     </thead>
     <tbody class="cap-table__body">
-      <tr
-        *ngFor="let row of data; trackBy: trackByRow"
-        class="cap-table__row"
-      >
-        <td
-          *ngFor="let col of columns"
-          class="cap-table__td"
-          [ngClass]="col.cssClass || null"
-        >
-          <ng-container
-            *ngIf="templateFor(col.key) as cellTpl; else defaultCell"
-            [ngTemplateOutlet]="cellTpl"
-            [ngTemplateOutletContext]="{ $implicit: getCellValue(row, col.key), row: row, column: col }"
-          ></ng-container>
-          <ng-template #defaultCell>{{ getCellValue(row, col.key) }}</ng-template>
-        </td>
-      </tr>
+      @for (row of data; track trackByRow($index, row)) {
+        <tr class="cap-table__row">
+          @for (col of columns; track col.key) {
+            <td
+              class="cap-table__td"
+              [ngClass]="col.cssClass || null"
+            >
+              @if (templateFor(col.key); as cellTpl) {
+                <ng-container
+                  [ngTemplateOutlet]="cellTpl"
+                  [ngTemplateOutletContext]="{ $implicit: getCellValue(row, col.key), row: row, column: col }"
+                ></ng-container>
+              } @else {
+                {{ getCellValue(row, col.key) }}
+              }
+            </td>
+          }
+        </tr>
+      }
     </tbody>
   </table>
 </div>

@@ -1,15 +1,16 @@
-<label
-  *ngIf="label"
-  [for]="controlId"
-  class="cap-switch__label"
-  [ngClass]="{ 'cap-switch__disabled': disabled }"
-  [ngStyle]="{
-    color: labelColor === 'black' ? 'inherit' : 'white',
-    fontFamily: labelWeight === 'normal' ? 'inherit' : 'SenticoSansDT-Medium',
-  }"
->
-  {{ label }}
-</label>
+@if (label) {
+  <label
+    [for]="controlId"
+    class="cap-switch__label"
+    [ngClass]="{ 'cap-switch__disabled': disabled }"
+    [ngStyle]="{
+      color: labelColor === 'black' ? 'inherit' : 'white',
+      fontFamily: labelWeight === 'normal' ? 'inherit' : 'SenticoSansDT-Medium',
+    }"
+  >
+    {{ label }}
+  </label>
+}
 <input
   #switch
   type="checkbox"

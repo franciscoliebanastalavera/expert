@@ -12,12 +12,17 @@
     [tabIndex]="tabIndex"
     (click)="handleButton()"
 >
-    <ng-container *ngIf="loading; else content">
+    @if (loading) {
         <span class="cap-button__spinner" aria-hidden="true"></span>
-        <span *ngIf="loadingText" class="cap-button__loading-text">{{ loadingText }}</span>
-    </ng-container>
-    <ng-template #content>
-        <img *ngIf="showIcon" class="cap-button__icon" [src]="icon" alt="" />
-        <span *ngIf="showLabel" [class]="'cap-button__label-' + textStyle">{{ label }}</span>
-    </ng-template>
+        @if (loadingText) {
+            <span class="cap-button__loading-text">{{ loadingText }}</span>
+        }
+    } @else {
+        @if (showIcon) {
+            <img class="cap-button__icon" [src]="icon" alt="" />
+        }
+        @if (showLabel) {
+            <span [class]="'cap-button__label-' + textStyle">{{ label }}</span>
+        }
+    }
 </button>

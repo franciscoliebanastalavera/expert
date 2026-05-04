@@ -24,45 +24,47 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let row of vulnerabilities; trackBy: trackById"
-          class="security-center__row"
-          [class.security-center__row--briefing]="row.source === 'briefing'"
-          [class.security-center__row--additional]="row.source === 'additional-control'"
-        >
-          <td class="security-center__id">{{ row.id }}</td>
-          <td>
-            <strong>{{ row.titleKey | translate }}</strong>
-            <p>{{ row.descriptionKey | translate }}</p>
-          </td>
-          <td>{{ row.mitigationKey | translate }}</td>
-          <td>
-            <span class="status-badge" [class]="'status-badge status-badge--' + row.status">
-              {{ ('ADMIN.MATRIX.STATUS.' + row.status) | translate }}
-            </span>
-          </td>
-          <td>
-            <ul class="security-center__files">
-              <li *ngFor="let file of row.fileReferences">
-                <code>{{ file }}</code>
-              </li>
-            </ul>
-          </td>
-          <td>
-            <ng-container *ngIf="row.demoRoute as demoRoute; else noDemo">
-              <cap-button
-                variant="capitalflow-primary"
-                size="small"
-                textStyle="none"
-                [label]="i18n.OPEN_DEMO | translate"
-                (capClick)="navigateToDemo(demoRoute)">
-              </cap-button>
-            </ng-container>
-            <ng-template #noDemo>
-              <span class="security-center__muted muted">-</span>
-            </ng-template>
-          </td>
-        </tr>
+        @for (row of vulnerabilities; track trackById($index, row)) {
+          <tr
+            class="security-center__row"
+            [class.security-center__row--briefing]="row.source === 'briefing'"
+            [class.security-center__row--additional]="row.source === 'additional-control'"
+          >
+            <td class="security-center__id">{{ row.id }}</td>
+            <td>
+              <strong>{{ row.titleKey | translate }}</strong>
+              <p>{{ row.descriptionKey | translate }}</p>
+            </td>
+            <td>{{ row.mitigationKey | translate }}</td>
+            <td>
+              <span class="status-badge" [class]="'status-badge status-badge--' + row.status">
+                {{ ('ADMIN.MATRIX.STATUS.' + row.status) | translate }}
+              </span>
+            </td>
+            <td>
+              <ul class="security-center__files">
+                @for (file of row.fileReferences; track file) {
+                  <li>
+                    <code>{{ file }}</code>
+                  </li>
+                }
+              </ul>
+            </td>
+            <td>
+              @if (row.demoRoute; as demoRoute) {
+                <cap-button
+                  variant="capitalflow-primary"
+                  size="small"
+                  textStyle="none"
+                  [label]="i18n.OPEN_DEMO | translate"
+                  (capClick)="navigateToDemo(demoRoute)">
+                </cap-button>
+              } @else {
+                <span class="security-center__muted muted">-</span>
+              }
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>

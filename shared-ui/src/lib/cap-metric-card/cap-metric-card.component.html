@@ -4,21 +4,27 @@
   (click)="onClick()"
 >
   <div class="cap-metric-card__header">
-    <cap-icon
-      *ngIf="iconName"
-      class="cap-metric-card__icon"
-      [name]="iconName"
-      [spritePath]="iconSpritePath || '/assets/icons.svg'"
-    />
-    <span
-      *ngIf="variation"
-      class="cap-metric-card__variation"
-      [ngClass]="positive ? 'cap-metric-card__variation--positive' : 'cap-metric-card__variation--negative'"
-    >
-      {{ variation }}
-    </span>
+    @if (iconName) {
+      <cap-icon
+        class="cap-metric-card__icon"
+        [name]="iconName"
+        [spritePath]="iconSpritePath || '/assets/icons.svg'"
+      />
+    }
+    @if (variation) {
+      <span
+        class="cap-metric-card__variation"
+        [ngClass]="positive ? 'cap-metric-card__variation--positive' : 'cap-metric-card__variation--negative'"
+      >
+        {{ variation }}
+      </span>
+    }
   </div>
   <div class="cap-metric-card__value">{{ value }}</div>
-  <div *ngIf="title" class="cap-metric-card__title">{{ title }}</div>
-  <div *ngIf="description" class="cap-metric-card__description">{{ description }}</div>
+  @if (title) {
+    <div class="cap-metric-card__title">{{ title }}</div>
+  }
+  @if (description) {
+    <div class="cap-metric-card__description">{{ description }}</div>
+  }
 </div>

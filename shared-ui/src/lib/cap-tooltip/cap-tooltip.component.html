@@ -1,42 +1,49 @@
 <div class="cap-tooltip">
-  <div
-    *ngIf="!showTablet || !enableTooltipModal"
-    class="cap-tooltip__desktop"
-    [ngClass]="{ 'cap-tooltip__desktop__vertical-invert': invertVertical }"
-  >
+  @if (!showTablet || !enableTooltipModal) {
     <div
-      class="cap-tooltip__desktop__box"
-      [class]="'cap-tooltip__desktop__box-' + tooltipAlign"
-      [ngStyle]="{
-        visibility: showTooltip ? 'visible' : 'hidden',
-      }"
+      class="cap-tooltip__desktop"
+      [ngClass]="{ 'cap-tooltip__desktop__vertical-invert': invertVertical }"
     >
-      <p *ngIf="titleTooltip" class="title" [innerHTML]="titleTooltip"></p>
-      <p [innerHTML]="textTooltip"></p>
-    </div>
-    <div
-      class="cap-tooltip__desktop__triangle"
-      [ngStyle]="{ visibility: showTooltip ? 'visible' : 'hidden' }"
-    ></div>
-    <div class="icon" (mouseenter)="hoverIcon(true)" (mouseleave)="hoverIcon(false)">
-      <img src="images/info-reb.svg" alt="" />
-    </div>
-  </div>
-  <div *ngIf="showTablet && enableTooltipModal">
-    <div class="icon" (click)="openModalTooltip(true)">
-      <img src="images/info-reb.svg" alt="" />
-    </div>
-    <cap-modal
-      size="small"
-      [showModal]="showModalTooltip"
-      [isActiveNgContent]="true"
-      [tooltipModal]="true"
-      (closeModal)="openModalTooltip(false)"
-    >
-      <div class="container__modal">
-        <p *ngIf="titleTooltip" class="title__modal" [innerHTML]="titleTooltip"></p>
-        <p class="text" [innerHTML]="textTooltip"></p>
+      <div
+        class="cap-tooltip__desktop__box"
+        [class]="'cap-tooltip__desktop__box-' + tooltipAlign"
+        [ngStyle]="{
+          visibility: showTooltip ? 'visible' : 'hidden',
+        }"
+      >
+        @if (titleTooltip) {
+          <p class="title" [innerHTML]="titleTooltip"></p>
+        }
+        <p [innerHTML]="textTooltip"></p>
       </div>
-    </cap-modal>
-  </div>
+      <div
+        class="cap-tooltip__desktop__triangle"
+        [ngStyle]="{ visibility: showTooltip ? 'visible' : 'hidden' }"
+      ></div>
+      <div class="icon" (mouseenter)="hoverIcon(true)" (mouseleave)="hoverIcon(false)">
+        <img src="images/info-reb.svg" alt="" />
+      </div>
+    </div>
+  }
+  @if (showTablet && enableTooltipModal) {
+    <div>
+      <div class="icon" (click)="openModalTooltip(true)">
+        <img src="images/info-reb.svg" alt="" />
+      </div>
+      <cap-modal
+        size="small"
+        [showModal]="showModalTooltip"
+        [isActiveNgContent]="true"
+        [tooltipModal]="true"
+        (closeModal)="openModalTooltip(false)"
+      >
+        <div class="container__modal">
+          @if (titleTooltip) {
+            <p class="title__modal" [innerHTML]="titleTooltip"></p>
+          }
+          <p class="text" [innerHTML]="textTooltip"></p>
+        </div>
+      </cap-modal>
+    </div>
+  }
 </div>

@@ -2,14 +2,15 @@
   <div class="cap-data-grid__inner">
     <div class="cap-data-grid__header" role="rowgroup">
       <div class="cap-data-grid__row cap-data-grid__row--header" role="row">
-        <div
-          *ngFor="let col of columns"
-          class="cap-data-grid__cell cap-data-grid__cell--header"
-          role="columnheader"
-          [ngClass]="col.cssClass || null"
-        >
-          {{ col.label }}
-        </div>
+        @for (col of columns; track col.key) {
+          <div
+            class="cap-data-grid__cell cap-data-grid__cell--header"
+            role="columnheader"
+            [ngClass]="col.cssClass || null"
+          >
+            {{ col.label }}
+          </div>
+        }
       </div>
     </div>
     <cdk-virtual-scroll-viewport
@@ -23,19 +24,22 @@
         role="row"
         [style.height.px]="itemSize"
       >
-        <div
-          *ngFor="let col of columns"
-          class="cap-data-grid__cell"
-          role="cell"
-          [ngClass]="col.cssClass || null"
-        >
-          <ng-container
-            *ngIf="templateFor(col.key) as cellTpl; else defaultCell"
-            [ngTemplateOutlet]="cellTpl"
-            [ngTemplateOutletContext]="{ $implicit: getCellValue(row, col.key), row: row, column: col }"
-          ></ng-container>
-          <ng-template #defaultCell>{{ getCellValue(row, col.key) }}</ng-template>
-        </div>
+        @for (col of columns; track col.key) {
+          <div
+            class="cap-data-grid__cell"
+            role="cell"
+            [ngClass]="col.cssClass || null"
+          >
+            @if (templateFor(col.key); as cellTpl) {
+              <ng-container
+                [ngTemplateOutlet]="cellTpl"
+                [ngTemplateOutletContext]="{ $implicit: getCellValue(row, col.key), row: row, column: col }"
+              ></ng-container>
+            } @else {
+              {{ getCellValue(row, col.key) }}
+            }
+          </div>
+        }
       </div>
     </cdk-virtual-scroll-viewport>
   </div>
