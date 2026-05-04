@@ -15,6 +15,16 @@
     margin: 0 0 2rem;
   }
 
+  &__payload {
+    margin-bottom: 1.5rem;
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.25rem;
+      color: var(--cap-text, #1e1e1e);
+    }
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -60,6 +70,13 @@
     word-break: break-word;
     font-size: 1.0625rem;
     color: var(--cap-text, #1e1e1e);
+  }
+
+  &__comparison {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
   &__footer {

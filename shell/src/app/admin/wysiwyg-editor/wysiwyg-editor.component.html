@@ -2,6 +2,17 @@
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
   <p class="wysiwyg__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
+  <section class="wysiwyg__payload">
+    <h2>{{ i18n.PAYLOAD_TITLE | translate }}</h2>
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="i18n.INJECT_BUTTON | translate"
+      (capClick)="injectTestPayload()">
+    </cap-button>
+  </section>
+
   <div class="wysiwyg__editor">
     <div #editorHost></div>
   </div>
@@ -24,6 +35,10 @@
       }
 
       <h2>{{ i18n.SANITIZED_HEADING | translate }}</h2>
+      <div class="wysiwyg__comparison">
+        <cap-alert kind="danger" [message]="i18n.WITHOUT_MITIGATION | translate"></cap-alert>
+        <cap-alert kind="success" [message]="i18n.WITH_MITIGATION | translate"></cap-alert>
+      </div>
       <div class="wysiwyg__preview" [innerHTML]="sanitizedPreview()"></div>
     </div>
   }
@@ -33,7 +48,7 @@
       variant="capitalflow-outline"
       size="small"
       textStyle="none"
-      [label]="'← ' + (i18n.BACK | translate)"
+      [label]="backLabelPrefix + (i18n.BACK | translate)"
       (capClick)="goBack()">
     </cap-button>
   </footer>

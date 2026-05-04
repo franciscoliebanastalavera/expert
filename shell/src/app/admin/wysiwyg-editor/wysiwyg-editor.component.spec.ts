@@ -27,6 +27,17 @@ describe('WysiwygEditorComponent', () => {
     expect(component.hasInjectionAttempt()).toBeFalse();
   });
 
+  it('strips script and onerror after save with malicious payload', () => {
+    fixture.detectChanges();
+
+    component.injectTestPayload();
+    component.save();
+
+    const sanitized = component.sanitizedHtml();
+    expect(sanitized).not.toContain('<script');
+    expect(sanitized).not.toContain('onerror=');
+  });
+
   it('navigates back to the admin landing when goBack is called', () => {
     const router = TestBed.inject(Router);
     const navSpy = spyOn(router, 'navigate');

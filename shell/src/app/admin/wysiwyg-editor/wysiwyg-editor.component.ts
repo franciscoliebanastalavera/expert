@@ -19,32 +19,20 @@ import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
 import * as DOMPurifyModule from 'dompurify';
 import Quill from 'quill';
 import { ADMIN_LANDING_ROUTE } from '../admin-landing/admin-landing.constants';
+import {
+  WYSIWYG_BACK_LABEL_PREFIX,
+  WYSIWYG_I18N_KEYS,
+  WYSIWYG_SAMPLE_TEMPLATE,
+  WYSIWYG_TEST_PAYLOAD,
+  WYSIWYG_TOOLBAR,
+} from './wysiwyg-editor.constants';
 
-const DOMPurify: { sanitize(source: string): string } =
-  (DOMPurifyModule as never)['default'] || DOMPurifyModule;
-
-const TOOLBAR = [
-  ['bold', 'italic', 'underline'],
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  ['link'],
-  ['clean'],
-];
-
-const SAMPLE_TEMPLATE = `
-  <h2>Quarterly compliance report — template</h2>
-  <p>The following data block is replaced at render time with the regulatory dataset.</p>
-  <ul><li>Reporting period</li><li>Counterparties</li><li>Total volume</li></ul>
-`;
-
-const I18N_KEYS = {
-  PAGE_TITLE: 'ADMIN.DEMOS.WYSIWYG.PAGE_TITLE',
-  PAGE_LEAD: 'ADMIN.DEMOS.WYSIWYG.PAGE_LEAD',
-  SAVE_BUTTON: 'ADMIN.DEMOS.WYSIWYG.SAVE_BUTTON',
-  RAW_HEADING: 'ADMIN.DEMOS.WYSIWYG.RAW_HEADING',
-  INJECTION_WARNING: 'ADMIN.DEMOS.WYSIWYG.INJECTION_WARNING',
-  SANITIZED_HEADING: 'ADMIN.DEMOS.WYSIWYG.SANITIZED_HEADING',
-  BACK: 'ADMIN.DEMOS.BACK',
-} as const;
+function sanitizeHtml(source: string): string {
+  const purifier = ((DOMPurifyModule as never)['default'] || DOMPurifyModule) as {
+    sanitize(value: string): string;
+  };
+  return purifier.sanitize(source);
+}
 
 @Component({
   selector: 'app-wysiwyg-editor',
@@ -55,7 +43,7 @@ const I18N_KEYS = {
   styleUrls: ['./wysiwyg-editor.component.scss'],
 })
 export class WysiwygEditorComponent implements AfterViewInit, OnDestroy {
-  @Input() initialContent: string = SAMPLE_TEMPLATE;
+  @Input() initialContent: string = WYSIWYG_SAMPLE_TEMPLATE;
   @Output() contentChange = new EventEmitter<string>();
 
   @ViewChild('editorHost', { static: true }) editorHost!: ElementRef<HTMLDivElement>;
@@ -64,15 +52,17 @@ export class WysiwygEditorComponent implements AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
   private quill: Quill | null = null;
 
-  readonly i18n = I18N_KEYS;
+  readonly i18n = WYSIWYG_I18N_KEYS;
+  readonly backLabelPrefix = WYSIWYG_BACK_LABEL_PREFIX;
   readonly sanitizedPreview = signal<SafeHtml>('');
+  readonly sanitizedHtml = signal<string>('');
   readonly rawHtml = signal<string>('');
   readonly hasInjectionAttempt = signal<boolean>(false);
 
   ngAfterViewInit(): void {
     this.quill = new Quill(this.editorHost.nativeElement, {
       theme: 'snow',
-      modules: { toolbar: TOOLBAR },
+      modules: { toolbar: WYSIWYG_TOOLBAR },
     });
     this.quill.clipboard.dangerouslyPasteHTML(this.initialContent);
   }
@@ -86,11 +76,19 @@ export class WysiwygEditorComponent implements AfterViewInit, OnDestroy {
       return;
     }
     const raw = this.quill.root.innerHTML;
-    const clean = DOMPurify.sanitize(raw);
+    const clean = sanitizeHtml(raw);
     this.rawHtml.set(raw);
     this.hasInjectionAttempt.set(/<script|onerror=|onload=|javascript:/i.test(raw));
+    this.sanitizedHtml.set(clean);
     this.sanitizedPreview.set(this.sanitizer.bypassSecurityTrustHtml(clean));
     this.contentChange.emit(clean);
+  }
+
+  injectTestPayload(): void {
+    if (!this.quill) {
+      return;
+    }
+    this.quill.clipboard.dangerouslyPasteHTML(WYSIWYG_TEST_PAYLOAD);
   }
 
   goBack(): void {

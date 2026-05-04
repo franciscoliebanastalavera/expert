@@ -30,6 +30,13 @@ describe('PdfViewerComponent', () => {
     expect(component.errorKey()).toBe('ADMIN.DEMOS.PDF.INVALID_URL');
   });
 
+  it('rejects injected javascript: payload', () => {
+    component.injectTestPayload();
+    component.load();
+    expect(component.errorKey()).toBeTruthy();
+    expect(component.validatedUrl()).toBe('');
+  });
+
   it('accepts a well-formed HTTPS report URL', () => {
     const url = 'https://reports.capitalflow.example.com/reports/q1-2026.pdf';
     component.urlControl.setValue(url);

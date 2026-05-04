@@ -2,6 +2,16 @@
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
   <p class="document-uploads__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
+  <section class="document-uploads__payload">
+    <h2>{{ i18n.PAYLOAD_TITLE | translate }}</h2>
+    <cap-alert kind="info" [message]="i18n.HOSTILE_ROW_NOTE | translate"></cap-alert>
+  </section>
+
+  <div class="document-uploads__comparison">
+    <cap-alert kind="danger" [message]="i18n.WITHOUT_MITIGATION | translate"></cap-alert>
+    <cap-alert kind="success" [message]="i18n.WITH_MITIGATION | translate"></cap-alert>
+  </div>
+
   <cap-table
     [columns]="columns()"
     [data]="documents()"
@@ -13,7 +23,7 @@
       variant="capitalflow-outline"
       size="small"
       textStyle="none"
-      [label]="'← ' + (i18n.BACK | translate)"
+      [label]="backLabelPrefix + (i18n.BACK | translate)"
       (capClick)="goBack()">
     </cap-button>
   </footer>

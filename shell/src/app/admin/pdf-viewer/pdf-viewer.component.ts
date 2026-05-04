@@ -7,26 +7,13 @@ import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
 import { ADMIN_LANDING_ROUTE } from '../admin-landing/admin-landing.constants';
 import {
   PDF_ALLOWED_HOSTS,
+  PDF_BACK_LABEL_PREFIX,
   PDF_PATH_PATTERN,
   PDF_REQUIRED_PROTOCOL,
+  PDF_TEST_PAYLOAD,
+  PDF_VIEWER_I18N_KEYS,
   PDF_VIEWER_DEFAULT_URL,
 } from './pdf-viewer.constants';
-
-const I18N_KEYS = {
-  PAGE_TITLE: 'ADMIN.DEMOS.PDF.PAGE_TITLE',
-  PAGE_LEAD: 'ADMIN.DEMOS.PDF.PAGE_LEAD',
-  FIELD_LABEL: 'ADMIN.DEMOS.PDF.FIELD_LABEL',
-  LOAD_BUTTON: 'ADMIN.DEMOS.PDF.LOAD_BUTTON',
-  INVALID_URL: 'ADMIN.DEMOS.PDF.INVALID_URL',
-  VALIDATED_HEADER: 'ADMIN.DEMOS.PDF.VALIDATED_HEADER',
-  VALIDATED_NOTE: 'ADMIN.DEMOS.PDF.VALIDATED_NOTE',
-  HINTS_TITLE: 'ADMIN.DEMOS.PDF.HINTS_TITLE',
-  HINT_VALID: 'ADMIN.DEMOS.PDF.HINT_VALID',
-  HINT_INVALID_PROTOCOL: 'ADMIN.DEMOS.PDF.HINT_INVALID_PROTOCOL',
-  HINT_INVALID_HTTP: 'ADMIN.DEMOS.PDF.HINT_INVALID_HTTP',
-  HINT_INVALID_PATH: 'ADMIN.DEMOS.PDF.HINT_INVALID_PATH',
-  BACK: 'ADMIN.DEMOS.BACK',
-} as const;
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -39,7 +26,8 @@ const I18N_KEYS = {
 export class PdfViewerComponent {
   private readonly router = inject(Router);
 
-  readonly i18n = I18N_KEYS;
+  readonly i18n = PDF_VIEWER_I18N_KEYS;
+  readonly backLabelPrefix = PDF_BACK_LABEL_PREFIX;
   readonly urlControl = new FormControl<string>(PDF_VIEWER_DEFAULT_URL, {
     nonNullable: true,
     validators: [Validators.required],
@@ -54,11 +42,15 @@ export class PdfViewerComponent {
     this.validatedUrl.set('');
 
     if (!this.isAllowedReportUrl(candidate)) {
-      this.errorKey.set(I18N_KEYS.INVALID_URL);
+      this.errorKey.set(PDF_VIEWER_I18N_KEYS.INVALID_URL);
       return;
     }
 
     this.validatedUrl.set(candidate);
+  }
+
+  injectTestPayload(): void {
+    this.urlControl.setValue(PDF_TEST_PAYLOAD);
   }
 
   goBack(): void {

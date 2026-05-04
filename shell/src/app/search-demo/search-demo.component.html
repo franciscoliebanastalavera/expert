@@ -2,6 +2,17 @@
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
   <p class="search-demo__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
+  <section class="search-demo__payload">
+    <h2>{{ i18n.PAYLOAD_TITLE | translate }}</h2>
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="i18n.INJECT_BUTTON | translate"
+      (capClick)="injectTestPayload()">
+    </cap-button>
+  </section>
+
   <form class="search-demo__form" (submit)="search(); $event.preventDefault()">
     <label class="search-demo__field">
       <span class="search-demo__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
@@ -19,6 +30,10 @@
   </form>
 
   @if (query()) {
+    <div class="search-demo__comparison">
+      <cap-alert kind="danger" [message]="i18n.WITHOUT_MITIGATION | translate"></cap-alert>
+      <cap-alert kind="success" [message]="i18n.WITH_MITIGATION | translate"></cap-alert>
+    </div>
     <h2 class="search-demo__heading">{{ i18n.RESULTS_PREFIX | translate }} <span [innerText]="query()"></span></h2>
     <cap-alert kind="success" [message]="i18n.NOTE | translate"></cap-alert>
   }
@@ -28,7 +43,7 @@
       variant="capitalflow-outline"
       size="small"
       textStyle="none"
-      [label]="'← ' + (i18n.BACK | translate)"
+      [label]="backLabelPrefix + (i18n.BACK | translate)"
       (capClick)="goBack()">
     </cap-button>
   </footer>

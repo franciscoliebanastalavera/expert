@@ -35,6 +35,16 @@ describe('SearchDemoComponent', () => {
     expect(heading.nativeElement.textContent).toContain('<script>alert(1)</script>');
   });
 
+  it('renders injected xss payload as literal text via innerText', () => {
+    component.injectTestPayload();
+    component.search();
+    fixture.detectChanges();
+
+    const heading = fixture.debugElement.query(By.css('.search-demo__heading'));
+    expect(heading.nativeElement.querySelector('script')).toBeNull();
+    expect(heading.nativeElement.textContent).toContain('<script>');
+  });
+
   it('navigates back to the admin landing when goBack is called', () => {
     const router = TestBed.inject(Router);
     const navSpy = spyOn(router, 'navigate');

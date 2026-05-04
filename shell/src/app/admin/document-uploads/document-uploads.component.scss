@@ -15,6 +15,23 @@
     margin: 0 0 2rem;
   }
 
+  &__payload {
+    margin-bottom: 1rem;
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.25rem;
+      color: var(--cap-text, #1e1e1e);
+    }
+  }
+
+  &__comparison {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
   &__filename {
     font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", monospace;
     word-break: break-word;

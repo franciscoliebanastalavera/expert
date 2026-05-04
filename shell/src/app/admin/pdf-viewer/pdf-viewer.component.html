@@ -2,6 +2,17 @@
   <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
   <p class="pdf-viewer__lead">{{ i18n.PAGE_LEAD | translate }}</p>
 
+  <section class="pdf-viewer__payload">
+    <h2>{{ i18n.PAYLOAD_TITLE | translate }}</h2>
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="i18n.INJECT_BUTTON | translate"
+      (capClick)="injectTestPayload()">
+    </cap-button>
+  </section>
+
   <form class="pdf-viewer__form" (submit)="load(); $event.preventDefault()">
     <label class="pdf-viewer__field">
       <span class="pdf-viewer__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
@@ -16,6 +27,13 @@
       (capClick)="load()">
     </cap-button>
   </form>
+
+  @if (errorKey() || validatedUrl()) {
+    <div class="pdf-viewer__comparison">
+      <cap-alert kind="danger" [message]="i18n.WITHOUT_MITIGATION | translate"></cap-alert>
+      <cap-alert kind="success" [message]="i18n.WITH_MITIGATION | translate"></cap-alert>
+    </div>
+  }
 
   @if (errorKey()) {
     <cap-alert kind="danger" [message]="errorKey() | translate"></cap-alert>
@@ -43,7 +61,7 @@
       variant="capitalflow-outline"
       size="small"
       textStyle="none"
-      [label]="'← ' + (i18n.BACK | translate)"
+      [label]="backLabelPrefix + (i18n.BACK | translate)"
       (capClick)="goBack()">
     </cap-button>
   </footer>
