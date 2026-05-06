@@ -37,7 +37,7 @@ export class CapTooltipComponent {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  showTablet: boolean;
+  showTablet!: boolean;
   showTooltip = false;
   showModalTooltip = false;
 

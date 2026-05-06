@@ -18,8 +18,9 @@ const meta: Meta<CapInputComponent> = {
     helper: { control: 'text' },
     disabled: { control: 'boolean' },
     type: { control: 'select', options: ['text', 'number', 'password'] },
-    variant: { control: 'select', options: ['standard', 'clear'] },
-    size: { control: 'select', options: ['standard', 'small'] },
+    variant: { control: 'select', options: ['standard', 'clear', 'minimal'] },
+    size: { control: 'select', options: ['standard', 'small', 'medium'] },
+    fontFamily: { control: 'select', options: ['default', 'monospace'] },
     multiline: { control: 'boolean' },
     maxLength: { control: 'number' },
   },
@@ -37,6 +38,7 @@ const template = `
       [type]="type"
       [variant]="variant"
       [size]="size"
+      [fontFamily]="fontFamily"
       [multiline]="multiline"
       [maxLength]="maxLength"
       [customClass]="customClass"
@@ -125,5 +127,62 @@ export const Disabled: Story = {
     type: 'text',
     variant: 'standard',
     size: 'standard',
+  },
+};
+
+export const MinimalSmall: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      customClass: {},
+      control: new FormControl({ value: '', disabled: !!args.disabled }),
+    },
+    template,
+  }),
+  args: {
+    name: 'search',
+    placeholder: 'Buscar...',
+    type: 'text',
+    variant: 'minimal',
+    size: 'small',
+    fontFamily: 'default',
+  },
+};
+
+export const MinimalMedium: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      customClass: {},
+      control: new FormControl({ value: '', disabled: !!args.disabled }),
+    },
+    template,
+  }),
+  args: {
+    name: 'amount',
+    placeholder: 'EUR Min',
+    type: 'number',
+    variant: 'minimal',
+    size: 'medium',
+    fontFamily: 'default',
+  },
+};
+
+export const MinimalMonospace: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      customClass: {},
+      control: new FormControl({ value: '', disabled: !!args.disabled }),
+    },
+    template,
+  }),
+  args: {
+    name: 'url',
+    placeholder: 'https://example.com',
+    type: 'text',
+    variant: 'minimal',
+    size: 'small',
+    fontFamily: 'monospace',
   },
 };

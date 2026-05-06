@@ -11,6 +11,53 @@
   position: relative;
 }
 
+:host:has(.cap-input--minimal) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.cap-input--minimal {
+  display: block;
+  width: 100%;
+
+  > input {
+    width: 100%;
+    border: 1px solid var(--cap-border, #d1d5db);
+    border-radius: 0.375rem;
+    background: var(--cap-bg-elevated, #fff);
+    color: var(--cap-text, #1e1e1e);
+    font-family: inherit;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: 2px solid var(--cap-border-focus, #2563eb);
+      outline-offset: 1px;
+      border-color: var(--cap-border-focus, #2563eb);
+    }
+
+    &.cap-input--invalid {
+      border-color: var(--cap-danger, #c51321);
+    }
+  }
+}
+
+.cap-input--minimal-small > input {
+  padding: 0.5rem 0.625rem;
+  font-size: 0.9375rem;
+}
+
+.cap-input--minimal-medium > input {
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.cap-input--minimal[data-font="monospace"] > input {
+  font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", monospace;
+  font-size: 0.875rem;
+}
+
 .cap-input {
   @mixin labelFloating($x: 3px, $y: -24px, $color-float: $white) {
     background: $color-float;

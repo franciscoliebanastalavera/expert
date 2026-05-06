@@ -27,3 +27,5 @@ export * from './lib/cap-alert/cap-alert.component';
 export * from './lib/cap-alert/cap-alert.types';
 
 export * from './lib/cap-info-card/cap-info-card.component';
+
+export * from './lib/cap-input/cap-input.component';

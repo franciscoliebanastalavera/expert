@@ -43,22 +43,6 @@
     color: var(--cap-text, #1e1e1e);
   }
 
-  &__input {
-    width: 100%;
-    padding: 0.5rem 0.625rem;
-    border: 1px solid var(--cap-border, #d1d5db);
-    border-radius: var(--cap-radius-sm, 0.375rem);
-    font-size: 0.9375rem;
-    background: var(--cap-bg-elevated, #fff);
-    color: var(--cap-text, #1e1e1e);
-
-    &:focus {
-      outline: 2px solid var(--cap-border-focus, #2563eb);
-      outline-offset: 1px;
-      border-color: var(--cap-border-focus, #2563eb);
-    }
-  }
-
   &__hint {
     color: var(--cap-text-muted, #6b7280);
     font-size: 0.8125rem;

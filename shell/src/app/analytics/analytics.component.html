@@ -30,42 +30,43 @@
     <div class="filtros" [formGroup]="filterForm">
       <div class="filtro-grupo">
         <label>{{ 'ANALYTICS.FILTERS.SEARCH' | translate }}</label>
-        <input
+        <cap-input
+          variant="minimal"
+          size="medium"
           type="text"
+          width="100%"
+          [maxLength]="80"
           formControlName="texto"
-          maxlength="80"
-          [placeholder]="'ANALYTICS.FILTERS.SEARCH_PLACEHOLDER' | translate"
-          class="filtro-input"
-          [class.is-invalid]="filterForm.controls.texto.invalid && filterForm.controls.texto.touched"
-        />
+          [placeholder]="'ANALYTICS.FILTERS.SEARCH_PLACEHOLDER' | translate">
+        </cap-input>
         @if (filterForm.controls.texto.errors?.['pattern'] && filterForm.controls.texto.touched) {
           <p class="filtro-error">{{ 'ANALYTICS.ERRORS.TEXT_INVALID' | translate }}</p>
         }
       </div>
-      <div class="filtro-grupo">
+      <div class="filtro-grupo filtro-grupo--num">
         <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MIN' | translate }}</label>
-        <input
+        <cap-input
+          variant="minimal"
+          size="medium"
           type="number"
+          width="100%"
           formControlName="importeMin"
-          min="0"
-          placeholder="EUR Min"
-          class="filtro-input filtro-num"
-          [class.is-invalid]="filterForm.controls.importeMin.invalid && filterForm.controls.importeMin.touched"
-        />
+          placeholder="EUR Min">
+        </cap-input>
         @if (filterForm.controls.importeMin.errors?.['min'] && filterForm.controls.importeMin.touched) {
           <p class="filtro-error">{{ 'ANALYTICS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
         }
       </div>
-      <div class="filtro-grupo">
+      <div class="filtro-grupo filtro-grupo--num">
         <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MAX' | translate }}</label>
-        <input
+        <cap-input
+          variant="minimal"
+          size="medium"
           type="number"
+          width="100%"
           formControlName="importeMax"
-          min="0"
-          placeholder="EUR Max"
-          class="filtro-input filtro-num"
-          [class.is-invalid]="filterForm.controls.importeMax.invalid && filterForm.controls.importeMax.touched"
-        />
+          placeholder="EUR Max">
+        </cap-input>
         @if (filterForm.controls.importeMax.errors?.['min'] && filterForm.controls.importeMax.touched) {
           <p class="filtro-error">{{ 'ANALYTICS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
         }

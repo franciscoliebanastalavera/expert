@@ -1,179 +1,203 @@
-<div
-  appClickOutside
-  (clickedOutside)="clickOutside()"
-  #fieldContainer
-  [class]="'cap-input__field cap-input__field-' + size()"
-  [ngClass]="{
-    'cap-input__field-disabled': disabled(),
-    'cap-input__field-clear': variant() === 'clear',
-    'cap-input__field-invalid': control.valid === false && control.touched,
-  }"
->
-  @if (prefix() && (!!value || fieldOnFocus)) {
-    <span class="cap-input__prefix">
-      {{ prefix() }}
-    </span>
-  }
-  @if (!multiline()) {
+@if (variant() === 'minimal') {
+  <div
+    #fieldContainer
+    [class]="'cap-input cap-input--minimal cap-input--minimal-' + size()"
+    [attr.data-font]="fontFamily()"
+  >
     <input
       #input
       [id]="name()"
       [name]="name()"
-      [ngModel]="value | iban: control : !showIBAN && customBehaviour() === 'IBAN'"
-      [type]="showPassword ? 'text' : type()"
+      [ngModel]="value"
+      [type]="type()"
       [placeholder]="placeholder()"
       [disabled]="disabled()"
       [attr.maxlength]="maxLength()"
-      [class]="'cap-input__field-custom-' + componentId"
+      [class.cap-input--invalid]="control && control.valid === false && control.touched"
       spellcheck="false"
       (input)="handleInput(input.value)"
       (focus)="handleFocus()"
       (blur)="handleBlur($event)"
-      (keyup)="handleKeyUp(input.value)"
     />
-  } @else {
-    <textarea
-      #textarea
-      class="cap-input__field-multiline"
-      [placeholder]="placeholder()"
-      [id]="name()"
-      [name]="name()"
-      [ngModel]="value"
-      [disabled]="disabled()"
-      [attr.maxlength]="maxLength()"
-      spellcheck="false"
-      (input)="handleInput(textarea.value)"
-      (focus)="handleFocus()"
-      (blur)="handleBlur($event)"
-    ></textarea>
-  }
-  @if (label()) {
-    <label
-      [for]="name()"
-      [class]="
-        'cap-input__label-custom-' +
-        componentId +
-        ' cap-input__label cap-input__label-' +
-        size()
-      "
-      [ngClass]="{
-        'cap-input__label-floating': fieldOnFocus || !!value || variant() === 'clear',
-        'cap-input__label-clear': variant() === 'clear',
-        'cap-input__label-invalid': control.valid === false && control.touched,
-      }"
-    >
-      {{ label() }}
-    </label>
-  }
-  @if (suffix() && (!!value || fieldOnFocus)) {
-    <span class="cap-input__suffix">
-      {{ suffix() }}
-    </span>
-  }
+  </div>
+} @else {
   <div
-    class="cap-input__buttons"
+    appClickOutside
+    (clickedOutside)="clickOutside()"
+    #fieldContainer
+    [class]="'cap-input__field cap-input__field-' + size()"
     [ngClass]="{
-      'clear-buttons': variant() === 'clear',
+      'cap-input__field-disabled': disabled(),
+      'cap-input__field-clear': variant() === 'clear',
+      'cap-input__field-invalid': control.valid === false && control.touched,
     }"
   >
-    @if (fieldOnFocus && !!value) {
-      <cap-button
-        class="clean-button"
-        variant="icon-button"
-        [inputButton]="true"
-        size="small"
-        icon="images/circle-cross-reb.svg"
-        (click)="handleClear()"
-      ></cap-button>
+    @if (prefix() && (!!value || fieldOnFocus)) {
+      <span class="cap-input__prefix">
+        {{ prefix() }}
+      </span>
     }
-    @if (
-      ((showPassword && type() === 'password') ||
-        (showIBAN && customBehaviour() === 'IBAN')) &&
-      !!value
-    ) {
-      <cap-button
-        class="eye-button"
-        variant="icon-button"
-        [inputButton]="true"
-        size="small"
-        icon="images/eye-strike-reb.svg"
-        (click)="handleShow()"
-      ></cap-button>
+    @if (!multiline()) {
+      <input
+        #input
+        [id]="name()"
+        [name]="name()"
+        [ngModel]="value | iban: control : !showIBAN && customBehaviour() === 'IBAN'"
+        [type]="showPassword ? 'text' : type()"
+        [placeholder]="placeholder()"
+        [disabled]="disabled()"
+        [attr.maxlength]="maxLength()"
+        [class]="'cap-input__field-custom-' + componentId"
+        spellcheck="false"
+        (input)="handleInput(input.value)"
+        (focus)="handleFocus()"
+        (blur)="handleBlur($event)"
+        (keyup)="handleKeyUp(input.value)"
+      />
+    } @else {
+      <textarea
+        #textarea
+        class="cap-input__field-multiline"
+        [placeholder]="placeholder()"
+        [id]="name()"
+        [name]="name()"
+        [ngModel]="value"
+        [disabled]="disabled()"
+        [attr.maxlength]="maxLength()"
+        spellcheck="false"
+        (input)="handleInput(textarea.value)"
+        (focus)="handleFocus()"
+        (blur)="handleBlur($event)"
+      ></textarea>
     }
-    @if (
-      ((!showPassword && type() === 'password') ||
-        (!showIBAN && customBehaviour() === 'IBAN')) &&
-      !!value
-    ) {
-      <cap-button
-        class="eye-button"
-        variant="icon-button"
-        [inputButton]="true"
-        size="small"
-        icon="images/eye-reb.svg"
-        (click)="handleShow()"
-      ></cap-button>
-    }
-    @if ((tooltipText() && value === '') || (tooltipText() && tooltipPermanent())) {
-      <cap-tooltip
-        [titleTooltip]="tooltipTitle()"
-        [textTooltip]="tooltipText()"
-        [tooltipAlign]="tooltipAlign()"
-        [invertVertical]="tooltipVertical()"
-        [enableTooltipModal]="tooltipModal()"
+    @if (label()) {
+      <label
+        [for]="name()"
+        [class]="
+          'cap-input__label-custom-' +
+          componentId +
+          ' cap-input__label cap-input__label-' +
+          size()
+        "
+        [ngClass]="{
+          'cap-input__label-floating': fieldOnFocus || !!value || variant() === 'clear',
+          'cap-input__label-clear': variant() === 'clear',
+          'cap-input__label-invalid': control.valid === false && control.touched,
+        }"
       >
-      </cap-tooltip>
+        {{ label() }}
+      </label>
     }
-  </div>
-</div>
-<div
-  class="cap-input__helpers"
-  [ngClass]="{
-    'cap-input__helpers-clear': variant() === 'clear',
-  }"
->
-  @if (
-    type() === 'password' &&
-    customBehaviour() === 'password' &&
-    (!(control.errors?.required && control.valid === false) || !control.touched)
-  ) {
-    <span
+    @if (suffix() && (!!value || fieldOnFocus)) {
+      <span class="cap-input__suffix">
+        {{ suffix() }}
+      </span>
+    }
+    <div
+      class="cap-input__buttons"
       [ngClass]="{
-        'cap-input__helpers-error': !control.valid && control.touched,
+        'clear-buttons': variant() === 'clear',
       }"
     >
-      <span>Mínimo: </span>
-      <span [ngClass]="{ 'cap-input__helpers-match': checkLength }">8 caracteres</span>
-      <span [ngClass]="{ 'cap-input__helpers-match': checkOneMin }">, minúscula</span>
-      <span [ngClass]="{ 'cap-input__helpers-match': checkOneCap }">, mayúscula</span>
-      <span [ngClass]="{ 'cap-input__helpers-match': checkOneDigit }">, y número.</span>
-    </span>
-  }
-  @if (helper() && (control.valid !== false || !control.touched)) {
-    <span class="helper-text">
-      {{ helper() }}
-    </span>
-  }
-  <br />
-  @for (error of control.errors | keyvalue; track error.key) {
-    <span style="color: #f93b0b; font-style: italics">
-      {{ errorMessages()[error.key] }}
-    </span>
-  }
-  @if (control.valid === false && control.touched) {
-    <span class="helper-text cap-input__helpers-error">
-      @if (errorMessages() && (errorMessages() | keyvalue).length) {
-        @for (error of control.errors | keyvalue; track error.key) {
-          <span>
-            {{ errorMessages()[error.key] }}
-          </span>
-        }
-      } @else {
-        <span>{{ helper() }}</span>
+      @if (fieldOnFocus && !!value) {
+        <cap-button
+          class="clean-button"
+          variant="icon-button"
+          [inputButton]="true"
+          size="small"
+          icon="images/circle-cross-reb.svg"
+          (click)="handleClear()"
+        ></cap-button>
       }
-    </span>
-  }
-  @if (maxLength() !== 65) {
-    <span> {{ value.length || 0 }}/{{ maxLength() }} </span>
-  }
-</div>
+      @if (
+        ((showPassword && type() === 'password') ||
+          (showIBAN && customBehaviour() === 'IBAN')) &&
+        !!value
+      ) {
+        <cap-button
+          class="eye-button"
+          variant="icon-button"
+          [inputButton]="true"
+          size="small"
+          icon="images/eye-strike-reb.svg"
+          (click)="handleShow()"
+        ></cap-button>
+      }
+      @if (
+        ((!showPassword && type() === 'password') ||
+          (!showIBAN && customBehaviour() === 'IBAN')) &&
+        !!value
+      ) {
+        <cap-button
+          class="eye-button"
+          variant="icon-button"
+          [inputButton]="true"
+          size="small"
+          icon="images/eye-reb.svg"
+          (click)="handleShow()"
+        ></cap-button>
+      }
+      @if ((tooltipText() && value === '') || (tooltipText() && tooltipPermanent())) {
+        <cap-tooltip
+          [titleTooltip]="tooltipTitle()"
+          [textTooltip]="tooltipText()"
+          [tooltipAlign]="tooltipAlign()"
+          [invertVertical]="tooltipVertical()"
+          [enableTooltipModal]="tooltipModal()"
+        >
+        </cap-tooltip>
+      }
+    </div>
+  </div>
+  <div
+    class="cap-input__helpers"
+    [ngClass]="{
+      'cap-input__helpers-clear': variant() === 'clear',
+    }"
+  >
+    @if (
+      type() === 'password' &&
+      customBehaviour() === 'password' &&
+      (!(control.errors?.['required'] && control.valid === false) || !control.touched)
+    ) {
+      <span
+        [ngClass]="{
+          'cap-input__helpers-error': !control.valid && control.touched,
+        }"
+      >
+        <span>Mínimo: </span>
+        <span [ngClass]="{ 'cap-input__helpers-match': checkLength }">8 caracteres</span>
+        <span [ngClass]="{ 'cap-input__helpers-match': checkOneMin }">, minúscula</span>
+        <span [ngClass]="{ 'cap-input__helpers-match': checkOneCap }">, mayúscula</span>
+        <span [ngClass]="{ 'cap-input__helpers-match': checkOneDigit }">, y número.</span>
+      </span>
+    }
+    @if (helper() && (control.valid !== false || !control.touched)) {
+      <span class="helper-text">
+        {{ helper() }}
+      </span>
+    }
+    <br />
+    @for (error of control.errors | keyvalue; track error.key) {
+      <span style="color: #f93b0b; font-style: italics">
+        {{ errorMessages()[error.key] }}
+      </span>
+    }
+    @if (control.valid === false && control.touched) {
+      <span class="helper-text cap-input__helpers-error">
+        @if (errorMessages() && (errorMessages() | keyvalue).length) {
+          @for (error of control.errors | keyvalue; track error.key) {
+            <span>
+              {{ errorMessages()[error.key] }}
+            </span>
+          }
+        } @else {
+          <span>{{ helper() }}</span>
+        }
+      </span>
+    }
+    @if (maxLength() !== 65) {
+      <span> {{ value.length || 0 }}/{{ maxLength() }} </span>
+    }
+  </div>
+}

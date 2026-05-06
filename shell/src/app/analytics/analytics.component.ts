@@ -19,7 +19,12 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { CapAlertComponent, CapButtonComponent, CapSpinnerComponent } from '@capitalflow/shared-ui';
+import {
+  CapAlertComponent,
+  CapButtonComponent,
+  CapInputComponent,
+  CapSpinnerComponent,
+} from '@capitalflow/shared-ui';
 import { Transaction } from '../core/models';
 import { AnalyticsService } from './services/analytics.service';
 import { ExportService } from '../core/services/export.service';
@@ -56,6 +61,7 @@ function amountRangeValidator(control: AbstractControl): ValidationErrors | null
     CapAlertComponent,
     CapSpinnerComponent,
     CapButtonComponent,
+    CapInputComponent,
   ],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss'],

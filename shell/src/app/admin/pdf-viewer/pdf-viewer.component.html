@@ -16,7 +16,14 @@
   <form class="pdf-viewer__form" (submit)="load(); $event.preventDefault()">
     <label class="pdf-viewer__field">
       <span class="pdf-viewer__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
-      <input type="text" [formControl]="urlControl" autocomplete="off" class="pdf-viewer__input" />
+      <cap-input
+        variant="minimal"
+        size="small"
+        fontFamily="monospace"
+        type="text"
+        width="100%"
+        [formControl]="urlControl">
+      </cap-input>
     </label>
     <cap-button
       variant="capitalflow-primary"

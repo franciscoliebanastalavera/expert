@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
+import { CapAlertComponent, CapButtonComponent, CapInputComponent } from '@capitalflow/shared-ui';
 import { AdminBackNavigationService } from '../services/admin-back-navigation.service';
 import {
   PDF_ALLOWED_HOSTS,
@@ -17,7 +17,7 @@ import {
 @Component({
   selector: 'app-pdf-viewer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CapButtonComponent, CapAlertComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CapButtonComponent, CapAlertComponent, CapInputComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './pdf-viewer.component.html',
   styleUrls: ['./pdf-viewer.component.scss'],

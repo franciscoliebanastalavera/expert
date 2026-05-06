@@ -39,38 +39,17 @@ app-analytics-stats {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  min-width: 12.5rem;
+
+  &--num {
+    min-width: 7.5rem;
+  }
 
   label {
     font-size: 0.75rem;
     text-transform: uppercase;
     color: var(--cap-text-muted, #b2b2b2);
     font-weight: 600;
-  }
-}
-
-.filtro-input {
-  padding: 0.6rem 0.8rem;
-  border: 0.0625rem solid var(--cap-border, #cac8c2);
-  border-radius: var(--cap-radius-sm, 0.25rem);
-  font-size: 0.9rem;
-  background: var(--cap-bg-surface, #fff);
-  color: var(--cap-text, #1e1e1e);
-  transition: border-color 0.2s;
-  min-width: 12.5rem;
-
-  &:focus {
-    outline: none;
-    border-color: var(--cap-border-focus, #2a85c4);
-    box-shadow: 0 0 0 0.125rem rgba(42, 133, 196, 0.15);
-  }
-
-  &.is-invalid {
-    border-color: var(--cap-danger, #c51321);
-    box-shadow: 0 0 0 0.125rem rgba(197, 19, 33, 0.15);
-  }
-
-  &.filtro-num {
-    min-width: 7.5rem;
   }
 }
 
@@ -125,11 +104,8 @@ app-analytics-stats {
     padding: 0.75rem;
   }
 
-  .filtro-input {
-    min-width: 100%;
-  }
-
-  .filtro-input.filtro-num {
+  .filtro-grupo,
+  .filtro-grupo--num {
     min-width: 100%;
   }
 }

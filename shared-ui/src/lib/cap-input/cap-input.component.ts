@@ -82,8 +82,9 @@ export class CapInputComponent {
   readonly suffix = input<string>('');
   readonly errorMessages = model<{ [key: string]: string }>({});
   readonly width = input('300px');
-  readonly size = input<'standard' | 'small'>('standard');
-  readonly variant = input<'standard' | 'clear'>('standard');
+  readonly size = input<'standard' | 'small' | 'medium'>('standard');
+  readonly variant = input<'standard' | 'clear' | 'minimal'>('standard');
+  readonly fontFamily = input<'default' | 'monospace'>('default');
   readonly type = input<'text' | 'number' | 'password'>('text');
   readonly customBehaviour = input<'IBAN' | 'password' | undefined>(undefined);
   readonly customClass = input<Record<string, string>>({});
@@ -98,7 +99,7 @@ export class CapInputComponent {
   componentId!: string;
 
   private readonly destroyRef = inject(DestroyRef);
-  control: FormControl;
+  control!: FormControl;
   showPassword = false;
   showIBAN = false;
   fieldOnFocus = false;
@@ -133,7 +134,9 @@ export class CapInputComponent {
   }
 
   ngOnInit(): void {
-    this.componentId = this.dynamicCssService.generateComponentId();
+    if (this.variant() !== 'minimal') {
+      this.componentId = this.dynamicCssService.generateComponentId();
+    }
     this.setControl();
     if (this.control && this.customBehaviour() === 'IBAN') {
       this.control.setValidators(this.IBANValidator());
@@ -153,7 +156,9 @@ export class CapInputComponent {
       }
     }, 0);
 
-    this.createDyamicClasses();
+    if (this.variant() !== 'minimal') {
+      this.createDyamicClasses();
+    }
   }
 
   private createDyamicClasses() {
@@ -180,6 +185,9 @@ export class CapInputComponent {
   }
 
   ngAfterViewChecked(): void {
+    if (this.variant() === 'minimal') {
+      return;
+    }
     const textarea = this.textarea();
     const fieldContainer = this.fieldContainer();
     if (textarea) {

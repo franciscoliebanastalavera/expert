@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
+import { CapAlertComponent, CapButtonComponent, CapInputComponent } from '@capitalflow/shared-ui';
 import { AdminBackNavigationService } from '../admin/services/admin-back-navigation.service';
 import {
   SEARCH_BACK_LABEL_PREFIX,
@@ -13,7 +13,7 @@ import {
 @Component({
   selector: 'app-search-demo',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CapButtonComponent, CapAlertComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CapButtonComponent, CapAlertComponent, CapInputComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './search-demo.component.html',
   styleUrls: ['./search-demo.component.scss'],

@@ -16,7 +16,13 @@
   <form class="search-demo__form" (submit)="search(); $event.preventDefault()">
     <label class="search-demo__field">
       <span class="search-demo__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
-      <input type="text" [formControl]="queryControl" autocomplete="off" class="search-demo__input" [attr.aria-describedby]="'search-hint'" />
+      <cap-input
+        variant="minimal"
+        size="small"
+        type="text"
+        width="100%"
+        [formControl]="queryControl">
+      </cap-input>
       <small id="search-hint" class="search-demo__hint">{{ i18n.FIELD_HINT | translate }}</small>
     </label>
     <cap-button
