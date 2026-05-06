@@ -46,6 +46,15 @@ Each project can be run standalone with npm scripts. Run them in separate termin
 
 ### Run all projects locally
 
+One-command launcher (Windows PowerShell):
+
+```powershell
+.\start-local.ps1   # arranca los 4 proyectos en ventanas separadas, espera readiness y abre navegadores
+.\stop-local.ps1    # mata los procesos y libera puertos 4200/4201/4202/6006
+```
+
+Or run them manually in separate terminals:
+
 | Project | Port | Command | URL |
 | --- | --- | --- | --- |
 | shell | 4200 | `cd shell && npm run start` | http://localhost:4200 |

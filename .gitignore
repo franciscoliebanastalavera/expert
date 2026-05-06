@@ -26,3 +26,6 @@ Thumbs.db
 
 # Herramientas de desarrollo
 .devtools/
+
+# Estado del arranque local sin Docker (start-local.ps1)
+.local-dev.pids
