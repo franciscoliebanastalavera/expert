@@ -5,7 +5,7 @@ const DOMPurify: { sanitize(source: string): string } = (DOMPurifyModule as neve
 
 @Pipe({
   name: 'safeHtml',
-  standalone: false,
+  standalone: true,
 })
 export class SafeHtmlPipe implements PipeTransform {
   constructor(private readonly sanitizer: DomSanitizer) {}

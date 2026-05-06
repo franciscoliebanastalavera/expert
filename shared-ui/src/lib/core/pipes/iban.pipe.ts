@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'iban',
-  standalone: false,
+  standalone: true,
 })
 export class IbanPipe implements PipeTransform {
   transform(value: string | number | null, control: FormControl, hide: boolean): string {

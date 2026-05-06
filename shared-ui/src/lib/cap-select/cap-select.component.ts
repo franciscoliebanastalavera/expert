@@ -24,7 +24,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { DirectivesModule } from '../core/directives/directives.module';
+import { ClickOutsideDirective } from '../core/directives/click-outside.directive';
 import { SelectOption } from '../core/models/components.models';
 import { CapButtonComponent } from '../cap-button/cap-button.component';
 
@@ -34,7 +34,7 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   imports: [
     CommonModule,
     CapButtonComponent,
-    DirectivesModule,
+    ClickOutsideDirective,
     FormsModule,
     ReactiveFormsModule,
   ],

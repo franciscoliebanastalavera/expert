@@ -1,12 +1,11 @@
 import { NgClass, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { PipesModule } from '../core/pipes/pipes.module';
 import { ButtonVariant } from '../core/types/components.types';
 
 @Component({
     selector: 'cap-button',
     standalone: true,
-    imports: [NgClass, PipesModule, CommonModule],
+    imports: [NgClass, CommonModule],
     templateUrl: './cap-button.component.html',
     styleUrl: './cap-button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

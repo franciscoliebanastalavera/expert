@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostListener, output } from '@angular/core';
 
 @Directive({
   selector: '[capClickOutside]',
-  standalone: false,
+  standalone: true,
 })
 export class ClickOutsideDirective {
   constructor(private elementRef: ElementRef) {}

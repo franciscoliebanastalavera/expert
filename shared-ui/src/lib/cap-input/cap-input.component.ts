@@ -30,8 +30,8 @@ import {
 } from '@angular/forms';
 
 import { tap } from 'rxjs/operators';
-import { DirectivesModule } from '../core/directives/directives.module';
-import { PipesModule } from '../core/pipes/pipes.module';
+import { ClickOutsideDirective } from '../core/directives/click-outside.directive';
+import { IbanPipe } from '../core/pipes/iban.pipe';
 import { AlignVariant } from '../core/types/components.types';
 import { CapButtonComponent } from '../cap-button/cap-button.component';
 import { CapTooltipComponent } from '../cap-tooltip/cap-tooltip.component';
@@ -44,9 +44,9 @@ import { DynamicCssService } from '../services/dynamic-css.service';
     CommonModule,
     CapButtonComponent,
     CapTooltipComponent,
-    DirectivesModule,
+    ClickOutsideDirective,
     FormsModule,
-    PipesModule,
+    IbanPipe,
     ReactiveFormsModule,
   ],
   templateUrl: './cap-input.component.html',

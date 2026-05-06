@@ -2,11 +2,10 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ClickOutsideDirective } from './click-outside.directive';
-import { DirectivesModule } from './directives.module';
 
 @Component({
   standalone: true,
-  imports: [DirectivesModule],
+  imports: [ClickOutsideDirective],
   template: `
     <div data-role="outside">outside</div>
     <div

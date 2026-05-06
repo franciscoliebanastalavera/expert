@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +8,8 @@ import {
 
 @Component({
   selector: 'cf-modal',
-  standalone: false,
+  standalone: true,
+  imports: [A11yModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
