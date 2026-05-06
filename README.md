@@ -40,30 +40,33 @@ Service endpoints:
 | mfe-payments | http://localhost:8083 | Angular 17 payments remote |
 | storybook | http://localhost:6007 | Shared UI documentation |
 
-## Development Servers
+## Local development without Docker
 
-```bash
-cd shell
-npm start
+Each project can be run standalone with npm scripts. Run them in separate terminals.
 
-cd ../mfe-analytics-react
-npm start
+### Run all projects locally
 
-cd ../mfe-payments
-npm start
+| Project | Port | Command | URL |
+| --- | --- | --- | --- |
+| shell | 4200 | `cd shell && npm run start` | http://localhost:4200 |
+| mfe-analytics-react | 4201 | `cd mfe-analytics-react && npm run start` | http://localhost:4201 |
+| mfe-payments | 4202 | `cd mfe-payments && npm run start` | http://localhost:4202 |
+| shared-ui Storybook | 6006 | `cd shared-ui && npm run storybook` | http://localhost:6006 |
 
-cd ../shared-ui
-npm run storybook
-```
+### Compatibility matrix: which services to run for what
 
-Default development ports:
-
-| Project | URL |
+| To validate | Services needed |
 | --- | --- |
-| shell | http://localhost:4200 |
-| mfe-analytics-react | http://localhost:4201 |
-| mfe-payments | http://localhost:4202 |
-| shared-ui Storybook | http://localhost:6006 |
+| Shell home, /analytics, /admin/* security demos, /design-system | shell only |
+| /analytics-mfe (React MFE) | shell + mfe-analytics-react |
+| /payments-mfe (Angular MFE) | shell + mfe-payments |
+| All MFE integration | all 3 |
+| Component library docs | shared-ui Storybook only |
+
+### Notes
+
+- Module Federation hosts depend on the remote `remoteEntry.js` URL. If a remote MFE is not running, the wrapper component shows a `cap-alert` with a retry button.
+- For full integration testing, prefer Docker: `docker compose up -d --build`.
 
 ## Tests
 
@@ -87,8 +90,8 @@ Latest verified local result:
 
 | Project | Test runner | Count |
 | --- | --- | --- |
-| shell | Karma/Jasmine | 111 passing |
-| shared-ui | Karma/Jasmine | 180 passing |
+| shell | Karma/Jasmine | 128 passing |
+| shared-ui | Karma/Jasmine | 181 passing |
 | mfe-payments | Karma/Jasmine | 25 passing |
 | mfe-analytics-react | Jest | 26 passing |
 
