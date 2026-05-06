@@ -72,7 +72,10 @@ export const VULNERABILITIES_MATRIX: readonly VulnerabilityRow[] = [
     mitigationKey: 'ADMIN.MATRIX.ITEMS.BRIEFING_05.MITIGATION',
     status: 'mitigated',
     demoRoute: ADMIN_DEMO_ROUTES.WYSIWYG,
-    fileReferences: ['shell/src/app/admin/wysiwyg-editor/wysiwyg-editor.component.ts'],
+    fileReferences: [
+      'shell/src/app/admin/wysiwyg-editor/wysiwyg-editor.component.ts',
+      'shared-ui/src/lib/safe-html/safe-html.pipe.ts',
+    ],
   },
   {
     id: 'briefing-06',

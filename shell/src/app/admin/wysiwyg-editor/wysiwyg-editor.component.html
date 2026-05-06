@@ -39,7 +39,7 @@
         <cap-alert kind="danger" [message]="i18n.WITHOUT_MITIGATION | translate"></cap-alert>
         <cap-alert kind="success" [message]="i18n.WITH_MITIGATION | translate"></cap-alert>
       </div>
-      <div class="wysiwyg__preview" [innerHTML]="sanitizedPreview()"></div>
+      <div class="wysiwyg__preview" [innerHTML]="sanitizedHtml() | safeHtml"></div>
     </div>
   }
 

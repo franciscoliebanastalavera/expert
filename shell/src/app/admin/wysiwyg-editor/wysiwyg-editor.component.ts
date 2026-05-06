@@ -11,9 +11,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
+import { SafeHtmlPipe } from '@capitalflow/shared-ui/lib/safe-html/safe-html.pipe';
 import * as DOMPurifyModule from 'dompurify';
 import Quill from 'quill';
 import { AdminBackNavigationService } from '../services/admin-back-navigation.service';
@@ -35,7 +35,7 @@ function sanitizeHtml(source: string): string {
 @Component({
   selector: 'app-wysiwyg-editor',
   standalone: true,
-  imports: [CommonModule, TranslateModule, CapButtonComponent, CapAlertComponent],
+  imports: [CommonModule, TranslateModule, CapButtonComponent, CapAlertComponent, SafeHtmlPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wysiwyg-editor.component.html',
   styleUrls: ['./wysiwyg-editor.component.scss'],
@@ -46,7 +46,6 @@ export class WysiwygEditorComponent implements AfterViewInit {
 
   readonly editorHost = viewChild.required<ElementRef<HTMLDivElement>>('editorHost');
 
-  private readonly sanitizer = inject(DomSanitizer);
   private readonly backNavigation = inject(AdminBackNavigationService);
   private readonly destroyRef = inject(DestroyRef);
   private quill: Quill | null = null;
@@ -59,7 +58,6 @@ export class WysiwygEditorComponent implements AfterViewInit {
 
   readonly i18n = WYSIWYG_I18N_KEYS;
   readonly backLabelPrefix = WYSIWYG_BACK_LABEL_PREFIX;
-  readonly sanitizedPreview = signal<SafeHtml>('');
   readonly sanitizedHtml = signal<string>('');
   readonly rawHtml = signal<string>('');
   readonly hasInjectionAttempt = signal<boolean>(false);
@@ -81,7 +79,6 @@ export class WysiwygEditorComponent implements AfterViewInit {
     this.rawHtml.set(raw);
     this.hasInjectionAttempt.set(/<script|onerror=|onload=|javascript:/i.test(raw));
     this.sanitizedHtml.set(clean);
-    this.sanitizedPreview.set(this.sanitizer.bypassSecurityTrustHtml(clean));
     this.contentChange.emit(clean);
   }
 
