@@ -23,4 +23,12 @@ describe('IbanPipe', () => {
     const result = pipe.transform(null, control, false);
     expect(result).toBe('null');
   });
+
+  it('should group an IBAN every 4 characters when called without control', () => {
+    expect(pipe.transform('ES9121000418450200051332')).toBe('ES91 2100 0418 4502 0005 1332');
+  });
+
+  it('should return "null" for null input when called without control', () => {
+    expect(pipe.transform(null)).toBe('null');
+  });
 });

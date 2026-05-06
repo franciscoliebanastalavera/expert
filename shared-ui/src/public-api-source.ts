@@ -34,3 +34,5 @@ export * from './lib/cap-input/cap-input.component';
 
 export * from './lib/cap-tabs/cap-tabs.component';
 export * from './lib/cap-tabs/cap-tab/cap-tab.component';
+
+export * from './lib/core/pipes/iban.pipe';

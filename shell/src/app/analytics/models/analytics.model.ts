@@ -46,8 +46,6 @@ export interface AnalyticsAmountFormat {
 
 export interface AnalyticsTableConfig {
   itemSizePx: number;
-  ibanGroupRegex: RegExp;
-  ibanGroupSeparator: string;
   positiveSign: string;
   negativeSign: string;
   amountFormat: AnalyticsAmountFormat;
@@ -103,8 +101,6 @@ export const ANALYTICS_MOCK_CONFIG: AnalyticsMockConfig = {
 
 export const ANALYTICS_TABLE_CONFIG: AnalyticsTableConfig = {
   itemSizePx: 48,
-  ibanGroupRegex: /(.{4})/g,
-  ibanGroupSeparator: ' ',
   positiveSign: '+',
   negativeSign: '-',
   amountFormat: {

@@ -9,6 +9,7 @@ import {
   CapStatusBadgeComponent,
   CapStatusBadgeKind,
   CapTableColumn,
+  IbanPipe,
 } from '@capitalflow/shared-ui';
 import {
   Transaction,
@@ -31,6 +32,7 @@ import {
     CapDataGridComponent,
     CapCellTemplateDirective,
     CapStatusBadgeComponent,
+    IbanPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './analytics-table.component.html',
@@ -53,15 +55,6 @@ export class AnalyticsTableComponent {
     ),
     { initialValue: [] as CapTableColumn[] }
   );
-
-  formatIban(iban: string): string {
-    return iban
-      .replace(
-        ANALYTICS_TABLE_CONFIG.ibanGroupRegex,
-        `$1${ANALYTICS_TABLE_CONFIG.ibanGroupSeparator}`
-      )
-      .trim();
-  }
 
   formatAmount(importe: number): string {
     return formatAmount(importe, {

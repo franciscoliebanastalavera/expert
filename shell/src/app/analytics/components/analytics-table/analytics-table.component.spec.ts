@@ -75,10 +75,6 @@ describe('AnalyticsTableComponent', () => {
     ]);
   });
 
-  it('formats an IBAN by inserting a space every 4 characters', () => {
-    expect(component.formatIban('ES9121000418450200051332')).toBe('ES91 2100 0418 4502 0005 1332');
-  });
-
   it('formats a positive amount with the + sign and currency suffix', () => {
     expect(component.formatAmount(1234.5)).toBe('+1234,50 \u20ac');
   });

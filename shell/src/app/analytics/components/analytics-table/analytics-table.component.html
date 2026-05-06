@@ -4,7 +4,7 @@
   trackByKey="id"
   [itemSize]="itemSize">
   <ng-template [capCellTemplate]="'iban'" let-value>
-    <span class="analytics-grid__iban">{{ formatIban(value) }}</span>
+    <span class="analytics-grid__iban">{{ value | iban }}</span>
   </ng-template>
   <ng-template [capCellTemplate]="'importe'" let-value>
     <span
