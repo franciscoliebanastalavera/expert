@@ -11,13 +11,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
 import * as DOMPurifyModule from 'dompurify';
 import Quill from 'quill';
-import { ADMIN_LANDING_ROUTE } from '../admin-landing/admin-landing.constants';
+import { AdminBackNavigationService } from '../services/admin-back-navigation.service';
 import {
   WYSIWYG_BACK_LABEL_PREFIX,
   WYSIWYG_I18N_KEYS,
@@ -48,7 +47,7 @@ export class WysiwygEditorComponent implements AfterViewInit {
   readonly editorHost = viewChild.required<ElementRef<HTMLDivElement>>('editorHost');
 
   private readonly sanitizer = inject(DomSanitizer);
-  private readonly router = inject(Router);
+  private readonly backNavigation = inject(AdminBackNavigationService);
   private readonly destroyRef = inject(DestroyRef);
   private quill: Quill | null = null;
 
@@ -94,6 +93,6 @@ export class WysiwygEditorComponent implements AfterViewInit {
   }
 
   goBack(): void {
-    this.router.navigate([ADMIN_LANDING_ROUTE]);
+    this.backNavigation.goBack();
   }
 }

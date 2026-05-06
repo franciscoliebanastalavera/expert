@@ -10,11 +10,15 @@ import {
   CapStatusBadgeKind,
   CapTableColumn,
 } from '@capitalflow/shared-ui';
-import { Transaction, TransactionStatus } from '../../../core/models';
+import {
+  Transaction,
+  TransactionStatus,
+  TRANSACTION_STATUS_KIND_MAP,
+} from '../../../core/models';
+import { formatAmount } from '../../../core/utils/format-amount.util';
 import {
   ANALYTICS_GRID_COLUMNS,
   ANALYTICS_GRID_TRANSLATION_KEYS,
-  ANALYTICS_STATUS_KIND_MAP,
   ANALYTICS_TABLE_CONFIG,
 } from '../../models/analytics.model';
 
@@ -60,16 +64,18 @@ export class AnalyticsTableComponent {
   }
 
   formatAmount(importe: number): string {
-    const formatted = Math.abs(importe).toLocaleString(ANALYTICS_TABLE_CONFIG.amountFormat.locale, {
-      minimumFractionDigits: ANALYTICS_TABLE_CONFIG.amountFormat.fractionDigits,
-      maximumFractionDigits: ANALYTICS_TABLE_CONFIG.amountFormat.fractionDigits,
+    return formatAmount(importe, {
+      locale: ANALYTICS_TABLE_CONFIG.amountFormat.locale,
+      fractionDigits: ANALYTICS_TABLE_CONFIG.amountFormat.fractionDigits,
+      currencySuffix: ANALYTICS_TABLE_CONFIG.amountFormat.currencySuffix,
+      useAbs: true,
+      includeSign: true,
+      positiveSign: ANALYTICS_TABLE_CONFIG.positiveSign,
+      negativeSign: ANALYTICS_TABLE_CONFIG.negativeSign,
     });
-    const sign =
-      importe >= 0 ? ANALYTICS_TABLE_CONFIG.positiveSign : ANALYTICS_TABLE_CONFIG.negativeSign;
-    return `${sign}${formatted}${ANALYTICS_TABLE_CONFIG.amountFormat.currencySuffix}`;
   }
 
   statusKind(status: TransactionStatus): CapStatusBadgeKind {
-    return ANALYTICS_STATUS_KIND_MAP[status];
+    return TRANSACTION_STATUS_KIND_MAP[status];
   }
 }

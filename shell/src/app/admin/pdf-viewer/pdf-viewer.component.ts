@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
-import { ADMIN_LANDING_ROUTE } from '../admin-landing/admin-landing.constants';
+import { AdminBackNavigationService } from '../services/admin-back-navigation.service';
 import {
   PDF_ALLOWED_HOSTS,
   PDF_BACK_LABEL_PREFIX,
@@ -24,7 +23,7 @@ import {
   styleUrls: ['./pdf-viewer.component.scss'],
 })
 export class PdfViewerComponent {
-  private readonly router = inject(Router);
+  private readonly backNavigation = inject(AdminBackNavigationService);
 
   readonly i18n = PDF_VIEWER_I18N_KEYS;
   readonly backLabelPrefix = PDF_BACK_LABEL_PREFIX;
@@ -54,7 +53,7 @@ export class PdfViewerComponent {
   }
 
   goBack(): void {
-    this.router.navigate([ADMIN_LANDING_ROUTE]);
+    this.backNavigation.goBack();
   }
 
   private isAllowedReportUrl(rawUrl: string): boolean {

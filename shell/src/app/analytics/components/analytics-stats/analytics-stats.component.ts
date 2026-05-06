@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapStatCardComponent } from '@capitalflow/shared-ui';
+import { formatAmount } from '../../../core/utils/format-amount.util';
 import {
   ANALYTICS_EMPTY_STATS,
   ANALYTICS_STATS_AMOUNT_FORMAT,
@@ -27,10 +28,11 @@ export class AnalyticsStatsComponent {
   readonly lastFilterMs = this.metricsService.lastFilterMs;
 
   formatAmount(amount: number): string {
-    const formatted = Math.abs(amount).toLocaleString(ANALYTICS_STATS_AMOUNT_FORMAT.locale, {
-      minimumFractionDigits: ANALYTICS_STATS_AMOUNT_FORMAT.fractionDigits,
-      maximumFractionDigits: ANALYTICS_STATS_AMOUNT_FORMAT.fractionDigits,
+    return formatAmount(amount, {
+      locale: ANALYTICS_STATS_AMOUNT_FORMAT.locale,
+      fractionDigits: ANALYTICS_STATS_AMOUNT_FORMAT.fractionDigits,
+      currencySuffix: ANALYTICS_STATS_AMOUNT_FORMAT.currencySuffix,
+      useAbs: true,
     });
-    return `${formatted}${ANALYTICS_STATS_AMOUNT_FORMAT.currencySuffix}`;
   }
 }

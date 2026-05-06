@@ -19,17 +19,11 @@ import {
   DashboardTab,
   DashboardTabId,
   TransactionStatus,
+  TRANSACTION_STATUS_KIND_MAP,
 } from '../core/models';
 import { IconName } from '../shared/icon/icon.constants';
 
 const DEFAULT_TAB: DashboardTabId = DashboardTabId.Summary;
-
-const STATUS_KIND_MAP: Record<TransactionStatus, CapStatusBadgeKind> = {
-  [TransactionStatus.Completed]: 'success',
-  [TransactionStatus.Processing]: 'warning',
-  [TransactionStatus.Pending]: 'info',
-  [TransactionStatus.Rejected]: 'danger',
-};
 
 @Component({
   selector: 'app-home',
@@ -137,6 +131,6 @@ export class HomeComponent {
   }
 
   statusKind(status: TransactionStatus): CapStatusBadgeKind {
-    return STATUS_KIND_MAP[status];
+    return TRANSACTION_STATUS_KIND_MAP[status];
   }
 }

@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
-import { ADMIN_LANDING_ROUTE } from '../admin/admin-landing/admin-landing.constants';
+import { AdminBackNavigationService } from '../admin/services/admin-back-navigation.service';
 import {
   SEARCH_BACK_LABEL_PREFIX,
   SEARCH_DEMO_I18N_KEYS,
@@ -20,7 +19,7 @@ import {
   styleUrls: ['./search-demo.component.scss'],
 })
 export class SearchDemoComponent {
-  private readonly router = inject(Router);
+  private readonly backNavigation = inject(AdminBackNavigationService);
 
   readonly i18n = SEARCH_DEMO_I18N_KEYS;
   readonly backLabelPrefix = SEARCH_BACK_LABEL_PREFIX;
@@ -36,6 +35,6 @@ export class SearchDemoComponent {
   }
 
   goBack(): void {
-    this.router.navigate([ADMIN_LANDING_ROUTE]);
+    this.backNavigation.goBack();
   }
 }

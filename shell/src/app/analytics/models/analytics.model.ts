@@ -1,4 +1,4 @@
-import { CapStatusBadgeKind, CapTableColumn } from '@capitalflow/shared-ui';
+import { CapTableColumn } from '@capitalflow/shared-ui';
 import { TransactionCategory, TransactionStatus, TransactionType } from '../../core/models';
 
 export interface AnalyticsStats {
@@ -118,13 +118,6 @@ export const ANALYTICS_STATS_AMOUNT_FORMAT: AnalyticsAmountFormat = {
   locale: 'es-ES',
   fractionDigits: 2,
   currencySuffix: ' \u20ac',
-};
-
-export const ANALYTICS_STATUS_KIND_MAP: Record<TransactionStatus, CapStatusBadgeKind> = {
-  [TransactionStatus.Completed]: 'success',
-  [TransactionStatus.Processing]: 'warning',
-  [TransactionStatus.Pending]: 'info',
-  [TransactionStatus.Rejected]: 'danger',
 };
 
 export const ANALYTICS_GRID_COLUMNS: readonly Omit<CapTableColumn, 'label'>[] = [

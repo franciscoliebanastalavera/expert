@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, map } from 'rxjs';
 import {
@@ -10,7 +9,7 @@ import {
   CapTableColumn,
   CapTableComponent,
 } from '@capitalflow/shared-ui';
-import { ADMIN_LANDING_ROUTE } from '../admin-landing/admin-landing.constants';
+import { AdminBackNavigationService } from '../services/admin-back-navigation.service';
 import {
   DOCUMENT_UPLOADS_BACK_LABEL_PREFIX,
   DOCUMENT_UPLOADS_I18N_KEYS,
@@ -32,8 +31,8 @@ import {
   styleUrls: ['./document-uploads.component.scss'],
 })
 export class DocumentUploadsComponent {
-  private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
+  private readonly backNavigation = inject(AdminBackNavigationService);
 
   readonly i18n = DOCUMENT_UPLOADS_I18N_KEYS;
   readonly backLabelPrefix = DOCUMENT_UPLOADS_BACK_LABEL_PREFIX;
@@ -57,6 +56,6 @@ export class DocumentUploadsComponent {
   );
 
   goBack(): void {
-    this.router.navigate([ADMIN_LANDING_ROUTE]);
+    this.backNavigation.goBack();
   }
 }
