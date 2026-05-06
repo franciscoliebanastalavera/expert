@@ -28,6 +28,8 @@ export * from './lib/cap-alert/cap-alert.types';
 
 export * from './lib/cap-info-card/cap-info-card.component';
 
+export * from './lib/cap-footer/cap-footer.component';
+
 export * from './lib/cap-input/cap-input.component';
 
 export * from './lib/cap-tabs/cap-tabs.component';

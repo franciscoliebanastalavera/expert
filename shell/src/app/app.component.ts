@@ -9,7 +9,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, map } from 'rxjs';
-import { CapHeaderComponent, NavItem } from '@capitalflow/shared-ui';
+import { CapFooterComponent, CapHeaderComponent, NavItem } from '@capitalflow/shared-ui';
 import { ThemeService } from './core/services/theme.service';
 import {
   AppLanguage,
@@ -21,7 +21,7 @@ import { AppRoute, toRouteLink } from './routes.constants';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, TranslateModule, CapHeaderComponent],
+  imports: [CommonModule, RouterOutlet, TranslateModule, CapHeaderComponent, CapFooterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
