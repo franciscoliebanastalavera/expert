@@ -39,11 +39,11 @@ export class CapCardComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    const base = 'public/';
+    const base = 'images/';
     this.backgroundImage =
       this.type() === 'secondary'
-        ? `${base}fondoCapOpuesta.png`
-        : `${base}fondoCap.png`;
+        ? `${base}fondoCapOpuesta.svg`
+        : `${base}fondoCap.svg`;
 
     this.cardClass = this.dynamicCss.createDynamicClass(
       'cap-card-dynamic',

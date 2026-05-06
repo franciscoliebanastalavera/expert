@@ -47,23 +47,23 @@ describe('CapCardComponent', () => {
   it('uses the primary background image by default and switches to secondary when type changes', () => {
     fixture.componentRef.setInput('type', 'primary');
     fixture.detectChanges();
-    expect(instance.backgroundImage).toContain('fondoCap.png');
+    expect(instance.backgroundImage).toContain('fondoCap.svg');
     fixture.componentRef.setInput('type', 'secondary');
     fixture.detectChanges();
-    expect(instance.backgroundImage).toContain('fondoCapOpuesta.png');
-  });
-
-  it('produces a dynamic class that includes the configured border radius', () => {
-    fixture.componentRef.setInput('borderRadius', '5px');
-    fixture.detectChanges();
-    expect(instance.cardClass).toContain('cap-card-dynamic');
+    expect(instance.backgroundImage).toContain('fondoCapOpuesta.svg');
   });
 
   it('exposes a non-empty component id and applies background-image style', () => {
     fixture.componentRef.setInput('type', 'primary');
     fixture.detectChanges();
     const root: HTMLElement = fixture.debugElement.query(By.css('.cap-card')).nativeElement;
-    expect(root.style.backgroundImage).toContain('fondoCap.png');
+    expect(root.style.backgroundImage).toContain('fondoCap.svg');
     expect(instance['componentId']).toBeTruthy();
+  });
+
+  it('produces a dynamic class that includes the configured border radius', () => {
+    fixture.componentRef.setInput('borderRadius', '5px');
+    fixture.detectChanges();
+    expect(instance.cardClass).toContain('cap-card-dynamic');
   });
 });
