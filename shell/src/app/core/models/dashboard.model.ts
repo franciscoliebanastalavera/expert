@@ -1,13 +1,6 @@
 import { IconName } from '../../shared/icon/icon.constants';
 import { TransactionStatus } from './transaction.model';
 
-export enum DashboardTabId {
-  Summary = 'resumen',
-  Treasury = 'tesoreria',
-  Payments = 'pagos',
-  Compliance = 'compliance',
-}
-
 export interface DashboardMetric {
   titulo: string;
   valor: string;
@@ -16,11 +9,6 @@ export interface DashboardMetric {
   positivo: boolean;
   descripcion: string;
   ruta: string;
-}
-
-export interface DashboardTab {
-  id: DashboardTabId;
-  label: string;
 }
 
 export interface DashboardOperation {

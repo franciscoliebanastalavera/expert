@@ -15,6 +15,7 @@ const meta: Meta = {
   argTypes: {
     tabAlignment: { control: 'radio', options: ['left', 'center', 'right'] },
     tabMobile: { control: 'boolean' },
+    variant: { control: 'radio', options: ['underline', 'card'] },
     tab1Label: { control: 'text', description: 'Label tab 1' },
     tab2Label: { control: 'text', description: 'Label tab 2' },
     tab3Label: { control: 'text', description: 'Label tab 3' },
@@ -29,6 +30,7 @@ export const Default: Story = {
   args: {
     tabAlignment: 'left',
     tabMobile: false,
+    variant: 'underline',
     tab1Label: 'Resumen',
     tab2Label: 'Tesorería',
     tab3Label: 'Pagos',
@@ -36,7 +38,7 @@ export const Default: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <cap-tabs [tabAlignment]="tabAlignment" [tabMobile]="tabMobile">
+      <cap-tabs [tabAlignment]="tabAlignment" [tabMobile]="tabMobile" [variant]="variant">
         <cap-tab [label]="tab1Label" [active]="true">
           <p style="padding: 1rem; color: var(--cap-text, #1e1e1e);">Contenido de {{ tab1Label }}</p>
         </cap-tab>
@@ -63,6 +65,14 @@ export const Mobile: Story = {
   args: {
     ...Default.args,
     tabMobile: true,
+  },
+  render: Default.render,
+};
+
+export const Card: Story = {
+  args: {
+    ...Default.args,
+    variant: 'card',
   },
   render: Default.render,
 };

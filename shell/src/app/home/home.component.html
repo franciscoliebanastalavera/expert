@@ -18,49 +18,28 @@
     }
   </div>
 
-  <div class="tabs-section">
-    <div class="tabs-header">
-      @for (tab of tabs; track tab.id) {
-        <button
-          class="tab-btn"
-          [class.active]="tabActiva() === tab.id"
-          (click)="selectTab(tab.id)">
-          {{ tab.label | translate }}
-        </button>
-      }
-    </div>
-
-    @switch (tabActiva()) {
-      @case (dashboardTabId.Summary) {
-        <div class="tab-content">
-          <h2>{{ 'HOME.OPERATIONS.TITLE' | translate }}</h2>
-          <cap-table [columns]="tableColumns()" [data]="ultimasOperaciones" trackByKey="iban">
-            <ng-template [capCellTemplate]="'estado'" let-value>
-              <cap-status-badge [kind]="statusKind(value)">{{ value }}</cap-status-badge>
-            </ng-template>
-          </cap-table>
-        </div>
-      }
-      @case (dashboardTabId.Treasury) {
-        <div class="tab-content">
-          <h2>{{ 'HOME.TABS_CONTENT.TREASURY_TITLE' | translate }}</h2>
-          <p>{{ 'HOME.TABS_CONTENT.TREASURY_DESC' | translate }}</p>
-        </div>
-      }
-      @case (dashboardTabId.Payments) {
-        <div class="tab-content">
-          <h2>{{ 'HOME.TABS_CONTENT.PAYMENTS_TITLE' | translate }}</h2>
-          <p>{{ 'HOME.TABS_CONTENT.PAYMENTS_DESC' | translate }}</p>
-        </div>
-      }
-      @case (dashboardTabId.Compliance) {
-        <div class="tab-content">
-          <h2>{{ 'HOME.TABS_CONTENT.COMPLIANCE_TITLE' | translate }}</h2>
-          <p>{{ 'HOME.TABS_CONTENT.COMPLIANCE_DESC' | translate }}</p>
-        </div>
-      }
-    }
-  </div>
+  <cap-tabs variant="card">
+    <cap-tab [label]="'HOME.TABS.SUMMARY' | translate" [active]="true">
+      <h2>{{ 'HOME.OPERATIONS.TITLE' | translate }}</h2>
+      <cap-table [columns]="tableColumns()" [data]="ultimasOperaciones" trackByKey="iban">
+        <ng-template [capCellTemplate]="'estado'" let-value>
+          <cap-status-badge [kind]="statusKind(value)">{{ value }}</cap-status-badge>
+        </ng-template>
+      </cap-table>
+    </cap-tab>
+    <cap-tab [label]="'HOME.TABS.TREASURY' | translate">
+      <h2>{{ 'HOME.TABS_CONTENT.TREASURY_TITLE' | translate }}</h2>
+      <p>{{ 'HOME.TABS_CONTENT.TREASURY_DESC' | translate }}</p>
+    </cap-tab>
+    <cap-tab [label]="'HOME.TABS.PAYMENTS' | translate">
+      <h2>{{ 'HOME.TABS_CONTENT.PAYMENTS_TITLE' | translate }}</h2>
+      <p>{{ 'HOME.TABS_CONTENT.PAYMENTS_DESC' | translate }}</p>
+    </cap-tab>
+    <cap-tab [label]="'HOME.TABS.COMPLIANCE' | translate">
+      <h2>{{ 'HOME.TABS_CONTENT.COMPLIANCE_TITLE' | translate }}</h2>
+      <p>{{ 'HOME.TABS_CONTENT.COMPLIANCE_DESC' | translate }}</p>
+    </cap-tab>
+  </cap-tabs>
 
   <div class="acciones">
     <a routerLink="/analytics" class="btn-link">

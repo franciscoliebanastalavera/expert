@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Router, provideRouter } from '@angular/router';
 import { TranslateService, TranslateStore } from '@ngx-translate/core';
 import { HomeComponent } from './home.component';
-import { DashboardTabId, TransactionStatus } from '../core/models';
+import { TransactionStatus } from '../core/models';
 import { TranslateServiceMock } from '../../testing/mocks';
 
 describe('HomeComponent', () => {
@@ -25,10 +25,6 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('starts with the Summary tab as active', () => {
-    expect(component.tabActiva()).toBe(DashboardTabId.Summary);
-  });
-
   it('exposes 4 metric cards with the configured routes', () => {
     expect(component.metricas.length).toBe(4);
     const cards = fixture.debugElement.queryAll(By.css('cap-metric-card'));
@@ -41,38 +37,25 @@ describe('HomeComponent', () => {
     ]);
   });
 
-  it('exposes 4 dashboard tabs', () => {
-    expect(component.tabs.length).toBe(4);
-    const buttons = fixture.debugElement.queryAll(By.css('.tab-btn'));
-    expect(buttons.length).toBe(4);
+  it('renders 4 cap-tab items inside cap-tabs with the card variant', () => {
+    const tabs = fixture.debugElement.queryAll(By.css('.cap-tabs li'));
+    expect(tabs.length).toBe(4);
+    const cardWrapper = fixture.debugElement.query(By.css('.cap-tabs--card'));
+    expect(cardWrapper).not.toBeNull();
   });
 
-  it('switches the active tab when selectTab is called', () => {
-    component.selectTab(DashboardTabId.Treasury);
-    fixture.detectChanges();
-    expect(component.tabActiva()).toBe(DashboardTabId.Treasury);
-    component.selectTab(DashboardTabId.Compliance);
-    expect(component.tabActiva()).toBe(DashboardTabId.Compliance);
+  it('marks the first tab as active by default', () => {
+    const activeLabel = fixture.debugElement.query(By.css('.cap-tabs__tabLabel-active'));
+    expect(activeLabel.nativeElement.textContent.trim()).toBe('HOME.TABS.SUMMARY');
   });
 
-  it('renders the Summary tab content by default and swaps when tab changes', () => {
-    let title = fixture.debugElement.query(By.css('.tab-content h2'));
-    expect(title.nativeElement.textContent).toContain('HOME.OPERATIONS.TITLE');
-
-    component.selectTab(DashboardTabId.Treasury);
+  it('switches the active tab when another tab is clicked', () => {
+    const items = fixture.debugElement.queryAll(By.css('.cap-tabs li'));
+    items[2].nativeElement.click();
     fixture.detectChanges();
-    title = fixture.debugElement.query(By.css('.tab-content h2'));
-    expect(title.nativeElement.textContent).toContain('HOME.TABS_CONTENT.TREASURY_TITLE');
-
-    component.selectTab(DashboardTabId.Payments);
-    fixture.detectChanges();
-    title = fixture.debugElement.query(By.css('.tab-content h2'));
-    expect(title.nativeElement.textContent).toContain('HOME.TABS_CONTENT.PAYMENTS_TITLE');
-
-    component.selectTab(DashboardTabId.Compliance);
-    fixture.detectChanges();
-    title = fixture.debugElement.query(By.css('.tab-content h2'));
-    expect(title.nativeElement.textContent).toContain('HOME.TABS_CONTENT.COMPLIANCE_TITLE');
+    const activeLabels = fixture.debugElement.queryAll(By.css('.cap-tabs__tabLabel-active'));
+    expect(activeLabels.length).toBe(1);
+    expect(activeLabels[0].nativeElement.textContent.trim()).toBe('HOME.TABS.PAYMENTS');
   });
 
   it('navigates via Router.navigate when navigateTo is called', () => {

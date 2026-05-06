@@ -1,4 +1,9 @@
-<div [ngClass]="{ 'cap-tabs--mobile': tabMobile() }">
+<div
+  [ngClass]="{
+    'cap-tabs--mobile': tabMobile(),
+    'cap-tabs--card': variant() === 'card',
+  }"
+>
   <ul
     class="cap-tabs"
     [ngClass]="{
@@ -20,5 +25,5 @@
       </li>
     }
   </ul>
+  <ng-content></ng-content>
 </div>
-<ng-content></ng-content>

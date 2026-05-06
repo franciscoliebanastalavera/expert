@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -10,20 +10,18 @@ import {
   CapMetricCardComponent,
   CapStatusBadgeComponent,
   CapStatusBadgeKind,
+  CapTabComponent,
   CapTableColumn,
   CapTableComponent,
+  CapTabsComponent,
 } from '@capitalflow/shared-ui';
 import {
   DashboardMetric,
   DashboardOperation,
-  DashboardTab,
-  DashboardTabId,
   TransactionStatus,
   TRANSACTION_STATUS_KIND_MAP,
 } from '../core/models';
 import { IconName } from '../shared/icon/icon.constants';
-
-const DEFAULT_TAB: DashboardTabId = DashboardTabId.Summary;
 
 @Component({
   selector: 'app-home',
@@ -37,6 +35,8 @@ const DEFAULT_TAB: DashboardTabId = DashboardTabId.Summary;
     CapTableComponent,
     CapCellTemplateDirective,
     CapStatusBadgeComponent,
+    CapTabsComponent,
+    CapTabComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -45,9 +45,6 @@ const DEFAULT_TAB: DashboardTabId = DashboardTabId.Summary;
 export class HomeComponent {
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
-
-  readonly tabActiva = signal<DashboardTabId>(DEFAULT_TAB);
-  readonly dashboardTabId = DashboardTabId;
 
   readonly metricas: DashboardMetric[] = [
     {
@@ -88,13 +85,6 @@ export class HomeComponent {
     },
   ];
 
-  readonly tabs: DashboardTab[] = [
-    { id: DashboardTabId.Summary, label: 'HOME.TABS.SUMMARY' },
-    { id: DashboardTabId.Treasury, label: 'HOME.TABS.TREASURY' },
-    { id: DashboardTabId.Payments, label: 'HOME.TABS.PAYMENTS' },
-    { id: DashboardTabId.Compliance, label: 'HOME.TABS.COMPLIANCE' },
-  ];
-
   readonly ultimasOperaciones: DashboardOperation[] = [
     { tipo: 'Transferencia SEPA', importe: '45.200 €', fecha: '11/04/2026', estado: TransactionStatus.Completed, iban: 'ES9121000418450200051332' },
     { tipo: 'Pago Nóminas', importe: '128.500 €', fecha: '10/04/2026', estado: TransactionStatus.Processing, iban: 'ES7620770024003102575766' },
@@ -121,10 +111,6 @@ export class HomeComponent {
     ),
     { initialValue: [] as CapTableColumn[] }
   );
-
-  selectTab(id: DashboardTabId): void {
-    this.tabActiva.set(id);
-  }
 
   navigateTo(ruta: string): void {
     this.router.navigate([ruta]);

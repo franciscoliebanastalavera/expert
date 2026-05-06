@@ -30,6 +30,7 @@ import { CapTabComponent } from './cap-tab/cap-tab.component';
 export class CapTabsComponent implements AfterContentInit {
   readonly tabAlignment = input<AlignVariant>('left');
   readonly tabMobile = input(false);
+  readonly variant = input<'underline' | 'card'>('underline');
   readonly tabsChange = output<string>();
 
   readonly tabs = contentChildren(CapTabComponent);

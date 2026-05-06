@@ -26,52 +26,6 @@
   margin-bottom: 2rem;
 }
 
-.tabs-section {
-  background: var(--cap-bg-surface, #fff);
-  border-radius: var(--cap-radius-lg, 0.75rem);
-  border: 0.0625rem solid var(--cap-border, #cac8c2);
-  margin-bottom: 2rem;
-  overflow: hidden;
-}
-
-.tabs-header {
-  display: flex;
-  border-bottom: 0.0625rem solid var(--cap-border, #cac8c2);
-  background: var(--cap-bg, #fafafa);
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 0.9rem 1rem;
-  border: none;
-  background: transparent;
-  font-size: 0.9rem;
-  color: var(--cap-text-secondary, #4d4d4d);
-  cursor: pointer;
-  border-bottom: 0.125rem solid transparent;
-  transition: var(--cap-transition);
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.03);
-  }
-
-  &.active {
-    color: var(--cap-primary, #2a85c4);
-    border-bottom-color: var(--cap-primary, #2a85c4);
-    font-weight: 600;
-  }
-}
-
-.tab-content {
-  padding: 1.5rem;
-
-  h2 {
-    font-size: 1.2rem;
-    color: var(--cap-text, #1e1e1e);
-    margin-bottom: 1rem;
-  }
-}
-
 ::ng-deep {
   .home-table__importe {
     font-weight: 600;
@@ -101,17 +55,6 @@
 
   .dashboard-header h1 {
     font-size: 1.4rem;
-  }
-
-  .tabs-header {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .tab-btn {
-    flex: 0 0 auto;
-    padding: 0.75rem 1rem;
-    white-space: nowrap;
   }
 
   .acciones {
