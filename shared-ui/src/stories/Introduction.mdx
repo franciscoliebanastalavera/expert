@@ -95,7 +95,7 @@ import { Meta } from '@storybook/blocks';
 </div>
 
 <div className="cf-metrics">
-  <div className="cf-metric"><div className="cf-metric-val">9</div><div className="cf-metric-lbl">Componentes listos</div></div>
+  <div className="cf-metric"><div className="cf-metric-val">16</div><div className="cf-metric-lbl">Componentes listos</div></div>
   <div className="cf-metric"><div className="cf-metric-val sec">18</div><div className="cf-metric-lbl">Angular version</div></div>
   <div className="cf-metric"><div className="cf-metric-val ink">AA</div><div className="cf-metric-lbl">WCAG 2.1 compliant</div></div>
   <div className="cf-metric"><div className="cf-metric-val ink">100%</div><div className="cf-metric-lbl">Standalone · OnPush</div></div>
@@ -111,33 +111,40 @@ import { Meta } from '@storybook/blocks';
 <div className="cf-install">npm run storybook</div>
 
 <div className="cf-code" style={{color:'#e2e8f0'}}>
-<span className="cf-tk-kw" style={{color:'#c084fc'}}>import</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`{`}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapButtonComponent</span><span className="cf-tk-pun">,</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapCardComponent</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`}`}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-kw" style={{color:'#c084fc'}}>from</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-str">'@capitalflow/shared-ui'</span><span className="cf-tk-pun">;</span>{'\n\n'}
+<span className="cf-tk-kw" style={{color:'#c084fc'}}>import</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`{`}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapButtonComponent</span><span className="cf-tk-pun">,</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapInfoCardComponent</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`}`}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-kw" style={{color:'#c084fc'}}>from</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-str">'@capitalflow/shared-ui'</span><span className="cf-tk-pun">;</span>{'\n\n'}
 <span className="cf-tk-attr">@Component</span><span className="cf-tk-pun">({`({`}</span>{'\n  '}
 <span className="cf-tk-txt" style={{color:'#e2e8f0'}}>standalone</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-kw" style={{color:'#c084fc'}}>true</span><span className="cf-tk-pun">,</span>{'\n  '}
-<span className="cf-tk-txt" style={{color:'#e2e8f0'}}>imports</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">[</span><span className="cf-tk-fn">CapButtonComponent</span><span className="cf-tk-pun">,</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapCardComponent</span><span className="cf-tk-pun">],</span>{'\n  '}
+<span className="cf-tk-txt" style={{color:'#e2e8f0'}}>imports</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">[</span><span className="cf-tk-fn">CapButtonComponent</span><span className="cf-tk-pun">,</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">CapInfoCardComponent</span><span className="cf-tk-pun">],</span>{'\n  '}
 <span className="cf-tk-txt" style={{color:'#e2e8f0'}}>template</span><span className="cf-tk-pun">:</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-str">{'`'}</span>{'\n    '}
-<span className="cf-tk-str">{'<'}</span><span className="cf-tk-tag">cap-card</span><span className="cf-tk-str">{'>'}</span>{'\n      '}
-<span className="cf-tk-str">{'<'}</span><span className="cf-tk-tag">cap-button</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-attr">variant</span><span className="cf-tk-pun">=</span><span className="cf-tk-str">"primary"</span><span className="cf-tk-str">{'>'}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>Acción</span><span className="cf-tk-str">{'</'}</span><span className="cf-tk-tag">cap-button</span><span className="cf-tk-str">{'>'}</span>{'\n    '}
-<span className="cf-tk-str">{'</'}</span><span className="cf-tk-tag">cap-card</span><span className="cf-tk-str">{'>'}</span>{'\n  '}
+<span className="cf-tk-str">{'<'}</span><span className="cf-tk-tag">cap-info-card</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-attr">title</span><span className="cf-tk-pun">=</span><span className="cf-tk-str">"Resumen"</span><span className="cf-tk-str">{'>'}</span>{'\n      '}
+<span className="cf-tk-str">{'<'}</span><span className="cf-tk-tag">cap-button</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-attr">variant</span><span className="cf-tk-pun">=</span><span className="cf-tk-str">"capitalflow-primary"</span><span className="cf-tk-str">{'>'}</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>Acción</span><span className="cf-tk-str">{'</'}</span><span className="cf-tk-tag">cap-button</span><span className="cf-tk-str">{'>'}</span>{'\n    '}
+<span className="cf-tk-str">{'</'}</span><span className="cf-tk-tag">cap-info-card</span><span className="cf-tk-str">{'>'}</span>{'\n  '}
 <span className="cf-tk-str">{'`'}</span>{'\n'}
 <span className="cf-tk-pun">{'})'}</span>{'\n'}
 <span className="cf-tk-kw" style={{color:'#c084fc'}}>export class</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-fn">ExampleComponent</span><span className="cf-tk-txt" style={{color:'#e2e8f0'}}>{' '}</span><span className="cf-tk-pun">{`{}`}</span>
 </div>
 
 <h2>Catálogo de componentes</h2>
-<p>9 componentes con story documentada. Navega por el sidebar para ver cada uno con sus variantes y controles interactivos.</p>
+<p>Componentes con story documentada. Navega por el sidebar para ver cada uno con sus variantes y controles interactivos.</p>
 
 <div className="cf-cgrid">
   {[
-    { i:'⬢', n:'Button', s:'<cap-button>', d:'Variantes primary, secondary, tertiary' },
-    { i:'▭', n:'Card', s:'<cap-card>', d:'Contenedor con theming dinámico' },
-    { i:'☑', n:'Checkbox', s:'<cap-checkbox>', d:'ControlValueAccessor integrado' },
+    { i:'⬢', n:'Button', s:'<cap-button>', d:'Variantes primary, secondary, tertiary y capitalflow' },
     { i:'▁', n:'Footer', s:'<cap-footer>', d:'Footer configurable con i18n' },
     { i:'▔', n:'Header', s:'<cap-header>', d:'Nav, theme toggle, selector idioma' },
+    { i:'⊞', n:'Info Card', s:'<cap-info-card>', d:'Tarjeta informativa para landings' },
     { i:'▢', n:'Modal', s:'<cap-modal>', d:'Modal con backdrop y acciones' },
-    { i:'▾', n:'Select', s:'<cap-select>', d:'Con búsqueda predictiva' },
-    { i:'⏻', n:'Switch', s:'<cap-switch>', d:'Toggle on/off animado' },
-    { i:'❏', n:'Tabs', s:'<cap-tabs>', d:'Pestañas con contenido dinámico' },
+    { i:'⌨', n:'Input', s:'<cap-input>', d:'Standard, clear y minimal con strict mode' },
+    { i:'❏', n:'Tabs', s:'<cap-tabs>', d:'Pestañas underline o card con contenido dinámico' },
+    { i:'▦', n:'Table', s:'<cap-table>', d:'Tabla con templates de celda dinámicos' },
+    { i:'⊟', n:'Data Grid', s:'<cap-data-grid>', d:'Grid virtualizado para datasets grandes' },
+    { i:'⬡', n:'Status Badge', s:'<cap-status-badge>', d:'Etiqueta success / warning / info / danger' },
+    { i:'◔', n:'Spinner', s:'<cap-spinner>', d:'Indicador de carga circular' },
+    { i:'❖', n:'Stat Card', s:'<cap-stat-card>', d:'Tarjeta KPI con valor y tendencia' },
+    { i:'▤', n:'Metric Card', s:'<cap-metric-card>', d:'Métrica destacada con icon y variación' },
+    { i:'⚠', n:'Alert', s:'<cap-alert>', d:'Mensaje success / warning / info / danger' },
+    { i:'ⓘ', n:'Tooltip', s:'<cap-tooltip>', d:'Tooltip responsivo con modal en móvil' },
+    { i:'★', n:'Icon', s:'<cap-icon>', d:'Icono SVG sprite con tamaño configurable' },
   ].map((c) => (
     <div className="cf-ccard" key={c.n}>
       <div className="cf-cicon">{c.i}</div>
