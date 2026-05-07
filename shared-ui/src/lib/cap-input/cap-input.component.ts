@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
@@ -100,7 +99,6 @@ export class CapInputComponent {
   componentId!: string;
 
   private readonly destroyRef = inject(DestroyRef);
-  private readonly cdr = inject(ChangeDetectorRef);
   control!: FormControl;
   showPassword = false;
   showIBAN = false;
@@ -242,7 +240,6 @@ export class CapInputComponent {
     if (value === null) {
       this.innerValue = '';
     }
-    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: (value: string) => void): void {
