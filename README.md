@@ -99,8 +99,8 @@ Latest verified local result:
 
 | Project | Test runner | Count |
 | --- | --- | --- |
-| shell | Karma/Jasmine | 128 passing |
-| shared-ui | Karma/Jasmine | 181 passing |
+| shell | Karma/Jasmine | 126 passing |
+| shared-ui | Karma/Jasmine | 128 passing |
 | mfe-payments | Karma/Jasmine | 25 passing |
 | mfe-analytics-react | Jest | 26 passing |
 
@@ -167,10 +167,11 @@ controls and tests.
 
 ## Shared UI Library
 
-`shared-ui` contains the CapitalFlow Angular design-system implementation. The
-library currently includes 21 reusable building blocks, including buttons,
-alerts, cards, data tables, virtual data grid, status badges, form controls,
-modal, tabs, spinner, tooltip, metric cards, and sanitization helpers.
+`shared-ui` contains the CapitalFlow Angular design-system implementation:
+17 standalone components (button, alert, info-card, header, footer, modal,
+input, tabs, tab, table, data-grid, status-badge, spinner, stat-card,
+metric-card, tooltip, icon), 2 pipes (`iban`, `safeHtml`), 2 directives
+(`appClickOutside`, `capCellTemplate`) and a `DynamicCssService` helper.
 
 Storybook is available through Docker at:
 
@@ -178,10 +179,67 @@ Storybook is available through Docker at:
 http://localhost:6007
 ```
 
-The shell consumes the source entry point through TypeScript path mapping:
+### Library philosophy
+
+The library adapts to the application, not the other way around. Operating
+rules applied during the consolidation pass (Batches 0-6):
+
+1. App component duplicated in the library → modify library to match the app
+   visual identity, then replace the local copy.
+2. Library component never used → integrate it where it fits without visual
+   change, otherwise delete it.
+3. App native HTML where the library has an equivalent → tune the library
+   variant to match, then replace the native markup.
+4. Custom app component without library equivalent → add it to the library
+   only if it is genuinely reusable.
+
+Concrete results of that pass: `cap-input` gained a `minimal` variant plus
+`size` and `fontFamily` knobs to fit the search, PDF and analytics filter
+inputs without changing pixels; `cap-tabs` gained a `card` variant and now
+backs the home dashboard; `cap-footer` is wired to the global layout; the
+`iban` pipe gained a no-control overload and replaced an inline grouping
+helper; the `safeHtml` pipe replaced a manual `DomSanitizer` call in the
+WYSIWYG editor; five unused components, the legacy `modal/`, and the dead
+`includes` pipe were removed.
+
+`cap-tooltip`, `cap-modal`, the `appClickOutside` directive and
+`DynamicCssService` are kept as static dependencies of `cap-input`'s
+standard variant. They are infrastructure for the rich form fields the
+financial workflows will require.
+
+### Library entry points
+
+The library ships two TypeScript entry files that look identical but serve
+different consumers:
+
+| Entry | Used by | Resolution |
+| --- | --- | --- |
+| `public-api.ts` | ng-packagr (APF build, npm publish) | full inventory |
+| `public-api-source.ts` | shell + payments via path mapping | slim inventory |
+
+Path mapping is configured in `shell/tsconfig.json`:
 
 ```text
-@capitalflow/shared-ui -> ../shared-ui/src/public-api-source.ts
+@capitalflow/shared-ui          -> ../shared-ui/src/public-api-source.ts
+@capitalflow/shared-ui/lib/*    -> ../shared-ui/src/lib/*
+```
+
+The slim entry exists to keep eager re-exports out of the shell's initial
+chunk. Pieces that pull heavyweight side-effect dependencies (for example
+`SafeHtmlPipe`, which loads DOMPurify at module init) are consumed via the
+deep `@capitalflow/shared-ui/lib/...` form so they live inside the lazy
+chunk that uses them.
+
+### Worker isolation rule
+
+`shell/tsconfig.worker.json` compiles `*.worker.ts` with `lib: ["ES2022",
+"webworker"]` (no DOM types). Workers must import shell types via the
+direct file path, not via the index aggregator, otherwise the program
+graph reaches `cap-header` and similar components and fails compilation
+with `Cannot find name 'HTMLElement'`. Example:
+
+```ts
+import type { Transaction } from '../core/models/transaction.model';
 ```
 
 ## Architecture Notes
@@ -194,6 +252,8 @@ The shell consumes the source entry point through TypeScript path mapping:
   and React surfaces.
 - Large datasets use CDK virtual scroll.
 - XLSX generation runs in a Web Worker to avoid blocking the UI thread.
+- All new and modified SCSS uses `rem` (1rem = 16px), with the only
+  exceptions being 1px borders, the literal `0`, and viewport units.
 - Docker Compose provides a local environment close to the intended split
   runtime topology.
 
