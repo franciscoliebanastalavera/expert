@@ -160,49 +160,40 @@
     }
   },
   "HOME": {
-    "TITLE": "Dashboard Financiero",
-    "SUBTITLE": "Resumen de operaciones - Abril 2026",
-    "BTN_TRANSACTIONS": "Ver Transacciones",
-    "BTN_ANALYTICS": "Ver Analytics",
-    "BTN_PAYMENTS": "Ver Pagos",
-    "TABS": {
-      "SUMMARY": "Resumen General",
-      "TREASURY": "Tesorería",
-      "PAYMENTS": "Pagos",
-      "COMPLIANCE": "Compliance"
-    },
-    "OPERATIONS": {
-      "TITLE": "Últimas Operaciones",
-      "COL_TYPE": "Tipo",
-      "COL_AMOUNT": "Importe",
-      "COL_DATE": "Fecha",
-      "COL_STATUS": "Estado",
-      "COL_IBAN": "IBAN"
-    },
-    "TABS_CONTENT": {
-      "TREASURY_TITLE": "Tesorería",
-      "TREASURY_DESC": "Vista detallada de saldos por cuenta operativa.",
-      "PAYMENTS_TITLE": "Pagos Programados",
-      "PAYMENTS_DESC": "Gestión de transferencias y domiciliaciones pendientes.",
-      "COMPLIANCE_TITLE": "Compliance & AML",
-      "COMPLIANCE_DESC": "Operaciones marcadas para revisión de cumplimiento normativo."
-    },
-    "METRICS": {
-      "TREASURY": {
-        "TITLE": "Tesorería",
-        "DESC": "Saldo total en cuentas operativas"
+    "SUMMARY": {
+      "WELCOME_TITLE": "Bienvenido a CapitalFlow",
+      "WELCOME_SUBTITLE": "Resumen del último periodo",
+      "KPI": {
+        "BALANCE": "Saldo total",
+        "INCOME": "Ingresos del mes",
+        "EXPENSES": "Gastos del mes",
+        "SAVINGS": "Ahorro proyectado"
       },
-      "PAYMENTS": {
-        "TITLE": "Pagos Pendientes",
-        "DESC": "47 transferencias programadas esta semana"
+      "TREND": {
+        "TITLE": "Tendencia mensual",
+        "INCOME": "Ingresos",
+        "EXPENSES": "Gastos"
       },
-      "RECONCILIATION": {
-        "TITLE": "Conciliaciones",
-        "DESC": "1.284 de 1.362 movimientos conciliados"
+      "DONUT": {
+        "TITLE": "Gastos por categoría",
+        "TOTAL_LABEL": "Total: 2.320 €"
       },
-      "ALERTS": {
-        "TITLE": "Alertas Compliance",
-        "DESC": "Operaciones pendientes de revisión AML"
+      "CATEGORIES": {
+        "HOUSING": "Vivienda",
+        "FOOD": "Alimentación",
+        "TRANSPORT": "Transporte",
+        "ENTERTAINMENT": "Ocio",
+        "OTHER": "Otros"
+      },
+      "QUICK_ACCESS": {
+        "TITLE": "Accesos rápidos",
+        "OPEN": "Abrir",
+        "TRANSACTIONS_TITLE": "Transacciones",
+        "TRANSACTIONS_DESC": "Filtra y exporta tus operaciones",
+        "ANALYTICS_TITLE": "Analítica",
+        "ANALYTICS_DESC": "Visualiza tus datos en tiempo real",
+        "PAYMENTS_TITLE": "Pagos",
+        "PAYMENTS_DESC": "Gestiona tus pagos pendientes"
       }
     }
   },

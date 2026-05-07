@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Router, provideRouter } from '@angular/router';
 import { TranslateService, TranslateStore } from '@ngx-translate/core';
 import { HomeComponent } from './home.component';
-import { TransactionStatus } from '../core/models';
+import { HOME_QUICK_ACCESS_CARDS } from './home-summary.fixtures';
 import { TranslateServiceMock } from '../../testing/mocks';
 
 describe('HomeComponent', () => {
@@ -25,61 +25,76 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('exposes 4 metric cards with the configured routes', () => {
-    expect(component.metricas.length).toBe(4);
-    const cards = fixture.debugElement.queryAll(By.css('cap-metric-card'));
+  it('renders the welcome hero with translation keys', () => {
+    const title = fixture.debugElement.query(By.css('.home__title'));
+    const subtitle = fixture.debugElement.query(By.css('.home__subtitle'));
+    expect(title.nativeElement.textContent.trim()).toBe('HOME.SUMMARY.WELCOME_TITLE');
+    expect(subtitle.nativeElement.textContent.trim()).toBe('HOME.SUMMARY.WELCOME_SUBTITLE');
+  });
+
+  it('renders 4 cap-stat-card kpis', () => {
+    const cards = fixture.debugElement.queryAll(By.css('cap-stat-card'));
     expect(cards.length).toBe(4);
-    expect(component.metricas.map((m) => m.ruta)).toEqual([
+  });
+
+  it('renders the trend chart and the donut chart', () => {
+    expect(fixture.debugElement.query(By.css('cap-trend-chart'))).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('cap-donut-chart'))).not.toBeNull();
+  });
+
+  it('exposes 3 quick-access cards mapping to local routes', () => {
+    expect(component.quickAccessCards.length).toBe(3);
+    const cards = fixture.debugElement.queryAll(By.css('cap-info-card'));
+    expect(cards.length).toBe(3);
+    expect(component.quickAccessCards.map((c) => c.route)).toEqual([
       '/analytics',
+      '/analytics-mfe',
       '/payments-mfe',
-      '/analytics',
-      '/analytics',
     ]);
   });
 
-  it('renders 4 cap-tab items inside cap-tabs with the card variant', () => {
-    const tabs = fixture.debugElement.queryAll(By.css('.cap-tabs li'));
-    expect(tabs.length).toBe(4);
-    const cardWrapper = fixture.debugElement.query(By.css('.cap-tabs--card'));
-    expect(cardWrapper).not.toBeNull();
-  });
-
-  it('marks the first tab as active by default', () => {
-    const activeLabel = fixture.debugElement.query(By.css('.cap-tabs__tabLabel-active'));
-    expect(activeLabel.nativeElement.textContent.trim()).toBe('HOME.TABS.SUMMARY');
-  });
-
-  it('switches the active tab when another tab is clicked', () => {
-    const items = fixture.debugElement.queryAll(By.css('.cap-tabs li'));
-    items[2].nativeElement.click();
-    fixture.detectChanges();
-    const activeLabels = fixture.debugElement.queryAll(By.css('.cap-tabs__tabLabel-active'));
-    expect(activeLabels.length).toBe(1);
-    expect(activeLabels[0].nativeElement.textContent.trim()).toBe('HOME.TABS.PAYMENTS');
-  });
-
-  it('navigates via Router.navigate when navigateTo is called', () => {
+  it('navigates via Router when navigateTo is called', () => {
     const router = TestBed.inject(Router);
     const navSpy = spyOn(router, 'navigate').and.resolveTo(true);
     component.navigateTo('/analytics');
     expect(navSpy).toHaveBeenCalledWith(['/analytics']);
   });
 
-  it('maps transaction statuses to the correct badge kinds', () => {
-    expect(component.statusKind(TransactionStatus.Completed)).toBe('success');
-    expect(component.statusKind(TransactionStatus.Processing)).toBe('warning');
-    expect(component.statusKind(TransactionStatus.Pending)).toBe('info');
-    expect(component.statusKind(TransactionStatus.Rejected)).toBe('danger');
+  it('translates the trend series labels via the TranslateService stream', () => {
+    const labels = component.trendSeries().map((s) => s.label);
+    expect(labels).toEqual(['HOME.SUMMARY.TREND.INCOME', 'HOME.SUMMARY.TREND.EXPENSES']);
   });
 
-  it('builds the table columns from the translate streams', () => {
-    const cols = component.tableColumns();
-    expect(cols.length).toBe(5);
-    expect(cols.map((c) => c.key)).toEqual(['tipo', 'importe', 'fecha', 'estado', 'iban']);
+  it('translates the donut segment labels via the TranslateService stream', () => {
+    const labels = component.donutSegments().map((s) => s.label);
+    expect(labels).toEqual([
+      'HOME.SUMMARY.CATEGORIES.HOUSING',
+      'HOME.SUMMARY.CATEGORIES.FOOD',
+      'HOME.SUMMARY.CATEGORIES.TRANSPORT',
+      'HOME.SUMMARY.CATEGORIES.ENTERTAINMENT',
+      'HOME.SUMMARY.CATEGORIES.OTHER',
+    ]);
   });
 
-  it('exposes 5 mock latest operations', () => {
-    expect(component.ultimasOperaciones.length).toBe(5);
-    expect(component.ultimasOperaciones[0].iban).toBe('ES9121000418450200051332');
+  it('preserves the donut segment colorVar when translating', () => {
+    const colors = component.donutSegments().map((s) => s.colorVar);
+    expect(colors[0]).toBe('var(--cap-primary)');
+    expect(colors.every((c) => c !== undefined)).toBeTrue();
+  });
+
+  it('exposes hardcoded kpi values matching the fixtures', () => {
+    expect(component.kpis.BALANCE).toBe('12.500 €');
+    expect(component.kpis.INCOME).toBe('4.200 €');
+    expect(component.kpis.EXPENSES).toBe('2.620 €');
+    expect(component.kpis.SAVINGS).toBe('1.580 €');
+  });
+
+  it('triggers navigation when the cta of a quick-access card is clicked', () => {
+    const router = TestBed.inject(Router);
+    const navSpy = spyOn(router, 'navigate').and.resolveTo(true);
+    const buttons = fixture.debugElement.queryAll(By.css('cap-info-card .cap-info-card__cta'));
+    expect(buttons.length).toBe(HOME_QUICK_ACCESS_CARDS.length);
+    buttons[0].triggerEventHandler('capClick', undefined);
+    expect(navSpy).toHaveBeenCalledWith([HOME_QUICK_ACCESS_CARDS[0].route]);
   });
 });

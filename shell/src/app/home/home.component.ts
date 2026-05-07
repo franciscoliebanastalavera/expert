@@ -1,27 +1,21 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, map } from 'rxjs';
+import { CapInfoCardComponent, CapStatCardComponent } from '@capitalflow/shared-ui';
+import { CapDonutChartComponent } from '@capitalflow/shared-ui/lib/cap-donut-chart/cap-donut-chart.component';
+import { CapDonutSegment } from '@capitalflow/shared-ui/lib/cap-donut-chart/cap-donut-chart.types';
+import { CapTrendChartComponent } from '@capitalflow/shared-ui/lib/cap-trend-chart/cap-trend-chart.component';
+import { CapTrendSeries } from '@capitalflow/shared-ui/lib/cap-trend-chart/cap-trend-chart.types';
 import {
-  CapButtonComponent,
-  CapCellTemplateDirective,
-  CapMetricCardComponent,
-  CapStatusBadgeComponent,
-  CapStatusBadgeKind,
-  CapTabComponent,
-  CapTableColumn,
-  CapTableComponent,
-  CapTabsComponent,
-} from '@capitalflow/shared-ui';
-import {
-  DashboardMetric,
-  DashboardOperation,
-  TransactionStatus,
-  TRANSACTION_STATUS_KIND_MAP,
-} from '../core/models';
-import { IconName } from '../shared/icon/icon.constants';
+  HOME_DONUT_SEGMENTS,
+  HOME_QUICK_ACCESS_CARDS,
+  HOME_SUMMARY_KPI_VALUES,
+  HOME_TREND_LABELS,
+  HOME_TREND_SERIES,
+} from './home-summary.fixtures';
 
 @Component({
   selector: 'app-home',
@@ -30,13 +24,10 @@ import { IconName } from '../shared/icon/icon.constants';
     CommonModule,
     RouterModule,
     TranslateModule,
-    CapButtonComponent,
-    CapMetricCardComponent,
-    CapTableComponent,
-    CapCellTemplateDirective,
-    CapStatusBadgeComponent,
-    CapTabsComponent,
-    CapTabComponent,
+    CapInfoCardComponent,
+    CapStatCardComponent,
+    CapDonutChartComponent,
+    CapTrendChartComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -46,77 +37,41 @@ export class HomeComponent {
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
 
-  readonly metricas: DashboardMetric[] = [
-    {
-      titulo: 'HOME.METRICS.TREASURY.TITLE',
-      valor: '2.450.000 €',
-      variacion: '+12.5%',
-      icono: IconName.MetricTreasury,
-      positivo: true,
-      descripcion: 'HOME.METRICS.TREASURY.DESC',
-      ruta: '/analytics',
-    },
-    {
-      titulo: 'HOME.METRICS.PAYMENTS.TITLE',
-      valor: '380.000 €',
-      variacion: '-8.3%',
-      icono: IconName.MetricPayments,
-      positivo: true,
-      descripcion: 'HOME.METRICS.PAYMENTS.DESC',
-      ruta: '/payments-mfe',
-    },
-    {
-      titulo: 'HOME.METRICS.RECONCILIATION.TITLE',
-      valor: '94.2%',
-      variacion: '+3.1%',
-      icono: IconName.MetricReconciliation,
-      positivo: true,
-      descripcion: 'HOME.METRICS.RECONCILIATION.DESC',
-      ruta: '/analytics',
-    },
-    {
-      titulo: 'HOME.METRICS.ALERTS.TITLE',
-      valor: '3',
-      variacion: '+2',
-      icono: IconName.MetricAlert,
-      positivo: false,
-      descripcion: 'HOME.METRICS.ALERTS.DESC',
-      ruta: '/analytics',
-    },
-  ];
+  readonly kpis = HOME_SUMMARY_KPI_VALUES;
+  readonly trendLabels = HOME_TREND_LABELS;
+  readonly quickAccessCards = HOME_QUICK_ACCESS_CARDS;
 
-  readonly ultimasOperaciones: DashboardOperation[] = [
-    { tipo: 'Transferencia SEPA', importe: '45.200 €', fecha: '11/04/2026', estado: TransactionStatus.Completed, iban: 'ES9121000418450200051332' },
-    { tipo: 'Pago Nóminas', importe: '128.500 €', fecha: '10/04/2026', estado: TransactionStatus.Processing, iban: 'ES7620770024003102575766' },
-    { tipo: 'Cobro Factura', importe: '15.800 €', fecha: '10/04/2026', estado: TransactionStatus.Completed, iban: 'ES0049001822162211067891' },
-    { tipo: 'Transferencia Internacional', importe: '92.000 €', fecha: '09/04/2026', estado: TransactionStatus.Pending, iban: 'DE89370400440532013000' },
-    { tipo: 'Domiciliación', importe: '3.200 €', fecha: '09/04/2026', estado: TransactionStatus.Completed, iban: 'FR7630006000011234567890189' },
-  ];
-
-  readonly tableColumns = toSignal(
-    combineLatest([
-      this.translate.stream('HOME.OPERATIONS.COL_TYPE'),
-      this.translate.stream('HOME.OPERATIONS.COL_AMOUNT'),
-      this.translate.stream('HOME.OPERATIONS.COL_DATE'),
-      this.translate.stream('HOME.OPERATIONS.COL_STATUS'),
-      this.translate.stream('HOME.OPERATIONS.COL_IBAN'),
-    ]).pipe(
-      map(([tipo, importe, fecha, estado, iban]): CapTableColumn[] => [
-        { key: 'tipo', label: tipo as string },
-        { key: 'importe', label: importe as string, cssClass: 'home-table__importe' },
-        { key: 'fecha', label: fecha as string },
-        { key: 'estado', label: estado as string },
-        { key: 'iban', label: iban as string, cssClass: 'home-table__iban' },
-      ])
+  private readonly trendSeriesLabels = toSignal(
+    combineLatest(HOME_TREND_SERIES.map((s) => this.translate.stream(s.label))).pipe(
+      map((labels) => labels as readonly string[]),
     ),
-    { initialValue: [] as CapTableColumn[] }
+    { initialValue: HOME_TREND_SERIES.map((s) => s.label) as readonly string[] },
   );
 
-  navigateTo(ruta: string): void {
-    this.router.navigate([ruta]);
-  }
+  readonly trendSeries = computed<readonly CapTrendSeries[]>(() => {
+    const labels = this.trendSeriesLabels();
+    return HOME_TREND_SERIES.map((series, index) => ({
+      ...series,
+      label: labels[index] ?? series.label,
+    }));
+  });
 
-  statusKind(status: TransactionStatus): CapStatusBadgeKind {
-    return TRANSACTION_STATUS_KIND_MAP[status];
+  private readonly donutSegmentLabels = toSignal(
+    combineLatest(HOME_DONUT_SEGMENTS.map((s) => this.translate.stream(s.label))).pipe(
+      map((labels) => labels as readonly string[]),
+    ),
+    { initialValue: HOME_DONUT_SEGMENTS.map((s) => s.label) as readonly string[] },
+  );
+
+  readonly donutSegments = computed<readonly CapDonutSegment[]>(() => {
+    const labels = this.donutSegmentLabels();
+    return HOME_DONUT_SEGMENTS.map((segment, index) => ({
+      ...segment,
+      label: labels[index] ?? segment.label,
+    }));
+  });
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 }

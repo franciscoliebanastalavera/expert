@@ -1,64 +1,59 @@
-<section class="dashboard">
-  <div class="dashboard-header">
-    <h1>{{ 'HOME.TITLE' | translate }}</h1>
-    <p class="subtitle">{{ 'HOME.SUBTITLE' | translate }}</p>
+<section class="home">
+  <header class="home__hero">
+    <h1 class="home__title">{{ 'HOME.SUMMARY.WELCOME_TITLE' | translate }}</h1>
+    <p class="home__subtitle">{{ 'HOME.SUMMARY.WELCOME_SUBTITLE' | translate }}</p>
+  </header>
+
+  <div class="home__kpis">
+    <cap-stat-card
+      [label]="'HOME.SUMMARY.KPI.BALANCE' | translate"
+      [value]="kpis.BALANCE"
+      kind="positive">
+    </cap-stat-card>
+    <cap-stat-card
+      [label]="'HOME.SUMMARY.KPI.INCOME' | translate"
+      [value]="kpis.INCOME"
+      kind="positive">
+    </cap-stat-card>
+    <cap-stat-card
+      [label]="'HOME.SUMMARY.KPI.EXPENSES' | translate"
+      [value]="kpis.EXPENSES"
+      kind="neutral">
+    </cap-stat-card>
+    <cap-stat-card
+      [label]="'HOME.SUMMARY.KPI.SAVINGS' | translate"
+      [value]="kpis.SAVINGS"
+      kind="positive">
+    </cap-stat-card>
   </div>
 
-  <div class="metricas-grid">
-    @for (m of metricas; track m.titulo) {
-      <cap-metric-card
-        [iconName]="m.icono"
-        [value]="m.valor"
-        [variation]="m.variacion"
-        [title]="m.titulo | translate"
-        [description]="m.descripcion | translate"
-        [positive]="m.positivo"
-        [clickable]="true"
-        (cardClick)="navigateTo(m.ruta)" />
-    }
+  <div class="home__charts">
+    <cap-trend-chart
+      class="home__chart-trend"
+      [title]="'HOME.SUMMARY.TREND.TITLE' | translate"
+      [labels]="trendLabels"
+      [series]="trendSeries()">
+    </cap-trend-chart>
+
+    <cap-donut-chart
+      class="home__chart-donut"
+      [title]="'HOME.SUMMARY.DONUT.TITLE' | translate"
+      [data]="donutSegments()"
+      [totalLabel]="'HOME.SUMMARY.DONUT.TOTAL_LABEL' | translate">
+    </cap-donut-chart>
   </div>
 
-  <cap-tabs variant="card">
-    <cap-tab [label]="'HOME.TABS.SUMMARY' | translate" [active]="true">
-      <h2>{{ 'HOME.OPERATIONS.TITLE' | translate }}</h2>
-      <cap-table [columns]="tableColumns()" [data]="ultimasOperaciones" trackByKey="iban">
-        <ng-template [capCellTemplate]="'estado'" let-value>
-          <cap-status-badge [kind]="statusKind(value)">{{ value }}</cap-status-badge>
-        </ng-template>
-      </cap-table>
-    </cap-tab>
-    <cap-tab [label]="'HOME.TABS.TREASURY' | translate">
-      <h2>{{ 'HOME.TABS_CONTENT.TREASURY_TITLE' | translate }}</h2>
-      <p>{{ 'HOME.TABS_CONTENT.TREASURY_DESC' | translate }}</p>
-    </cap-tab>
-    <cap-tab [label]="'HOME.TABS.PAYMENTS' | translate">
-      <h2>{{ 'HOME.TABS_CONTENT.PAYMENTS_TITLE' | translate }}</h2>
-      <p>{{ 'HOME.TABS_CONTENT.PAYMENTS_DESC' | translate }}</p>
-    </cap-tab>
-    <cap-tab [label]="'HOME.TABS.COMPLIANCE' | translate">
-      <h2>{{ 'HOME.TABS_CONTENT.COMPLIANCE_TITLE' | translate }}</h2>
-      <p>{{ 'HOME.TABS_CONTENT.COMPLIANCE_DESC' | translate }}</p>
-    </cap-tab>
-  </cap-tabs>
-
-  <div class="acciones">
-    <a routerLink="/analytics" class="btn-link">
-      <cap-button
-        variant="capitalflow-primary"
-        textStyle="none"
-        [label]="'HOME.BTN_TRANSACTIONS' | translate" />
-    </a>
-    <a routerLink="/analytics-mfe" class="btn-link">
-      <cap-button
-        variant="capitalflow-secondary"
-        textStyle="none"
-        [label]="'HOME.BTN_ANALYTICS' | translate" />
-    </a>
-    <a routerLink="/payments-mfe" class="btn-link">
-      <cap-button
-        variant="capitalflow-outline"
-        textStyle="none"
-        [label]="'HOME.BTN_PAYMENTS' | translate" />
-    </a>
-  </div>
+  <section class="home__quick-access">
+    <h2 class="home__section-title">{{ 'HOME.SUMMARY.QUICK_ACCESS.TITLE' | translate }}</h2>
+    <div class="home__quick-grid">
+      @for (card of quickAccessCards; track card.id) {
+        <cap-info-card
+          [title]="card.titleKey | translate"
+          [description]="card.descriptionKey | translate"
+          [ctaLabel]="'HOME.SUMMARY.QUICK_ACCESS.OPEN' | translate"
+          (ctaClick)="navigateTo(card.route)">
+        </cap-info-card>
+      }
+    </div>
+  </section>
 </section>

@@ -160,49 +160,40 @@
     }
   },
   "HOME": {
-    "TITLE": "Financial Dashboard",
-    "SUBTITLE": "Operations summary - April 2026",
-    "BTN_TRANSACTIONS": "View Transactions",
-    "BTN_ANALYTICS": "View Analytics",
-    "BTN_PAYMENTS": "View Payments",
-    "TABS": {
-      "SUMMARY": "General Summary",
-      "TREASURY": "Treasury",
-      "PAYMENTS": "Payments",
-      "COMPLIANCE": "Compliance"
-    },
-    "OPERATIONS": {
-      "TITLE": "Latest Operations",
-      "COL_TYPE": "Type",
-      "COL_AMOUNT": "Amount",
-      "COL_DATE": "Date",
-      "COL_STATUS": "Status",
-      "COL_IBAN": "IBAN"
-    },
-    "TABS_CONTENT": {
-      "TREASURY_TITLE": "Treasury",
-      "TREASURY_DESC": "Detailed view of balances per operating account.",
-      "PAYMENTS_TITLE": "Scheduled Payments",
-      "PAYMENTS_DESC": "Management of pending transfers and direct debits.",
-      "COMPLIANCE_TITLE": "Compliance & AML",
-      "COMPLIANCE_DESC": "Operations flagged for regulatory compliance review."
-    },
-    "METRICS": {
-      "TREASURY": {
-        "TITLE": "Treasury",
-        "DESC": "Total balance in operating accounts"
+    "SUMMARY": {
+      "WELCOME_TITLE": "Welcome to CapitalFlow",
+      "WELCOME_SUBTITLE": "Last period summary",
+      "KPI": {
+        "BALANCE": "Total balance",
+        "INCOME": "Monthly income",
+        "EXPENSES": "Monthly expenses",
+        "SAVINGS": "Projected savings"
       },
-      "PAYMENTS": {
-        "TITLE": "Pending Payments",
-        "DESC": "47 scheduled transfers this week"
+      "TREND": {
+        "TITLE": "Monthly trend",
+        "INCOME": "Income",
+        "EXPENSES": "Expenses"
       },
-      "RECONCILIATION": {
-        "TITLE": "Reconciliations",
-        "DESC": "1,284 of 1,362 movements reconciled"
+      "DONUT": {
+        "TITLE": "Expenses by category",
+        "TOTAL_LABEL": "Total: €2,320"
       },
-      "ALERTS": {
-        "TITLE": "Compliance Alerts",
-        "DESC": "Operations pending AML review"
+      "CATEGORIES": {
+        "HOUSING": "Housing",
+        "FOOD": "Food",
+        "TRANSPORT": "Transport",
+        "ENTERTAINMENT": "Entertainment",
+        "OTHER": "Other"
+      },
+      "QUICK_ACCESS": {
+        "TITLE": "Quick access",
+        "OPEN": "Open",
+        "TRANSACTIONS_TITLE": "Transactions",
+        "TRANSACTIONS_DESC": "Filter and export your operations",
+        "ANALYTICS_TITLE": "Analytics",
+        "ANALYTICS_DESC": "Visualize your data in real time",
+        "PAYMENTS_TITLE": "Payments",
+        "PAYMENTS_DESC": "Manage your pending payments"
       }
     }
   },
