@@ -1,7 +1,7 @@
 <div #container class="mfe-container">
   @if (cargando()) {
     <div class="spinner-wrapper" [class.fade-out]="fadeOut()">
-      <cap-spinner [label]="'MFE_PAYMENTS.LOADING' | translate" />
+      <cap-spinner [label]="config.loadingLabelKey | translate" />
     </div>
   }
   @if (loadError()) {
@@ -10,7 +10,7 @@
         variant="capitalflow-outline"
         size="small"
         textStyle="none"
-        [label]="'MFE_PAYMENTS.RETRY' | translate"
+        [label]="config.retryLabelKey | translate"
         (capClick)="retryLoad()">
       </cap-button>
     </cap-alert>

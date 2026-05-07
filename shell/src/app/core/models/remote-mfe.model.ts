@@ -8,6 +8,8 @@ export interface RemoteMfeConfig {
   minLoadingDelayMs: number;
   fadeOutDelayMs: number;
   errorMessage: string;
+  loadingLabelKey: string;
+  retryLabelKey: string;
 }
 
 export interface RemoteMfeLoadSuccess {
@@ -42,6 +44,8 @@ export const ANALYTICS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   minLoadingDelayMs: 600,
   fadeOutDelayMs: 300,
   errorMessage: 'No se pudo cargar el modulo de Analytics. Verifique que el MFE este en ejecucion.',
+  loadingLabelKey: 'MFE.LOADING',
+  retryLabelKey: 'MFE.RETRY',
 };
 
 export const PAYMENTS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
@@ -54,4 +58,6 @@ export const PAYMENTS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   minLoadingDelayMs: 600,
   fadeOutDelayMs: 300,
   errorMessage: 'No se pudo cargar el modulo de Payments. Verifique que el MFE este en ejecucion.',
+  loadingLabelKey: 'MFE_PAYMENTS.LOADING',
+  retryLabelKey: 'MFE_PAYMENTS.RETRY',
 };

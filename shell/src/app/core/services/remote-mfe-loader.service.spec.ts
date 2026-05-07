@@ -17,6 +17,8 @@ const TEST_CONFIG: RemoteMfeConfig = {
   minLoadingDelayMs: 0,
   fadeOutDelayMs: 0,
   errorMessage: 'Remote failed',
+  loadingLabelKey: 'SPEC.LOADING',
+  retryLabelKey: 'SPEC.RETRY',
 };
 
 describe('RemoteMfeLoaderService', () => {
