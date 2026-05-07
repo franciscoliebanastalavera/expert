@@ -1,0 +1,97 @@
+<div class="cap-trend" [style.height.px]="height()">
+  @if (title()) {
+    <h3 class="cap-trend__title">{{ title() }}</h3>
+  }
+
+  @if (seriesGeometries().length > 0) {
+    <ul class="cap-trend__legend">
+      @for (geom of seriesGeometries(); track geom.id) {
+        <li class="cap-trend__legend-item">
+          <span class="cap-trend__legend-dot" [style.background]="geom.color"></span>
+          <span class="cap-trend__legend-label">{{ geom.label }}</span>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (seriesGeometries().length === 0) {
+    <div class="cap-trend__empty">
+      <span class="cap-trend__empty-text">—</span>
+    </div>
+  } @else {
+    <svg
+      [attr.viewBox]="'0 0 ' + viewBoxWidth + ' ' + viewBoxHeight"
+      class="cap-trend__svg"
+      preserveAspectRatio="none"
+      role="img"
+      [attr.aria-label]="title()">
+      <defs>
+        @for (geom of seriesGeometries(); track geom.id) {
+          <linearGradient
+            [id]="'cap-trend-gradient-' + geom.id"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="1">
+            <stop offset="0%" [attr.stop-color]="geom.color" [attr.stop-opacity]="fillOpacityTop"></stop>
+            <stop offset="100%" [attr.stop-color]="geom.color" [attr.stop-opacity]="fillOpacityBottom"></stop>
+          </linearGradient>
+        }
+      </defs>
+
+      @if (showGrid()) {
+        @for (gridY of gridLines(); track gridY) {
+          <line
+            class="cap-trend__grid-line"
+            [attr.x1]="paddingLeft"
+            [attr.x2]="viewBoxWidth - paddingRight"
+            [attr.y1]="gridY"
+            [attr.y2]="gridY">
+          </line>
+        }
+      }
+
+      @for (geom of seriesGeometries(); track geom.id) {
+        @if (geom.fillEnabled) {
+          <path
+            class="cap-trend__fill"
+            [attr.d]="geom.fillPath"
+            [attr.fill]="'url(#cap-trend-gradient-' + geom.id + ')'">
+          </path>
+        }
+        <path
+          class="cap-trend__line"
+          [attr.d]="geom.linePath"
+          [attr.stroke]="geom.color"
+          fill="none"
+          stroke-width="2">
+        </path>
+      }
+
+      <g class="cap-trend__axis-x">
+        @for (label of labels(); track $index; let i = $index) {
+          <text
+            [attr.x]="getXForIndex(i)"
+            [attr.y]="viewBoxHeight - axisLabelOffsetY"
+            text-anchor="middle"
+            class="cap-trend__axis-label">
+            {{ label }}
+          </text>
+        }
+      </g>
+
+      <g class="cap-trend__axis-y">
+        @for (tick of axis().ticks; track tick) {
+          <text
+            [attr.x]="paddingLeft - axisLabelOffsetX"
+            [attr.y]="getYForValue(tick)"
+            text-anchor="end"
+            dominant-baseline="middle"
+            class="cap-trend__axis-label">
+            {{ tick }}
+          </text>
+        }
+      </g>
+    </svg>
+  }
+</div>

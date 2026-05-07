@@ -1,0 +1,47 @@
+<div class="cap-donut" [style.height.px]="height()">
+  @if (title()) {
+    <h3 class="cap-donut__title">{{ title() }}</h3>
+  }
+
+  <div class="cap-donut__layout">
+    <div class="cap-donut__chart">
+      @if (geometries().length === 0) {
+        <div class="cap-donut__empty">
+          <span class="cap-donut__empty-text">—</span>
+        </div>
+      } @else {
+        <svg
+          [attr.viewBox]="'0 0 ' + viewBoxSize + ' ' + viewBoxSize"
+          class="cap-donut__svg"
+          role="img"
+          [attr.aria-label]="title()">
+          @for (geom of geometries(); track geom.id) {
+            <path
+              class="cap-donut__segment"
+              [attr.d]="geom.path"
+              [attr.fill]="geom.color">
+            </path>
+          }
+        </svg>
+
+        @if (totalLabel()) {
+          <div class="cap-donut__center">
+            <span class="cap-donut__center-text">{{ totalLabel() }}</span>
+          </div>
+        }
+      }
+    </div>
+
+    @if (geometries().length > 0) {
+      <ul class="cap-donut__legend">
+        @for (geom of geometries(); track geom.id) {
+          <li class="cap-donut__legend-item">
+            <span class="cap-donut__legend-dot" [style.background]="geom.color"></span>
+            <span class="cap-donut__legend-label">{{ geom.label }}</span>
+            <span class="cap-donut__legend-value">{{ geom.percentage | percent: '1.0-0' }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

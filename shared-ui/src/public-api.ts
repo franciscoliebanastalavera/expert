@@ -42,5 +42,11 @@ export * from './lib/cap-alert/cap-alert.types';
 
 export * from './lib/cap-info-card/cap-info-card.component';
 
+export * from './lib/cap-donut-chart/cap-donut-chart.component';
+export * from './lib/cap-donut-chart/cap-donut-chart.types';
+
+export * from './lib/cap-trend-chart/cap-trend-chart.component';
+export * from './lib/cap-trend-chart/cap-trend-chart.types';
+
 export * from './lib/services/dynamic-css.service';
 export * from './lib/services/dynamic-css.const';
