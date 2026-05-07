@@ -1,3 +1,4 @@
+import * as ExcelJS from 'exceljs';
 import type { Transaction } from '../models/transaction.model';
 
 interface ExportRequest {
@@ -21,8 +22,6 @@ interface ExportFailure {
 }
 
 type ExportResponse = ExportPhaseMessage | ExportSuccess | ExportFailure;
-
-type ExcelJsModule = typeof import('exceljs');
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
@@ -77,9 +76,8 @@ const SUBTITLE_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
 addEventListener('message', async ({ data }: MessageEvent<ExportRequest>) => {
   postPhase('preparing');
   try {
-    const ExcelJS = await import('exceljs');
     postPhase('generating');
-    const workbook = buildWorkbook(ExcelJS, data.rows);
+    const workbook = buildWorkbook(data.rows);
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: XLSX_MIME });
     const success: ExportResponse = { success: true, phase: 'success', blob };
@@ -90,7 +88,7 @@ addEventListener('message', async ({ data }: MessageEvent<ExportRequest>) => {
   }
 });
 
-function buildWorkbook(ExcelJS: ExcelJsModule, rows: readonly Transaction[]): import('exceljs').Workbook {
+function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
   const workbook = new ExcelJS.Workbook();
   workbook.creator = 'CapitalFlow';
   workbook.created = new Date();
