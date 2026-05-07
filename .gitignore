@@ -29,3 +29,4 @@ Thumbs.db
 
 # Estado del arranque local sin Docker (start-local.ps1)
 .local-dev.pids
+.local-dev-logs/
