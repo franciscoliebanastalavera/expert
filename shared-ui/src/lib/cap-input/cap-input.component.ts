@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
@@ -148,13 +149,16 @@ export class CapInputComponent {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      const defaultValue = this.defaultValue();
-      if (defaultValue) {
-        this.writeValue(defaultValue);
-        this.onChange(defaultValue);
-      }
-    }, 0);
+    afterNextRender(
+      () => {
+        const defaultValue = this.defaultValue();
+        if (defaultValue) {
+          this.writeValue(defaultValue);
+          this.onChange(defaultValue);
+        }
+      },
+      { injector: this.injector },
+    );
 
     if (this.variant() !== 'minimal') {
       this.createDyamicClasses();

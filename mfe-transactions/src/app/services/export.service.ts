@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { Transaction } from '../models';
 
 export type ExportPhase = 'idle' | 'preparing' | 'generating' | 'downloading' | 'success' | 'error';
@@ -27,9 +27,11 @@ type ExportResponse = ExportPhaseMessage | ExportSuccess | ExportFailure;
 const XLSX_FILENAME = 'capitalflow-transacciones.xlsx';
 const CSV_FALLBACK_FILENAME = 'capitalflow-transacciones.csv';
 const CSV_MIME = 'text/csv;charset=utf-8;';
-const CSV_BOM = '\ufeff';
+const CSV_BOM = '﻿';
 const CSV_SEPARATOR = ';';
 const CSV_HEADERS = ['ID', 'Fecha', 'Tipo', 'Descripción', 'IBAN', 'Importe', 'Divisa', 'Estado', 'Categoría'];
+const TOAST_SUCCESS_DISMISS_MS = 2500;
+const TOAST_ERROR_DISMISS_MS = 4000;
 
 @Injectable({ providedIn: 'root' })
 export class ExportService {
@@ -55,24 +57,26 @@ export class ExportService {
             worker.terminate();
             subscriber.next();
             subscriber.complete();
-            setTimeout(() => this.exportPhaseValue.set('idle'), 2500);
+            this.scheduleIdleReset(TOAST_SUCCESS_DISMISS_MS);
           } else if ('success' in data) {
             this.exportPhaseValue.set('error');
             worker.terminate();
             subscriber.error(new Error(data.error));
-            setTimeout(() => this.exportPhaseValue.set('idle'), 4000);
+            this.scheduleIdleReset(TOAST_ERROR_DISMISS_MS);
           }
         };
         worker.onerror = (err: ErrorEvent) => {
           this.exportPhaseValue.set('error');
           worker.terminate();
           subscriber.error(err);
+          this.scheduleIdleReset(TOAST_ERROR_DISMISS_MS);
         };
         worker.postMessage({ rows: transactions });
       } else {
         this.exportSyncCSV(transactions);
         subscriber.next();
         subscriber.complete();
+        this.scheduleIdleReset(TOAST_SUCCESS_DISMISS_MS);
       }
     });
   }
@@ -100,6 +104,10 @@ export class ExportService {
     this.exportPhaseValue.set('downloading');
     this.downloadBlob(blob, CSV_FALLBACK_FILENAME);
     this.exportPhaseValue.set('success');
+  }
+
+  private scheduleIdleReset(delayMs: number): void {
+    timer(delayMs).subscribe(() => this.exportPhaseValue.set('idle'));
   }
 
   private downloadBlob(blob: Blob, filename: string): void {
