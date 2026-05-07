@@ -31,6 +31,10 @@ const REPORT_TITLE = 'CapitalFlow — Transacciones';
 const COLUMN_HEADERS = ['ID', 'Fecha', 'Tipo', 'Descripción', 'IBAN', 'Importe', 'Divisa', 'Estado', 'Categoría'];
 const COLUMN_WIDTHS = [8, 14, 22, 36, 28, 16, 8, 14, 20];
 const COLUMN_COUNT = COLUMN_HEADERS.length;
+const IMPORTE_COLUMN_INDEX = 6;
+const ESTADO_COLUMN_INDEX = 8;
+const IMPORTE_COLUMN_LETTER = 'F';
+const ESTADO_COLUMN_LETTER = 'H';
 
 const TITLE_ROW = 1;
 const SUBTITLE_ROW = 2;
@@ -52,19 +56,18 @@ const SUBTITLE_FG_ARGB = 'FF6B7280';
 const POSITIVE_ARGB = 'FF1F7A36';
 const NEGATIVE_ARGB = 'FFC51321';
 
-const STATUS_BG: Record<string, string> = {
-  Completada: 'FFD7F2DD',
-  Procesando: 'FFFDE9C8',
-  Pendiente: 'FFD3E6F7',
-  Rechazada: 'FFF7D3D3',
-};
+interface StatusStyle {
+  readonly value: string;
+  readonly bg: string;
+  readonly fg: string;
+}
 
-const STATUS_FG: Record<string, string> = {
-  Completada: 'FF1F7A36',
-  Procesando: 'FF8A5A00',
-  Pendiente: 'FF1F5A8A',
-  Rechazada: 'FF8A1F1F',
-};
+const STATUS_STYLES: readonly StatusStyle[] = [
+  { value: 'Completada', bg: 'FFD7F2DD', fg: 'FF1F7A36' },
+  { value: 'Procesando', bg: 'FFFDE9C8', fg: 'FF8A5A00' },
+  { value: 'Pendiente', bg: 'FFD3E6F7', fg: 'FF1F5A8A' },
+  { value: 'Rechazada', bg: 'FFF7D3D3', fg: 'FF8A1F1F' },
+];
 
 const SUBTITLE_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -102,6 +105,10 @@ function buildWorkbook(ExcelJS: ExcelJsModule, rows: readonly Transaction[]): im
     worksheet.getColumn(i + 1).width = width;
   });
 
+  worksheet.getColumn(IMPORTE_COLUMN_INDEX).numFmt = '#,##0.00 "€"';
+  worksheet.getColumn(IMPORTE_COLUMN_INDEX).alignment = { horizontal: 'right' };
+  worksheet.getColumn(ESTADO_COLUMN_INDEX).alignment = { horizontal: 'center' };
+
   worksheet.mergeCells(TITLE_ROW, 1, TITLE_ROW, COLUMN_COUNT);
   const titleCell = worksheet.getCell(TITLE_ROW, 1);
   titleCell.value = REPORT_TITLE;
@@ -136,42 +143,73 @@ function buildWorkbook(ExcelJS: ExcelJsModule, rows: readonly Transaction[]): im
     sheetRow.getCell(3).value = source.tipo;
     sheetRow.getCell(4).value = source.descripcion;
     sheetRow.getCell(5).value = source.iban;
-
-    const importeCell = sheetRow.getCell(6);
-    importeCell.value = source.importe;
-    importeCell.numFmt = '#,##0.00 "€"';
-    importeCell.font = {
-      name: FONT_NAME,
-      bold: true,
-      color: { argb: source.importe >= 0 ? POSITIVE_ARGB : NEGATIVE_ARGB },
-    };
-    importeCell.alignment = { horizontal: 'right' };
-
+    sheetRow.getCell(6).value = source.importe;
     sheetRow.getCell(7).value = source.divisa;
-
-    const estadoCell = sheetRow.getCell(8);
-    estadoCell.value = source.estado;
-    const estadoBg = STATUS_BG[source.estado];
-    const estadoFg = STATUS_FG[source.estado];
-    if (estadoBg && estadoFg) {
-      estadoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: estadoBg } };
-      estadoCell.font = { name: FONT_NAME, bold: true, color: { argb: estadoFg } };
-      estadoCell.alignment = { horizontal: 'center' };
-    }
-
+    sheetRow.getCell(8).value = source.estado;
     sheetRow.getCell(9).value = source.categoria;
   }
 
-  worksheet.views = [{ state: 'frozen', xSplit: 0, ySplit: HEADER_ROW }];
-
   if (rows.length > 0) {
+    const lastDataRow = FIRST_DATA_ROW + rows.length - 1;
+    applyImporteConditionalFormat(worksheet, lastDataRow);
+    applyEstadoConditionalFormat(worksheet, lastDataRow);
     worksheet.autoFilter = {
       from: { row: HEADER_ROW, column: 1 },
       to: { row: HEADER_ROW + rows.length, column: COLUMN_COUNT },
     };
   }
 
+  worksheet.views = [{ state: 'frozen', xSplit: 0, ySplit: HEADER_ROW }];
+
   return workbook;
+}
+
+function applyImporteConditionalFormat(
+  worksheet: import('exceljs').Worksheet,
+  lastDataRow: number,
+): void {
+  worksheet.addConditionalFormatting({
+    ref: `${IMPORTE_COLUMN_LETTER}${FIRST_DATA_ROW}:${IMPORTE_COLUMN_LETTER}${lastDataRow}`,
+    rules: [
+      {
+        type: 'cellIs',
+        operator: 'lessThan',
+        priority: 1,
+        formulae: ['0'],
+        style: {
+          font: { name: FONT_NAME, bold: true, color: { argb: NEGATIVE_ARGB } },
+        },
+      },
+      {
+        type: 'cellIs',
+        operator: 'greaterThan',
+        priority: 2,
+        formulae: ['0'],
+        style: {
+          font: { name: FONT_NAME, bold: true, color: { argb: POSITIVE_ARGB } },
+        },
+      },
+    ],
+  });
+}
+
+function applyEstadoConditionalFormat(
+  worksheet: import('exceljs').Worksheet,
+  lastDataRow: number,
+): void {
+  worksheet.addConditionalFormatting({
+    ref: `${ESTADO_COLUMN_LETTER}${FIRST_DATA_ROW}:${ESTADO_COLUMN_LETTER}${lastDataRow}`,
+    rules: STATUS_STYLES.map((status, index) => ({
+      type: 'cellIs',
+      operator: 'equal',
+      priority: index + 1,
+      formulae: [`"${status.value}"`],
+      style: {
+        font: { name: FONT_NAME, bold: true, color: { argb: status.fg } },
+        fill: { type: 'pattern', pattern: 'solid', bgColor: { argb: status.bg } },
+      },
+    })),
+  });
 }
 
 function formatSubtitle(count: number): string {
