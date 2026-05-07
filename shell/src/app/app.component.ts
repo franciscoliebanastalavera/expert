@@ -45,9 +45,9 @@ export class AppComponent {
     ]).pipe(
       map(([home, transactions, analytics, payments, securityDemos, designSystem]): NavItem[] => [
         { label: home as string, route: toRouteLink(AppRoute.Home) },
-        { label: transactions as string, route: toRouteLink(AppRoute.Analytics) },
-        { label: analytics as string, route: toRouteLink(AppRoute.AnalyticsMfe) },
-        { label: payments as string, route: toRouteLink(AppRoute.PaymentsMfe) },
+        { label: transactions as string, route: toRouteLink(AppRoute.Transactions) },
+        { label: analytics as string, route: toRouteLink(AppRoute.Analytics) },
+        { label: payments as string, route: toRouteLink(AppRoute.Payments) },
         { label: securityDemos as string, route: toRouteLink(AppRoute.Admin) },
         { label: designSystem as string, route: toRouteLink(AppRoute.DesignSystem) },
       ])

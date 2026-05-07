@@ -72,9 +72,9 @@ describe('AppComponent', () => {
     expect(items.length).toBe(6);
     expect(items.map((i) => i.route)).toEqual([
       '/',
+      '/transactions',
       '/analytics',
-      '/analytics-mfe',
-      '/payments-mfe',
+      '/payments',
       '/admin',
       '/design-system',
     ]);

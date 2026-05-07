@@ -9,22 +9,22 @@ export const routes: Routes = [
       import('./home/home.component').then((m) => m.HomeComponent),
   },
   {
-    path: AppRoute.Analytics,
-    title: AppRouteTitle.Analytics,
+    path: AppRoute.Transactions,
+    title: AppRouteTitle.Transactions,
     loadComponent: () =>
       import('./analytics/analytics.component').then((m) => m.AnalyticsComponent),
   },
   {
-    path: AppRoute.AnalyticsMfe,
-    title: AppRouteTitle.AnalyticsMfe,
+    path: AppRoute.Analytics,
+    title: AppRouteTitle.Analytics,
     loadComponent: () =>
       import('./analytics-wrapper/analytics-wrapper.component').then(
         (m) => m.AnalyticsWrapperComponent
       ),
   },
   {
-    path: AppRoute.PaymentsMfe,
-    title: AppRouteTitle.PaymentsMfe,
+    path: AppRoute.Payments,
+    title: AppRouteTitle.Payments,
     loadComponent: () =>
       import('./payments-wrapper/payments-wrapper.component').then(
         (m) => m.PaymentsWrapperComponent

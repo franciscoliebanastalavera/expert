@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('analytics React microfrontend renders through its real custom element', async ({ page }) => {
-  await page.goto('/analytics-mfe');
+  await page.goto('/analytics');
 
   const host = page.locator('mfe-analytics');
   await expect(host).toBeVisible();

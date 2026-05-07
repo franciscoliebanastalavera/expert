@@ -47,17 +47,17 @@ describe('HomeComponent', () => {
     const cards = fixture.debugElement.queryAll(By.css('cap-info-card'));
     expect(cards.length).toBe(3);
     expect(component.quickAccessCards.map((c) => c.route)).toEqual([
+      '/transactions',
       '/analytics',
-      '/analytics-mfe',
-      '/payments-mfe',
+      '/payments',
     ]);
   });
 
   it('navigates via Router when navigateTo is called', () => {
     const router = TestBed.inject(Router);
     const navSpy = spyOn(router, 'navigate').and.resolveTo(true);
-    component.navigateTo('/analytics');
-    expect(navSpy).toHaveBeenCalledWith(['/analytics']);
+    component.navigateTo('/transactions');
+    expect(navSpy).toHaveBeenCalledWith(['/transactions']);
   });
 
   it('translates the trend series labels via the TranslateService stream', () => {

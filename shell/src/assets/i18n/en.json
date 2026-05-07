@@ -197,7 +197,7 @@
       }
     }
   },
-  "ANALYTICS": {
+  "TRANSACTIONS": {
     "TITLE": "Transactions",
     "SUBTITLE_SUFFIX": "transactions - Virtual Scroll CDK",
     "SUBTITLE_LOADING": "Loading...",

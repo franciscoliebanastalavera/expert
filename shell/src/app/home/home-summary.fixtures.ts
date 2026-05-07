@@ -47,18 +47,18 @@ export const HOME_QUICK_ACCESS_CARDS: readonly HomeQuickAccessCard[] = [
     id: 'transactions',
     titleKey: 'HOME.SUMMARY.QUICK_ACCESS.TRANSACTIONS_TITLE',
     descriptionKey: 'HOME.SUMMARY.QUICK_ACCESS.TRANSACTIONS_DESC',
-    route: '/analytics',
+    route: '/transactions',
   },
   {
     id: 'analytics',
     titleKey: 'HOME.SUMMARY.QUICK_ACCESS.ANALYTICS_TITLE',
     descriptionKey: 'HOME.SUMMARY.QUICK_ACCESS.ANALYTICS_DESC',
-    route: '/analytics-mfe',
+    route: '/analytics',
   },
   {
     id: 'payments',
     titleKey: 'HOME.SUMMARY.QUICK_ACCESS.PAYMENTS_TITLE',
     descriptionKey: 'HOME.SUMMARY.QUICK_ACCESS.PAYMENTS_DESC',
-    route: '/payments-mfe',
+    route: '/payments',
   },
 ];

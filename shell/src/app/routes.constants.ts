@@ -1,8 +1,8 @@
 export enum AppRoute {
   Home = '',
+  Transactions = 'transactions',
   Analytics = 'analytics',
-  AnalyticsMfe = 'analytics-mfe',
-  PaymentsMfe = 'payments-mfe',
+  Payments = 'payments',
   Admin = 'admin',
   DesignSystem = 'design-system',
   AdminTemplates = 'admin/templates',
@@ -13,9 +13,9 @@ export enum AppRoute {
 
 export enum AppRouteTitle {
   Home = 'CapitalFlow - Home',
+  Transactions = 'CapitalFlow - Transactions',
   Analytics = 'CapitalFlow - Analytics',
-  AnalyticsMfe = 'CapitalFlow - Analytics MFE',
-  PaymentsMfe = 'CapitalFlow - Payments MFE',
+  Payments = 'CapitalFlow - Payments',
   Admin = 'CapitalFlow - Security demos',
   DesignSystem = 'CapitalFlow - Design System',
   AdminTemplates = 'CapitalFlow - Admin - Report templates',

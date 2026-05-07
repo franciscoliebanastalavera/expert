@@ -1,12 +1,12 @@
 <section class="analytics">
   <div class="analytics-header">
     <div>
-      <h1>{{ 'ANALYTICS.TITLE' | translate }}</h1>
+      <h1>{{ 'TRANSACTIONS.TITLE' | translate }}</h1>
       <p class="subtitle">
         @if (transactions()) {
-          {{ numTransacciones() }} {{ 'ANALYTICS.SUBTITLE_SUFFIX' | translate }}
+          {{ numTransacciones() }} {{ 'TRANSACTIONS.SUBTITLE_SUFFIX' | translate }}
         } @else {
-          {{ 'ANALYTICS.SUBTITLE_LOADING' | translate }}
+          {{ 'TRANSACTIONS.SUBTITLE_LOADING' | translate }}
         }
       </p>
     </div>
@@ -15,7 +15,7 @@
         variant="capitalflow-outline"
         size="small"
         textStyle="none"
-        [label]="'ANALYTICS.BTN_BACK' | translate" />
+        [label]="'TRANSACTIONS.BTN_BACK' | translate" />
     </a>
   </div>
 
@@ -29,7 +29,7 @@
 
     <div class="filtros" [formGroup]="filterForm">
       <div class="filtro-grupo">
-        <label>{{ 'ANALYTICS.FILTERS.SEARCH' | translate }}</label>
+        <label>{{ 'TRANSACTIONS.FILTERS.SEARCH' | translate }}</label>
         <cap-input
           variant="minimal"
           size="medium"
@@ -37,14 +37,14 @@
           width="100%"
           [maxLength]="80"
           formControlName="texto"
-          [placeholder]="'ANALYTICS.FILTERS.SEARCH_PLACEHOLDER' | translate">
+          [placeholder]="'TRANSACTIONS.FILTERS.SEARCH_PLACEHOLDER' | translate">
         </cap-input>
         @if (filterForm.controls.texto.errors?.['pattern'] && filterForm.controls.texto.touched) {
-          <p class="filtro-error">{{ 'ANALYTICS.ERRORS.TEXT_INVALID' | translate }}</p>
+          <p class="filtro-error">{{ 'TRANSACTIONS.ERRORS.TEXT_INVALID' | translate }}</p>
         }
       </div>
       <div class="filtro-grupo filtro-grupo--num">
-        <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MIN' | translate }}</label>
+        <label>{{ 'TRANSACTIONS.FILTERS.AMOUNT_MIN' | translate }}</label>
         <cap-input
           variant="minimal"
           size="medium"
@@ -54,11 +54,11 @@
           placeholder="EUR Min">
         </cap-input>
         @if (filterForm.controls.importeMin.errors?.['min'] && filterForm.controls.importeMin.touched) {
-          <p class="filtro-error">{{ 'ANALYTICS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
+          <p class="filtro-error">{{ 'TRANSACTIONS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
         }
       </div>
       <div class="filtro-grupo filtro-grupo--num">
-        <label>{{ 'ANALYTICS.FILTERS.AMOUNT_MAX' | translate }}</label>
+        <label>{{ 'TRANSACTIONS.FILTERS.AMOUNT_MAX' | translate }}</label>
         <cap-input
           variant="minimal"
           size="medium"
@@ -68,20 +68,20 @@
           placeholder="EUR Max">
         </cap-input>
         @if (filterForm.controls.importeMax.errors?.['min'] && filterForm.controls.importeMax.touched) {
-          <p class="filtro-error">{{ 'ANALYTICS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
+          <p class="filtro-error">{{ 'TRANSACTIONS.ERRORS.AMOUNT_NEGATIVE' | translate }}</p>
         }
       </div>
       @if (filterForm.controls.importeMin.errors?.['max'] || filterForm.controls.importeMax.errors?.['max']) {
-        <p class="filtro-error filtro-error--row">{{ 'ANALYTICS.ERRORS.AMOUNT_TOO_LARGE' | translate }}</p>
+        <p class="filtro-error filtro-error--row">{{ 'TRANSACTIONS.ERRORS.AMOUNT_TOO_LARGE' | translate }}</p>
       }
       @if (filterForm.errors?.['amountRange']) {
-        <p class="filtro-error filtro-error--row">{{ 'ANALYTICS.ERRORS.AMOUNT_RANGE' | translate }}</p>
+        <p class="filtro-error filtro-error--row">{{ 'TRANSACTIONS.ERRORS.AMOUNT_RANGE' | translate }}</p>
       }
       <cap-button
         variant="secondary"
         size="small"
         textStyle="none"
-        [label]="'ANALYTICS.FILTERS.CLEAR' | translate"
+        [label]="'TRANSACTIONS.FILTERS.CLEAR' | translate"
         (capClick)="limpiarFiltros()" />
       <cap-button
         variant="primary"
@@ -89,19 +89,19 @@
         textStyle="none"
         [disabled]="exportando()"
         [loading]="exportando()"
-        [label]="'ANALYTICS.FILTERS.EXPORT' | translate"
-        [loadingText]="'ANALYTICS.FILTERS.EXPORTING' | translate"
+        [label]="'TRANSACTIONS.FILTERS.EXPORT' | translate"
+        [loadingText]="'TRANSACTIONS.FILTERS.EXPORTING' | translate"
         (capClick)="exportarExcel()" />
     </div>
 
     @if (exportPhase() !== 'idle') {
-      <cap-alert kind="info" [message]="('ANALYTICS.EXPORT_PHASE.' + exportPhase()) | translate"></cap-alert>
+      <cap-alert kind="info" [message]="('TRANSACTIONS.EXPORT_PHASE.' + exportPhase()) | translate"></cap-alert>
     }
 
     <app-analytics-table [transactions]="transaccionesFiltradas()"></app-analytics-table>
   } @else {
     <div class="loading-wrapper">
-      <cap-spinner [label]="'ANALYTICS.LOADING_LABEL' | translate" />
+      <cap-spinner [label]="'TRANSACTIONS.LOADING_LABEL' | translate" />
     </div>
   }
 </section>

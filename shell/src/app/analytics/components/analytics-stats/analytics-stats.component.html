@@ -1,30 +1,30 @@
 <div class="stats-bar">
   <cap-stat-card
     kind="neutral"
-    [label]="'ANALYTICS.STATS.TOTAL' | translate"
+    [label]="'TRANSACTIONS.STATS.TOTAL' | translate"
     [value]="total().toString()" />
   <cap-stat-card
     kind="positive"
-    [label]="'ANALYTICS.STATS.INCOME' | translate"
+    [label]="'TRANSACTIONS.STATS.INCOME' | translate"
     [value]="formatAmount(income())" />
   <cap-stat-card
     kind="negative"
-    [label]="'ANALYTICS.STATS.EXPENSES' | translate"
+    [label]="'TRANSACTIONS.STATS.EXPENSES' | translate"
     [value]="'-' + formatAmount(expenses())" />
   <cap-stat-card
     kind="neutral"
-    [label]="'ANALYTICS.STATS.DATASET_TOTAL' | translate"
+    [label]="'TRANSACTIONS.STATS.DATASET_TOTAL' | translate"
     [value]="datasetTotal().toString()" />
   <cap-stat-card
     kind="neutral"
-    [label]="'ANALYTICS.STATS.FILTERED_ROWS' | translate"
+    [label]="'TRANSACTIONS.STATS.FILTERED_ROWS' | translate"
     [value]="total().toString()" />
   <cap-stat-card
     kind="neutral"
-    [label]="'ANALYTICS.STATS.DOM_ROWS' | translate"
+    [label]="'TRANSACTIONS.STATS.DOM_ROWS' | translate"
     [value]="domNodeCount().toString()" />
   <cap-stat-card
     kind="neutral"
-    [label]="'ANALYTICS.STATS.LAST_FILTER_MS' | translate"
+    [label]="'TRANSACTIONS.STATS.LAST_FILTER_MS' | translate"
     [value]="lastFilterMs().toFixed(2)" />
 </div>
