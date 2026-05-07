@@ -1,8 +1,7 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken, NgZone } from '@angular/core';
 import { loadRemoteModule } from '@angular-architects/module-federation';
-import { catchError, forkJoin, from, map, Observable, of, timeout, timer, TimeoutError } from 'rxjs';
+import { catchError, forkJoin, from, map, Observable, of, take, timeout, timer, TimeoutError } from 'rxjs';
 import {
-  REMOTE_MFE_PORTS,
   REMOTE_MFE_TIMEOUT_MS,
   RemoteMfeConfig,
   RemoteMfeLoadResult,
@@ -21,6 +20,25 @@ export const REMOTE_MFE_MODULE_LOADER = new InjectionToken<RemoteMfeModuleLoader
 @Injectable({ providedIn: 'root' })
 export class RemoteMfeLoaderService {
   private readonly moduleLoader = inject(REMOTE_MFE_MODULE_LOADER);
+  private readonly ngZone = inject(NgZone);
+
+  loadOutsideAngular$(config: RemoteMfeConfig): Observable<RemoteMfeLoadResult> {
+    return new Observable<RemoteMfeLoadResult>((subscriber) => {
+      this.ngZone.runOutsideAngular(() => {
+        this.load$(config)
+          .pipe(take(1))
+          .subscribe({
+            next: (result) =>
+              this.ngZone.run(() => {
+                subscriber.next(result);
+                subscriber.complete();
+              }),
+            error: (error) =>
+              this.ngZone.run(() => subscriber.error(error)),
+          });
+      });
+    });
+  }
 
   load$(config: RemoteMfeConfig): Observable<RemoteMfeLoadResult> {
     const attemptedUrl = this.buildRemoteEntryUrl(config);
@@ -54,12 +72,7 @@ export class RemoteMfeLoaderService {
   }
 
   buildRemoteEntryUrl(config: RemoteMfeConfig): string {
-    const { protocol, hostname, port } = window.location;
-    const shellPort =
-      Number(port) ||
-      (protocol === REMOTE_MFE_PORTS.httpsProtocol ? REMOTE_MFE_PORTS.https : REMOTE_MFE_PORTS.http);
-    const mfePort = shellPort + config.portOffset;
-    return `${protocol}//${hostname}:${mfePort}${config.remoteEntryPath}`;
+    return `${config.proxyPath}${config.remoteEntryPath}`;
   }
 
   private formatError(error: unknown): string {

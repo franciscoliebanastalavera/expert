@@ -5,10 +5,11 @@ $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 
 $services = @(
-    @{ Name = 'shell';         Url = 'http://localhost:8081'; Desc = 'Angular 18 shell (Module Federation host)' },
-    @{ Name = 'mfe-analytics'; Url = 'http://localhost:8082'; Desc = 'React 18 microfrontend (Web Component)'    },
-    @{ Name = 'mfe-payments';  Url = 'http://localhost:8083'; Desc = 'Angular 17 microfrontend (cross-version MF)' },
-    @{ Name = 'storybook';     Url = 'http://localhost:6007'; Desc = 'shared-ui component docs'                  }
+    @{ Name = 'shell';            Url = 'http://localhost:8081'; Desc = 'Angular 18 shell (Module Federation host)'       },
+    @{ Name = 'mfe-analytics';    Url = 'http://localhost:8082'; Desc = 'React 18 microfrontend (Web Component)'          },
+    @{ Name = 'mfe-payments';     Url = 'http://localhost:8083'; Desc = 'Angular 17 microfrontend (cross-version MF)'     },
+    @{ Name = 'mfe-transactions'; Url = 'http://localhost:8084'; Desc = 'Angular 18 microfrontend (transactions domain)'  },
+    @{ Name = 'storybook';        Url = 'http://localhost:6007'; Desc = 'shared-ui component docs'                        }
 )
 
 Write-Host ''

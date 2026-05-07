@@ -95,7 +95,7 @@ import { Meta } from '@storybook/blocks';
 </div>
 
 <div className="cf-metrics">
-  <div className="cf-metric"><div className="cf-metric-val">16</div><div className="cf-metric-lbl">Componentes listos</div></div>
+  <div className="cf-metric"><div className="cf-metric-val">18</div><div className="cf-metric-lbl">Componentes listos</div></div>
   <div className="cf-metric"><div className="cf-metric-val sec">18</div><div className="cf-metric-lbl">Angular version</div></div>
   <div className="cf-metric"><div className="cf-metric-val ink">AA</div><div className="cf-metric-lbl">WCAG 2.1 compliant</div></div>
   <div className="cf-metric"><div className="cf-metric-val ink">100%</div><div className="cf-metric-lbl">Standalone · OnPush</div></div>
@@ -145,6 +145,8 @@ import { Meta } from '@storybook/blocks';
     { i:'⚠', n:'Alert', s:'<cap-alert>', d:'Mensaje success / warning / info / danger' },
     { i:'ⓘ', n:'Tooltip', s:'<cap-tooltip>', d:'Tooltip responsivo con modal en móvil' },
     { i:'★', n:'Icon', s:'<cap-icon>', d:'Icono SVG sprite con tamaño configurable' },
+    { i:'◯', n:'Donut Chart', s:'<cap-donut-chart>', d:'Gráfico de dona SVG con leyenda y total central' },
+    { i:'∿', n:'Trend Chart', s:'<cap-trend-chart>', d:'Línea de tendencia SVG con área degradada' },
   ].map((c) => (
     <div className="cf-ccard" key={c.n}>
       <div className="cf-cicon">{c.i}</div>

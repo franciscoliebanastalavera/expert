@@ -1,0 +1,32 @@
+{
+  "/remotes/transactions": {
+    "target": "http://localhost:4203",
+    "pathRewrite": {
+      "^/remotes/transactions": ""
+    },
+    "changeOrigin": true,
+    "secure": false,
+    "ws": true,
+    "logLevel": "warn"
+  },
+  "/remotes/payments": {
+    "target": "http://localhost:4202",
+    "pathRewrite": {
+      "^/remotes/payments": ""
+    },
+    "changeOrigin": true,
+    "secure": false,
+    "ws": true,
+    "logLevel": "warn"
+  },
+  "/remotes/analytics": {
+    "target": "http://localhost:4201",
+    "pathRewrite": {
+      "^/remotes/analytics": ""
+    },
+    "changeOrigin": true,
+    "secure": false,
+    "ws": true,
+    "logLevel": "warn"
+  }
+}

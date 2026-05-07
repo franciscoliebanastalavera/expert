@@ -5,6 +5,7 @@ export interface RemoteMfeConfig {
   remoteType: 'script';
   elementTag: string;
   portOffset: number;
+  proxyPath: string;
   minLoadingDelayMs: number;
   fadeOutDelayMs: number;
   errorMessage: string;
@@ -41,6 +42,7 @@ export const ANALYTICS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   remoteType: 'script',
   elementTag: 'mfe-analytics',
   portOffset: 1,
+  proxyPath: '/remotes/analytics',
   minLoadingDelayMs: 600,
   fadeOutDelayMs: 300,
   errorMessage: 'No se pudo cargar el modulo de Analytics. Verifique que el MFE este en ejecucion.',
@@ -55,6 +57,7 @@ export const PAYMENTS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   remoteType: 'script',
   elementTag: 'mfe-payments',
   portOffset: 2,
+  proxyPath: '/remotes/payments',
   minLoadingDelayMs: 600,
   fadeOutDelayMs: 300,
   errorMessage: 'No se pudo cargar el modulo de Payments. Verifique que el MFE este en ejecucion.',
@@ -69,6 +72,7 @@ export const TRANSACTIONS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   remoteType: 'script',
   elementTag: 'mfe-transactions',
   portOffset: 3,
+  proxyPath: '/remotes/transactions',
   minLoadingDelayMs: 600,
   fadeOutDelayMs: 300,
   errorMessage: 'No se pudo cargar el modulo de Transacciones. Verifique que el MFE este en ejecucion.',

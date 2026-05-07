@@ -4,7 +4,6 @@ import {
   Directive,
   ElementRef,
   inject,
-  NgZone,
   signal,
   viewChild,
 } from '@angular/core';
@@ -21,7 +20,6 @@ export abstract class MfeWrapperBaseComponent implements AfterViewInit {
   protected readonly document = inject(DOCUMENT);
   protected readonly destroyRef = inject(DestroyRef);
   protected readonly remoteLoader = inject(RemoteMfeLoaderService);
-  protected readonly ngZone = inject(NgZone);
 
   protected abstract readonly config: RemoteMfeConfig;
 
@@ -55,25 +53,23 @@ export abstract class MfeWrapperBaseComponent implements AfterViewInit {
     this.error.set('');
     this.loadError.set(null);
 
-    this.ngZone.runOutsideAngular(() => {
-      this.remoteLoader
-        .load$(this.config)
-        .pipe(
-          take(1),
-          switchMap((result) => {
-            if (!result.success) {
-              this.showError(result);
-              return EMPTY;
-            }
-            this.fadeOut.set(true);
-            return timer(this.config.fadeOutDelayMs).pipe(
-              tap(() => this.appendMfeElement(result)),
-            );
-          }),
-          takeUntilDestroyed(this.destroyRef),
-        )
-        .subscribe();
-    });
+    this.remoteLoader
+      .loadOutsideAngular$(this.config)
+      .pipe(
+        take(1),
+        switchMap((result) => {
+          if (!result.success) {
+            this.showError(result);
+            return EMPTY;
+          }
+          this.fadeOut.set(true);
+          return timer(this.config.fadeOutDelayMs).pipe(
+            tap(() => this.appendMfeElement(result)),
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   protected appendMfeElement(result: RemoteMfeLoadResult): void {

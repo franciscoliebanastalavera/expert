@@ -44,7 +44,7 @@ export const TRANSACTIONS_TEXT = {
 export const TRANSACTIONS_EXPORT_PHASE_LABEL: Record<ExportPhase, string> = {
   idle: 'Exportación inactiva',
   preparing: 'Preparando exportación...',
-  generating: 'Generando libro...',
+  generating: 'Generando Excel...',
   downloading: 'Descargando archivo...',
   success: 'Exportación completada.',
   error: 'La exportación ha fallado.',

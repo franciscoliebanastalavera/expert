@@ -14,6 +14,7 @@ const TEST_CONFIG: RemoteMfeConfig = {
   remoteType: 'script',
   elementTag: 'mfe-loader-spec',
   portOffset: 1,
+  proxyPath: '/remotes/spec',
   minLoadingDelayMs: 0,
   fadeOutDelayMs: 0,
   errorMessage: 'Remote failed',

@@ -48,6 +48,7 @@ export class ExportService {
           new URL('../workers/export.worker', import.meta.url),
           { type: 'module' },
         );
+
         worker.onmessage = ({ data }: MessageEvent<ExportResponse>) => {
           this.exportPhaseValue.set(data.phase);
           if ('success' in data && data.success) {
