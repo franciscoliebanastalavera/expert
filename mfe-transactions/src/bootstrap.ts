@@ -1,4 +1,4 @@
-import { NgZone, ɵNoopNgZone } from '@angular/core';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { createApplication } from '@angular/platform-browser';
 import { createCustomElement } from '@angular/elements';
 import { catchError, EMPTY, from, tap } from 'rxjs';
@@ -8,7 +8,7 @@ const ELEMENT_TAG = 'mfe-transactions';
 
 from(
   createApplication({
-    providers: [{ provide: NgZone, useClass: ɵNoopNgZone }],
+    providers: [provideExperimentalZonelessChangeDetection()],
   })
 )
   .pipe(
