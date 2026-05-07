@@ -61,3 +61,17 @@ export const PAYMENTS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
   loadingLabelKey: 'MFE_PAYMENTS.LOADING',
   retryLabelKey: 'MFE_PAYMENTS.RETRY',
 };
+
+export const TRANSACTIONS_REMOTE_MFE_CONFIG: RemoteMfeConfig = {
+  remoteEntryPath: '/remoteEntry.js',
+  remoteName: 'mfeTransactions',
+  exposedModule: './TransactionsWeb',
+  remoteType: 'script',
+  elementTag: 'mfe-transactions',
+  portOffset: 3,
+  minLoadingDelayMs: 600,
+  fadeOutDelayMs: 300,
+  errorMessage: 'No se pudo cargar el modulo de Transacciones. Verifique que el MFE este en ejecucion.',
+  loadingLabelKey: 'MFE_TRANSACTIONS.LOADING',
+  retryLabelKey: 'MFE_TRANSACTIONS.RETRY',
+};

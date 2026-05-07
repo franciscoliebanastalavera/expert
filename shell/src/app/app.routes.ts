@@ -12,7 +12,9 @@ export const routes: Routes = [
     path: AppRoute.Transactions,
     title: AppRouteTitle.Transactions,
     loadComponent: () =>
-      import('./analytics/analytics.component').then((m) => m.AnalyticsComponent),
+      import('./transactions-wrapper/transactions-wrapper.component').then(
+        (m) => m.TransactionsWrapperComponent
+      ),
   },
   {
     path: AppRoute.Analytics,

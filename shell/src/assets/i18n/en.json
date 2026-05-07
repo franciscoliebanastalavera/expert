@@ -262,6 +262,11 @@
     "RETRY": "Retry load",
     "ERROR": "Could not load Payments module. Verify that the MFE is running."
   },
+  "MFE_TRANSACTIONS": {
+    "LOADING": "Loading Transactions module...",
+    "RETRY": "Retry load",
+    "ERROR": "Could not load Transactions module. Verify that the MFE is running."
+  },
   "DESIGN_SYSTEM": {
     "TITLE": "Design System",
     "LEAD": "Reference page for the shared components used directly in the CapitalFlow shell. Form controls and complex grids remain documented in Storybook.",

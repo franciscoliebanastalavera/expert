@@ -262,6 +262,11 @@
     "RETRY": "Reintentar carga",
     "ERROR": "No se pudo cargar el módulo de Pagos. Verifique que el MFE esté en ejecución."
   },
+  "MFE_TRANSACTIONS": {
+    "LOADING": "Cargando módulo de Transacciones...",
+    "RETRY": "Reintentar carga",
+    "ERROR": "No se pudo cargar el módulo de Transacciones. Verifique que el MFE esté en ejecución."
+  },
   "DESIGN_SYSTEM": {
     "TITLE": "Design System",
     "LEAD": "Página de referencia para los componentes compartidos usados directamente en el shell de CapitalFlow. Los controles de formulario y grids complejos siguen documentados en Storybook.",
