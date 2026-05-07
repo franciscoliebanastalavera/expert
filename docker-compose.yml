@@ -11,6 +11,8 @@ services:
         condition: service_healthy
       mfe-payments:
         condition: service_healthy
+      mfe-transactions:
+        condition: service_healthy
     networks:
       - capitalflow-net
     restart: unless-stopped
@@ -45,6 +47,23 @@ services:
     container_name: capitalflow-mfe-payments
     ports:
       - "8083:80"
+    networks:
+      - capitalflow-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  mfe-transactions:
+    build:
+      context: .
+      dockerfile: mfe-transactions/Dockerfile
+    container_name: capitalflow-mfe-transactions
+    ports:
+      - "8084:80"
     networks:
       - capitalflow-net
     restart: unless-stopped

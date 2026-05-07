@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--cap-text, #1e1e1e);
+}
+
+.transactions {
+  padding: 2rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.transactions__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.transactions__description {
+  margin: 0;
+  color: var(--cap-text-secondary, #4d4d4d);
+}

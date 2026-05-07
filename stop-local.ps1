@@ -5,7 +5,7 @@ $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 
 $pidFile = Join-Path $PSScriptRoot '.local-dev.pids'
-$ports   = @(4200, 4201, 4202, 6006)
+$ports   = @(4200, 4201, 4202, 4203, 6006)
 
 Write-Host ''
 Write-Host '=== CapitalFlow: parando arranque local ===' -ForegroundColor Cyan

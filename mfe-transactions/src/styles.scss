@@ -1,0 +1,27 @@
+:root {
+  --cap-primary: #2a85c4;
+  --cap-primary-hover: #1e6da6;
+  --cap-secondary: #324a5e;
+  --cap-bg: #f7f7f7;
+  --cap-bg-surface: #ffffff;
+  --cap-border: #d4d4d4;
+  --cap-text: #1e1e1e;
+  --cap-text-secondary: #4d4d4d;
+  --cap-text-muted: #8a8a8a;
+  --cap-radius-sm: 0.25rem;
+  --cap-radius-md: 0.5rem;
+  --cap-radius-lg: 0.75rem;
+  --cap-shadow-sm: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.06);
+  --cap-shadow-md: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  --cap-status-success-bg: #d7f2dd;
+  --cap-status-success-fg: #1f7a36;
+  --cap-status-warning-bg: #fde9c8;
+  --cap-status-warning-fg: #8a5a00;
+  --cap-status-info-bg: #d3e6f7;
+  --cap-status-info-fg: #1f5a8a;
+  --cap-status-danger-bg: #f7d3d3;
+  --cap-status-danger-fg: #8a1f1f;
+  --cap-table-head-bg: var(--cap-primary);
+  --cap-table-head-fg: #ffffff;
+  --cap-table-row-hover-bg: rgba(42, 133, 196, 0.06);
+}

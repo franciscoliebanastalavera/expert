@@ -10,6 +10,7 @@ $services = @(
     @{ Name = 'shell';               Path = 'shell';               Cmd = 'npm run start';     Port = 4200; Url = 'http://localhost:4200'; Desc = 'Angular 18 shell (Module Federation host)' },
     @{ Name = 'mfe-analytics-react'; Path = 'mfe-analytics-react'; Cmd = 'npm run start';     Port = 4201; Url = 'http://localhost:4201'; Desc = 'React 18 microfrontend (Web Component)' },
     @{ Name = 'mfe-payments';        Path = 'mfe-payments';        Cmd = 'npm run start';     Port = 4202; Url = 'http://localhost:4202'; Desc = 'Angular 17 microfrontend (cross-version MF)' },
+    @{ Name = 'mfe-transactions';    Path = 'mfe-transactions';    Cmd = 'npm run start';     Port = 4203; Url = 'http://localhost:4203'; Desc = 'Angular 18 microfrontend (transactions domain)' },
     @{ Name = 'storybook';           Path = 'shared-ui';           Cmd = 'npm run storybook'; Port = 6006; Url = 'http://localhost:6006'; Desc = 'shared-ui component docs' }
 )
 
