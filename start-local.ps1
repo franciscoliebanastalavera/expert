@@ -8,11 +8,11 @@ $pidFile = Join-Path $PSScriptRoot '.local-dev.pids'
 $logDir  = Join-Path $PSScriptRoot '.local-dev-logs'
 
 $services = @(
-    @{ Name = 'shell';               Path = 'shell';               Cmd = 'npm run start';     Port = 4200; Url = 'http://localhost:4200'; Desc = 'Angular 18 shell (Module Federation host)' },
-    @{ Name = 'mfe-analytics-react'; Path = 'mfe-analytics-react'; Cmd = 'npm run start';     Port = 4201; Url = 'http://localhost:4201'; Desc = 'React 18 microfrontend (Web Component)' },
-    @{ Name = 'mfe-payments';        Path = 'mfe-payments';        Cmd = 'npm run start';     Port = 4202; Url = 'http://localhost:4202'; Desc = 'Angular 17 microfrontend (cross-version MF)' },
-    @{ Name = 'mfe-transactions';    Path = 'mfe-transactions';    Cmd = 'npm run start';     Port = 4203; Url = 'http://localhost:4203'; Desc = 'Angular 18 microfrontend (transactions domain)' },
-    @{ Name = 'storybook';           Path = 'shared-ui';           Cmd = 'npm run storybook'; Port = 6006; Url = 'http://localhost:6006'; Desc = 'shared-ui component docs' }
+    @{ Name = 'shell';               Path = 'shell';               Cmd = 'npm run start';     Port = 4200; Url = 'http://localhost:4200'; Desc = 'Angular 18 shell (Module Federation host)';      OpensOwnBrowser = $false },
+    @{ Name = 'mfe-analytics-react'; Path = 'mfe-analytics-react'; Cmd = 'npm run start';     Port = 4201; Url = 'http://localhost:4201'; Desc = 'React 18 microfrontend (Web Component)';         OpensOwnBrowser = $true  },
+    @{ Name = 'mfe-payments';        Path = 'mfe-payments';        Cmd = 'npm run start';     Port = 4202; Url = 'http://localhost:4202'; Desc = 'Angular 17 microfrontend (cross-version MF)';   OpensOwnBrowser = $false },
+    @{ Name = 'mfe-transactions';    Path = 'mfe-transactions';    Cmd = 'npm run start';     Port = 4203; Url = 'http://localhost:4203'; Desc = 'Angular 18 microfrontend (transactions domain)'; OpensOwnBrowser = $false },
+    @{ Name = 'storybook';           Path = 'shared-ui';           Cmd = 'npm run storybook'; Port = 6006; Url = 'http://localhost:6006'; Desc = 'shared-ui component docs';                       OpensOwnBrowser = $true  }
 )
 
 if (Test-Path $pidFile) {
@@ -118,10 +118,16 @@ if ($pending.Count -gt 0) {
 }
 
 Write-Host ''
-if ($ready.Count -gt 0) {
-    Write-Host ('Abriendo navegadores para los {0} servicios listos...' -f $ready.Count) -ForegroundColor Cyan
-    $ready | ForEach-Object { Start-Process $_.Url }
-} else {
+$toOpen = @($ready | Where-Object { -not $_.OpensOwnBrowser })
+$selfOpened = @($ready | Where-Object { $_.OpensOwnBrowser })
+if ($toOpen.Count -gt 0) {
+    Write-Host ('Abriendo navegadores para {0} servicio(s)...' -f $toOpen.Count) -ForegroundColor Cyan
+    $toOpen | ForEach-Object { Start-Process $_.Url }
+}
+if ($selfOpened.Count -gt 0) {
+    Write-Host ('Saltando apertura para {0} servicio(s) que abren su propia ventana: {1}' -f $selfOpened.Count, (($selfOpened | ForEach-Object { $_.Name }) -join ', ')) -ForegroundColor DarkGray
+}
+if ($toOpen.Count -eq 0 -and $selfOpened.Count -eq 0) {
     Write-Host 'Ningun servicio respondio dentro del timeout; no abro navegadores.' -ForegroundColor Yellow
 }
 
