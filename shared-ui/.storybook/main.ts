@@ -15,6 +15,7 @@ const config: StorybookConfig = {
   },
   staticDirs: [
     '../src/assets',
+    { from: '../src/assets', to: '/assets' },
     { from: '../src/assets/images', to: '/images' },
   ],
   webpackFinal: async (config) => {
