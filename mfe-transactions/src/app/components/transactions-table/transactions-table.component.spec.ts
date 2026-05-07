@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TranslateService, TranslateStore } from '@ngx-translate/core';
-import { AnalyticsTableComponent } from './analytics-table.component';
+import { TransactionsTableComponent } from './transactions-table.component';
 import {
   Transaction,
   TransactionCategory,
   TransactionStatus,
   TransactionType,
-} from '../../../core/models';
-import { TranslateServiceMock } from '../../../../testing/mocks';
+} from '../../models';
 
 const sampleTransactions: Transaction[] = [
   {
@@ -35,20 +33,18 @@ const sampleTransactions: Transaction[] = [
   },
 ];
 
-describe('AnalyticsTableComponent', () => {
-  let fixture: ComponentFixture<AnalyticsTableComponent>;
-  let component: AnalyticsTableComponent;
+describe('TransactionsTableComponent', () => {
+  let fixture: ComponentFixture<TransactionsTableComponent>;
+  let component: TransactionsTableComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnalyticsTableComponent],
+      imports: [TransactionsTableComponent],
       providers: [
-        { provide: TranslateService, useClass: TranslateServiceMock },
-        { provide: TranslateStore, useValue: {} },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AnalyticsTableComponent);
+    fixture = TestBed.createComponent(TransactionsTableComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('transactions', sampleTransactions);
     fixture.detectChanges();
@@ -60,7 +56,7 @@ describe('AnalyticsTableComponent', () => {
     expect(component.transactions().length).toBe(2);
   });
 
-  it('builds 8 columns from the translate streams', () => {
+  it('builds 8 columns mapping the configured grid keys to static labels', () => {
     const cols = component.columns();
     expect(cols.length).toBe(8);
     expect(cols.map((c) => c.key)).toEqual([
@@ -99,7 +95,7 @@ describe('AnalyticsTableComponent', () => {
   });
 
   it('falls back to an empty array when the transactions input is not set', () => {
-    const freshFixture = TestBed.createComponent(AnalyticsTableComponent);
+    const freshFixture = TestBed.createComponent(TransactionsTableComponent);
     freshFixture.detectChanges();
     expect(freshFixture.componentInstance.transactions()).toEqual([]);
   });

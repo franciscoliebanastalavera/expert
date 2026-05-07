@@ -4,13 +4,13 @@
   trackByKey="id"
   [itemSize]="itemSize">
   <ng-template [capCellTemplate]="'iban'" let-value>
-    <span class="analytics-grid__iban">{{ value | iban }}</span>
+    <span class="transactions-grid__iban">{{ value | iban }}</span>
   </ng-template>
   <ng-template [capCellTemplate]="'importe'" let-value>
     <span
-      class="analytics-grid__importe"
-      [class.analytics-grid__importe--ingreso]="value >= 0"
-      [class.analytics-grid__importe--gasto]="value < 0">
+      class="transactions-grid__importe"
+      [class.transactions-grid__importe--ingreso]="value >= 0"
+      [class.transactions-grid__importe--gasto]="value < 0">
       {{ formatAmount(value) }}
     </span>
   </ng-template>

@@ -1,25 +1,25 @@
 import { CapTableColumn } from '@capitalflow/shared-ui';
-import { TransactionCategory, TransactionStatus, TransactionType } from '../../core/models';
+import { TransactionCategory, TransactionStatus, TransactionType } from './transaction.model';
 
-export interface AnalyticsStats {
+export interface TransactionsStats {
   total: number;
   income: number;
   expenses: number;
 }
 
-export interface AnalyticsFilterValues {
+export interface TransactionsFilterValues {
   texto: string;
   importeMin: number | null;
   importeMax: number | null;
 }
 
-export interface AnalyticsFilterValidation {
+export interface TransactionsFilterValidation {
   searchMaxLength: number;
   maxAmount: number;
   safeTextPattern: RegExp;
 }
 
-export interface AnalyticsMockConfig {
+export interface TransactionsMockConfig {
   transactionsCount: number;
   apiDelayMs: number;
   daysPerMonth: number;
@@ -38,38 +38,38 @@ export interface AnalyticsMockConfig {
   descriptions: readonly string[];
 }
 
-export interface AnalyticsAmountFormat {
+export interface TransactionsAmountFormat {
   locale: string;
   fractionDigits: number;
   currencySuffix: string;
 }
 
-export interface AnalyticsTableConfig {
+export interface TransactionsTableConfig {
   itemSizePx: number;
   positiveSign: string;
   negativeSign: string;
-  amountFormat: AnalyticsAmountFormat;
+  amountFormat: TransactionsAmountFormat;
 }
 
-export const ANALYTICS_EMPTY_STATS: AnalyticsStats = {
+export const TRANSACTIONS_EMPTY_STATS: TransactionsStats = {
   total: 0,
   income: 0,
   expenses: 0,
 };
 
-export const ANALYTICS_FILTER_DEFAULTS: AnalyticsFilterValues = {
+export const TRANSACTIONS_FILTER_DEFAULTS: TransactionsFilterValues = {
   texto: '',
   importeMin: null,
   importeMax: null,
 };
 
-export const ANALYTICS_FILTER_VALIDATION: AnalyticsFilterValidation = {
+export const TRANSACTIONS_FILTER_VALIDATION: TransactionsFilterValidation = {
   searchMaxLength: 80,
   maxAmount: 10_000_000,
   safeTextPattern: /^[\p{L}\p{N}\s\-_.,()\u20ac$]*$/u,
 };
 
-export const ANALYTICS_MOCK_CONFIG: AnalyticsMockConfig = {
+export const TRANSACTIONS_MOCK_CONFIG: TransactionsMockConfig = {
   transactionsCount: 120_000,
   apiDelayMs: 300,
   daysPerMonth: 28,
@@ -99,7 +99,7 @@ export const ANALYTICS_MOCK_CONFIG: AnalyticsMockConfig = {
   ],
 };
 
-export const ANALYTICS_TABLE_CONFIG: AnalyticsTableConfig = {
+export const TRANSACTIONS_TABLE_CONFIG: TransactionsTableConfig = {
   itemSizePx: 48,
   positiveSign: '+',
   negativeSign: '-',
@@ -110,34 +110,23 @@ export const ANALYTICS_TABLE_CONFIG: AnalyticsTableConfig = {
   },
 };
 
-export const ANALYTICS_STATS_AMOUNT_FORMAT: AnalyticsAmountFormat = {
+export const TRANSACTIONS_STATS_AMOUNT_FORMAT: TransactionsAmountFormat = {
   locale: 'es-ES',
   fractionDigits: 2,
   currencySuffix: ' \u20ac',
 };
 
-export const ANALYTICS_GRID_COLUMNS: readonly Omit<CapTableColumn, 'label'>[] = [
-  { key: 'id', cssClass: 'analytics-grid__cell--id' },
-  { key: 'fecha', cssClass: 'analytics-grid__cell--fecha' },
-  { key: 'tipo', cssClass: 'analytics-grid__cell--tipo' },
-  { key: 'descripcion', cssClass: 'analytics-grid__cell--desc' },
-  { key: 'iban', cssClass: 'analytics-grid__cell--iban' },
-  { key: 'importe', cssClass: 'analytics-grid__cell--importe' },
-  { key: 'estado', cssClass: 'analytics-grid__cell--estado' },
-  { key: 'categoria', cssClass: 'analytics-grid__cell--cat' },
+export const TRANSACTIONS_GRID_COLUMNS: readonly Omit<CapTableColumn, 'label'>[] = [
+  { key: 'id', cssClass: 'transactions-grid__cell--id' },
+  { key: 'fecha', cssClass: 'transactions-grid__cell--fecha' },
+  { key: 'tipo', cssClass: 'transactions-grid__cell--tipo' },
+  { key: 'descripcion', cssClass: 'transactions-grid__cell--desc' },
+  { key: 'iban', cssClass: 'transactions-grid__cell--iban' },
+  { key: 'importe', cssClass: 'transactions-grid__cell--importe' },
+  { key: 'estado', cssClass: 'transactions-grid__cell--estado' },
+  { key: 'categoria', cssClass: 'transactions-grid__cell--cat' },
 ];
 
-export const ANALYTICS_GRID_TRANSLATION_KEYS = [
-  'TRANSACTIONS.GRID.ID',
-  'TRANSACTIONS.GRID.DATE',
-  'TRANSACTIONS.GRID.TYPE',
-  'TRANSACTIONS.GRID.DESCRIPTION',
-  'TRANSACTIONS.GRID.IBAN',
-  'TRANSACTIONS.GRID.AMOUNT',
-  'TRANSACTIONS.GRID.STATUS',
-  'TRANSACTIONS.GRID.CATEGORY',
-] as const;
-
-export const ANALYTICS_TRANSACTION_TYPES = Object.values(TransactionType);
-export const ANALYTICS_TRANSACTION_STATUSES = Object.values(TransactionStatus);
-export const ANALYTICS_TRANSACTION_CATEGORIES = Object.values(TransactionCategory);
+export const TRANSACTIONS_TRANSACTION_TYPES = Object.values(TransactionType);
+export const TRANSACTIONS_TRANSACTION_STATUSES = Object.values(TransactionStatus);
+export const TRANSACTIONS_TRANSACTION_CATEGORIES = Object.values(TransactionCategory);

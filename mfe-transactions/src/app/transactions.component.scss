@@ -1,22 +1,111 @@
-:host {
-  display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: var(--cap-text, #1e1e1e);
-}
-
 .transactions {
   padding: 2rem;
-  max-width: 75rem;
+  max-width: 87.5rem;
   margin: 0 auto;
 }
 
-.transactions__title {
-  margin: 0 0 0.5rem;
-  font-size: 1.8rem;
-  font-weight: 700;
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    font-size: 1.6rem;
+    color: var(--cap-text, #1e1e1e);
+  }
+
+  .subtitle {
+    color: var(--cap-text-muted, #b2b2b2);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
 }
 
-.transactions__description {
-  margin: 0;
-  color: var(--cap-text-secondary, #4d4d4d);
+app-transactions-stats {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.filtros {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 12.5rem;
+
+  &--num {
+    min-width: 7.5rem;
+  }
+
+  label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--cap-text-muted, #b2b2b2);
+    font-weight: 600;
+  }
+}
+
+.filtro-error {
+  margin: 0.25rem 0 0;
+  color: var(--cap-danger, #c51321);
+  font-size: 0.75rem;
+  line-height: 1.2;
+
+  &--row {
+    flex-basis: 100%;
+    margin-top: -0.5rem;
+  }
+}
+
+.btn-link {
+  text-decoration: none;
+}
+
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25rem;
+  padding: 3rem 1rem;
+  background: var(--cap-bg-surface, #fff);
+  border: 0.0625rem solid var(--cap-border, #cac8c2);
+  border-radius: var(--cap-radius-md, 0.5rem);
+}
+
+@media (max-width: 48em) {
+  .transactions {
+    padding: 1rem;
+  }
+
+  .transactions-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .datagrid-container {
+    overflow-x: auto;
+  }
+
+  .datagrid-body {
+    height: 25rem;
+  }
+}
+
+@media (max-width: 36em) {
+  .transactions {
+    padding: 0.75rem;
+  }
+
+  .filtro-grupo,
+  .filtro-grupo--num {
+    min-width: 100%;
+  }
 }

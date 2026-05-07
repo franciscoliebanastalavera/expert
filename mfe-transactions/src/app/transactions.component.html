@@ -1,4 +1,98 @@
 <section class="transactions">
-  <h1 class="transactions__title">{{ placeholderTitle }}</h1>
-  <p class="transactions__description">{{ placeholderDescription }}</p>
+  <header class="transactions-header">
+    <h1>{{ text.TITLE }}</h1>
+    <p class="subtitle">
+      @if (transactions()) {
+        {{ numTransacciones() }} {{ text.SUBTITLE_SUFFIX }}
+      } @else {
+        {{ text.SUBTITLE_LOADING }}
+      }
+    </p>
+  </header>
+
+  @if (transactions()) {
+    <app-transactions-stats
+      [datasetTotal]="datasetTotal()"
+      [total]="numTransacciones()"
+      [income]="totalIngresos()"
+      [expenses]="totalGastos()">
+    </app-transactions-stats>
+
+    <div class="filtros" [formGroup]="filterForm">
+      <div class="filtro-grupo">
+        <label>{{ text.FILTERS.SEARCH }}</label>
+        <cap-input
+          variant="minimal"
+          size="medium"
+          type="text"
+          width="100%"
+          [maxLength]="80"
+          formControlName="texto"
+          [placeholder]="text.FILTERS.SEARCH_PLACEHOLDER">
+        </cap-input>
+        @if (filterForm.controls.texto.errors?.['pattern'] && filterForm.controls.texto.touched) {
+          <p class="filtro-error">{{ text.ERRORS.TEXT_INVALID }}</p>
+        }
+      </div>
+      <div class="filtro-grupo filtro-grupo--num">
+        <label>{{ text.FILTERS.AMOUNT_MIN }}</label>
+        <cap-input
+          variant="minimal"
+          size="medium"
+          type="number"
+          width="100%"
+          formControlName="importeMin"
+          placeholder="EUR Min">
+        </cap-input>
+        @if (filterForm.controls.importeMin.errors?.['min'] && filterForm.controls.importeMin.touched) {
+          <p class="filtro-error">{{ text.ERRORS.AMOUNT_NEGATIVE }}</p>
+        }
+      </div>
+      <div class="filtro-grupo filtro-grupo--num">
+        <label>{{ text.FILTERS.AMOUNT_MAX }}</label>
+        <cap-input
+          variant="minimal"
+          size="medium"
+          type="number"
+          width="100%"
+          formControlName="importeMax"
+          placeholder="EUR Max">
+        </cap-input>
+        @if (filterForm.controls.importeMax.errors?.['min'] && filterForm.controls.importeMax.touched) {
+          <p class="filtro-error">{{ text.ERRORS.AMOUNT_NEGATIVE }}</p>
+        }
+      </div>
+      @if (filterForm.controls.importeMin.errors?.['max'] || filterForm.controls.importeMax.errors?.['max']) {
+        <p class="filtro-error filtro-error--row">{{ text.ERRORS.AMOUNT_TOO_LARGE }}</p>
+      }
+      @if (filterForm.errors?.['amountRange']) {
+        <p class="filtro-error filtro-error--row">{{ text.ERRORS.AMOUNT_RANGE }}</p>
+      }
+      <cap-button
+        variant="secondary"
+        size="small"
+        textStyle="none"
+        [label]="text.FILTERS.CLEAR"
+        (capClick)="limpiarFiltros()" />
+      <cap-button
+        variant="primary"
+        size="small"
+        textStyle="none"
+        [disabled]="exportando()"
+        [loading]="exportando()"
+        [label]="text.FILTERS.EXPORT"
+        [loadingText]="text.FILTERS.EXPORTING"
+        (capClick)="exportarExcel()" />
+    </div>
+
+    @if (exportPhase() !== 'idle') {
+      <cap-alert kind="info" [message]="exportPhaseLabel[exportPhase()]"></cap-alert>
+    }
+
+    <app-transactions-table [transactions]="transaccionesFiltradas()"></app-transactions-table>
+  } @else {
+    <div class="loading-wrapper">
+      <cap-spinner [label]="text.LOADING_LABEL" />
+    </div>
+  }
 </section>

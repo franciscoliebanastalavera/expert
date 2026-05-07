@@ -39,11 +39,10 @@ export class ExportService {
 
   exportToXLSX(transactions: Transaction[]): Observable<void> {
     return new Observable<void>((subscriber) => {
-      // Single active export assumed; concurrent exports are intentionally not supported.
       this.exportPhaseValue.set('preparing');
 
       if (typeof Worker !== 'undefined') {
-        const worker = new Worker(new URL('../../workers/export.worker', import.meta.url));
+        const worker = new Worker(new URL('../workers/export.worker', import.meta.url));
         worker.onmessage = ({ data }: MessageEvent<ExportResponse>) => {
           this.exportPhaseValue.set(data.phase);
           if ('success' in data && data.success) {

@@ -1,0 +1,36 @@
+::ng-deep {
+  .transactions-grid__cell--id { width: 3.75rem; flex-shrink: 0; }
+  .transactions-grid__cell--fecha { width: 5.9375rem; flex-shrink: 0; }
+  .transactions-grid__cell--tipo { width: 10rem; flex-shrink: 0; }
+  .transactions-grid__cell--desc { flex: 1; min-width: 11.25rem; }
+  .transactions-grid__cell--iban {
+    width: 13.75rem;
+    flex-shrink: 0;
+  }
+  .transactions-grid__cell--importe {
+    width: 7.5rem;
+    flex-shrink: 0;
+    justify-content: flex-end;
+  }
+  .transactions-grid__cell--estado { width: 6.875rem; flex-shrink: 0; }
+  .transactions-grid__cell--cat { width: 7.5rem; flex-shrink: 0; }
+}
+
+.transactions-grid__iban {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  color: var(--cap-text-secondary, #4d4d4d);
+}
+
+.transactions-grid__importe {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+
+  &--ingreso {
+    color: var(--cap-status-success-fg, #2e7d32);
+  }
+
+  &--gasto {
+    color: var(--cap-status-danger-fg, #c62828);
+  }
+}

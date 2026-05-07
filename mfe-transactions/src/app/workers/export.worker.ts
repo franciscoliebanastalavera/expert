@@ -1,5 +1,5 @@
 import { catchError, from, map, of, switchMap } from 'rxjs';
-import type { Transaction } from '../core/models/transaction.model';
+import type { Transaction } from '../models/transaction.model';
 
 interface ExportRequest {
   rows: Transaction[];

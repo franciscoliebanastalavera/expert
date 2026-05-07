@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class AnalyticsMetricsService {
+export class TransactionsMetricsService {
   private readonly domNodeCountValue = signal(0);
   private readonly lastFilterMsValue = signal(0);
 

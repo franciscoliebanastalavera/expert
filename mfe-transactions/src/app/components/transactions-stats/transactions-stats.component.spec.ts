@@ -1,23 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TranslateService, TranslateStore } from '@ngx-translate/core';
-import { AnalyticsStatsComponent } from './analytics-stats.component';
-import { TranslateServiceMock } from '../../../../testing/mocks';
+import { TransactionsStatsComponent } from './transactions-stats.component';
 
-describe('AnalyticsStatsComponent', () => {
-  let fixture: ComponentFixture<AnalyticsStatsComponent>;
-  let component: AnalyticsStatsComponent;
+describe('TransactionsStatsComponent', () => {
+  let fixture: ComponentFixture<TransactionsStatsComponent>;
+  let component: TransactionsStatsComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnalyticsStatsComponent],
+      imports: [TransactionsStatsComponent],
       providers: [
-        { provide: TranslateService, useClass: TranslateServiceMock },
-        { provide: TranslateStore, useValue: {} },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AnalyticsStatsComponent);
+    fixture = TestBed.createComponent(TransactionsStatsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
