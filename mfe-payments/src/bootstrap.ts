@@ -1,4 +1,3 @@
-import { NgZone, ɵNoopNgZone } from '@angular/core';
 import { createApplication } from '@angular/platform-browser';
 import { createCustomElement } from '@angular/elements';
 import { catchError, EMPTY, from, tap } from 'rxjs';
@@ -6,11 +5,7 @@ import { PaymentsComponent } from './app/payments.component';
 
 const ELEMENT_TAG = 'mfe-payments';
 
-from(
-  createApplication({
-    providers: [{ provide: NgZone, useClass: ɵNoopNgZone }],
-  })
-)
+from(createApplication({ providers: [] }))
   .pipe(
     tap((appRef) => {
       const PaymentsElement = createCustomElement(PaymentsComponent, {
