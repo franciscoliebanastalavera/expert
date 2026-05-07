@@ -164,25 +164,25 @@
       "WELCOME_TITLE": "Bienvenido a CapitalFlow",
       "WELCOME_SUBTITLE": "Resumen del último periodo",
       "KPI": {
-        "BALANCE": "Saldo total",
-        "INCOME": "Ingresos del mes",
-        "EXPENSES": "Gastos del mes",
-        "SAVINGS": "Ahorro proyectado"
+        "BALANCE": "Saldo en cuentas operativas",
+        "INCOME": "Cobros del mes",
+        "EXPENSES": "Pagos del mes",
+        "SAVINGS": "Liquidez disponible"
       },
       "TREND": {
-        "TITLE": "Tendencia mensual",
-        "INCOME": "Ingresos",
-        "EXPENSES": "Gastos"
+        "TITLE": "Flujo de caja mensual",
+        "INFLOWS": "Cobros",
+        "OUTFLOWS": "Pagos"
       },
       "DONUT": {
-        "TITLE": "Gastos por categoría",
+        "TITLE": "Distribución por categoría operativa",
         "TOTAL_LABEL": "Total: 2.320 €"
       },
       "CATEGORIES": {
-        "HOUSING": "Vivienda",
-        "FOOD": "Alimentación",
-        "TRANSPORT": "Transporte",
-        "ENTERTAINMENT": "Ocio",
+        "TREASURY": "Tesorería operativa",
+        "PAYROLL": "Nóminas",
+        "SUPPLIERS": "Pagos a proveedores",
+        "COMPLIANCE": "Cumplimiento normativo",
         "OTHER": "Otros"
       },
       "QUICK_ACCESS": {

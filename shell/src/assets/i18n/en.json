@@ -164,25 +164,25 @@
       "WELCOME_TITLE": "Welcome to CapitalFlow",
       "WELCOME_SUBTITLE": "Last period summary",
       "KPI": {
-        "BALANCE": "Total balance",
-        "INCOME": "Monthly income",
-        "EXPENSES": "Monthly expenses",
-        "SAVINGS": "Projected savings"
+        "BALANCE": "Balance in operating accounts",
+        "INCOME": "Monthly inflows",
+        "EXPENSES": "Monthly outflows",
+        "SAVINGS": "Available liquidity"
       },
       "TREND": {
-        "TITLE": "Monthly trend",
-        "INCOME": "Income",
-        "EXPENSES": "Expenses"
+        "TITLE": "Monthly cash flow",
+        "INFLOWS": "Inflows",
+        "OUTFLOWS": "Outflows"
       },
       "DONUT": {
-        "TITLE": "Expenses by category",
+        "TITLE": "Distribution by operating category",
         "TOTAL_LABEL": "Total: €2,320"
       },
       "CATEGORIES": {
-        "HOUSING": "Housing",
-        "FOOD": "Food",
-        "TRANSPORT": "Transport",
-        "ENTERTAINMENT": "Entertainment",
+        "TREASURY": "Operating treasury",
+        "PAYROLL": "Payroll",
+        "SUPPLIERS": "Supplier payments",
+        "COMPLIANCE": "Regulatory compliance",
         "OTHER": "Other"
       },
       "QUICK_ACCESS": {

@@ -40,6 +40,7 @@ export class HomeComponent {
   readonly kpis = HOME_SUMMARY_KPI_VALUES;
   readonly trendLabels = HOME_TREND_LABELS;
   readonly quickAccessCards = HOME_QUICK_ACCESS_CARDS;
+  readonly chartHeightPx = 380;
 
   private readonly trendSeriesLabels = toSignal(
     combineLatest(HOME_TREND_SERIES.map((s) => this.translate.stream(s.label))).pipe(

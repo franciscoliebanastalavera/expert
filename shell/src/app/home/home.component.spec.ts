@@ -62,16 +62,16 @@ describe('HomeComponent', () => {
 
   it('translates the trend series labels via the TranslateService stream', () => {
     const labels = component.trendSeries().map((s) => s.label);
-    expect(labels).toEqual(['HOME.SUMMARY.TREND.INCOME', 'HOME.SUMMARY.TREND.EXPENSES']);
+    expect(labels).toEqual(['HOME.SUMMARY.TREND.INFLOWS', 'HOME.SUMMARY.TREND.OUTFLOWS']);
   });
 
   it('translates the donut segment labels via the TranslateService stream', () => {
     const labels = component.donutSegments().map((s) => s.label);
     expect(labels).toEqual([
-      'HOME.SUMMARY.CATEGORIES.HOUSING',
-      'HOME.SUMMARY.CATEGORIES.FOOD',
-      'HOME.SUMMARY.CATEGORIES.TRANSPORT',
-      'HOME.SUMMARY.CATEGORIES.ENTERTAINMENT',
+      'HOME.SUMMARY.CATEGORIES.TREASURY',
+      'HOME.SUMMARY.CATEGORIES.PAYROLL',
+      'HOME.SUMMARY.CATEGORIES.SUPPLIERS',
+      'HOME.SUMMARY.CATEGORIES.COMPLIANCE',
       'HOME.SUMMARY.CATEGORIES.OTHER',
     ]);
   });

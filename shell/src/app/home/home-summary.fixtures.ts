@@ -12,15 +12,15 @@ export const HOME_TREND_LABELS: readonly string[] = ['Nov', 'Dic', 'Ene', 'Feb',
 
 export const HOME_TREND_SERIES: readonly CapTrendSeries[] = [
   {
-    id: 'income',
-    label: 'HOME.SUMMARY.TREND.INCOME',
+    id: 'inflows',
+    label: 'HOME.SUMMARY.TREND.INFLOWS',
     data: [3800, 4100, 4250, 4180, 4350, 4200],
     colorVar: 'var(--cap-primary)',
     fill: true,
   },
   {
-    id: 'expenses',
-    label: 'HOME.SUMMARY.TREND.EXPENSES',
+    id: 'outflows',
+    label: 'HOME.SUMMARY.TREND.OUTFLOWS',
     data: [2900, 3050, 2820, 2750, 2680, 2620],
     colorVar: 'var(--cap-warning, #f59e0b)',
     fill: true,
@@ -28,10 +28,10 @@ export const HOME_TREND_SERIES: readonly CapTrendSeries[] = [
 ];
 
 export const HOME_DONUT_SEGMENTS: readonly CapDonutSegment[] = [
-  { id: 'housing', label: 'HOME.SUMMARY.CATEGORIES.HOUSING', value: 1250, colorVar: 'var(--cap-primary)' },
-  { id: 'food', label: 'HOME.SUMMARY.CATEGORIES.FOOD', value: 480, colorVar: 'var(--cap-secondary, #2a85c4)' },
-  { id: 'transport', label: 'HOME.SUMMARY.CATEGORIES.TRANSPORT', value: 320, colorVar: 'var(--cap-warning, #f59e0b)' },
-  { id: 'entertainment', label: 'HOME.SUMMARY.CATEGORIES.ENTERTAINMENT', value: 180, colorVar: 'var(--cap-info, #3b82f6)' },
+  { id: 'treasury', label: 'HOME.SUMMARY.CATEGORIES.TREASURY', value: 1250, colorVar: 'var(--cap-primary)' },
+  { id: 'payroll', label: 'HOME.SUMMARY.CATEGORIES.PAYROLL', value: 480, colorVar: 'var(--cap-secondary, #2a85c4)' },
+  { id: 'suppliers', label: 'HOME.SUMMARY.CATEGORIES.SUPPLIERS', value: 320, colorVar: 'var(--cap-warning, #f59e0b)' },
+  { id: 'compliance', label: 'HOME.SUMMARY.CATEGORIES.COMPLIANCE', value: 180, colorVar: 'var(--cap-info, #3b82f6)' },
   { id: 'other', label: 'HOME.SUMMARY.CATEGORIES.OTHER', value: 90, colorVar: 'var(--cap-text-muted, #6b7280)' },
 ];
 

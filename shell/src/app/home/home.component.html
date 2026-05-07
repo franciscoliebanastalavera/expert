@@ -32,14 +32,16 @@
       class="home__chart-trend"
       [title]="'HOME.SUMMARY.TREND.TITLE' | translate"
       [labels]="trendLabels"
-      [series]="trendSeries()">
+      [series]="trendSeries()"
+      [height]="chartHeightPx">
     </cap-trend-chart>
 
     <cap-donut-chart
       class="home__chart-donut"
       [title]="'HOME.SUMMARY.DONUT.TITLE' | translate"
       [data]="donutSegments()"
-      [totalLabel]="'HOME.SUMMARY.DONUT.TOTAL_LABEL' | translate">
+      [totalLabel]="'HOME.SUMMARY.DONUT.TOTAL_LABEL' | translate"
+      [height]="chartHeightPx">
     </cap-donut-chart>
   </div>
 
