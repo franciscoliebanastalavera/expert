@@ -71,13 +71,17 @@ foreach ($svc in $services) {
 # Persistir PIDs para que stop-local.ps1 sepa que matar
 $launched | ConvertTo-Json | Out-File -FilePath $pidFile -Encoding utf8
 
+$readinessTimeoutSec = 300
+
 Write-Host ''
-Write-Host 'Esperando a que los servicios respondan (max 180s)...' -ForegroundColor Yellow
-Write-Host '(la primera compilacion suele tardar 60-120s; revisa el log si algun servicio se atasca)' -ForegroundColor DarkGray
+Write-Host ("Esperando a que los servicios respondan (max {0}s)..." -f $readinessTimeoutSec) -ForegroundColor Yellow
+Write-Host '(en cache fria la primera compilacion ng serve / storybook puede tardar 90-180s por servicio)' -ForegroundColor DarkGray
+Write-Host '(los 5 servicios compilan en paralelo y compiten por CPU; el orden de ready varia segun la maquina)' -ForegroundColor DarkGray
 Write-Host ''
 
-$deadline = (Get-Date).AddSeconds(180)
+$deadline = (Get-Date).AddSeconds($readinessTimeoutSec)
 $pending  = [System.Collections.Generic.List[hashtable]]::new()
+$ready    = [System.Collections.Generic.List[hashtable]]::new()
 $services | ForEach-Object { $pending.Add($_) }
 
 while ($pending.Count -gt 0 -and (Get-Date) -lt $deadline) {
@@ -87,6 +91,7 @@ while ($pending.Count -gt 0 -and (Get-Date) -lt $deadline) {
             $response = Invoke-WebRequest -Uri $svc.Url -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop
             if ($response.StatusCode -eq 200) {
                 Write-Host ("  [OK]   {0,-22} -> {1}" -f $svc.Name, $svc.Url) -ForegroundColor Green
+                $ready.Add($svc)
                 $pending.RemoveAt($i)
             }
         } catch {
@@ -98,28 +103,48 @@ while ($pending.Count -gt 0 -and (Get-Date) -lt $deadline) {
 
 if ($pending.Count -gt 0) {
     Write-Host ''
-    Write-Host 'Timeout: los siguientes servicios no respondieron:' -ForegroundColor Red
+    Write-Host ("Timeout tras {0}s. Servicios pendientes (siguen arrancando en segundo plano):" -f $readinessTimeoutSec) -ForegroundColor Yellow
     $pending | ForEach-Object {
         $logPath = Join-Path $logDir ("{0}.log" -f $_.Name)
-        Write-Host ("  [FAIL] {0,-22} -> {1}" -f $_.Name, $_.Url) -ForegroundColor Red
-        Write-Host ("         log: {0}" -f $logPath) -ForegroundColor DarkGray
+        Write-Host ("  [TIMEOUT] {0,-22} -> {1}" -f $_.Name, $_.Url) -ForegroundColor Yellow
+        Write-Host ("            log: {0}" -f $logPath) -ForegroundColor DarkGray
     }
     Write-Host ''
-    Write-Host ('Revisa los logs en {0}\ y para todo con .\stop-local.ps1' -f $logDir) -ForegroundColor Yellow
-    exit 1
+    Write-Host 'Opciones:' -ForegroundColor Yellow
+    Write-Host '  1) Espera unos minutos mas y abre la URL manualmente cuando el log indique ready.' -ForegroundColor DarkGray
+    Write-Host ('     Tail en vivo:   Get-Content -Path {0}\<servicio>.log -Wait' -f $logDir) -ForegroundColor DarkGray
+    Write-Host '  2) Para todo:       .\stop-local.ps1' -ForegroundColor DarkGray
+    Write-Host ''
 }
 
 Write-Host ''
-Write-Host 'Abriendo navegadores...' -ForegroundColor Cyan
-$services | ForEach-Object { Start-Process $_.Url }
+if ($ready.Count -gt 0) {
+    Write-Host ('Abriendo navegadores para los {0} servicios listos...' -f $ready.Count) -ForegroundColor Cyan
+    $ready | ForEach-Object { Start-Process $_.Url }
+} else {
+    Write-Host 'Ningun servicio respondio dentro del timeout; no abro navegadores.' -ForegroundColor Yellow
+}
 
 Write-Host ''
-Write-Host '=== Servicios locales listos ===' -ForegroundColor Green
+if ($pending.Count -eq 0) {
+    Write-Host '=== Todos los servicios locales listos ===' -ForegroundColor Green
+} else {
+    Write-Host ('=== {0}/{1} servicios listos, {2} pendiente(s) ===' -f $ready.Count, $services.Count, $pending.Count) -ForegroundColor Yellow
+}
 Write-Host ''
-"{0,-22} {1,-28} {2}" -f 'SERVICIO', 'URL', 'DESCRIPCION' | Write-Host -ForegroundColor White
-"{0,-22} {1,-28} {2}" -f ('-' * 22), ('-' * 28), ('-' * 40) | Write-Host -ForegroundColor DarkGray
-$services | ForEach-Object {
-    "{0,-22} {1,-28} {2}" -f $_.Name, $_.Url, $_.Desc | Write-Host
+"{0,-10} {1,-22} {2,-28} {3}" -f 'ESTADO', 'SERVICIO', 'URL', 'DESCRIPCION' | Write-Host -ForegroundColor White
+"{0,-10} {1,-22} {2,-28} {3}" -f ('-' * 10), ('-' * 22), ('-' * 28), ('-' * 40) | Write-Host -ForegroundColor DarkGray
+$readyNames = @{}
+$ready | ForEach-Object { $readyNames[$_.Name] = $true }
+foreach ($svc in $services) {
+    if ($readyNames.ContainsKey($svc.Name)) {
+        $status  = '[ready]'
+        $colour  = 'Green'
+    } else {
+        $status  = '[pend.]'
+        $colour  = 'Yellow'
+    }
+    "{0,-10} {1,-22} {2,-28} {3}" -f $status, $svc.Name, $svc.Url, $svc.Desc | Write-Host -ForegroundColor $colour
 }
 Write-Host ''
 Write-Host ('Logs por servicio: {0}\<servicio>.log' -f $logDir) -ForegroundColor DarkGray
