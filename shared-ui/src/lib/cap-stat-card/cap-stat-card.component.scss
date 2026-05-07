@@ -16,10 +16,14 @@
   }
 
   &__value {
+    display: block;
     font-size: 1rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     color: var(--cap-text, #1e1e1e);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &--positive .cap-stat-card__value {

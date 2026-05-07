@@ -8,9 +8,10 @@
     flex-shrink: 0;
   }
   .transactions-grid__cell--importe {
-    width: 7.5rem;
+    width: 8.75rem;
     flex-shrink: 0;
     justify-content: flex-end;
+    white-space: nowrap;
   }
   .transactions-grid__cell--estado { width: 6.875rem; flex-shrink: 0; }
   .transactions-grid__cell--cat { width: 7.5rem; flex-shrink: 0; }
