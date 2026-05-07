@@ -55,10 +55,12 @@ export class ExportService {
             worker.terminate();
             subscriber.next();
             subscriber.complete();
+            setTimeout(() => this.exportPhaseValue.set('idle'), 2500);
           } else if ('success' in data) {
             this.exportPhaseValue.set('error');
             worker.terminate();
             subscriber.error(new Error(data.error));
+            setTimeout(() => this.exportPhaseValue.set('idle'), 4000);
           }
         };
         worker.onerror = (err: ErrorEvent) => {

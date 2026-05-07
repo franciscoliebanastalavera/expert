@@ -5,6 +5,7 @@ import {
   Directive,
   ElementRef,
   inject,
+  NgZone,
   signal,
   viewChild,
 } from '@angular/core';
@@ -22,6 +23,7 @@ export abstract class MfeWrapperBaseComponent implements AfterViewInit {
   protected readonly cdr = inject(ChangeDetectorRef);
   protected readonly destroyRef = inject(DestroyRef);
   protected readonly remoteLoader = inject(RemoteMfeLoaderService);
+  protected readonly ngZone = inject(NgZone);
 
   protected abstract readonly config: RemoteMfeConfig;
 
@@ -87,8 +89,10 @@ export abstract class MfeWrapperBaseComponent implements AfterViewInit {
   }
 
   protected createAndAppend(tag: string): void {
-    const el = this.document.createElement(tag);
-    this.container().nativeElement.appendChild(el);
+    this.ngZone.runOutsideAngular(() => {
+      const el = this.document.createElement(tag);
+      this.container().nativeElement.appendChild(el);
+    });
   }
 
   protected showError(result: RemoteMfeLoadResult): void {

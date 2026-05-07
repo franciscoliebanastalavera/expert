@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, NgZone, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CapAlertComponent, CapButtonComponent, CapSpinnerComponent } from '@capitalflow/shared-ui';
 import { PAYMENTS_REMOTE_MFE_CONFIG } from '../core/models';
@@ -15,12 +15,4 @@ import { MfeWrapperBaseComponent } from '../core/components/mfe-wrapper/mfe-wrap
 })
 export class PaymentsWrapperComponent extends MfeWrapperBaseComponent {
   protected readonly config = PAYMENTS_REMOTE_MFE_CONFIG;
-  private readonly ngZone = inject(NgZone);
-
-  protected override createAndAppend(tag: string): void {
-    this.ngZone.runOutsideAngular(() => {
-      const el = this.document.createElement(tag);
-      this.container().nativeElement.appendChild(el);
-    });
-  }
 }
