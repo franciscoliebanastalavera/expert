@@ -277,6 +277,14 @@ import type { Transaction } from '../models/transaction.model';
   remote loading. It hosts a redesigned home dashboard (KPIs, donut and
   trend charts, quick-access cards) and the security demo area; every other
   domain lives in its own MFE.
+- MFEs are loaded under same-origin paths via reverse proxy. The shell
+  exposes `/remotes/{analytics,payments,transactions}/` and forwards every
+  request to the matching MFE. In dev `webpack-dev-server` reads
+  `shell/proxy.conf.json`; in Docker the shell `nginx.conf` declares
+  `location ^~ /remotes/{mfe}/ proxy_pass http://capitalflow-mfe-{mfe}/`.
+  This keeps `remoteEntry.js`, lazy chunks and the XLSX export Web Worker
+  on the same origin as the page so classic `new Worker(new URL(...))` no
+  longer trips Chrome's cross-origin check.
 - Angular and React MFEs are integrated through Web Components so teams can
   keep their framework choices without blocking each other. The transactions
   domain (Angular 18), payments (Angular 17) and analytics (React 18) all
