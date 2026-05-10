@@ -12,6 +12,7 @@ import {
   input,
   model,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -95,7 +96,7 @@ export class CapInputComponent {
   readonly textarea = viewChild<ElementRef>('textarea');
   readonly fieldContainer = viewChild.required<ElementRef>('fieldContainer');
 
-  private innerValue = '';
+  private readonly innerValueSignal = signal<string>('');
 
   componentId!: string;
 
@@ -124,12 +125,12 @@ export class CapInputComponent {
   ) {}
 
   get value(): string {
-    return this.innerValue;
+    return this.innerValueSignal();
   }
 
   set value(value: string) {
-    if (this.innerValue !== value) {
-      this.innerValue = value;
+    if (this.innerValueSignal() !== value) {
+      this.innerValueSignal.set(value);
       this.onTouched();
     }
   }
@@ -210,7 +211,7 @@ export class CapInputComponent {
   }
 
   handleInput(value: string): void {
-    this.innerValue = value;
+    this.innerValueSignal.set(value);
     this.onTouched();
     this.onChange(this.value);
     this.inputChage.emit(this.value);
@@ -237,12 +238,10 @@ export class CapInputComponent {
   }
 
   writeValue(value: string): void {
-    if (value !== this.innerValue) {
-      this.innerValue = value;
+    const next = value ?? '';
+    if (this.innerValueSignal() !== next) {
+      this.innerValueSignal.set(next);
       this.fieldOnFocus = false;
-    }
-    if (value === null) {
-      this.innerValue = '';
     }
   }
 
