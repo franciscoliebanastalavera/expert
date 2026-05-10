@@ -45,7 +45,7 @@
   },
   "scripts": {
     "build": "npx ng-packagr -p ng-package.json",
-    "test": "node node_modules/@angular/cli/bin/ng.js test --watch=false --browsers=ChromeHeadless",
+    "test": "node node_modules/@angular/cli/bin/ng.js test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "storybook": "node node_modules/@angular/cli/bin/ng.js run shared-ui:storybook",
     "build-storybook": "node node_modules/@angular/cli/bin/ng.js run shared-ui:build-storybook"
   }

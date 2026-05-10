@@ -7,7 +7,7 @@
     "start": "ng serve --port 4203",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch=false --browsers=ChromeHeadless"
+    "test": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "dompurify": "^3.3.3",
     "exceljs": "^4.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
