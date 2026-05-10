@@ -1,0 +1,74 @@
+<section class="comments-demo">
+  <h1>{{ i18n.PAGE_TITLE | translate }}</h1>
+  <p class="comments-demo__lead">{{ i18n.PAGE_LEAD | translate }}</p>
+
+  <section class="comments-demo__payload">
+    <h2>{{ i18n.PAYLOAD_TITLE | translate }}</h2>
+    <cap-alert kind="info" [message]="i18n.HOSTILE_NOTE | translate"></cap-alert>
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="i18n.INJECT_BUTTON | translate"
+      (capClick)="injectTestPayload()">
+    </cap-button>
+  </section>
+
+  <form class="comments-demo__form" (submit)="addComment(); $event.preventDefault()">
+    <label class="comments-demo__field">
+      <span class="comments-demo__field-label">{{ i18n.FIELD_LABEL | translate }}</span>
+      <cap-input
+        variant="minimal"
+        size="small"
+        type="text"
+        width="100%"
+        [formControl]="commentControl">
+      </cap-input>
+      <small class="comments-demo__hint">{{ i18n.FIELD_HINT | translate }}</small>
+    </label>
+    <cap-button
+      variant="capitalflow-primary"
+      size="small"
+      textStyle="none"
+      type="submit"
+      [label]="i18n.ADD_BUTTON | translate"
+      [disabled]="!canAdd()"
+      (capClick)="addComment()">
+    </cap-button>
+  </form>
+
+  <div class="comments-demo__comparison">
+    <cap-alert kind="danger" [message]="i18n.WITHOUT_MITIGATION | translate"></cap-alert>
+    <cap-alert kind="success" [message]="i18n.WITH_MITIGATION | translate"></cap-alert>
+  </div>
+
+  <h2 class="comments-demo__heading">{{ i18n.THREAD_HEADING | translate }}</h2>
+  <ul class="comments-demo__thread">
+    @for (comment of comments(); track comment.id) {
+      <li class="comments-demo__comment">
+        <header class="comments-demo__comment-header">
+          <span class="comments-demo__comment-author">
+            <small>{{ i18n.AUTHOR_LABEL | translate }}</small>
+            {{ comment.author }}
+          </span>
+          <span class="comments-demo__comment-meta">
+            <small>{{ i18n.TX_REF_LABEL | translate }}</small>
+            {{ comment.transactionRef }}
+            <span class="comments-demo__comment-date">{{ comment.createdAt }}</span>
+          </span>
+        </header>
+        <p class="comments-demo__comment-body">{{ comment.text }}</p>
+      </li>
+    }
+  </ul>
+
+  <footer class="comments-demo__footer">
+    <cap-button
+      variant="capitalflow-outline"
+      size="small"
+      textStyle="none"
+      [label]="backLabelPrefix + (i18n.BACK | translate)"
+      (capClick)="goBack()">
+    </cap-button>
+  </footer>
+</section>

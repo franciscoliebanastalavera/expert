@@ -56,14 +56,14 @@ describe('AdminLandingComponent', () => {
     const tableBody = fixture.debugElement.query(By.css('tbody'));
     const buttons = tableBody.queryAll(By.directive(CapButtonComponent));
 
-    expect(buttons.length).toBe(4);
+    expect(buttons.length).toBe(5);
   });
 
   it('renders muted dashes for rows without a demo route', () => {
     const tableBody = fixture.debugElement.query(By.css('tbody'));
     const dashes = tableBody.queryAll(By.css('.muted'));
 
-    expect(dashes.length).toBe(7);
+    expect(dashes.length).toBe(6);
   });
 
   it('navigates to the selected demo route', () => {

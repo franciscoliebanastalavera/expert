@@ -6,6 +6,7 @@ export const ADMIN_DEMO_ROUTES = {
   WYSIWYG: '/admin/templates',
   PDF: '/admin/reports',
   DOCUMENTS: '/admin/documents',
+  COMMENTS: '/admin/comments',
   SEARCH: '/search-demo',
 } as const;
 
@@ -24,9 +25,12 @@ export const VULNERABILITIES_MATRIX: readonly VulnerabilityRow[] = [
     titleKey: 'ADMIN.MATRIX.ITEMS.BRIEFING_01.TITLE',
     descriptionKey: 'ADMIN.MATRIX.ITEMS.BRIEFING_01.DESCRIPTION',
     mitigationKey: 'ADMIN.MATRIX.ITEMS.BRIEFING_01.MITIGATION',
-    status: 'partial',
-    demoRoute: null,
-    fileReferences: ['shared-ui/src/lib/safe-html/safe-html.pipe.ts'],
+    status: 'mitigated',
+    demoRoute: ADMIN_DEMO_ROUTES.COMMENTS,
+    fileReferences: [
+      'shell/src/app/admin/comments-demo/comments-demo.component.html',
+      'shared-ui/src/lib/safe-html/safe-html.pipe.ts',
+    ],
   },
   {
     id: 'briefing-02',

@@ -73,6 +73,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: AppRoute.AdminComments,
+    title: AppRouteTitle.AdminComments,
+    loadComponent: () =>
+      import('./admin/comments-demo/comments-demo.component').then(
+        (m) => m.CommentsDemoComponent
+      ),
+  },
+  {
     path: AppRoute.SearchDemo,
     title: AppRouteTitle.SearchDemo,
     loadComponent: () =>

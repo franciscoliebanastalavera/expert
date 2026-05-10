@@ -142,6 +142,24 @@
         "COL_SIZE": "Tamaño",
         "COL_UPLOADED": "Subido"
       },
+      "COMMENTS": {
+        "TITLE": "Comentarios de transacciones",
+        "DESCRIPTION": "XSS almacenado en comentarios públicos (vulnerabilidad #1 del briefing). Los comentarios se renderizan mediante interpolación de Angular, que escapa automáticamente <, > y &, por lo que los payloads se ven como texto literal.",
+        "PAGE_TITLE": "Comentarios de transacciones",
+        "PAGE_LEAD": "Los gestores añaden comentarios a transacciones; otros usuarios los leen. En la plataforma auditada, los comentarios se renderizaban directamente al DOM y permitían inyectar código que se ejecutaba en el navegador de cualquier lector. Aquí se renderizan con interpolación de Angular, que escapa < > y & de forma transparente.",
+        "PAYLOAD_TITLE": "Prueba un payload malicioso",
+        "INJECT_BUTTON": "Inyectar payload de prueba",
+        "WITHOUT_MITIGATION": "Sin mitigación: el navegador interpretaría el HTML del comentario y ejecutaría el script.",
+        "WITH_MITIGATION": "Con nuestra mitigación: el comentario se renderiza como texto literal mediante {{ '{{' }} comment.text {{ '}}' }}.",
+        "FIELD_LABEL": "Comentario nuevo",
+        "FIELD_HINT": "Prueba con etiquetas <script> o manejadores onerror para verificar el escape.",
+        "ADD_BUTTON": "Añadir comentario",
+        "THREAD_HEADING": "Hilo de comentarios",
+        "HOSTILE_NOTE": "El cuarto comentario ya contiene <script>alert(\"XSS\")</script>. Debe verse como texto y no debe ejecutar nada.",
+        "AUTHOR_LABEL": "Autor",
+        "TX_REF_LABEL": "Transacción",
+        "EMPTY_INPUT": "Escribe un comentario antes de añadirlo."
+      },
       "SEARCH": {
         "TITLE": "Búsqueda reflejada",
         "DESCRIPTION": "XSS reflejado en el header de búsqueda. El binding [innerText] renderiza la consulta como caracteres literales, sin ejecución de HTML.",

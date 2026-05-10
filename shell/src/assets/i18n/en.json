@@ -142,6 +142,24 @@
         "COL_SIZE": "Size",
         "COL_UPLOADED": "Uploaded"
       },
+      "COMMENTS": {
+        "TITLE": "Transaction comments",
+        "DESCRIPTION": "Stored XSS on public comments (briefing vulnerability #1). Comments are rendered through Angular interpolation, which auto-escapes <, > and & so payloads remain visible as literal text.",
+        "PAGE_TITLE": "Transaction comments",
+        "PAGE_LEAD": "Managers add comments on transactions and other users read them. On the audited platform, comments were rendered directly into the DOM and allowed injecting code that ran in any reader's browser. Here they are rendered through Angular interpolation, which transparently escapes < > and &.",
+        "PAYLOAD_TITLE": "Try a malicious payload",
+        "INJECT_BUTTON": "Inject test payload",
+        "WITHOUT_MITIGATION": "Without mitigation: the browser would parse the comment HTML and execute the script.",
+        "WITH_MITIGATION": "With our mitigation: the comment is rendered as literal text through {{ '{{' }} comment.text {{ '}}' }}.",
+        "FIELD_LABEL": "New comment",
+        "FIELD_HINT": "Try <script> tags or onerror handlers to verify escaping.",
+        "ADD_BUTTON": "Add comment",
+        "THREAD_HEADING": "Comment thread",
+        "HOSTILE_NOTE": "The fourth seeded comment already contains <script>alert(\"XSS\")</script>. It must stay visible as text and must not execute anything.",
+        "AUTHOR_LABEL": "Author",
+        "TX_REF_LABEL": "Transaction",
+        "EMPTY_INPUT": "Type a comment before adding it."
+      },
       "SEARCH": {
         "TITLE": "Reflected search",
         "DESCRIPTION": "Reflected XSS in search header. [innerText] binding renders the query as literal characters, no HTML execution.",

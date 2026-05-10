@@ -8,6 +8,7 @@ export enum AppRoute {
   AdminTemplates = 'admin/templates',
   AdminReports = 'admin/reports',
   AdminDocuments = 'admin/documents',
+  AdminComments = 'admin/comments',
   SearchDemo = 'search-demo',
 }
 
@@ -21,6 +22,7 @@ export enum AppRouteTitle {
   AdminTemplates = 'CapitalFlow - Admin - Report templates',
   AdminReports = 'CapitalFlow - Admin - PDF reports',
   AdminDocuments = 'CapitalFlow - Admin - Documents',
+  AdminComments = 'CapitalFlow - Admin - Stored XSS comments',
   SearchDemo = 'CapitalFlow - Search demo',
 }
 
