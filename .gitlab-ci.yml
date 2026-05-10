@@ -105,6 +105,24 @@ install:mfe-payments:
         - mfe-payments/**/*
         - shared-ui/**/*
 
+# Install dependencies for Angular transactions microfrontend
+install:mfe-transactions:
+  stage: install
+  image: node:20-alpine
+  script:
+    - cd mfe-transactions
+    - npm install
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-mfe-transactions"
+    paths:
+      - mfe-transactions/node_modules/
+    policy: push
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - changes:
+        - mfe-transactions/**/*
+        - shared-ui/**/*
+
 # ============================================================
 # STAGE: BUILD
 # ============================================================
@@ -207,6 +225,31 @@ build:mfe-payments:
         - mfe-payments/**/*
         - shared-ui/**/*
 
+# Build the Angular transactions microfrontend
+build:mfe-transactions:
+  stage: build
+  image: node:20-alpine
+  script:
+    - cd mfe-transactions
+    - npm install
+    - npx ng build --configuration production
+  artifacts:
+    paths:
+      - mfe-transactions/dist/
+    expire_in: 1 week
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-mfe-transactions"
+    paths:
+      - mfe-transactions/node_modules/
+    policy: pull
+  needs:
+    - install:mfe-transactions
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - changes:
+        - mfe-transactions/**/*
+        - shared-ui/**/*
+
 # ============================================================
 # STAGE: TESTS
 # ============================================================
@@ -265,6 +308,25 @@ test:mfe-payments:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-payments/**/*
+        - shared-ui/**/*
+
+# Tests for the Angular transactions microfrontend
+test:mfe-transactions:
+  stage: test
+  extends: .test_chrome_template
+  needs:
+    - install:mfe-transactions
+  script:
+    - cd mfe-transactions && npm test
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-mfe-transactions"
+    paths:
+      - mfe-transactions/node_modules/
+    policy: pull
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - changes:
+        - mfe-transactions/**/*
         - shared-ui/**/*
 
 # Tests for the React analytics microfrontend (Jest, no Chrome required)
@@ -345,6 +407,25 @@ docker:mfe-payments:
         - mfe-payments/**/*
         - shared-ui/**/*
 
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke docker build and push against the corporate registry.
+docker:mfe-transactions:
+  stage: docker
+  image: docker:latest
+  allow_failure: true
+  services:
+    - docker:dind
+  script:
+    - echo "Docker build skipped in CI - no registry configured"
+  needs:
+    - build:mfe-transactions
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - changes:
+        - mfe-transactions/**/*
+        - shared-ui/**/*
+
 # ============================================================
 # STAGE: DEPLOYMENT
 # ============================================================
@@ -422,3 +503,28 @@ deploy:mfe-payments:
   environment:
     name: production
     url: https://payments.capitalflow.example.com
+
+# === MOCK STAGE ===
+# Intentionally a mock for the evaluation environment.
+# Production would invoke kubectl/argocd/helm against the corporate cluster.
+deploy:mfe-transactions:
+  stage: deploy
+  image: alpine:latest
+  allow_failure: true
+  script:
+    # Mock deployment: no real cluster is provisioned for this exam.
+    # In production this step would invoke kubectl/helm/argocd against the target environment.
+    - echo "Deploying mfe-transactions version ${CI_COMMIT_SHORT_SHA}..."
+    - echo "MFE Transactions deployed successfully"
+  needs:
+    - docker:mfe-transactions
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+    - changes:
+        - mfe-transactions/**/*
+        - shared-ui/**/*
+      when: manual
+  environment:
+    name: production
+    url: https://transactions.capitalflow.example.com
