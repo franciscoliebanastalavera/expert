@@ -43,7 +43,7 @@ export class DynamicCssService {
     const styleElement = this.renderer.createElement('style');
     const cssRule = `.${finalClassName} { ${cssContent} }`;
 
-    this.renderer.setProperty(styleElement, 'innerHTML', cssRule);
+    this.renderer.appendChild(styleElement, document.createTextNode(cssRule));
     this.renderer.appendChild(document.head, styleElement);
 
     this.styleElements.set(key, styleElement);
@@ -59,7 +59,10 @@ export class DynamicCssService {
     const styleElement = this.styleElements.get(classKey);
     if (styleElement) {
       const cssRule = `.${classKey} { ${newCssContent} }`;
-      this.renderer.setProperty(styleElement, 'innerHTML', cssRule);
+      while (styleElement.firstChild) {
+        this.renderer.removeChild(styleElement, styleElement.firstChild);
+      }
+      this.renderer.appendChild(styleElement, document.createTextNode(cssRule));
     }
   }
 
