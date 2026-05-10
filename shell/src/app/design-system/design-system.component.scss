@@ -51,11 +51,14 @@
   }
 
   &__row--badges {
-    --cap-bg: #121212;
-    --cap-text: #f0f0f0;
     padding: 1rem;
     background: #e5e7eb;
     border-radius: var(--cap-radius-md, 0.5rem);
+  }
+
+  &__row--badges .cap-status-badge--neutral {
+    background: #121212 !important;
+    color: #f0f0f0 !important;
   }
 
   &__stack {
