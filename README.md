@@ -6,6 +6,24 @@ front-end monolith to a micro-frontend architecture with shared UI, security
 hardening, performance controls, automated tests, and Docker-based local
 deployment.
 
+## Quick start (clone fresh)
+
+`shared-ui` is consumed by the Angular projects as a `dist` artifact (path mapped to `../shared-ui/dist/`). On a fresh clone the dist does not exist yet, so run the bootstrap script first:
+
+```powershell
+# Windows
+.\setup.ps1
+.\start-local.ps1
+```
+
+```bash
+# Linux / Mac
+./setup.sh
+docker compose up -d --build
+```
+
+`setup.{ps1,sh}` installs every project's `node_modules` and produces `shared-ui/dist`. Linux/Mac launch scripts are intentionally not provided — use Docker.
+
 ## Current Stack
 
 - Shell: Angular 18 standalone application, Module Federation host, OnPush, Signals.
@@ -44,7 +62,7 @@ Service endpoints:
 
 ## Local development without Docker
 
-Each project can be run standalone with npm scripts. Run them in separate terminals.
+Each project can be run standalone with npm scripts. Run them in separate terminals. The first time, run `.\setup.ps1` to install all dependencies and produce `shared-ui/dist` (the Angular consumers depend on it).
 
 ### Run all projects locally
 
