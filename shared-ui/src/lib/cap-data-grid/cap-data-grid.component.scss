@@ -2,8 +2,7 @@
   background: var(--cap-bg-surface, #fff);
   border: 0.0625rem solid var(--cap-border, #cac8c2);
   border-radius: var(--cap-radius-md, 0.5rem);
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .cap-data-grid__inner {
@@ -53,7 +52,7 @@
 .cap-data-grid__viewport {
   display: block;
   flex: 1 1 auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 
   ::ng-deep .cdk-virtual-scroll-content-wrapper {
     min-width: 100%;
