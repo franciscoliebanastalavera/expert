@@ -51,8 +51,10 @@
   }
 
   &__row--badges {
+    --cap-bg: #121212;
+    --cap-text: #f0f0f0;
     padding: 1rem;
-    background: #1f1f1f;
+    background: #e5e7eb;
     border-radius: var(--cap-radius-md, 0.5rem);
   }
 
