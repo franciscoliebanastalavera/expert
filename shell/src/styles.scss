@@ -3,6 +3,28 @@ $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
 
+:root {
+  --cap-status-success-bg: #10b981;
+  --cap-status-success-fg: #ffffff;
+  --cap-status-warning-bg: #f59e0b;
+  --cap-status-warning-fg: #1f1f1f;
+  --cap-status-info-bg: #0284c7;
+  --cap-status-info-fg: #ffffff;
+  --cap-status-danger-bg: #dc2626;
+  --cap-status-danger-fg: #ffffff;
+}
+
+[data-theme='dark'] {
+  --cap-status-success-bg: #10b981;
+  --cap-status-success-fg: #ffffff;
+  --cap-status-warning-bg: #f59e0b;
+  --cap-status-warning-fg: #1f1f1f;
+  --cap-status-info-bg: #0284c7;
+  --cap-status-info-fg: #ffffff;
+  --cap-status-danger-bg: #dc2626;
+  --cap-status-danger-fg: #ffffff;
+}
+
 *,
 *::before,
 *::after {
