@@ -2,7 +2,8 @@
   [columns]="columns()"
   [data]="transactions()"
   trackByKey="id"
-  [itemSize]="itemSize">
+  [itemSize]="itemSize"
+  [viewportHeight]="viewportHeight">
   <ng-template [capCellTemplate]="'iban'" let-value>
     <span class="transactions-grid__iban">{{ value | iban }}</span>
   </ng-template>

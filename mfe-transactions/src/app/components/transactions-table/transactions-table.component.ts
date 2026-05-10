@@ -48,6 +48,7 @@ const COLUMN_LABELS: readonly string[] = [
 export class TransactionsTableComponent {
   readonly transactions = input<Transaction[]>([]);
   readonly itemSize = TRANSACTIONS_TABLE_CONFIG.itemSizePx;
+  readonly viewportHeight = 'min(37.5rem, calc(100dvh - 20rem))';
 
   readonly columns = computed<CapTableColumn[]>(() =>
     TRANSACTIONS_GRID_COLUMNS.map((column, index) => ({

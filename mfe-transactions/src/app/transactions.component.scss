@@ -89,14 +89,6 @@ app-transactions-stats {
     flex-direction: column;
     gap: 0.75rem;
   }
-
-  .datagrid-container {
-    overflow-x: auto;
-  }
-
-  .datagrid-body {
-    height: 25rem;
-  }
 }
 
 @media (max-width: 36em) {
