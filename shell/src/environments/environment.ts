@@ -1,3 +1,5 @@
+import { isDevMode } from '@angular/core';
+
 export const environment = {
-  production: false,
+  production: !isDevMode(),
 } as const;
