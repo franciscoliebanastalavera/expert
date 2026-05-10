@@ -1,5 +1,6 @@
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 export class RouterMock {
   readonly events = of();
@@ -8,7 +9,11 @@ export class RouterMock {
   navigateByUrl = jasmine.createSpy('navigateByUrl').and.resolveTo(true);
 }
 
-@Component({ standalone: true, template: '<router-outlet></router-outlet>' })
+@Component({
+  standalone: true,
+  imports: [RouterOutlet],
+  template: '<router-outlet></router-outlet>',
+})
 export class HostComponent {}
 
 export function noop(): void {

@@ -15,7 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "declaration": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["jasmine"]
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

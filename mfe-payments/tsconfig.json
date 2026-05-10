@@ -20,6 +20,7 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
+    "types": ["jasmine"],
     "paths": {
       "@capitalflow/shared-ui": ["../shared-ui/dist"],
       "@angular/*": ["./node_modules/@angular/*"],
