@@ -52,7 +52,7 @@
 
   &__row--badges {
     padding: 1rem;
-    background: rgba(0, 0, 0, 0.04);
+    background: #1f1f1f;
     border-radius: var(--cap-radius-md, 0.5rem);
   }
 
@@ -67,9 +67,4 @@
       font-weight: 600;
     }
   }
-}
-
-.dark-theme .design-system__row--badges,
-[data-theme='dark'] .design-system__row--badges {
-  background: rgba(255, 255, 255, 0.06);
 }
