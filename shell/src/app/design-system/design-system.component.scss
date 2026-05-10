@@ -68,3 +68,8 @@
     }
   }
 }
+
+.dark-theme .design-system__row--badges,
+[data-theme='dark'] .design-system__row--badges {
+  background: rgba(255, 255, 255, 0.06);
+}
