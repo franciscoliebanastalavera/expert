@@ -1,30 +1,17 @@
 # GitLab CI/CD pipeline for CapitalFlow
 # Module Federation microfrontend architecture
 
-# Pipeline stages
 stages:
-  - install
   - build
   - test
   - docker
   - deploy
 
-# Global pipeline variables
 variables:
   DOCKER_REGISTRY: "registry.capitalflow.local"
   DOCKER_DRIVER: overlay2
   NODE_VERSION: "20"
 
-# Global node_modules cache, keyed per branch
-cache: &cache_global
-  key: "${CI_COMMIT_REF_SLUG}"
-  paths:
-    - shell/node_modules/
-    - mfe-analytics-react/node_modules/
-    - shared-ui/node_modules/
-  policy: pull
-
-# Reusable template: alpine + chromium for Angular Karma headless test jobs
 .test_chrome_template:
   image: node:20-alpine
   before_script:
@@ -32,105 +19,30 @@ cache: &cache_global
     - export CHROME_BIN=/usr/bin/chromium-browser
 
 # ============================================================
-# STAGE: DEPENDENCY INSTALLATION
+# STAGE: BUILD
 # ============================================================
 
-# Install dependencies for Angular shell
-install:shell:
-  stage: install
-  image: node:20-alpine
-  script:
-    - cd shell
-    - npm install
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-shell"
-    paths:
-      - shell/node_modules/
-    policy: push
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shell/**/*
-        - shared-ui/**/*
-
-# Install dependencies for React analytics microfrontend
-install:mfe-analytics:
-  stage: install
-  image: node:20-alpine
-  script:
-    - cd mfe-analytics-react
-    - npm install
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
-    paths:
-      - mfe-analytics-react/node_modules/
-    policy: push
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-analytics-react/**/*
-
-# Install dependencies for shared component library
-install:shared-ui:
-  stage: install
+build:shared-ui:
+  stage: build
   image: node:20-alpine
   script:
     - cd shared-ui
     - npm install --legacy-peer-deps
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-shared-ui"
+    - npm run build
+  artifacts:
     paths:
-      - shared-ui/node_modules/
-    policy: push
+      - shared-ui/dist/
+    expire_in: 1 hour
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shared-ui/**/*
 
-# Install dependencies for Angular payments microfrontend
-install:mfe-payments:
-  stage: install
-  image: node:20-alpine
-  script:
-    - cd mfe-payments
-    - npm install
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-payments"
-    paths:
-      - mfe-payments/node_modules/
-    policy: push
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-payments/**/*
-        - shared-ui/**/*
-
-# Install dependencies for Angular transactions microfrontend
-install:mfe-transactions:
-  stage: install
-  image: node:20-alpine
-  script:
-    - cd mfe-transactions
-    - npm install
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-transactions"
-    paths:
-      - mfe-transactions/node_modules/
-    policy: push
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-transactions/**/*
-        - shared-ui/**/*
-
-# ============================================================
-# STAGE: BUILD
-# ============================================================
-
-# Build the Angular shell application
 build:shell:
   stage: build
   image: node:20-alpine
+  needs:
+    - build:shared-ui
   script:
     - cd shell
     - npm install
@@ -139,20 +51,12 @@ build:shell:
     paths:
       - shell/dist/
     expire_in: 1 week
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-shell"
-    paths:
-      - shell/node_modules/
-    policy: pull
-  needs:
-    - install:shell
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shell/**/*
         - shared-ui/**/*
 
-# Build the React analytics microfrontend
 build:mfe-analytics:
   stage: build
   image: node:20-alpine
@@ -164,46 +68,16 @@ build:mfe-analytics:
     paths:
       - mfe-analytics-react/dist/
     expire_in: 1 week
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
-    paths:
-      - mfe-analytics-react/node_modules/
-    policy: pull
-  needs:
-    - install:mfe-analytics
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-analytics-react/**/*
 
-# Build the shared component library
-build:shared-ui:
-  stage: build
-  image: node:20-alpine
-  script:
-    - cd shared-ui
-    - npm install --legacy-peer-deps
-    - npm run build
-  artifacts:
-    paths:
-      - shared-ui/dist/
-    expire_in: 1 week
-  needs:
-    - install:shared-ui
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-shared-ui"
-    paths:
-      - shared-ui/node_modules/
-    policy: pull
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shared-ui/**/*
-
-# Build the Angular payments microfrontend
 build:mfe-payments:
   stage: build
   image: node:20-alpine
+  needs:
+    - build:shared-ui
   script:
     - cd mfe-payments
     - npm install
@@ -212,23 +86,17 @@ build:mfe-payments:
     paths:
       - mfe-payments/dist/
     expire_in: 1 week
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-payments"
-    paths:
-      - mfe-payments/node_modules/
-    policy: pull
-  needs:
-    - install:mfe-payments
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-payments/**/*
         - shared-ui/**/*
 
-# Build the Angular transactions microfrontend
 build:mfe-transactions:
   stage: build
   image: node:20-alpine
+  needs:
+    - build:shared-ui
   script:
     - cd mfe-transactions
     - npm install
@@ -237,13 +105,6 @@ build:mfe-transactions:
     paths:
       - mfe-transactions/dist/
     expire_in: 1 week
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-transactions"
-    paths:
-      - mfe-transactions/node_modules/
-    policy: pull
-  needs:
-    - install:mfe-transactions
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
@@ -254,94 +115,70 @@ build:mfe-transactions:
 # STAGE: TESTS
 # ============================================================
 
-# Tests for the Angular shell
+test:shared-ui:
+  stage: test
+  extends: .test_chrome_template
+  script:
+    - cd shared-ui
+    - npm install --legacy-peer-deps
+    - npm test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - changes:
+        - shared-ui/**/*
+
 test:shell:
   stage: test
   extends: .test_chrome_template
   needs:
-    - install:shell
+    - build:shared-ui
   script:
-    - cd shell && npm test
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-shell"
-    paths:
-      - shell/node_modules/
-    policy: pull
+    - cd shell
+    - npm install
+    - npm test
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - shell/**/*
         - shared-ui/**/*
 
-# Tests for the shared component library
-test:shared-ui:
-  stage: test
-  extends: .test_chrome_template
-  needs:
-    - install:shared-ui
-  script:
-    - cd shared-ui && npm test
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-shared-ui"
-    paths:
-      - shared-ui/node_modules/
-    policy: pull
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shared-ui/**/*
-
-# Tests for the Angular payments microfrontend
 test:mfe-payments:
   stage: test
   extends: .test_chrome_template
   needs:
-    - install:mfe-payments
+    - build:shared-ui
   script:
-    - cd mfe-payments && npm test
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-payments"
-    paths:
-      - mfe-payments/node_modules/
-    policy: pull
+    - cd mfe-payments
+    - npm install
+    - npm test
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-payments/**/*
         - shared-ui/**/*
 
-# Tests for the Angular transactions microfrontend
 test:mfe-transactions:
   stage: test
   extends: .test_chrome_template
   needs:
-    - install:mfe-transactions
+    - build:shared-ui
   script:
-    - cd mfe-transactions && npm test
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-transactions"
-    paths:
-      - mfe-transactions/node_modules/
-    policy: pull
+    - cd mfe-transactions
+    - npm install
+    - npm test
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
         - mfe-transactions/**/*
         - shared-ui/**/*
 
-# Tests for the React analytics microfrontend (Jest, no Chrome required)
 test:mfe-analytics:
   stage: test
   image: node:20-alpine
-  needs:
-    - install:mfe-analytics
   script:
-    - cd mfe-analytics-react && npm test
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}-mfe-analytics"
-    paths:
-      - mfe-analytics-react/node_modules/
-    policy: pull
+    - cd mfe-analytics-react
+    - npm install
+    - npm test
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - changes:
