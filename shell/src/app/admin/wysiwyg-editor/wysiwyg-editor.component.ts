@@ -12,8 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { CapAlertComponent, CapButtonComponent } from '@capitalflow/shared-ui';
-import { SafeHtmlPipe } from '@capitalflow/shared-ui/lib/safe-html/safe-html.pipe';
+import { CapAlertComponent, CapButtonComponent, SafeHtmlPipe } from '@capitalflow/shared-ui';
 import * as DOMPurifyModule from 'dompurify';
 import Quill from 'quill';
 import { AdminBackNavigationService } from '../services/admin-back-navigation.service';

@@ -47,6 +47,22 @@ Write-Host ('(esta ventana orquesta {0} servicios; los procesos corren en segund
 Write-Host ('Logs por servicio: {0}\<servicio>.log' -f $logDir) -ForegroundColor DarkGray
 Write-Host ''
 
+Write-Host '[1/2] Building shared-ui (ng-packagr) ...' -ForegroundColor Cyan
+Push-Location (Join-Path $PSScriptRoot 'shared-ui')
+try {
+    & npm run build
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host '[FAIL] shared-ui build failed. Aborting.' -ForegroundColor Red
+        exit 1
+    }
+} finally {
+    Pop-Location
+}
+Write-Host '[OK] shared-ui/dist ready.' -ForegroundColor Green
+Write-Host ''
+Write-Host '[2/2] Launching services ...' -ForegroundColor Cyan
+Write-Host ''
+
 $launched = @()
 foreach ($svc in $services) {
     $projectDir = Join-Path $PSScriptRoot $svc.Path

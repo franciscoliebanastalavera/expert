@@ -1,5 +1,4 @@
-import { CapDonutSegment } from '@capitalflow/shared-ui/lib/cap-donut-chart/cap-donut-chart.types';
-import { CapTrendSeries } from '@capitalflow/shared-ui/lib/cap-trend-chart/cap-trend-chart.types';
+import { CapDonutSegment, CapTrendSeries } from '@capitalflow/shared-ui';
 
 export const HOME_SUMMARY_KPI_VALUES = {
   BALANCE: '12.500 €',

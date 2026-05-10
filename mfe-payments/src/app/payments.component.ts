@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CapMetricCardComponent } from '@capitalflow/shared-ui/lib/cap-metric-card/cap-metric-card.component';
-import { CapTableComponent } from '@capitalflow/shared-ui/lib/cap-table/cap-table.component';
-import { CapCellTemplateDirective } from '@capitalflow/shared-ui/lib/cap-table/cap-cell-template.directive';
-import { CapStatusBadgeComponent } from '@capitalflow/shared-ui/lib/cap-status-badge/cap-status-badge.component';
+import {
+  CapCellTemplateDirective,
+  CapMetricCardComponent,
+  CapStatusBadgeComponent,
+  CapTableComponent,
+} from '@capitalflow/shared-ui';
 import { Payment, PaymentStatus } from './payments.types';
 import {
   AMOUNT_CURRENCY_SUFFIX,

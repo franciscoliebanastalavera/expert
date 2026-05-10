@@ -11,8 +11,7 @@
   ],
   "include": [
     "src/**/*.d.ts",
-    "src/**/*.ts",
-    "../shared-ui/src/public-api-source.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",

@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CapMetricCardComponent } from '@capitalflow/shared-ui/lib/cap-metric-card/cap-metric-card.component';
-import { CapTableComponent } from '@capitalflow/shared-ui/lib/cap-table/cap-table.component';
-import { CapStatusBadgeComponent } from '@capitalflow/shared-ui/lib/cap-status-badge/cap-status-badge.component';
+import {
+  CapMetricCardComponent,
+  CapStatusBadgeComponent,
+  CapTableComponent,
+} from '@capitalflow/shared-ui';
 import { PaymentsComponent } from './payments.component';
 import { PaymentStatus } from './payments.types';
 import {

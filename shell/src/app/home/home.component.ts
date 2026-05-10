@@ -4,11 +4,14 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { combineLatest, map } from 'rxjs';
-import { CapInfoCardComponent, CapStatCardComponent } from '@capitalflow/shared-ui';
-import { CapDonutChartComponent } from '@capitalflow/shared-ui/lib/cap-donut-chart/cap-donut-chart.component';
-import { CapDonutSegment } from '@capitalflow/shared-ui/lib/cap-donut-chart/cap-donut-chart.types';
-import { CapTrendChartComponent } from '@capitalflow/shared-ui/lib/cap-trend-chart/cap-trend-chart.component';
-import { CapTrendSeries } from '@capitalflow/shared-ui/lib/cap-trend-chart/cap-trend-chart.types';
+import {
+  CapDonutChartComponent,
+  CapDonutSegment,
+  CapInfoCardComponent,
+  CapStatCardComponent,
+  CapTrendChartComponent,
+  CapTrendSeries,
+} from '@capitalflow/shared-ui';
 import {
   HOME_DONUT_SEGMENTS,
   HOME_QUICK_ACCESS_CARDS,

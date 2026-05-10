@@ -1,5 +1,5 @@
 import { Payment, PaymentStatus, PaymentStatusKind } from './payments.types';
-import { CapTableColumn } from '@capitalflow/shared-ui/lib/cap-table/cap-table.types';
+import { CapTableColumn } from '@capitalflow/shared-ui';
 
 export const PAYMENT_STATUS_LABEL: Record<PaymentStatus, string> = {
   [PaymentStatus.Approved]: 'Aprobado',
