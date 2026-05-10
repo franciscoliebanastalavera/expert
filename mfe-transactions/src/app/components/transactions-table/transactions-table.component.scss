@@ -2,7 +2,7 @@
   .transactions-grid__cell--id { width: 3.75rem; flex-shrink: 0; }
   .transactions-grid__cell--fecha { width: 5.9375rem; flex-shrink: 0; }
   .transactions-grid__cell--tipo { width: 10rem; flex-shrink: 0; }
-  .transactions-grid__cell--desc { flex: 1; min-width: 11.25rem; }
+  .transactions-grid__cell--desc { flex: 1 0 11.25rem; min-width: 11.25rem; }
   .transactions-grid__cell--iban {
     width: 13.75rem;
     flex-shrink: 0;
@@ -14,7 +14,7 @@
     white-space: nowrap;
   }
   .transactions-grid__cell--estado { width: 6.875rem; flex-shrink: 0; }
-  .transactions-grid__cell--cat { width: 7.5rem; flex-shrink: 0; }
+  .transactions-grid__cell--cat { width: 7.5rem; flex-shrink: 0; padding-right: 1.6rem; }
 }
 
 .transactions-grid__iban {
