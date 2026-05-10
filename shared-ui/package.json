@@ -3,12 +3,12 @@
   "version": "1.1.0",
   "description": "Shared component library for CapitalFlow microfrontends",
   "peerDependencies": {
-    "@angular/cdk": "^18.0.0",
-    "@angular/common": "^18.0.0",
-    "@angular/core": "^18.0.0",
-    "@angular/forms": "^18.0.0",
-    "@angular/platform-browser": "^18.0.0",
-    "@angular/router": "^18.0.0"
+    "@angular/cdk": ">=17.0.0",
+    "@angular/common": ">=17.0.0",
+    "@angular/core": ">=17.0.0",
+    "@angular/forms": ">=17.0.0",
+    "@angular/platform-browser": ">=17.0.0",
+    "@angular/router": ">=17.0.0"
   },
   "dependencies": {
     "dompurify": "^3.0.0"
