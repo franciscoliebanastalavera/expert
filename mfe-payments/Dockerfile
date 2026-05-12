@@ -10,6 +10,8 @@ RUN cd mfe-payments && npm ci
 COPY shared-ui ./shared-ui
 COPY mfe-payments ./mfe-payments
 
+RUN cd shared-ui && npm run build
+
 WORKDIR /app/mfe-payments
 RUN npm run build
 
