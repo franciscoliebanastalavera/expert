@@ -12,11 +12,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AlignVariant } from '../core/types/components.types';
 import { CapModalComponent } from '../cap-modal/cap-modal.component';
+import { SafeHtmlPipe } from '../safe-html/safe-html.pipe';
 
 @Component({
   selector: 'cap-tooltip',
   standalone: true,
-  imports: [CommonModule, CapModalComponent],
+  imports: [CommonModule, CapModalComponent, SafeHtmlPipe],
   templateUrl: './cap-tooltip.component.html',
   styleUrl: './cap-tooltip.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
