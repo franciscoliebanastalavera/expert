@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="ie11-banner.css">
 </head>
 <body>
-  <div class="cap-legacy-banner" id="cap-legacy-banner" hidden role="alert" aria-live="assertive">
+  <div class="cap-legacy-banner" id="cap-legacy-banner" hidden role="alertdialog" aria-modal="true" aria-labelledby="cap-legacy-banner-title">
     <div class="cap-legacy-banner__inner">
-      <strong>Navegador no soportado · Browser not supported</strong>
-      <p lang="es">CapitalFlow requiere un navegador moderno. Para acceso desde Internet Explorer contacte con su administrador para conectar al portal legacy.</p>
-      <p lang="en">CapitalFlow requires a modern browser. For Internet Explorer access, contact your administrator for the legacy portal.</p>
+      <h1 class="cap-legacy-banner__title" id="cap-legacy-banner-title" lang="es">Tu navegador no es compatible con CapitalFlow</h1>
+      <p class="cap-legacy-banner__text" lang="es">CapitalFlow requiere un navegador moderno. Para continuar con tus operaciones de tesorería desde Internet Explorer, accede al portal legacy.</p>
+      <p class="cap-legacy-banner__text" lang="en">CapitalFlow requires a modern browser. Internet Explorer users must continue from the legacy portal.</p>
+      <a class="cap-legacy-banner__button" href="https://legacy.capitalflow.example.com">Ir al portal legacy</a>
     </div>
   </div>
   <script src="ie11-banner.js"></script>
