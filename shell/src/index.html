@@ -7,18 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="CapitalFlow — Treasury and corporate banking dashboard for SMEs. Real-time financial overview, payments, analytics and compliance.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232a85c4'/><path d='M10 16.5l3-3 2 2 4-4 3 3' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
-  <link rel="stylesheet" href="ie11-banner.css">
+  <link rel="stylesheet" href="cap-modal-legacy.css">
 </head>
 <body>
-  <div class="cap-legacy-banner" id="cap-legacy-banner" hidden role="alertdialog" aria-modal="true" aria-labelledby="cap-legacy-banner-title">
-    <div class="cap-legacy-banner__inner">
-      <h1 class="cap-legacy-banner__title" id="cap-legacy-banner-title" lang="es">Tu navegador no es compatible con CapitalFlow</h1>
-      <p class="cap-legacy-banner__text" lang="es">CapitalFlow requiere un navegador moderno. Para continuar con tus operaciones de tesorería desde Internet Explorer, accede al portal legacy.</p>
-      <p class="cap-legacy-banner__text" lang="en">CapitalFlow requires a modern browser. Internet Explorer users must continue from the legacy portal.</p>
-      <a class="cap-legacy-banner__button" href="https://legacy.capitalflow.example.com">Ir al portal legacy</a>
+  <div class="cap-modal-legacy" id="cap-modal-legacy" hidden role="alertdialog" aria-modal="true" aria-labelledby="cap-modal-legacy-title">
+    <div class="cap-modal-legacy__inner">
+      <h1 class="cap-modal-legacy__title" id="cap-modal-legacy-title" lang="es">Tu navegador no es compatible con CapitalFlow</h1>
+      <p class="cap-modal-legacy__text" lang="es">CapitalFlow requiere un navegador moderno. Actualiza a la última versión de Chrome, Edge, Firefox o Safari para continuar.</p>
+      <p class="cap-modal-legacy__text" lang="en">CapitalFlow requires a modern browser. Update to the latest version of Chrome, Edge, Firefox or Safari to continue.</p>
     </div>
   </div>
-  <script src="ie11-banner.js"></script>
+  <script src="cap-modal-legacy.js"></script>
   <app-root></app-root>
 </body>
 </html>

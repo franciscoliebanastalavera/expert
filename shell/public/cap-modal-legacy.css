@@ -1,0 +1,44 @@
+.cap-modal-legacy {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.95);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-y: auto;
+}
+.cap-modal-legacy[hidden] { display: none !important; }
+.cap-modal-legacy__inner {
+  max-width: 32rem;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  background: #1e293b;
+  border-radius: 0.75rem;
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+.cap-modal-legacy__title {
+  margin: 0 0 1rem 0;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.cap-modal-legacy__text {
+  margin: 0 0 1rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+}
+.cap-modal-legacy__text:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 36em) {
+  .cap-modal-legacy { padding: 1rem; }
+  .cap-modal-legacy__inner { padding: 1.75rem 1.25rem; }
+  .cap-modal-legacy__title { font-size: 1.1875rem; }
+  .cap-modal-legacy__text { font-size: 0.875rem; }
+}
