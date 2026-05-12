@@ -5,5 +5,5 @@ test('transactions Angular microfrontend renders through its real custom element
 
   const host = page.locator('mfe-transactions');
   await expect(host).toBeVisible();
-  await expect(page.getByText('Transacciones')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Transacciones' })).toBeVisible();
 });

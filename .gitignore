@@ -30,3 +30,7 @@ Thumbs.db
 # Estado del arranque local sin Docker (start-local.ps1)
 .local-dev.pids
 .local-dev-logs/
+
+# Playwright e2e artifacts
+test-results/
+playwright-report/
