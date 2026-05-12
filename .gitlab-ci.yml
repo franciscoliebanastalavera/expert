@@ -12,6 +12,85 @@ variables:
   DOCKER_DRIVER: overlay2
   NODE_VERSION: "20"
 
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS == null && $CI_PIPELINE_SOURCE != "merge_request_event"'
+
+.shared-ui-paths: &shared-ui-paths
+  - shared-ui/**/*
+  - shell/**/*
+  - .gitlab-ci.yml
+
+.shell-paths: &shell-paths
+  - shell/**/*
+  - shared-ui/**/*
+  - .gitlab-ci.yml
+  - docker-compose.yml
+
+.mfe-analytics-paths: &mfe-analytics-paths
+  - mfe-analytics-react/**/*
+  - shared-ui/**/*
+  - shell/**/*
+  - .gitlab-ci.yml
+
+.mfe-payments-paths: &mfe-payments-paths
+  - mfe-payments/**/*
+  - shared-ui/**/*
+  - shell/**/*
+  - .gitlab-ci.yml
+
+.mfe-transactions-paths: &mfe-transactions-paths
+  - mfe-transactions/**/*
+  - shared-ui/**/*
+  - shell/**/*
+  - .gitlab-ci.yml
+
+.rules-shared-ui: &rules-shared-ui
+  - if: '$CI_COMMIT_BRANCH == "main"'
+  - changes: *shared-ui-paths
+
+.rules-shell: &rules-shell
+  - if: '$CI_COMMIT_BRANCH == "main"'
+  - changes: *shell-paths
+
+.rules-mfe-analytics: &rules-mfe-analytics
+  - if: '$CI_COMMIT_BRANCH == "main"'
+  - changes: *mfe-analytics-paths
+
+.rules-mfe-payments: &rules-mfe-payments
+  - if: '$CI_COMMIT_BRANCH == "main"'
+  - changes: *mfe-payments-paths
+
+.rules-mfe-transactions: &rules-mfe-transactions
+  - if: '$CI_COMMIT_BRANCH == "main"'
+  - changes: *mfe-transactions-paths
+
+.deploy-rules-shell: &deploy-rules-shell
+  - if: '$CI_COMMIT_BRANCH == "main"'
+    when: manual
+  - changes: *shell-paths
+    when: manual
+
+.deploy-rules-mfe-analytics: &deploy-rules-mfe-analytics
+  - if: '$CI_COMMIT_BRANCH == "main"'
+    when: manual
+  - changes: *mfe-analytics-paths
+    when: manual
+
+.deploy-rules-mfe-payments: &deploy-rules-mfe-payments
+  - if: '$CI_COMMIT_BRANCH == "main"'
+    when: manual
+  - changes: *mfe-payments-paths
+    when: manual
+
+.deploy-rules-mfe-transactions: &deploy-rules-mfe-transactions
+  - if: '$CI_COMMIT_BRANCH == "main"'
+    when: manual
+  - changes: *mfe-transactions-paths
+    when: manual
+
 .test_chrome_template:
   image: node:20-alpine
   before_script:
@@ -33,10 +112,7 @@ build:shared-ui:
     paths:
       - shared-ui/dist/
     expire_in: 1 hour
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shared-ui/**/*
+  rules: *rules-shared-ui
 
 build:shell:
   stage: build
@@ -51,11 +127,7 @@ build:shell:
     paths:
       - shell/dist/
     expire_in: 1 week
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shell/**/*
-        - shared-ui/**/*
+  rules: *rules-shell
 
 build:mfe-analytics:
   stage: build
@@ -68,10 +140,7 @@ build:mfe-analytics:
     paths:
       - mfe-analytics-react/dist/
     expire_in: 1 week
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-analytics-react/**/*
+  rules: *rules-mfe-analytics
 
 build:mfe-payments:
   stage: build
@@ -86,11 +155,7 @@ build:mfe-payments:
     paths:
       - mfe-payments/dist/
     expire_in: 1 week
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-payments/**/*
-        - shared-ui/**/*
+  rules: *rules-mfe-payments
 
 build:mfe-transactions:
   stage: build
@@ -105,11 +170,7 @@ build:mfe-transactions:
     paths:
       - mfe-transactions/dist/
     expire_in: 1 week
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-transactions/**/*
-        - shared-ui/**/*
+  rules: *rules-mfe-transactions
 
 # ============================================================
 # STAGE: TESTS
@@ -122,10 +183,7 @@ test:shared-ui:
     - cd shared-ui
     - npm install --legacy-peer-deps
     - npm test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shared-ui/**/*
+  rules: *rules-shared-ui
 
 test:shell:
   stage: test
@@ -136,11 +194,7 @@ test:shell:
     - cd shell
     - npm install
     - npm test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shell/**/*
-        - shared-ui/**/*
+  rules: *rules-shell
 
 test:mfe-payments:
   stage: test
@@ -151,11 +205,7 @@ test:mfe-payments:
     - cd mfe-payments
     - npm install
     - npm test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-payments/**/*
-        - shared-ui/**/*
+  rules: *rules-mfe-payments
 
 test:mfe-transactions:
   stage: test
@@ -166,11 +216,7 @@ test:mfe-transactions:
     - cd mfe-transactions
     - npm install
     - npm test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-transactions/**/*
-        - shared-ui/**/*
+  rules: *rules-mfe-transactions
 
 test:mfe-analytics:
   stage: test
@@ -179,10 +225,7 @@ test:mfe-analytics:
     - cd mfe-analytics-react
     - npm install
     - npm test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-analytics-react/**/*
+  rules: *rules-mfe-analytics
 
 # ============================================================
 # STAGE: DOCKER IMAGE BUILD
@@ -201,11 +244,7 @@ docker:shell:
     - echo "Docker build skipped in CI - no registry configured"
   needs:
     - build:shell
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - shell/**/*
-        - shared-ui/**/*
+  rules: *rules-shell
 
 # === MOCK STAGE ===
 # Intentionally a mock for the evaluation environment.
@@ -220,10 +259,7 @@ docker:mfe-analytics:
     - echo "Docker build skipped in CI - no registry configured"
   needs:
     - build:mfe-analytics
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-analytics-react/**/*
+  rules: *rules-mfe-analytics
 
 # === MOCK STAGE ===
 # Intentionally a mock for the evaluation environment.
@@ -238,11 +274,7 @@ docker:mfe-payments:
     - echo "Docker build skipped in CI - no registry configured"
   needs:
     - build:mfe-payments
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-payments/**/*
-        - shared-ui/**/*
+  rules: *rules-mfe-payments
 
 # === MOCK STAGE ===
 # Intentionally a mock for the evaluation environment.
@@ -257,11 +289,7 @@ docker:mfe-transactions:
     - echo "Docker build skipped in CI - no registry configured"
   needs:
     - build:mfe-transactions
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - changes:
-        - mfe-transactions/**/*
-        - shared-ui/**/*
+  rules: *rules-mfe-transactions
 
 # ============================================================
 # STAGE: DEPLOYMENT
@@ -281,13 +309,7 @@ deploy:shell:
     - echo "Shell deployed successfully"
   needs:
     - docker:shell
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: manual
-    - changes:
-        - shell/**/*
-        - shared-ui/**/*
-      when: manual
+  rules: *deploy-rules-shell
   environment:
     name: production
     url: https://capitalflow.example.com
@@ -306,12 +328,7 @@ deploy:mfe-analytics:
     - echo "MFE Analytics deployed successfully"
   needs:
     - docker:mfe-analytics
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: manual
-    - changes:
-        - mfe-analytics-react/**/*
-      when: manual
+  rules: *deploy-rules-mfe-analytics
   environment:
     name: production
     url: https://analytics.capitalflow.example.com
@@ -330,13 +347,7 @@ deploy:mfe-payments:
     - echo "MFE Payments deployed successfully"
   needs:
     - docker:mfe-payments
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: manual
-    - changes:
-        - mfe-payments/**/*
-        - shared-ui/**/*
-      when: manual
+  rules: *deploy-rules-mfe-payments
   environment:
     name: production
     url: https://payments.capitalflow.example.com
@@ -355,13 +366,7 @@ deploy:mfe-transactions:
     - echo "MFE Transactions deployed successfully"
   needs:
     - docker:mfe-transactions
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: manual
-    - changes:
-        - mfe-transactions/**/*
-        - shared-ui/**/*
-      when: manual
+  rules: *deploy-rules-mfe-transactions
   environment:
     name: production
     url: https://transactions.capitalflow.example.com
