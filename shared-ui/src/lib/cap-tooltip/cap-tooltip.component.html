@@ -12,9 +12,9 @@
         }"
       >
         @if (titleTooltip()) {
-          <p class="title" [innerHTML]="titleTooltip()"></p>
+          <p class="title" [innerHTML]="titleTooltip() | safeHtml"></p>
         }
-        <p [innerHTML]="textTooltip()"></p>
+        <p [innerHTML]="textTooltip() | safeHtml"></p>
       </div>
       <div
         class="cap-tooltip__desktop__triangle"
@@ -39,9 +39,9 @@
       >
         <div class="container__modal">
           @if (titleTooltip()) {
-            <p class="title__modal" [innerHTML]="titleTooltip()"></p>
+            <p class="title__modal" [innerHTML]="titleTooltip() | safeHtml"></p>
           }
-          <p class="text" [innerHTML]="textTooltip()"></p>
+          <p class="text" [innerHTML]="textTooltip() | safeHtml"></p>
         </div>
       </cap-modal>
     </div>

@@ -10,6 +10,8 @@ RUN cd shell && npm ci
 COPY shared-ui ./shared-ui
 COPY shell ./shell
 
+RUN cd shared-ui && npm run build
+
 WORKDIR /app/shell
 RUN npx ng build --configuration production
 

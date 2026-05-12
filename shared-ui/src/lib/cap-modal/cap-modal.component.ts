@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  effect,
   HostListener,
+  inject,
   input,
   model,
   output,
@@ -18,6 +21,8 @@ import { CapButtonComponent } from '../cap-button/cap-button.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CapModalComponent {
+  private static openModalCount = 0;
+
   readonly showModal = model<boolean>(false);
   readonly size = input<'small' | 'large' | 'extra-large' | 'standard'>('standard');
   readonly timeModalOpen = input<number | undefined>(undefined);
@@ -36,9 +41,26 @@ export class CapModalComponent {
   readonly closeModal = output<boolean>();
   readonly confirm = output<boolean>();
 
-  ngOnChanges(): void {
-    this.setTimeModalOpen();
-    this.blockBodyScroll();
+  private wasOpen = false;
+
+  constructor() {
+    const destroyRef = inject(DestroyRef);
+
+    effect(() => {
+      const isOpen = this.showModal();
+      if (isOpen === this.wasOpen) {
+        return;
+      }
+      this.wasOpen = isOpen;
+      this.setTimeModalOpen();
+      this.applyBodyScrollLock(isOpen);
+    });
+
+    destroyRef.onDestroy(() => {
+      if (this.wasOpen) {
+        this.applyBodyScrollLock(false);
+      }
+    });
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -61,7 +83,6 @@ export class CapModalComponent {
 
   close(): void {
     this.closeModal.emit(false);
-    this.blockBodyScroll();
   }
 
   handlePrimaryButtonClick(): void {
@@ -77,9 +98,17 @@ export class CapModalComponent {
     }
   }
 
-  blockBodyScroll(): void {
-    this.showModal()
-      ? (document.body.style.overflow = 'hidden')
-      : (document.body.style.overflow = 'auto');
+  private applyBodyScrollLock(opening: boolean): void {
+    if (opening) {
+      CapModalComponent.openModalCount++;
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    if (CapModalComponent.openModalCount > 0) {
+      CapModalComponent.openModalCount--;
+    }
+    if (CapModalComponent.openModalCount === 0) {
+      document.body.style.overflow = 'auto';
+    }
   }
 }
