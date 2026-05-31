@@ -5,5 +5,6 @@ test('payments Angular microfrontend renders through its real custom element', a
 
   const host = page.locator('mfe-payments');
   await expect(host).toBeVisible();
-  await expect(page.getByText('Pagos Internacionales')).toBeVisible();
+  // The MFE follows the shell language (English by default); switching is covered separately.
+  await expect(page.getByRole('heading', { name: 'International Payments' })).toBeVisible();
 });
