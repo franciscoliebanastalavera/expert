@@ -1,4 +1,21 @@
-# CapitalFlow
+<p align="center">
+  <img src="docs/img/01-hero.png" width="100%" alt="CapitalFlow" />
+</p>
+
+<h1 align="center">CapitalFlow</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Angular-18-DD0031?logo=angular&logoColor=white" alt="Angular 18" />
+  <img src="https://img.shields.io/badge/Angular-17-DD0031?logo=angular&logoColor=white" alt="Angular 17" />
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React 18" />
+  <img src="https://img.shields.io/badge/Module%20Federation-Webpack%205-8DD6F9" alt="Module Federation" />
+  <img src="https://img.shields.io/badge/Storybook-19%20components-FF4785?logo=storybook&logoColor=white" alt="Storybook" />
+  <img src="https://img.shields.io/badge/tests-362%20passing-2ea44f" alt="362 tests" />
+  <img src="https://img.shields.io/badge/CI-18%20jobs-2ea44f?logo=gitlab&logoColor=white" alt="GitLab CI 18 jobs" />
+  <img src="https://img.shields.io/badge/Docker-multistage-2496ED?logo=docker&logoColor=white" alt="Docker multistage" />
+</p>
+
+---
 
 CapitalFlow is a practical Angular Expert evaluation project for a B2B financial
 platform. The repository demonstrates an incremental migration from a fragile
@@ -6,14 +23,32 @@ front-end monolith to a micro-frontend architecture with shared UI, security
 hardening, performance controls, automated tests, and Docker-based local
 deployment.
 
+## Documentation
+
+📄 **[Read the full technical proposal (PDF)](docs/CapitalFlow_Propuesta_Tecnica_v9.pdf)** — 27-page architecture, security and migration plan covering the 5-phase roadmap, 11 audit findings, and supporting evidence.
+
+## Architecture
+
+<p align="center">
+  <img src="docs/img/02-architecture.png" width="100%" alt="Module Federation architecture: Shell Angular 18 host + 3 MFEs (mfe-payments A17, mfe-transactions A18, mfe-analytics React 18) + shared-ui dist artifact" />
+</p>
+
+The shell loads three remote micro frontends through Webpack Module Federation:
+`mfe-payments` (Angular 17), `mfe-transactions` (Angular 18, implements the
+**Treasury team** domain from the briefing) and `mfe-analytics-react` (React 18
+isolated through Custom Element + Shadow DOM). All four Angular surfaces consume
+`@capitalflow/shared-ui` as a compiled `dist` artifact (Angular Package Format).
+
 ## Quick start (clone fresh)
 
-`shared-ui` is consumed by the Angular projects as a `dist` artifact (path mapped to `../shared-ui/dist/`). On a fresh clone the dist does not exist yet, so run the bootstrap script first:
+`shared-ui` is consumed by the Angular projects as a `dist` artifact (path mapped
+to `../shared-ui/dist`). On a fresh clone the dist does not exist yet, so run the
+bootstrap script first to install dependencies and produce the artifact:
 
 ```powershell
 # Windows
 .\setup.ps1
-.\start-local.ps1
+.\start-local.ps1      # or: docker compose up -d --build
 ```
 
 ```bash
@@ -22,12 +57,16 @@ deployment.
 docker compose up -d --build
 ```
 
-`setup.{ps1,sh}` installs every project's `node_modules` and produces `shared-ui/dist`. Linux/Mac launch scripts are intentionally not provided — use Docker.
+`setup.{ps1,sh}` installs every project's `node_modules` and builds
+`shared-ui/dist`. The Linux/Mac flow targets Docker only; the PowerShell launcher
+is the Windows convenience for running the dev servers natively.
 
 ## Current Stack
 
 - Shell: Angular 18 standalone application, Module Federation host, OnPush, Signals.
-- Transactions MFE: Angular 18 remote exposed as a Web Component (transactions domain — virtual scroll grid, filters, XLSX export worker).
+- Transactions MFE: Angular 18 remote exposed as a Web Component (implements the
+  **Treasury team** domain from the briefing — folder kept as `mfe-transactions/`
+  for scaffolding reasons, rename to `mfe-treasury/` scheduled for Sprint 1).
 - Payments MFE: Angular 17 remote exposed as a Web Component.
 - Analytics MFE: React 18 remote exposed as a Web Component with Shadow DOM.
 - Shared UI: `@capitalflow/shared-ui` v1.1.0, Angular component library.
@@ -50,7 +89,7 @@ Stop the stack:
 docker compose down
 ```
 
-Service endpoints:
+Service endpoints (Docker):
 
 | Service | URL | Description |
 | --- | --- | --- |
@@ -62,15 +101,18 @@ Service endpoints:
 
 ## Local development without Docker
 
-Each project can be run standalone with npm scripts. Run them in separate terminals. The first time, run `.\setup.ps1` to install all dependencies and produce `shared-ui/dist` (the Angular consumers depend on it).
+Each project can be run standalone with npm scripts. Run them in separate
+terminals. The first time, run `.\setup.ps1` (Windows) or `./setup.sh`
+(Linux/Mac) to install dependencies and produce `shared-ui/dist`, which the
+Angular consumers depend on.
 
 ### Run all projects locally
 
 One-command launcher (Windows PowerShell):
 
 ```powershell
-.\start-local.ps1   # arranca los 5 proyectos en ventanas separadas, espera readiness y abre navegadores
-.\stop-local.ps1    # mata los procesos y libera puertos 4200/4201/4202/4203/6006
+.\start-local.ps1   # starts the 5 projects in separate windows, waits for readiness, opens browsers
+.\stop-local.ps1    # kills the processes and frees ports 4200/4201/4202/4203/6006
 ```
 
 Or run them manually in separate terminals:
@@ -82,6 +124,10 @@ Or run them manually in separate terminals:
 | mfe-payments | 4202 | `cd mfe-payments && npm run start` | http://localhost:4202 |
 | mfe-transactions | 4203 | `cd mfe-transactions && npm run start` | http://localhost:4203 |
 | shared-ui Storybook | 6006 | `cd shared-ui && npm run storybook` | http://localhost:6006 |
+
+> Ports differ between modes. Docker exposes 8081/8082/8083/8084/6007; native dev
+> servers bind to 4200/4201/4202/4203/6006. The CI pipeline and the screenshots
+> in `docs/img/` always use the Docker ports.
 
 ### Compatibility matrix: which services to run for what
 
@@ -124,11 +170,19 @@ Latest verified local result:
 
 | Project | Test runner | Count |
 | --- | --- | --- |
-| shell | Karma/Jasmine | 94 passing |
-| shared-ui | Karma/Jasmine | 150 passing |
+| shell | Karma/Jasmine | 99 passing |
+| shared-ui | Karma/Jasmine | 158 passing |
 | mfe-transactions | Karma/Jasmine | 46 passing |
 | mfe-payments | Karma/Jasmine | 25 passing |
 | mfe-analytics-react | Jest | 26 passing |
+| **Subtotal (unit)** | | **354 passing** |
+| e2e | Playwright | 8 passing |
+| **Total** | | **362 passing** |
+
+The 8 Playwright specs cover smoke tests for the shell, each MFE, the
+security demos area, plus three functional specs: transactions filter,
+XLSX export via Web Worker, and the language toggle propagation across
+the Angular shell and the React MFE.
 
 ## Monorepo Layout
 
@@ -136,7 +190,10 @@ Latest verified local result:
 expert/
   shell/
     src/app/
-      admin/                    Security audit demos
+      home/                     Dashboard (KPIs, donut + trend charts, quick links)
+      admin/                    Security audit demos (WYSIWYG, PDF, uploads, comments)
+      search-demo/              Reflected-search XSS remediation demo
+      design-system/            Component catalogue page consumed from shared-ui dist
       analytics-wrapper/        React MFE host wrapper
       payments-wrapper/         Angular 17 MFE host wrapper
       transactions-wrapper/     Angular 18 MFE host wrapper
@@ -148,34 +205,44 @@ expert/
 
   mfe-transactions/
     src/
-      bootstrap.ts             Registers <mfe-transactions>
+      bootstrap.ts              Registers <mfe-transactions>
       app/
-        components/            transactions-stats, transactions-table
-        services/              transactions, export, transactions-metrics
-        models/                transaction, transaction-status-kind, transactions
-        utils/                 format-amount
-        workers/               XLSX export worker
+        transactions.component.*   Container with filters + grid
+        components/                transactions-stats, transactions-table
+        services/                  transactions, export, transactions-metrics
+        models/                    transaction, transaction-status-kind, transactions
+        utils/                     format-amount
+        workers/                   XLSX export worker
     Dockerfile
     nginx.conf
     webpack.config.js
+    webpack.test.config.js
 
   mfe-analytics-react/
     src/
       App.tsx
-      web-component.tsx        Registers <mfe-analytics>
+      web-component.tsx         Registers <mfe-analytics>
     Dockerfile
     nginx.conf
     webpack.config.js
 
   mfe-payments/
     src/
-      bootstrap.ts             Registers <mfe-payments>
+      bootstrap.ts              Registers <mfe-payments>
+      app/
+        payments.component.*    Container with reactive form + listing
+        payments.constants.ts
+        payments.types.ts
     Dockerfile
     nginx.conf
     webpack.config.js
+    webpack.test.config.js
 
   shared-ui/
-    src/lib/                   CapitalFlow component library
+    src/
+      lib/                      CapitalFlow component library (19 components)
+      stories/                  Storybook stories
+      testing/                  Shared test mocks
     .storybook/
     Dockerfile
     ng-package.json
@@ -193,16 +260,33 @@ The shell exposes a security demo area at:
 http://localhost:8081/admin
 ```
 
-Current demos cover:
+The table below maps every vulnerability from the briefing's external audit
+report to its concrete remediation in this repository:
 
-- WYSIWYG template sanitization with Quill and DOMPurify.
+| # | Vulnerability (briefing) | Mitigation | Status |
+| --- | --- | --- | --- |
+| 1 | XSS in transaction comments | Angular interpolation auto-escape; payloads render as literal text | Demo at `/admin/comments` |
+| 2 | iframe without protocol validation (`javascript:`) | URL protocol + host allowlist | Demo at `/admin/reports` |
+| 3 | Executable filenames on upload | `{{ }}` interpolation + MIME validation | Demo at `/admin/documents` |
+| 4 | Reflected XSS in global search | `[innerText]` instead of `[innerHTML]` | Demo at `/search-demo` |
+| 5 | WYSIWYG accepts `<script>` | DOMPurify on save (Quill + sanitiser pipe) | Demo at `/admin/templates` |
+| 6 | No Content Security Policy | Strict CSP in `shell/nginx.conf` | Implemented |
+| 7 | Cookies missing `HttpOnly` / `Secure` / `SameSite` | Backend cookie policy required | Sprint 1 backend |
+| 8 | No HSTS | `Strict-Transport-Security: max-age=31536000` | Implemented |
+| 9 | No `X-Frame-Options` / `X-Content-Type-Options` / `Referrer-Policy` | All three declared in nginx | Implemented |
+| 10 | No `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | Implemented |
+| 11 | No external SAST/DAST audit | `npm audit` + `gitleaks` + Trivy in CI | Sprint 2 |
+
+**9 of 11 vulnerabilities are implemented and demonstrable live.** The remaining
+two (HttpOnly cookies and SAST/DAST in CI) require backend coordination and are
+scheduled for Sprints 1 and 2 respectively. The demos cover:
+
+- Transaction comments rendered through Angular interpolation (auto-escape).
+- WYSIWYG template sanitisation with Quill and DOMPurify.
 - PDF report URL validation before iframe usage.
 - Document filename rendering as text instead of executable HTML.
 - Reflected search payload rendering through text binding.
 - CSP and security headers in nginx for the shell.
-
-These demos map the exam briefing vulnerabilities to concrete implementation
-controls and tests.
 
 ## Shared UI Library
 
@@ -213,16 +297,15 @@ metric-card, tooltip, icon, donut-chart, trend-chart), 2 pipes (`iban`,
 `safeHtml`), 2 directives (`appClickOutside`, `capCellTemplate`) and a
 `DynamicCssService` helper.
 
-Storybook is available through Docker at:
+Storybook is available at:
 
-```text
-http://localhost:6007
-```
+- `http://localhost:6007` when launched via Docker (`docker compose up`).
+- `http://localhost:6006` when launched locally (`cd shared-ui && npm run storybook`).
 
 ### Library philosophy
 
 The library adapts to the application, not the other way around. Operating
-rules applied during the consolidation pass (Batches 0-6):
+rules applied during component consolidation:
 
 1. App component duplicated in the library → modify library to match the app
    visual identity, then replace the local copy.
@@ -233,57 +316,44 @@ rules applied during the consolidation pass (Batches 0-6):
 4. Custom app component without library equivalent → add it to the library
    only if it is genuinely reusable.
 
-Concrete results of that pass: `cap-input` gained a `minimal` variant plus
-`size` and `fontFamily` knobs to fit the search, PDF and transactions
-filter inputs without changing pixels; `cap-tabs` gained a `card` variant
-and originally backed the home dashboard tabs; `cap-footer` is wired to
-the global layout; the `iban` pipe gained a no-control overload and
-replaced an inline grouping helper; the `safeHtml` pipe replaced a manual
-`DomSanitizer` call in the WYSIWYG editor; five unused components, the
-legacy `modal/`, and the dead `includes` pipe were removed; two custom SVG
-charts (`cap-donut-chart`, `cap-trend-chart`) were added to power the
-redesigned home dashboard, which now exposes KPIs, monthly trend and
-expense breakdown plus quick-access cards instead of a local operations
-table; the operations domain itself was extracted into a dedicated
-Angular 18 MFE (`mfe-transactions`).
-
 `cap-tooltip`, `cap-modal`, the `appClickOutside` directive and
 `DynamicCssService` are kept as static dependencies of `cap-input`'s
 standard variant. They are infrastructure for the rich form fields the
-financial workflows will require.
+financial workflows require.
 
-### Library entry points
+### Consumption as a `dist` artifact
 
-The library ships two TypeScript entry files that look identical but serve
-different consumers:
+Angular consumers (shell, mfe-payments, mfe-transactions) do **not** import the
+library from source. Each `tsconfig.json` path-maps the package name to the
+`ng-packagr` build output:
 
-| Entry | Used by | Resolution |
-| --- | --- | --- |
-| `public-api.ts` | ng-packagr (APF build, npm publish) | full inventory |
-| `public-api-source.ts` | shell + payments + transactions via path mapping | slim inventory |
-
-Path mapping is configured in `shell/tsconfig.json`:
-
-```text
-@capitalflow/shared-ui          -> ../shared-ui/src/public-api-source.ts
-@capitalflow/shared-ui/lib/*    -> ../shared-ui/src/lib/*
+```json
+{
+  "paths": {
+    "@capitalflow/shared-ui": ["../shared-ui/dist"]
+  }
+}
 ```
 
-The slim entry exists to keep eager re-exports out of the shell's initial
-chunk. Pieces that pull heavyweight side-effect dependencies (for example
-`SafeHtmlPipe`, which loads DOMPurify at module init) are consumed via the
-deep `@capitalflow/shared-ui/lib/...` form so they live inside the lazy
-chunk that uses them.
+This forces consumers to go through the published Angular Package Format
+bundle, which is the same artifact a future `npm publish` would ship. The
+APF entry point is configured in `shared-ui/ng-package.json` as
+`src/public-api.ts`.
+
+Practical consequence: any change to `shared-ui` requires rebuilding its
+`dist/` (`cd shared-ui && npm run build`) before the consumers pick it up.
+The setup and CI scripts do this automatically; the `start-local.ps1` launcher
+runs the build once before bringing the dev servers up.
 
 ### Worker isolation rule
 
-The XLSX export worker now lives inside `mfe-transactions`. When a project
-adds web workers via Angular CLI, its `tsconfig.worker.json` compiles
-`*.worker.ts` with `lib: ["ES2022", "webworker"]` (no DOM types). Workers
-must import their types via direct file paths, not via index aggregators,
-otherwise the program graph reaches `cap-header` and similar DOM-bound
-components and fails compilation with `Cannot find name 'HTMLElement'`.
-Example from `mfe-transactions/src/app/workers/export.worker.ts`:
+The XLSX export worker lives inside `mfe-transactions`. When a project adds
+web workers via Angular CLI, its `tsconfig.worker.json` compiles `*.worker.ts`
+with `lib: ["ES2022", "webworker"]` (no DOM types). Workers must import their
+types via direct file paths, not via index aggregators, otherwise the program
+graph reaches `cap-header` and similar DOM-bound components and fails
+compilation with `Cannot find name 'HTMLElement'`. Example from
+`mfe-transactions/src/app/workers/export.worker.ts`:
 
 ```ts
 import type { Transaction } from '../models/transaction.model';
@@ -309,7 +379,8 @@ import type { Transaction } from '../models/transaction.model';
   load via Module Federation through the same shell-side wrapper pattern
   (`MfeWrapperBaseComponent` in `shell/src/app/core/components/mfe-wrapper`).
 - Shared UI and design tokens provide a single user experience across Angular
-  and React surfaces.
+  and React surfaces. Tokens are CSS Custom Properties and traverse the React
+  MFE's Shadow DOM boundary.
 - Large datasets use CDK virtual scroll inside `mfe-transactions`.
 - XLSX generation runs in a Web Worker inside `mfe-transactions` to avoid
   blocking the UI thread.
@@ -320,10 +391,58 @@ import type { Transaction } from '../models/transaction.model';
 
 ## CI/CD
 
-`.gitlab-ci.yml` defines separate install, build, test, docker, and deploy
-stages per project. Build and test stages are executable. Docker and deployment
-jobs are intentionally mocked for the evaluation environment and document where
-production would invoke registry publishing and cluster deployment.
+`.gitlab-ci.yml` declares four stages — `build`, `test`, `docker`, `deploy` —
+with 18 jobs total: one `build` and one `test` per project (5 + 5), one
+`docker` image per deployable surface (4), and one manual `deploy` per
+deployable surface (4). `build:shared-ui` runs first; the four
+shell/MFE builds depend on its `dist/` artifact through `needs:`.
+
+The pipeline is **scoped per project via `rules:changes`** with DRY YAML
+anchors:
+
+| When you change... | Jobs triggered |
+| --- | --- |
+| `mfe-payments/**` | 4 (payments only) — other 7 teams not blocked |
+| `mfe-transactions/**` | 4 (transactions only) |
+| `mfe-analytics-react/**` | 4 (analytics only) |
+| `shell/**` | 18 (shell consumes all MFEs) |
+| `shared-ui/**` | 18 (cross-cutting library) |
+| `.gitlab-ci.yml` | 18 (CI validation) |
+| Push to `main` | 18 (regression safety net) |
+
+This is the exact unblocking of teams the briefing demands: a Payments
+deploy no longer freezes 7 other teams for hours.
+
+Angular projects use `@angular-builders/custom-webpack:karma` so the test
+runner can apply a dedicated `webpack.test.config.js` (which omits
+`ModuleFederationPlugin`). Karma launches Chromium with
+`ChromeHeadlessNoSandbox` to work inside the GitLab Kubernetes executor's
+container. Docker and deploy stages are templated for the evaluation
+environment and document where production would invoke registry publishing
+and cluster deployment.
+
+The 5 Docker images compile **end-to-end locally** (shared-ui dist is built
+inside each Angular MFE container before its production build), with final
+image sizes of 62-72 MB each.
+
+## Audit & hardening (pre-defense)
+
+Before submission, the repository was audited against the proposal claims.
+The following commits remediate each finding documented during the audit:
+
+| Commit | Finding | Fix |
+| --- | --- | --- |
+| `5b5da4d` | `cap-tooltip` used `[innerHTML]` without sanitisation | All 4 occurrences now go through the `safeHtml` pipe (DOMPurify + DomSanitizer) |
+| `688de94` | `cap-modal` used `ngOnChanges` which does not fire for signal changes | Refactored to `effect()` + static modal stack counter + `DestroyRef` cleanup |
+| `810b468` | `e2e/specs/security-demos.spec.ts` ended with tautological `expect(true).toBe(true)` | Rewritten with explicit `let alertFired = false` flag |
+| `8a55f35` | CSP only declared in `shell/nginx.conf`, missing from MFE nginx configs | CSP added to all three MFE nginx configs |
+| `ec5e35f` | Dockerfiles did not build `shared-ui/dist` inside the container | Added `RUN cd shared-ui && npm run build` step before each Angular MFE build |
+| `0fda0ae` | CI pipeline blocked all teams on every change | `rules:changes` per project using DRY YAML anchors |
+| `2c2e843` | e2e coverage was smoke-only | Added functional specs for filter, export and language toggle |
+| `665d056` | IE11 banner was a passive notice with a broken link to a non-existent legacy portal | Refactored to a full-screen blocking modal (`cap-modal-legacy`) with body scroll lock; legacy portal link removed (portal scoped together to Sprint 5) |
+| `8b52acc` | Security headers declared at server scope but eaten by location blocks (nginx does not merge add_header across scopes) | Repeated the full 7-header set inline in every location across the 4 nginx surfaces (Dockerfiles copy only nginx.conf, so a shared include was avoided); added Cross-Origin-Opener-Policy |
+| `2ef86cc` | Strict CSP `script-src 'self'` blocked Angular's auto-injected critical CSS `onload` handler, breaking dark mode and non-critical styles | Disabled `inlineCritical` in `shell/angular.json` (`optimization.styles.inlineCritical: false`). Strict CSP kept, ~100ms FCP optimisation traded for posture |
+| `b592d16` | nginx had no gzip directive; main.js travelled at 482 KB uncompressed flagged by Lighthouse mobile Slow 4G | Enabled gzip across the 4 nginx surfaces with comp_level 6 and a curated mime list; main.js dropped from 482 KB to 141 KB (-70.7%) |
 
 ## Production Hardening Areas
 
