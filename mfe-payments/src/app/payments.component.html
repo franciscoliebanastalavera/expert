@@ -1,7 +1,7 @@
 <section class="payments">
   <header class="payments__header">
-    <h1 class="payments__title">Pagos Internacionales</h1>
-    <p class="payments__subtitle">International Payments · MFE Angular 17</p>
+    <h1 class="payments__title">{{ t().title }}</h1>
+    <p class="payments__subtitle">{{ t().subtitle }}</p>
   </header>
 
   <div class="payments__kpis">
@@ -9,8 +9,8 @@
       [iconName]="iconVolume"
       [value]="volumeValue"
       [variation]="volumeVariation"
-      title="Volumen Pagado"
-      description="Acumulado del trimestre actual"
+      [title]="t().kpiVolumeTitle"
+      [description]="t().kpiVolumeDesc"
       [positive]="true">
     </cap-metric-card>
 
@@ -18,8 +18,8 @@
       [iconName]="iconPending"
       [value]="pendingValue"
       [variation]="pendingVariation"
-      title="Pagos Pendientes"
-      description="Operaciones en espera de aprobación"
+      [title]="t().kpiPendingTitle"
+      [description]="t().kpiPendingDesc"
       [positive]="true">
     </cap-metric-card>
 
@@ -27,29 +27,26 @@
       [iconName]="iconAvgTime"
       [value]="avgTimeValue"
       [variation]="avgTimeVariation"
-      title="Tiempo Medio"
-      description="Días promedio de procesamiento"
+      [title]="t().kpiAvgTitle"
+      [description]="t().kpiAvgDesc"
       [positive]="true">
     </cap-metric-card>
   </div>
 
   <div class="payments__table">
-    <cap-table [columns]="columns" [data]="payments" trackByKey="id">
+    <cap-table [columns]="columns()" [data]="payments" trackByKey="id">
       <ng-template capCellTemplate="amount" let-value>
         <span class="payments__amount">{{ formatAmount(value) }}</span>
       </ng-template>
       <ng-template capCellTemplate="status" let-value>
         <cap-status-badge [kind]="statusKind[asStatus(value)]">
-          {{ statusLabel[asStatus(value)] }}
+          {{ t().status[asStatus(value)] }}
         </cap-status-badge>
       </ng-template>
     </cap-table>
   </div>
 
   <footer class="payments__footer">
-    <p>
-      En fase 2 conexión con servicio Payments backend
-      (REST + WebSocket para estado en tiempo real).
-    </p>
+    <p>{{ t().footer }}</p>
   </footer>
 </section>

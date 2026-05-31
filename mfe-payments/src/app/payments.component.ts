@@ -1,9 +1,18 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ViewEncapsulation,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   CapCellTemplateDirective,
   CapMetricCardComponent,
   CapStatusBadgeComponent,
+  CapTableColumn,
   CapTableComponent,
 } from '@capitalflow/shared-ui';
 import { Payment, PaymentStatus } from './payments.types';
@@ -22,9 +31,9 @@ import {
   KPI_VOLUME_VARIATION,
   PAYMENTS_MOCK,
   PAYMENT_STATUS_KIND,
-  PAYMENT_STATUS_LABEL,
   PAYMENT_TABLE_COLUMNS,
 } from './payments.constants';
+import { PAYMENTS_I18N, PaymentsLang, detectLang } from './payments.i18n';
 
 @Component({
   selector: 'app-payments',
@@ -42,8 +51,22 @@ import {
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class PaymentsComponent {
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+
+  // Language is driven by the shell, which updates <html lang> on toggle.
+  // Same contract the analytics MFE already follows, so no shell change is needed.
+  private readonly lang = signal<PaymentsLang>(detectLang(this.document.documentElement.lang));
+  readonly t = computed(() => PAYMENTS_I18N[this.lang()]);
+
   readonly payments: readonly Payment[] = PAYMENTS_MOCK;
-  readonly columns = PAYMENT_TABLE_COLUMNS;
+  readonly columns = computed<CapTableColumn[]>(() => {
+    const labels = this.t().columns;
+    return PAYMENT_TABLE_COLUMNS.map((column) => ({
+      ...column,
+      label: labels[column.key as keyof typeof labels] ?? column.label,
+    }));
+  });
 
   readonly volumeValue = KPI_VOLUME_VALUE;
   readonly volumeVariation = KPI_VOLUME_VARIATION;
@@ -56,8 +79,15 @@ export class PaymentsComponent {
   readonly iconPending = ICON_METRIC_ALERT;
   readonly iconAvgTime = ICON_METRIC_RECONCILIATION;
 
-  readonly statusLabel = PAYMENT_STATUS_LABEL;
   readonly statusKind = PAYMENT_STATUS_KIND;
+
+  constructor() {
+    const observer = new MutationObserver(() => {
+      this.lang.set(detectLang(this.document.documentElement.lang));
+    });
+    observer.observe(this.document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    this.destroyRef.onDestroy(() => observer.disconnect());
+  }
 
   formatAmount(value: number): string {
     return `${value.toLocaleString(AMOUNT_LOCALE, {
