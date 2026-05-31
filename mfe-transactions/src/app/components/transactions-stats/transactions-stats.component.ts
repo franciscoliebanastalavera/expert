@@ -7,7 +7,8 @@ import {
   TRANSACTIONS_STATS_AMOUNT_FORMAT,
 } from '../../models';
 import { TransactionsMetricsService } from '../../services/transactions-metrics.service';
-import { TRANSACTIONS_TEXT } from '../../transactions.text';
+import { TRANSACTIONS_I18N } from '../../transactions.text';
+import { LanguageStore } from '../../i18n/language.store';
 
 @Component({
   selector: 'app-transactions-stats',
@@ -19,6 +20,7 @@ import { TRANSACTIONS_TEXT } from '../../transactions.text';
 })
 export class TransactionsStatsComponent {
   private readonly metricsService = inject(TransactionsMetricsService);
+  private readonly langStore = inject(LanguageStore);
 
   readonly datasetTotal = input<number>(TRANSACTIONS_EMPTY_STATS.total);
   readonly total = input<number>(TRANSACTIONS_EMPTY_STATS.total);
@@ -26,7 +28,9 @@ export class TransactionsStatsComponent {
   readonly expenses = input<number>(TRANSACTIONS_EMPTY_STATS.expenses);
   readonly domNodeCount = this.metricsService.domNodeCount;
   readonly lastFilterMs = this.metricsService.lastFilterMs;
-  readonly text = TRANSACTIONS_TEXT;
+  get text() {
+    return TRANSACTIONS_I18N[this.langStore.lang()];
+  }
 
   formatAmount(amount: number): string {
     return formatAmount(amount, {

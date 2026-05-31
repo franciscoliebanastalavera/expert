@@ -36,7 +36,11 @@ import {
   TransactionsFilterValues,
   TransactionsStats,
 } from './models';
-import { TRANSACTIONS_EXPORT_PHASE_LABEL, TRANSACTIONS_TEXT } from './transactions.text';
+import {
+  TRANSACTIONS_EXPORT_PHASE_LABEL_I18N,
+  TRANSACTIONS_I18N,
+} from './transactions.text';
+import { LanguageStore } from './i18n/language.store';
 
 function amountRangeValidator(control: AbstractControl): ValidationErrors | null {
   const min = control.get('importeMin')?.value;
@@ -69,6 +73,7 @@ export class TransactionsComponent {
   private readonly exportService = inject(ExportService);
   private readonly metricsService = inject(TransactionsMetricsService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly langStore = inject(LanguageStore);
 
   readonly transactions = toSignal<Transaction[] | undefined>(
     this.transactionsService.getTransactions(),
@@ -139,8 +144,12 @@ export class TransactionsComponent {
   readonly totalGastos = computed<number>(() => this.stats().expenses);
   readonly datasetTotal = computed<number>(() => this.transactions()?.length ?? 0);
   readonly exportPhase = this.exportService.exportPhase;
-  readonly text = TRANSACTIONS_TEXT;
-  readonly exportPhaseLabel = TRANSACTIONS_EXPORT_PHASE_LABEL;
+  get text() {
+    return TRANSACTIONS_I18N[this.langStore.lang()];
+  }
+  get exportPhaseLabel() {
+    return TRANSACTIONS_EXPORT_PHASE_LABEL_I18N[this.langStore.lang()];
+  }
 
   readonly exportando = signal<boolean>(false);
 

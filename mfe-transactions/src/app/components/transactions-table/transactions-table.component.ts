@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CapCellTemplateDirective,
@@ -18,18 +18,8 @@ import {
   TRANSACTIONS_GRID_COLUMNS,
   TRANSACTIONS_TABLE_CONFIG,
 } from '../../models';
-import { TRANSACTIONS_TEXT } from '../../transactions.text';
-
-const COLUMN_LABELS: readonly string[] = [
-  TRANSACTIONS_TEXT.GRID.ID,
-  TRANSACTIONS_TEXT.GRID.DATE,
-  TRANSACTIONS_TEXT.GRID.TYPE,
-  TRANSACTIONS_TEXT.GRID.DESCRIPTION,
-  TRANSACTIONS_TEXT.GRID.IBAN,
-  TRANSACTIONS_TEXT.GRID.AMOUNT,
-  TRANSACTIONS_TEXT.GRID.STATUS,
-  TRANSACTIONS_TEXT.GRID.CATEGORY,
-];
+import { TRANSACTIONS_I18N } from '../../transactions.text';
+import { LanguageStore } from '../../i18n/language.store';
 
 @Component({
   selector: 'app-transactions-table',
@@ -46,16 +36,29 @@ const COLUMN_LABELS: readonly string[] = [
   styleUrls: ['./transactions-table.component.scss'],
 })
 export class TransactionsTableComponent {
+  private readonly langStore = inject(LanguageStore);
+
   readonly transactions = input<Transaction[]>([]);
   readonly itemSize = TRANSACTIONS_TABLE_CONFIG.itemSizePx;
   readonly viewportHeight = 'min(37.5rem, calc(100dvh - 20rem))';
 
-  readonly columns = computed<CapTableColumn[]>(() =>
-    TRANSACTIONS_GRID_COLUMNS.map((column, index) => ({
+  readonly columns = computed<CapTableColumn[]>(() => {
+    const grid = TRANSACTIONS_I18N[this.langStore.lang()].GRID;
+    const labels = [
+      grid.ID,
+      grid.DATE,
+      grid.TYPE,
+      grid.DESCRIPTION,
+      grid.IBAN,
+      grid.AMOUNT,
+      grid.STATUS,
+      grid.CATEGORY,
+    ];
+    return TRANSACTIONS_GRID_COLUMNS.map((column, index) => ({
       ...column,
-      label: COLUMN_LABELS[index],
-    })),
-  );
+      label: labels[index],
+    }));
+  });
 
   formatAmount(importe: number): string {
     return formatAmount(importe, {
