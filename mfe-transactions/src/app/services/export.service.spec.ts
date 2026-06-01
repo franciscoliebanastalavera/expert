@@ -105,7 +105,7 @@ describe('ExportService', () => {
     expect(service).toBeInstanceOf(ExportService);
   });
 
-  it('spawns a Worker, posts {rows} payload and downloads the xlsx blob on success', (done) => {
+  it('spawns a Worker, posts {rows, lang} payload and downloads the xlsx blob on success', (done) => {
     const anchor = document.createElement('a');
     const clickSpy = spyOn(anchor, 'click');
     spyOn(document, 'createElement').and.returnValue(anchor);
@@ -115,7 +115,7 @@ describe('ExportService', () => {
       next: () => {
         expect(FakeWorker.instances.length).toBe(1);
         const worker = FakeWorker.instances[0];
-        expect(worker.postedMessages).toEqual([{ rows: sampleTransactions }]);
+        expect(worker.postedMessages).toEqual([{ rows: sampleTransactions, lang: 'es' }]);
         expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
         const blob = createObjectURLSpy.calls.mostRecent().args[0] as Blob;
         expect(blob.type).toContain('spreadsheetml');

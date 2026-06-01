@@ -164,7 +164,7 @@ export class TransactionsComponent {
     }
     this.exportando.set(true);
     this.exportService
-      .exportToXLSX(rows)
+      .exportToXLSX(rows, this.langStore.lang())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.exportando.set(false),
