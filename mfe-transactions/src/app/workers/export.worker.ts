@@ -1,8 +1,19 @@
 import * as ExcelJS from 'exceljs';
 import type { Transaction } from '../models/transaction.model';
+import type { TxLang } from '../i18n/lang.types';
+import {
+  CATEGORY_LABELS,
+  EXPORT_HEADERS,
+  EXPORT_SHEET_NAME,
+  EXPORT_SUBTITLE,
+  EXPORT_TITLE,
+  STATUS_LABELS,
+  TYPE_LABELS,
+} from '../i18n/enum-labels.i18n';
 
 interface ExportRequest {
   rows: Transaction[];
+  lang: TxLang;
 }
 
 interface ExportPhaseMessage {
@@ -25,11 +36,8 @@ type ExportResponse = ExportPhaseMessage | ExportSuccess | ExportFailure;
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-const SHEET_NAME = 'Transacciones';
-const REPORT_TITLE = 'CapitalFlow — Transacciones';
-const COLUMN_HEADERS = ['ID', 'Fecha', 'Tipo', 'Descripción', 'IBAN', 'Importe', 'Divisa', 'Estado', 'Categoría'];
 const COLUMN_WIDTHS = [8, 14, 22, 36, 28, 16, 8, 14, 20];
-const COLUMN_COUNT = COLUMN_HEADERS.length;
+const COLUMN_COUNT = COLUMN_WIDTHS.length;
 
 const TITLE_ROW = 1;
 const SUBTITLE_ROW = 2;
@@ -77,7 +85,7 @@ addEventListener('message', async ({ data }: MessageEvent<ExportRequest>) => {
   postPhase('preparing');
   try {
     postPhase('generating');
-    const workbook = buildWorkbook(data.rows);
+    const workbook = buildWorkbook(data.rows, data.lang);
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: XLSX_MIME });
     const success: ExportResponse = { success: true, phase: 'success', blob };
@@ -88,13 +96,16 @@ addEventListener('message', async ({ data }: MessageEvent<ExportRequest>) => {
   }
 });
 
-function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
+function buildWorkbook(rows: readonly Transaction[], lang: TxLang): ExcelJS.Workbook {
+  const reportTitle = EXPORT_TITLE[lang];
+  const columnHeaders = EXPORT_HEADERS[lang];
+
   const workbook = new ExcelJS.Workbook();
   workbook.creator = 'CapitalFlow';
   workbook.created = new Date();
-  workbook.title = REPORT_TITLE;
+  workbook.title = reportTitle;
 
-  const worksheet = workbook.addWorksheet(SHEET_NAME);
+  const worksheet = workbook.addWorksheet(EXPORT_SHEET_NAME[lang]);
 
   COLUMN_WIDTHS.forEach((width, i) => {
     worksheet.getColumn(i + 1).width = width;
@@ -102,14 +113,14 @@ function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
 
   worksheet.mergeCells(TITLE_ROW, 1, TITLE_ROW, COLUMN_COUNT);
   const titleCell = worksheet.getCell(TITLE_ROW, 1);
-  titleCell.value = REPORT_TITLE;
+  titleCell.value = reportTitle;
   titleCell.font = { name: FONT_NAME, size: 18, bold: true, color: { argb: TITLE_FG_ARGB } };
   titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
   worksheet.getRow(TITLE_ROW).height = TITLE_HEIGHT;
 
   worksheet.mergeCells(SUBTITLE_ROW, 1, SUBTITLE_ROW, COLUMN_COUNT);
   const subtitleCell = worksheet.getCell(SUBTITLE_ROW, 1);
-  subtitleCell.value = formatSubtitle(rows.length);
+  subtitleCell.value = formatSubtitle(rows.length, lang);
   subtitleCell.font = { name: FONT_NAME, size: 10, italic: true, color: { argb: SUBTITLE_FG_ARGB } };
   subtitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
   worksheet.getRow(SUBTITLE_ROW).height = SUBTITLE_HEIGHT;
@@ -117,7 +128,7 @@ function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
   worksheet.getRow(SPACER_ROW).height = SPACER_HEIGHT;
 
   const headerRow = worksheet.getRow(HEADER_ROW);
-  COLUMN_HEADERS.forEach((header, i) => {
+  columnHeaders.forEach((header, i) => {
     const cell = headerRow.getCell(i + 1);
     cell.value = header;
     cell.font = { name: FONT_NAME, bold: true, color: { argb: HEADER_FG_ARGB } };
@@ -131,7 +142,7 @@ function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
     const sheetRow = worksheet.getRow(FIRST_DATA_ROW + i);
     sheetRow.getCell(1).value = source.id;
     sheetRow.getCell(2).value = source.fecha;
-    sheetRow.getCell(3).value = source.tipo;
+    sheetRow.getCell(3).value = TYPE_LABELS[lang][source.tipo];
     sheetRow.getCell(4).value = source.descripcion;
     sheetRow.getCell(5).value = source.iban;
 
@@ -148,7 +159,7 @@ function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
     sheetRow.getCell(7).value = source.divisa;
 
     const estadoCell = sheetRow.getCell(8);
-    estadoCell.value = source.estado;
+    estadoCell.value = STATUS_LABELS[lang][source.estado];
     const estadoBg = STATUS_BG[source.estado];
     const estadoFg = STATUS_FG[source.estado];
     if (estadoBg && estadoFg) {
@@ -157,7 +168,7 @@ function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
       estadoCell.alignment = { horizontal: 'center' };
     }
 
-    sheetRow.getCell(9).value = source.categoria;
+    sheetRow.getCell(9).value = CATEGORY_LABELS[lang][source.categoria];
   }
 
   worksheet.views = [{ state: 'frozen', xSplit: 0, ySplit: HEADER_ROW }];
@@ -172,9 +183,10 @@ function buildWorkbook(rows: readonly Transaction[]): ExcelJS.Workbook {
   return workbook;
 }
 
-function formatSubtitle(count: number): string {
-  const date = new Date().toLocaleString('es-ES', SUBTITLE_DATE_OPTIONS);
-  return `Exportado el ${date} · ${count} transacciones`;
+function formatSubtitle(count: number, lang: TxLang): string {
+  const { prefix, suffix, locale } = EXPORT_SUBTITLE[lang];
+  const date = new Date().toLocaleString(locale, SUBTITLE_DATE_OPTIONS);
+  return `${prefix} ${date} · ${count} ${suffix}`;
 }
 
 function postPhase(phase: ExportPhaseMessage['phase']): void {

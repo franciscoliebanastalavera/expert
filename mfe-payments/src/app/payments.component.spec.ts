@@ -47,9 +47,9 @@ describe('PaymentsComponent', () => {
     expect(instance.payments.length).toBe(5);
   });
 
-  it('exposes the table column definitions', () => {
-    expect(instance.columns).toBe(PAYMENT_TABLE_COLUMNS);
-    expect(instance.columns.map((c) => c.key)).toEqual(['id', 'beneficiary', 'amount', 'status', 'date']);
+  it('exposes the table column definitions (keys preserved, labels localised)', () => {
+    expect(instance.columns().map((c) => c.key)).toEqual(['id', 'beneficiary', 'amount', 'status', 'date']);
+    expect(instance.columns().map((c) => c.label)).toEqual(['ID', 'Beneficiario', 'Importe', 'Estado', 'Fecha']);
   });
 
   it('exposes the metric icon constants', () => {
@@ -58,9 +58,9 @@ describe('PaymentsComponent', () => {
     expect(instance.iconAvgTime).toBe(ICON_METRIC_RECONCILIATION);
   });
 
-  it('exposes the status maps so the template can resolve label and badge kind', () => {
-    expect(instance.statusLabel).toBe(PAYMENT_STATUS_LABEL);
+  it('exposes the status kind map and localises status labels', () => {
     expect(instance.statusKind).toBe(PAYMENT_STATUS_KIND);
+    expect(instance.t().status).toEqual(PAYMENT_STATUS_LABEL);
   });
 
   it('renders the section header with the Spanish title and the bilingual subtitle', () => {
@@ -69,6 +69,16 @@ describe('PaymentsComponent', () => {
     expect(title.nativeElement.textContent.trim()).toBe('Pagos Internacionales');
     expect(subtitle.nativeElement.textContent.trim()).toContain('International Payments');
     expect(subtitle.nativeElement.textContent.trim()).toContain('MFE Angular 17');
+  });
+
+  it('renders the English header when <html lang> is en (shell-driven language)', () => {
+    const previous = document.documentElement.lang;
+    document.documentElement.lang = 'en';
+    const enFixture = TestBed.createComponent(PaymentsComponent);
+    enFixture.detectChanges();
+    const title = enFixture.debugElement.query(By.css('.payments__title'));
+    expect(title.nativeElement.textContent.trim()).toBe('International Payments');
+    document.documentElement.lang = previous;
   });
 
   it('renders three cap-metric-card KPIs', () => {
@@ -109,7 +119,7 @@ describe('PaymentsComponent', () => {
     const tableDebug = fixture.debugElement.query(By.directive(CapTableComponent));
     expect(tableDebug).not.toBeNull();
     const table = tableDebug.componentInstance as CapTableComponent;
-    expect(table.columns()).toBe(PAYMENT_TABLE_COLUMNS);
+    expect(table.columns().map((c) => c.key)).toEqual(['id', 'beneficiary', 'amount', 'status', 'date']);
     expect(table.data()).toBe(PAYMENTS_MOCK);
     expect(table.trackByKey()).toBe('id' as never);
   });

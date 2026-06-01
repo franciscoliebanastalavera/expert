@@ -1,6 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 import { Observable, timer } from 'rxjs';
 import { Transaction } from '../models';
+import { TxLang } from '../i18n/lang.types';
+import {
+  CATEGORY_LABELS,
+  EXPORT_HEADERS,
+  STATUS_LABELS,
+  TYPE_LABELS,
+} from '../i18n/enum-labels.i18n';
 
 export type ExportPhase = 'idle' | 'preparing' | 'generating' | 'downloading' | 'success' | 'error';
 
@@ -29,7 +36,6 @@ const CSV_FALLBACK_FILENAME = 'capitalflow-transacciones.csv';
 const CSV_MIME = 'text/csv;charset=utf-8;';
 const CSV_BOM = '﻿';
 const CSV_SEPARATOR = ';';
-const CSV_HEADERS = ['ID', 'Fecha', 'Tipo', 'Descripción', 'IBAN', 'Importe', 'Divisa', 'Estado', 'Categoría'];
 const TOAST_SUCCESS_DISMISS_MS = 2500;
 const TOAST_ERROR_DISMISS_MS = 4000;
 
@@ -39,7 +45,7 @@ export class ExportService {
 
   readonly exportPhase = this.exportPhaseValue.asReadonly();
 
-  exportToXLSX(transactions: Transaction[]): Observable<void> {
+  exportToXLSX(transactions: Transaction[], lang: TxLang = 'es'): Observable<void> {
     return new Observable<void>((subscriber) => {
       this.exportPhaseValue.set('preparing');
 
@@ -72,9 +78,9 @@ export class ExportService {
           subscriber.error(err);
           this.scheduleIdleReset(TOAST_ERROR_DISMISS_MS);
         };
-        worker.postMessage({ rows: transactions });
+        worker.postMessage({ rows: transactions, lang });
       } else {
-        this.exportSyncCSV(transactions);
+        this.exportSyncCSV(transactions, lang);
         subscriber.next();
         subscriber.complete();
         this.scheduleIdleReset(TOAST_SUCCESS_DISMISS_MS);
@@ -82,21 +88,21 @@ export class ExportService {
     });
   }
 
-  private exportSyncCSV(transactions: Transaction[]): void {
+  private exportSyncCSV(transactions: Transaction[], lang: TxLang): void {
     this.exportPhaseValue.set('generating');
-    const csvRows = [CSV_HEADERS.join(CSV_SEPARATOR)];
+    const csvRows = [EXPORT_HEADERS[lang].join(CSV_SEPARATOR)];
 
     for (const row of transactions) {
       csvRows.push([
         row.id,
         row.fecha,
-        row.tipo,
+        TYPE_LABELS[lang][row.tipo],
         `"${row.descripcion}"`,
         row.iban,
         row.importe.toFixed(2),
         row.divisa,
-        row.estado,
-        row.categoria,
+        STATUS_LABELS[lang][row.estado],
+        CATEGORY_LABELS[lang][row.categoria],
       ].join(CSV_SEPARATOR));
     }
 

@@ -5,13 +5,13 @@ test('exporting transactions to Excel completes without blocking the UI', async 
 
   await expect(page.locator('.subtitle')).toContainText('Virtual Scroll CDK', { timeout: 30_000 });
 
-  const exportButton = page.getByRole('button', { name: 'Exportar Excel' });
+  const exportButton = page.getByRole('button', { name: 'Export Excel' });
   await expect(exportButton).toBeEnabled();
 
   const downloadPromise = page.waitForEvent('download', { timeout: 60_000 });
   await exportButton.click();
 
-  await expect(page.locator('cap-alert')).toContainText('Exportación completada.', {
+  await expect(page.locator('cap-alert')).toContainText('Export completed.', {
     timeout: 60_000,
   });
 

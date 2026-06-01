@@ -6,7 +6,7 @@ test('transactions search filter narrows the visible row count', async ({ page }
   const subtitle = page.locator('.subtitle');
   await expect(subtitle).toContainText('Virtual Scroll CDK', { timeout: 30_000 });
 
-  const filteredCard = page.locator('cap-stat-card').filter({ hasText: 'Filas filtradas' });
+  const filteredCard = page.locator('cap-stat-card').filter({ hasText: 'Filtered rows' });
   await expect(filteredCard).toBeVisible();
   const initialFilteredText = (await filteredCard.innerText()).replace(/\s+/g, ' ').trim();
 
@@ -17,7 +17,7 @@ test('transactions search filter narrows the visible row count', async ({ page }
     timeout: 10_000,
   }).not.toBe(initialFilteredText);
 
-  await page.getByRole('button', { name: 'Limpiar' }).click();
+  await page.getByRole('button', { name: 'Clear' }).click();
   await expect.poll(async () => (await filteredCard.innerText()).replace(/\s+/g, ' ').trim(), {
     timeout: 10_000,
   }).toBe(initialFilteredText);

@@ -16,6 +16,12 @@
     </span>
   </ng-template>
   <ng-template [capCellTemplate]="'estado'" let-value>
-    <cap-status-badge [kind]="statusKind(value)">{{ value }}</cap-status-badge>
+    <cap-status-badge [kind]="statusKind(value)">{{ statusLabel(value) }}</cap-status-badge>
+  </ng-template>
+  <ng-template [capCellTemplate]="'tipo'" let-value>
+    {{ typeLabel(value) }}
+  </ng-template>
+  <ng-template [capCellTemplate]="'categoria'" let-value>
+    {{ categoryLabel(value) }}
   </ng-template>
 </cap-data-grid>
