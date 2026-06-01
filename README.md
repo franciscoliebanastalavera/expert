@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React 18" />
   <img src="https://img.shields.io/badge/Module%20Federation-Webpack%205-8DD6F9" alt="Module Federation" />
   <img src="https://img.shields.io/badge/Storybook-19%20components-FF4785?logo=storybook&logoColor=white" alt="Storybook" />
-  <img src="https://img.shields.io/badge/tests-362%20passing-2ea44f" alt="362 tests" />
+  <img src="https://img.shields.io/badge/tests-364%20passing-2ea44f" alt="364 tests" />
   <img src="https://img.shields.io/badge/CI-18%20jobs-2ea44f?logo=gitlab&logoColor=white" alt="GitLab CI 18 jobs" />
   <img src="https://img.shields.io/badge/Docker-multistage-2496ED?logo=docker&logoColor=white" alt="Docker multistage" />
 </p>
@@ -38,6 +38,20 @@ The shell loads three remote micro frontends through Webpack Module Federation:
 **Treasury team** domain from the briefing) and `mfe-analytics-react` (React 18
 isolated through Custom Element + Shadow DOM). All four Angular surfaces consume
 `@capitalflow/shared-ui` as a compiled `dist` artifact (Angular Package Format).
+
+## Performance
+
+Lighthouse against the production Docker build (`http://localhost:8081`, gzip on):
+
+<p align="center">
+  <img src="docs/img/lighthpc.png" width="49%" alt="Lighthouse desktop: Performance 100, Accessibility 94, Best Practices 100, SEO 100" />
+  <img src="docs/img/lighthmobile.png" width="49%" alt="Lighthouse mobile (Moto G Power, Slow 4G): Performance 93, Accessibility 94, Best Practices 100, SEO 100" />
+</p>
+
+| Profile | Performance | Accessibility | Best Practices | SEO |
+| --- | --- | --- | --- | --- |
+| Desktop | **100** | 94 | 100 | 100 |
+| Mobile (Slow 4G) | **93** | 94 | 100 | 100 |
 
 ## Quick start (clone fresh)
 
@@ -173,16 +187,16 @@ Latest verified local result:
 | shell | Karma/Jasmine | 99 passing |
 | shared-ui | Karma/Jasmine | 158 passing |
 | mfe-transactions | Karma/Jasmine | 46 passing |
-| mfe-payments | Karma/Jasmine | 25 passing |
+| mfe-payments | Karma/Jasmine | 26 passing |
 | mfe-analytics-react | Jest | 26 passing |
-| **Subtotal (unit)** | | **354 passing** |
-| e2e | Playwright | 8 passing |
-| **Total** | | **362 passing** |
+| **Subtotal (unit)** | | **355 passing** |
+| e2e | Playwright | 9 passing |
+| **Total** | | **364 passing** |
 
-The 8 Playwright specs cover smoke tests for the shell, each MFE, the
-security demos area, plus three functional specs: transactions filter,
-XLSX export via Web Worker, and the language toggle propagation across
-the Angular shell and the React MFE.
+The 9 Playwright specs cover smoke tests for the shell, each MFE, the
+security demos area, plus functional specs: transactions filter,
+XLSX export via Web Worker, the shell language toggle, and language
+propagation into the payments and transactions MFEs.
 
 ## Monorepo Layout
 
