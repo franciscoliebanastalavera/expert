@@ -1,6 +1,7 @@
 import { ExportPhase } from './services/export.service';
+import { TxLang } from './i18n/lang.types';
 
-export type TxLang = 'es' | 'en';
+export type { TxLang } from './i18n/lang.types';
 
 export interface TransactionsTextShape {
   TITLE: string;
@@ -150,6 +151,4 @@ export const TRANSACTIONS_EXPORT_PHASE_LABEL_I18N: Record<TxLang, Record<ExportP
 
 export const TRANSACTIONS_EXPORT_PHASE_LABEL = TRANSACTIONS_EXPORT_PHASE_LABEL_I18N.es;
 
-export function detectTxLang(htmlLang: string | null | undefined): TxLang {
-  return htmlLang?.toLowerCase() === 'en' ? 'en' : 'es';
-}
+export { detectTxLang } from './i18n/lang.types';

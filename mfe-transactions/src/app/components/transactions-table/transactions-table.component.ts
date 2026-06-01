@@ -10,7 +10,9 @@ import {
 } from '@capitalflow/shared-ui';
 import {
   Transaction,
+  TransactionCategory,
   TransactionStatus,
+  TransactionType,
   TRANSACTION_STATUS_KIND_MAP,
 } from '../../models';
 import { formatAmount } from '../../utils/format-amount.util';
@@ -20,6 +22,11 @@ import {
 } from '../../models';
 import { TRANSACTIONS_I18N } from '../../transactions.text';
 import { LanguageStore } from '../../i18n/language.store';
+import {
+  CATEGORY_LABELS,
+  STATUS_LABELS,
+  TYPE_LABELS,
+} from '../../i18n/enum-labels.i18n';
 
 @Component({
   selector: 'app-transactions-table',
@@ -74,5 +81,17 @@ export class TransactionsTableComponent {
 
   statusKind(status: TransactionStatus): CapStatusBadgeKind {
     return TRANSACTION_STATUS_KIND_MAP[status];
+  }
+
+  statusLabel(status: TransactionStatus): string {
+    return STATUS_LABELS[this.langStore.lang()][status] ?? status;
+  }
+
+  typeLabel(type: TransactionType): string {
+    return TYPE_LABELS[this.langStore.lang()][type] ?? type;
+  }
+
+  categoryLabel(category: TransactionCategory): string {
+    return CATEGORY_LABELS[this.langStore.lang()][category] ?? category;
   }
 }
